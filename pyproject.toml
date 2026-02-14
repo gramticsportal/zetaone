@@ -10,10 +10,10 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Proprietary" }
 dependencies = [
+    "sqlalchemy>=1.4",
     "fastapi",
     "uvicorn",
     "pydantic",
-    "sqlalchemy",
     "alembic",
     "psycopg2-binary",
     "python-dotenv",

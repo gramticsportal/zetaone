@@ -1,0 +1,404 @@
+# Meta Ads compliance policy rules
+# Used by ZetaOne policy engine for ad_compliance domain
+
+rules:
+  misleading_exaggerated_claims:
+    name: "Misleading or Exaggerated Claims"
+    severity: HIGH
+    description: "Detects misleading or exaggerated advertising claims that may deceive consumers"
+    type: keyword
+    prohibited_terms:
+      - guaranteed
+      - instant
+      - "100%"
+      - miracle
+      - overnight
+      - immediate
+      - proven
+      - scientifically proven
+      - doctor recommended
+      - clinically proven
+    patterns:
+      - pattern: "lose\\s+\\d+\\s+days?"
+        confidence: 0.9
+        description: "Weight loss time claims (e.g., 'lose 10 days')"
+      - pattern: "lose\\s+\\d+\\s+pounds?\\s+in\\s+\\d+\\s+days?"
+        confidence: 0.95
+        description: "Specific weight loss claims with timeframes"
+      - pattern: "\\d+%\\s+(guaranteed|safe|effective)"
+        confidence: 0.9
+        description: "Percentage-based guarantees"
+
+  medical_health_claims:
+    name: "Medical / Health Claims"
+    severity: HIGH
+    description: "Detects unsubstantiated or guaranteed medical/health claims in ad images (OCR-driven)"
+    type: keyword
+    context_terms:
+      - pain
+      - chronic
+      - inflammation
+      - symptom
+      - disease
+      - condition
+      - arthritis
+      - diabetes
+      - asthma
+      - eczema
+      - acne
+      - psoriasis
+      - blood pressure
+      - cholesterol
+      - heart
+      - immune
+      - anxiety
+      - depression
+      - stress
+      - sleep
+      - insomnia
+      - weight
+      - weight loss
+      - lose
+      - lbs
+      - lb
+      - kg
+      - kgs
+      - pounds
+    prohibited_terms:
+      - cure
+      - treat
+      - heal
+      - reverse
+      - guaranteed results
+      - "100% effective"
+      - clinically proven
+    patterns:
+      - pattern: "\\b(cure|treat|heal|reverse)\\b"
+        confidence: 0.9
+        description: "Medical claim verbs (cure/treat/heal/reverse)"
+      - pattern: "\\bguaranteed\\s+results?\\b"
+        confidence: 0.9
+        description: "Guaranteed medical/health results"
+      - pattern: "\\bclinically\\s+proven\\b"
+        confidence: 0.85
+        description: "Clinically proven claim (requires medical context)"
+      - pattern: "\\blose\\s+\\d+\\s*(lbs|lb|kg|kgs|pounds?)\\s+in\\s+\\d+\\s+days?\\b"
+        confidence: 0.95
+        description: "Weight loss claim with timeframe"
+      - pattern: "\\b100%\\s+effective\\b"
+        confidence: 0.95
+        description: "Absolute effectiveness guarantee"
+
+  biopharma_prohibited_claims:
+    name: "Prohibited Medical Claims"
+    severity: HIGH
+    description: "Prohibited medical claims (cure, guaranteed, etc.)"
+    type: keyword
+    prohibited_terms:
+      - cure
+      - guaranteed
+      - no side effects
+      - "100% safe"
+      - miracle
+
+  finance_prohibited_claims:
+    name: "Prohibited Financial Claims"
+    severity: HIGH
+    description: "Prohibited investment claims"
+    type: keyword
+    prohibited_terms:
+      - guaranteed returns
+      - risk-free
+      - get rich quick
+      - no risk
+
+  ads_prohibited_claims:
+    name: "Prohibited Advertising Claims"
+    severity: MEDIUM
+    description: "Prohibited advertising claims"
+    type: keyword
+    prohibited_terms:
+      - "100% safe"
+      - guaranteed
+      - miracle
+
+  fraud_scams_deceptive:
+    name: "Fraud, Scams, and Deceptive Practices"
+    severity: HIGH
+    description: "Meta Ads policy: fraud, scams, and deceptive practices"
+    type: keyword
+    prohibited_terms:
+      - guaranteed income
+      - guaranteed profit
+      - guaranteed returns
+      - risk-free profit
+      - make money while you sleep
+      - passive income
+      - act now
+      - limited time
+      - final notice
+      - last chance
+      - don't miss out
+      - bank details
+      - ssn
+      - social security number
+      - credit card number
+      - crypto wallet
+      - verify your account
+      - account verification
+      - account suspended
+      - verify immediately
+      - official notice
+      - government agency
+      - support team
+      - account compromised
+    patterns:
+      - pattern: "guaranteed\\s+(profit|income|return)s?"
+        confidence: 0.92
+        description: "Guaranteed financial claims"
+      - pattern: "risk-free\\s+(profit|return|income)"
+        confidence: 0.92
+        description: "Risk-free financial claims"
+      - pattern: "make\\s+money\\s+while\\s+you\\s+sleep"
+        confidence: 0.95
+        description: "Passive/easy money claim"
+      - pattern: "act\\s+now|limited\\s+time|final\\s+notice|last\\s+chance"
+        confidence: 0.88
+        description: "Urgency/pressure tactics"
+      - pattern: "(bank\\s+details?|credit\\s+card|ssn|crypto\\s+wallet|password)"
+        confidence: 0.9
+        description: "Data harvesting"
+      - pattern: "(account\\s+suspended|verify\\s+immediately|official\\s+notice)"
+        confidence: 0.9
+        description: "Impersonation/urgency"
+
+  weapons_ammunition_explosives:
+    name: "Weapons, Ammunition, Explosives"
+    severity: HIGH
+    description: "Meta Ads policy: prohibited weapons, ammunition, explosives"
+    type: keyword
+    vision_primary_labels:
+      - weapon
+      - gun
+      - knife
+      - ammunition
+      - explosive
+    prohibited_terms:
+      - ammunition
+      - bullets
+      - ammo
+      - explosive
+      - bomb
+      - grenade
+      - firearm for sale
+      - knife for sale
+      - combat knife
+    patterns:
+      - pattern: "(buy|sell)\\s+gun"
+        confidence: 0.92
+        description: "Gun sale language"
+      - pattern: "firearm\\s+for\\s+sale"
+        confidence: 0.92
+        description: "Firearm sale"
+      - pattern: "knife\\s+for\\s+sale|combat\\s+knife"
+        confidence: 0.9
+        description: "Knife sale/combat"
+
+  tobacco_nicotine:
+    name: "Tobacco and Nicotine"
+    severity: HIGH
+    description: "Meta Ads policy: prohibited promotion of tobacco and nicotine products"
+    type: keyword
+    prohibited_terms:
+      - cigarettes
+      - cigars
+      - tobacco
+      - vape
+      - vaping
+      - e-cigarette
+      - e-cig
+      - nicotine products
+      - nicotine pouches
+      - hookah
+      - shisha
+    patterns:
+      - pattern: "\\b(cigarette|cigar)s?\\b"
+        confidence: 0.9
+        description: "Tobacco product"
+      - pattern: "\\btobacco\\b"
+        confidence: 0.9
+        description: "Tobacco"
+      - pattern: "\\b(vape|vaping|e-?cigarette)\\b"
+        confidence: 0.9
+        description: "Vape/e-cig"
+      - pattern: "nicotine\\s+(products?|pouches?)"
+        confidence: 0.9
+        description: "Nicotine product"
+      - pattern: "\\b(hookah|shisha)\\b"
+        confidence: 0.9
+        description: "Hookah/shisha"
+    exception_patterns:
+      - "quit\\s+smoking"
+      - "smoking\\s+cessation"
+      - "nicotine\\s+replacement\\s+therapy"
+      - "stop\\s+smoking"
+      - "fda[- ]approved.*(patch|gum|lozenge|therapy)"
+      - "(patch|gum|lozenge)\\s+to\\s+quit"
+    exception_terms:
+      - quit smoking aid
+      - nicotine replacement therapy
+      - smoking cessation
+      - stop smoking aid
+
+  gambling:
+    name: "Gambling and Betting"
+    severity: HIGH
+    description: "Meta Ads policy: restricted gambling and betting promotions"
+    type: keyword
+    prohibited_terms:
+      - betting
+      - sportsbook
+      - casino
+      - wager
+      - odds
+      - betting lines
+      - poker
+      - blackjack
+      - roulette
+      - win money gambling
+      - real money bets
+    patterns:
+      - pattern: "\\b(betting|sportsbook|casino|wager)\\b"
+        confidence: 0.9
+        description: "Gambling/betting"
+      - pattern: "betting\\s+lines?|odds\\s+on"
+        confidence: 0.9
+        description: "Betting lines/odds"
+      - pattern: "\\b(poker|blackjack|roulette)\\b"
+        confidence: 0.9
+        description: "Casino games"
+      - pattern: "real\\s+money\\s+(bet|gambling)"
+        confidence: 0.92
+        description: "Real money gambling"
+      - pattern: "win\\s+money\\s+gambling|bet\\s+real\\s+money"
+        confidence: 0.92
+        description: "Win/bet money"
+    exception_patterns:
+      - "gambling\\s+laws?"
+      - "informational\\s+(content|about)"
+      - "for\\s+fun\\b"
+      - "\\bfree\\s+(to\\s+play)?\\s*(card\\s+)?games?\\b"
+      - "no\\s+real\\s+money"
+      - "no\\s+purchase\\s+necessary"
+      - "no\\s+prizes?"
+    exception_terms:
+      - for fun
+      - free to play
+      - no real money
+      - gambling laws
+      - informational only
+
+  financial_products_and_guarantees:
+    name: "Financial Products and Guarantees"
+    severity: HIGH
+    description: "Meta Ads policy: restricted financial product promotions"
+    type: keyword
+    prohibited_terms:
+      - credit card
+      - payday loan
+      - guaranteed approval
+      - guaranteed returns
+      - guaranteed profits
+      - no risk
+      - risk-free
+      - instant approval
+      - pre-approved
+      - "100% approval"
+      - everyone qualifies
+      - life insurance
+      - health insurance
+    patterns:
+      - pattern: "\\b(credit\\s+card|loan|mortgage|payday\\s+loan)\\b"
+        confidence: 0.9
+        description: "Financial product"
+      - pattern: "\\b(investment|investing|trading|portfolio)\\b"
+        confidence: 0.9
+        description: "Investment"
+      - pattern: "\\b(insurance|life\\s+insurance|health\\s+insurance)\\b"
+        confidence: 0.9
+        description: "Insurance"
+      - pattern: "guaranteed\\s+(approval|returns?|profits?)"
+        confidence: 0.92
+        description: "Guarantee"
+      - pattern: "\\b(no\\s+risk|risk-free)\\b"
+        confidence: 0.9
+        description: "No risk claim"
+      - pattern: "(instant|pre-?approved)\\s+approval|100%\\s+approval|everyone\\s+qualifies"
+        confidence: 0.9
+        description: "Approval guarantee"
+    exception_patterns:
+      - "learn\\s+how\\s+\\w+"
+      - "educational\\s+(content|about)?"
+      - "informational\\s+(content|only|about)?"
+      - "financial\\s+literacy"
+      - "how\\s+\\w+\\s+works?"
+      - "disclosure\\s+(only|statement)"
+      - "what\\s+affects\\s+\\w+"
+    exception_terms:
+      - educational content
+      - informational only
+      - financial literacy
+      - for educational purposes
+
+  cryptocurrency_services:
+    name: "Cryptocurrency Services"
+    severity: HIGH
+    description: "Meta Ads policy: restricted promotion of cryptocurrency-related products"
+    type: keyword
+    prohibited_terms:
+      - cryptocurrency
+      - crypto trading
+      - crypto exchange
+      - buy crypto
+      - sell crypto
+      - trade crypto
+      - yield farming
+      - token sale
+      - nft marketplace
+      - crypto wallet
+    patterns:
+      - pattern: "\\b(cryptocurrency|crypto)\\b"
+        confidence: 0.88
+        description: "Crypto term"
+      - pattern: "\\b(bitcoin|ethereum|altcoin)\\b"
+        confidence: 0.9
+        description: "Cryptocurrency name"
+      - pattern: "crypto\\s+(trading|exchange)"
+        confidence: 0.9
+        description: "Crypto trading/exchange"
+      - pattern: "(buy|sell|trade)\\s+crypto"
+        confidence: 0.9
+        description: "Buy/sell/trade crypto"
+      - pattern: "\\b(staking|yield\\s+farming|token\\s+sale|ico)\\b"
+        confidence: 0.9
+        description: "Crypto product"
+      - pattern: "nft\\s+marketplace|crypto\\s+wallet"
+        confidence: 0.9
+        description: "NFT/crypto wallet"
+    exception_patterns:
+      - "learn\\s+how\\s+\\w+"
+      - "how\\s+(blockchain|crypto)\\s+(works?|technology)"
+      - "educational\\s+(content|about)?"
+      - "informational\\s+(content|only|about)?"
+      - "news\\s+(about|on)\\b"
+      - "analysis\\s+(of|on)\\b"
+      - "security\\s+warning"
+      - "risk\\s+disclosure"
+      - "why\\s+it\\s+matters"
+      - "blockchain\\s+technology\\s+works"
+    exception_terms:
+      - educational content
+      - informational only
+      - security warning
+      - risk disclosure
+      - for educational purposes

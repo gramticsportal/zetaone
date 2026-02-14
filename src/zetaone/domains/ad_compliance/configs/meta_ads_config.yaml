@@ -1,0 +1,60 @@
+# Meta Ads domain configuration
+# Constants used by ad_compliance extractors and pipeline
+
+# Vision extractor (Grounding DINO)
+vision:
+  model_id: "IDEA-Research/grounding-dino-base"
+  object_queries:
+    - weapon
+    - gun
+    - knife
+    - pill
+    - medicine
+    - syringe
+    - money
+    - cash
+    - banknote
+  detection_threshold: 0.3
+  text_threshold: 0.3
+
+# OCR extractor
+ocr:
+  backend: tesseract
+  min_confidence: 40  # Tesseract 0-100 scale
+
+# Embedding extractor (SigLIP)
+embedding:
+  model_name: "google/siglip-base-patch16-224"
+  similarity_threshold: 0.6
+  regulation_texts:
+    misleading_claims: "misleading or exaggerated advertising claims"
+    medical_health_claims: "unsubstantiated or guaranteed medical or health claims"
+    fraud_scams_deceptive: "fraud scams and deceptive practices financial urgency impersonation"
+    weapons_ammunition_explosives: "weapons ammunition explosives restricted goods"
+    tobacco_nicotine: "tobacco nicotine products vaping restricted"
+    gambling: "gambling betting casino restricted"
+    financial_products_and_guarantees: "financial products guarantees loans investment insurance"
+    cryptocurrency_services: "cryptocurrency crypto bitcoin trading exchange financial"
+
+# VLM extractor (GPT-4o Vision)
+vlm:
+  model: "gpt-4o"
+  max_tokens: 120
+  temperature: 0.2
+  env_api_key: "VLM_API_KEY"
+
+# Pipeline thresholds
+pipeline:
+  verdict_threshold: 0.7  # risk_score > this = likely_rejected
+  borderline_min: 0.3      # risk_score >= this = borderline
+  confidence_threshold: 0.85  # below this = borderline_requires_context (VLM escalation)
+  risk_count_factor: 0.03   # per violation
+  severity_factor_critical: 0.2
+  severity_factor_high: 0.1
+
+# Severity weights for risk calculation
+severity_weights:
+  LOW: 0.2
+  MEDIUM: 0.4
+  HIGH: 0.7
+  CRITICAL: 1.0

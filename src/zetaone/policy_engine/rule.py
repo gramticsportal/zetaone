@@ -12,12 +12,12 @@ class Rule:
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         """Initialize from configuration dict."""
-        pass
+        self._config = config or {}
 
     @classmethod
     def from_config(cls, config: dict[str, Any]) -> "Rule":
         """Create a Rule from configuration (YAML/JSON)."""
-        pass
+        return cls(config=config)
 
     def evaluate(self, signals: dict[str, Any]) -> bool:
         """

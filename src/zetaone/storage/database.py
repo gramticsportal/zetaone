@@ -5,7 +5,7 @@ from contextvars import ContextVar
 from typing import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.orm import Session, sessionmaker, declarative_base
 
 # ---------------------------------------------------------------------------
 # Connection config placeholder
@@ -15,7 +15,9 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 # Multi-tenant: tenant-specific connection strings or schema selection
 # ---------------------------------------------------------------------------
 
-DATABASE_URL = "postgresql://localhost:5432/zetaone"  # Placeholder
+import os as _os
+
+DATABASE_URL = _os.environ.get("DATABASE_URL", "postgresql://localhost:5432/zetaone")
 DATABASE_POOL_SIZE = 5
 DATABASE_MAX_OVERFLOW = 10
 DATABASE_ECHO = False  # Set True for SQL debugging
@@ -25,11 +27,7 @@ DATABASE_ECHO = False  # Set True for SQL debugging
 # Base class
 # ---------------------------------------------------------------------------
 
-
-class Base(DeclarativeBase):
-    """SQLAlchemy declarative base for all models."""
-
-    pass
+Base = declarative_base()
 
 
 # ---------------------------------------------------------------------------
@@ -38,6 +36,7 @@ class Base(DeclarativeBase):
 
 _engine = None
 _SessionLocal = None
+SessionLocal = None  # Set by get_session_factory() on first call
 
 
 def get_engine():
@@ -54,8 +53,8 @@ def get_engine():
 
 
 def get_session_factory():
-    """Create or return the session factory."""
-    global _SessionLocal
+    """Create or return the session factory (SessionLocal)."""
+    global _SessionLocal, SessionLocal
     if _SessionLocal is None:
         _SessionLocal = sessionmaker(
             bind=get_engine(),
@@ -63,7 +62,24 @@ def get_session_factory():
             autoflush=False,
             expire_on_commit=False,
         )
+        SessionLocal = _SessionLocal
     return _SessionLocal
+
+
+
+
+def create_all_tables() -> None:
+    """Create all tables defined in models. Call after importing all models."""
+    from zetaone.models import (  # noqa: F401 - register models
+        Tenant,
+        Asset,
+        Signal,
+        Evidence,
+        Verdict,
+        AuditEvent,
+    )
+
+    Base.metadata.create_all(bind=get_engine())
 
 
 # ---------------------------------------------------------------------------
@@ -137,6 +153,6 @@ class Database:
 # Convenience accessors
 # ---------------------------------------------------------------------------
 
-def get_base() -> type[Base]:
+def get_base():
     """Return the declarative Base class for model definitions."""
     return Base

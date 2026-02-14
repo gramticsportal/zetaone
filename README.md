@@ -99,6 +99,95 @@ curl http://localhost:8000/health
 # {"status":"ok","service":"zetaone"}
 ```
 
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Health check |
+| POST | `/assets` | Run compliance check on an asset |
+
+**POST /assets** — Submit content for compliance evaluation. Persists the full compliance graph (Asset → Signals → Evidence → Verdict → AuditEvent) to the database.
+
+Request body:
+
+```json
+{
+  "content": "string (required)",
+  "type": "text|image|video|audio (required)",
+  "asset_id": "string (optional)",
+  "metadata": "object (optional)"
+}
+```
+
+Response:
+
+```json
+{
+  "verdict": "likely_approved | borderline | likely_rejected",
+  "risk_score": 0.0,
+  "status": "COMPLIANT | REVIEW_REQUIRED | NON_COMPLIANT",
+  "violations": [],
+  "signals": [],
+  "fix_suggestions": [],
+  "metadata": {}
+}
+```
+
+Example:
+
+```bash
+curl -X POST http://localhost:8000/assets \
+  -H "Content-Type: application/json" \
+  -d '{"content": "Guaranteed instant cure", "type": "text"}'
+```
+
+---
+
+## Database & Persistence
+
+The pipeline persists the full compliance graph to PostgreSQL when `persist=True` (default):
+
+- **assets** — Ingested content with content hash and type
+- **signals** — Extracted features from each extractor
+- **evidence** — Violation evidence linked to signals
+- **verdicts** — Final decision with risk score and result
+- **audit_events** — Immutable trail for each compliance check
+
+Set `DATABASE_URL` before running (default: `postgresql://localhost:5432/zetaone`):
+
+```bash
+export DATABASE_URL=postgresql://zetaone:zetaone@127.0.0.1:5432/zetaone
+```
+
+Create tables:
+
+```bash
+python -c "from zetaone.storage.database import create_all_tables; create_all_tables(); print('OK')"
+```
+
+PostgreSQL via Docker:
+
+```bash
+docker run --name zetaone-postgres \
+  -e POSTGRES_DB=zetaone \
+  -e POSTGRES_USER=zetaone \
+  -e POSTGRES_PASSWORD=zetaone \
+  -p 5433:5432 -d postgres:15
+
+export DATABASE_URL=postgresql://zetaone:zetaone@127.0.0.1:5433/zetaone
+```
+
+---
+
+## Tests
+
+```bash
+pytest tests/ -v
+```
+
+- `tests/test_zetaone_pipeline.py` — Mocked pipeline (no external deps)
+- `tests/test_persistence.py` — Integration test for DB persistence (requires PostgreSQL)
+
 ---
 
 ## Docker Instructions

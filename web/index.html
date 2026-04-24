@@ -49,8 +49,15 @@
 
   <button type="button" id="run">Run check</button>
 
+  <div id="llmBlock" style="display:none; margin-top:1rem;">
+    <p class="muted" style="font-size:0.85rem; margin:0 0 0.35rem 0;">Advisory LLM (Gemini): optional; requires <code>GEMINI_API_KEY</code> on API. Re-sends image for VLM if image mode.</p>
+    <button type="button" id="llmBtn">Run advisory review</button>
+  </div>
+
   <label style="margin-top:1.5rem;">Result</label>
   <pre id="out">(not run yet)</pre>
+  <label id="llmLabel" style="display:none; margin-top:1rem;">Advisory review</label>
+  <pre id="llmOut" style="display:none;">—</pre>
 
   <script>
     const LS_BASE = "zataone_api_base";
@@ -91,9 +98,39 @@
       throw new Error("Timeout waiting for completion");
     }
 
+    let lastAssetId = null;
+    let lastWasImage = false;
+
+    async function doLlmReview() {
+      const b = base();
+      if (!b || !lastAssetId) return;
+      $("llmOut").style.display = "block";
+      $("llmLabel").style.display = "block";
+      $("llmOut").textContent = "…";
+      try {
+        const fd = new FormData();
+        if (lastWasImage && $("file").files[0]) fd.append("file", $("file").files[0]);
+        const r = await fetch(b + "/assets/" + lastAssetId + "/llm-final-review", {
+          method: "POST",
+          headers: domainHeaders(),
+          body: fd,
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.detail || r.statusText);
+        $("llmOut").textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        $("llmOut").textContent = "Error: " + (e.message || String(e));
+      }
+    }
+    $("llmBtn").onclick = doLlmReview;
+
     $("run").onclick = async () => {
       const b = base();
       $("out").textContent = "…";
+      $("llmBlock").style.display = "none";
+      $("llmOut").style.display = "none";
+      $("llmLabel").style.display = "none";
+      lastAssetId = null;
       if (!b) {
         $("out").innerHTML = '<span class="err">Set API base URL first.</span>';
         return;
@@ -103,6 +140,7 @@
       try {
         const mode = document.querySelector('input[name="mode"]:checked').value;
         let assetId;
+        lastWasImage = mode === "image";
         if (mode === "text") {
           const content = $("content").value;
           const r = await fetch(b + "/assets", {
@@ -125,6 +163,8 @@
         }
         $("out").textContent = "Processing… asset_id=" + assetId;
         const verdict = await poll(assetId);
+        lastAssetId = assetId;
+        $("llmBlock").style.display = "block";
         $("out").textContent = JSON.stringify(verdict, null, 2);
       } catch (e) {
         $("out").innerHTML = '<span class="err">' + (e.message || String(e)) + "</span>";

@@ -100,6 +100,13 @@
         .domain-hint {
             margin: 6px 0 0 0; font-size: 12px; color: #555; line-height: 1.45;
         }
+        .btn-secondary {
+            background: #5c6bc0; margin-top: 8px; padding: 10px; font-size: 13px; width: auto; display: inline-block;
+        }
+        .btn-secondary:hover { background: #4a55a8; }
+        .btn-secondary:disabled { background: #aaa; }
+        #llmSection { border-top: 1px solid #eee; margin-top: 12px; padding-top: 12px; }
+        #llmSection h3 { font-size: 14px; margin: 0 0 6px 0; color: #333; }
     </style>
 </head>
 <body>
@@ -161,6 +168,16 @@
             <div class="panel">
                 <h2>Results</h2>
                 <div id="result"></div>
+                <div id="llmSection" style="display: none;">
+                    <h3>Advisory LLM review (Gemini)</h3>
+                    <p class="muted" id="llmHint" style="margin: 0 0 8px 0;">
+                        Optional second pass: deterministic signals + verdict are sent to the API; re-sends the same image
+                        for a VLM summary if you used image mode. Does not replace the policy verdict. Requires
+                        <code>GEMINI_API_KEY</code> on the server.
+                    </p>
+                    <button type="button" id="llmReviewBtn" class="btn-secondary" disabled>Run advisory review</button>
+                    <div id="llmReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -216,6 +233,8 @@
         let lastResponse = null;
         let lastGraph = null;
         let selectedViolationId = null;
+        let lastAssetId = null;
+        let lastRunWasImage = false;
 
         function formatApiDetail(detail) {
             if (detail == null || detail === '') return '';
@@ -581,11 +600,13 @@
             lastGraph = null;
             lastResponse = null;
             selectedViolationId = null;
+            hideLlmSection();
 
             try {
                 const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
                 let assetId;
                 let postJson;
+                lastRunWasImage = imgMode;
 
                 if (imgMode) {
                     const file = imageInput.files[0];
@@ -635,6 +656,10 @@
                 lastResponse = buildLegacyModel(poll, lastGraph);
                 selectedViolationId = lastResponse.violations[0] ? lastResponse.violations[0].violation_id : null;
                 displayResult(lastResponse);
+                lastAssetId = assetId;
+                llmSection.style.display = 'block';
+                llmReviewBtn.disabled = false;
+                llmReviewOut.innerHTML = '';
                 renderOverlayForSelectedViolation();
             } catch (err) {
                 const msg = err && err.message ? err.message : String(err);
@@ -655,6 +680,81 @@
         function escapeAttr(str) {
             return escapeHtml(str).replace(/`/g, '&#96;');
         }
+
+        const llmSection = document.getElementById('llmSection');
+        const llmReviewBtn = document.getElementById('llmReviewBtn');
+        const llmReviewOut = document.getElementById('llmReviewOut');
+
+        function hideLlmSection() {
+            llmSection.style.display = 'none';
+            lastAssetId = null;
+            lastRunWasImage = false;
+            llmReviewBtn.disabled = true;
+            llmReviewOut.innerHTML = '';
+        }
+
+        function formatLlmFinalReviewBlock(review) {
+            if (!review || typeof review !== 'object') return '<p class="muted">(no review object)</p>';
+            const a = review.agreement_with_deterministic || '';
+            return (
+                '<p><strong>Agreement:</strong> ' +
+                escapeHtml(a) +
+                '</p><p><strong>Summary</strong></p><p style="white-space:pre-wrap;">' +
+                escapeHtml(review.summary || '') +
+                '</p><p><strong>Rationale</strong></p><p style="white-space:pre-wrap;">' +
+                escapeHtml(review.rationale || '') +
+                '</p><p class="muted" style="font-size:12px;">' +
+                escapeHtml(review.disclaimer || '') +
+                '</p>'
+            );
+        }
+
+        async function runLlmFinalReview() {
+            const b = apiBase();
+            if (!b || !lastAssetId) return;
+            llmReviewBtn.disabled = true;
+            llmReviewOut.innerHTML =
+                '<div class="loading">Calling advisory review… (server must have <code>GEMINI_API_KEY</code>)</div>';
+            try {
+                const fd = new FormData();
+                if (lastRunWasImage && imageInput.files[0]) {
+                    fd.append('file', imageInput.files[0]);
+                }
+                const r = await fetch(`${b}/assets/${lastAssetId}/llm-final-review`, {
+                    method: 'POST',
+                    headers: domainHeaders(),
+                    body: fd,
+                });
+                const data = await readJsonResponse(r);
+                if (!r.ok) throw new Error(formatApiDetail(data.detail) || r.statusText);
+                const review = data.llm_final_review;
+                let html = formatLlmFinalReviewBlock(review);
+                if (data.advisory_vlm) {
+                    const v = data.advisory_vlm;
+                    const vlmLine =
+                        v.vlm_succeeded
+                            ? 'VLM ran: a vision summary was sent to the text model.'
+                            : v.vlm_error
+                              ? 'VLM failed: ' + v.vlm_error
+                              : v.vlm_eligible
+                                ? 'VLM returned an empty summary.'
+                                : 'VLM skipped (re-select the same image and run advisory again for vision; text-only used).';
+                    html += '<p class="muted" style="margin-top:12px;font-size:12px;"><strong>Vision (Gemini) · </strong>' + escapeHtml(vlmLine) + '</p>';
+                }
+                html +=
+                    '<details style="margin-top:10px;"><summary>Raw</summary><pre style="font-size:11px;overflow:auto;max-height:200px;">' +
+                    escapeHtml(JSON.stringify(data, null, 2)) +
+                    '</pre></details>';
+                llmReviewOut.innerHTML = html;
+            } catch (err) {
+                const msg = err && err.message ? err.message : String(err);
+                llmReviewOut.innerHTML = '<div class="error">LLM review failed: ' + escapeHtml(msg) + '</div>';
+            } finally {
+                llmReviewBtn.disabled = false;
+            }
+        }
+
+        llmReviewBtn.addEventListener('click', runLlmFinalReview);
     </script>
 </body>
 </html>

@@ -1,18 +1,15 @@
 """
 Domain-agnostic VLM API call (OpenAI-compatible chat + vision). Config via args / env.
+
+Uses zataone.integrations.openai_chat (httpx) for a single high-quality code path.
 """
 
 from __future__ import annotations
 
-import base64
-import json
 import os
 from typing import Any
 
-try:
-    import requests
-except ImportError:
-    requests = None
+from zataone.integrations.openai_chat import openai_vision_image
 
 
 def analyze_image_context(
@@ -32,8 +29,6 @@ def analyze_image_context(
     api_key = os.environ.get(api_key_env)
     if not api_key:
         raise RuntimeError(f"{api_key_env} is not set")
-    if requests is None:
-        raise ImportError("requests is required for VLM API calls")
 
     ocr_texts_clean = [t.strip() for t in (ocr_texts or []) if t and t.strip()][:25]
     objs = []
@@ -56,29 +51,12 @@ def analyze_image_context(
         "and note any ambiguity (e.g., medical vs non-medical usage) if relevant."
     )
 
-    b64 = base64.b64encode(image_bytes).decode("utf-8")
-    data_url = f"data:image/png;base64,{b64}"
-    url = "https://api.openai.com/v1/chat/completions"
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    payload = {
-        "model": model,
-        "messages": [
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt},
-                    {"type": "image_url", "image_url": {"url": data_url}},
-                ],
-            }
-        ],
-        "max_tokens": max_tokens,
-        "temperature": temperature,
-    }
-
-    resp = requests.post(url, headers=headers, data=json.dumps(payload), timeout=30)
-    resp.raise_for_status()
-    out = resp.json()
-    text = (out.get("choices") or [{}])[0].get("message", {}).get("content", "")
-    if not isinstance(text, str):
-        text = str(text)
-    return text.strip()[:600]
+    text = openai_vision_image(
+        image_bytes,
+        prompt,
+        model=model,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        api_key=api_key,
+    )
+    return text[:600]

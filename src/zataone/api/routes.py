@@ -1,6 +1,7 @@
 # zataone API routes
 
 import asyncio
+import json
 import os
 import re
 import uuid
@@ -19,6 +20,12 @@ from zataone.models import (
     Violation as ViolationModel,
 )
 from zataone.services.ingestion_service import IngestionService
+from zataone.services.llm_final_review_service import (
+    AssetNotReadyForLlmReview,
+    BadLlmReviewOutput,
+    merge_verdict_with_llm_review,
+    run_llm_final_review,
+)
 from zataone.storage.database import get_session_factory
 
 router = APIRouter()
@@ -510,6 +517,63 @@ def _model_to_dict(obj: Any, exclude: set[str] | None = None) -> dict[str, Any]:
         else:
             d[c.name] = val
     return d
+
+
+@router.post("/assets/{asset_id}/llm-final-review")
+async def post_llm_final_review(
+    asset_id: uuid.UUID = Path(..., description="Asset with completed compliance verdict"),
+    file: UploadFile | None = File(None),
+    x_domain: str | None = Header(None, alias="X-Domain"),
+) -> dict[str, Any]:
+    """
+    Optional advisory pass: load deterministic signals + verdict from DB, optionally VLM
+    summary of an **uploaded** image, then one Gemini call. Does not replace the policy verdict.
+    Re-upload the same image in `file` for best VLM+signals alignment (blobs are not stored on the asset).
+    """
+    domain = _resolve_domain(x_domain)
+    image_bytes: bytes | None = None
+    if file and file.filename:
+        try:
+            image_bytes = await file.read()
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Failed to read file: {e}") from e
+
+    session = get_session_factory()()
+    try:
+        try:
+            stored, vlm_status = run_llm_final_review(
+                session, asset_id, domain=domain, image_bytes=image_bytes
+            )
+        except AssetNotReadyForLlmReview as e:
+            msg = str(e)
+            code = 404 if "not found" in msg.lower() else 400
+            raise HTTPException(status_code=code, detail=msg) from e
+        except BadLlmReviewOutput as e:
+            raise HTTPException(status_code=502, detail=str(e)) from e
+        except RuntimeError as e:
+            raise HTTPException(status_code=503, detail=str(e)) from e
+
+        merge_verdict_with_llm_review(session, asset_id, stored)
+        session.commit()
+        v = (
+            session.query(VerdictModel)
+            .filter(VerdictModel.asset_id == asset_id)
+            .order_by(VerdictModel.created_at.desc())
+            .first()
+        )
+        return {
+            "llm_final_review": stored,
+            "verdict": dict(v.result) if v and v.result else {},
+            "advisory_vlm": vlm_status,
+        }
+    except HTTPException:
+        session.rollback()
+        raise
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=str(e)) from e
+    finally:
+        session.close()
 
 
 @router.get("/assets/{asset_id}/graph")

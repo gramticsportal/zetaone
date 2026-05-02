@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZataOne — Compliance check</title>
+  <title>ZataOne — Quick compliance check</title>
   <style>
     :root { font-family: system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 1.25rem; }
     h1 { font-size: 1.35rem; }
@@ -18,13 +18,14 @@
   </style>
 </head>
 <body>
-  <h1>ZataOne — compliance check</h1>
-  <p class="muted">Calls your API: <code>POST /assets</code> → poll <code>GET /assets/{id}</code>. Configure CORS on the server for this page’s origin.</p>
+  <h1>ZataOne — quick check</h1>
+  <p class="muted">Lightweight JSON result. For previews, graph overlays, and a richer flow, use <a href="policylens.html"><strong>PolicyLens</strong></a>.</p>
+  <p class="muted" style="margin-top:0.35rem;">API: <code>POST /assets</code> → poll <code>GET /assets/{id}</code>. Configure CORS for this page’s origin.</p>
 
   <label for="base">API base URL (no trailing slash)</label>
   <input id="base" type="text" placeholder="https://your-service-xxx.run.app or http://127.0.0.1:8000" />
 
-  <!-- Same domain behavior as web/sentrilens.html: X-Domain on POST + poll; localStorage zataone_api_base / zataone_domain. -->
+  <!-- Same domain behavior as web/policylens.html: X-Domain on POST + poll; localStorage zataone_api_base / zataone_domain. -->
   <label for="domain">Domain (<code>X-Domain</code>)</label>
   <input id="domain" type="text" list="domainPresets" placeholder="ad_compliance" autocomplete="off" spellcheck="false" />
   <datalist id="domainPresets">

@@ -4,8 +4,9 @@
 
 | File | Purpose |
 |------|--------|
-| **`sentrilens.html`** | **SentriLens-style** viewer: image/text upload, poll, verdict + violations, optional **bounding boxes** from `/assets/{id}/graph` (when signals/evidence include `bbox`). |
-| **`index.html`** | Minimal JSON viewer (same API, no overlays). |
+| **`policylens.html`** | **PolicyLens** — ad/compliance visual review: image/text upload, poll, verdict + violations, **overlays** from `/assets/{id}/graph`, health check, progress steps, **advisory (Gemini)**. |
+| **`sentrilens.html`** | Redirects to `policylens.html` (legacy path). |
+| **`index.html`** | Minimal JSON viewer (links to PolicyLens for the full UI). |
 
 ## Use locally
 
@@ -16,7 +17,7 @@
 cd web && python -m http.server 5500
 ```
 
-3. Open **`http://localhost:5500/sentrilens.html`** (or `index.html`) — set **API base URL** to `http://127.0.0.1:8000` or your Cloud Run URL.
+3. Open **`http://localhost:5500/policylens.html`** (or `index.html`) — set **API base URL** to `http://127.0.0.1:8000` or your Cloud Run URL.
 
 ## Use with Cloud Run
 

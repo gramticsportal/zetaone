@@ -182,7 +182,7 @@ After the pipeline **completes**, you can request an **advisory** second read th
 | `GEMINI_REVIEW_MAX_TOKENS` / `GEMINI_VLM_MAX_TOKENS` | Cap advisory JSON / VLM inspection length (defaults are set in code) |
 | `ZATAONE_ALLOWED_DOMAINS` | Comma-separated; requests send **`X-Domain`**; unknown domains return **403** |
 
-**UI:** [web/sentrilens.html](web/sentrilens.html) — “SentriLens-style” flow (upload, poll, graph overlays, **Run advisory review**). Configure **API base URL** and **X-Domain** in the page; enable **CORS** on the API for that origin. Also available at `/ui/sentrilens.html` when `web/` is included in the container.
+**UI:** [web/policylens.html](web/policylens.html) — **PolicyLens** (upload, poll, graph overlays, **advisory review**). Configure **API base URL** and **X-Domain** in the page; enable **CORS** on the API. Served at `/ui/policylens.html` when `web/` is in the image. The old [web/sentrilens.html](web/sentrilens.html) path redirects to PolicyLens.
 
 ---
 
@@ -292,7 +292,7 @@ gcloud builds submit --config cloudbuild.yaml \
 
 **Runtime notes:** Set **`DATABASE_URL`** to the Cloud SQL Unix socket form, attach the instance on the service, set **`CORS_ORIGINS`** for your UI origin, and **`HF_TOKEN`** on Cloud Run if you still want Hub access for edge cases. The Dockerfile sets **`ZATAONE_DISABLE_CORE_STUB_EXTRACTORS=true`** so domain extractors are used on Cloud Run.
 
-**Web UI:** `web/sentrilens.html` is served at **`/ui/sentrilens.html`** when the `web/` folder is in the image. Set **`GEMINI_*`** and **`CORS_ORIGINS`** on the Cloud Run service for advisory review from the browser (see *Advisory review* above).
+**Web UI:** `web/policylens.html` (**PolicyLens**) is served at **`/ui/policylens.html`**. Set **`GEMINI_*`** and **`CORS_ORIGINS`** on the Cloud Run service for advisory review from the browser (see *Advisory review* above). **`/ui/sentrilens.html`** redirects to PolicyLens.
 
 ---
 

@@ -1,4 +1,4 @@
-# Production Dockerfile for SentriLens Compliance API (Cloud Run, CPU-only)
+# Production Dockerfile for Zataone Ad Compliance API (Cloud Run, CPU-only; domain bundle)
 # Python 3.11, gunicorn, models download at runtime
 
 FROM python:3.11-slim-bookworm

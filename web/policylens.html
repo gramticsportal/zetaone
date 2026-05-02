@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<!-- Zataone PolicyLens — ad & compliance visual review -->
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="PolicyLens: visual compliance review with overlays and optional advisory LLM" />
+    <title>Zataone PolicyLens</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #667eea; text-align: center; margin-bottom: 10px; font-size: 1.5rem; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 0.95rem; }
+        label { display: block; margin-top: 12px; font-weight: bold; color: #333; font-size: 13px; }
+        input[type="text"], textarea {
+            width: 100%; box-sizing: border-box; margin-top: 4px; padding: 10px;
+            border: 1px solid #ddd; border-radius: 6px; font-size: 14px;
+        }
+        textarea { min-height: 72px; }
+        .upload-area {
+            border: 2px dashed #ddd; border-radius: 8px; padding: 36px; text-align: center;
+            margin: 16px 0; background: #fafafa; cursor: pointer; transition: all 0.2s;
+        }
+        .upload-area:hover { border-color: #667eea; background: #f0f4ff; }
+        .upload-area.dragover { border-color: #667eea; background: #e8edff; }
+        input[type="file"] { display: none; }
+        .row-modes { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; }
+        .row-modes label { font-weight: 600; margin: 0; }
+        button {
+            width: 100%; padding: 12px; margin-top: 12px; border: none; border-radius: 6px;
+            font-size: 14px; font-weight: bold; cursor: pointer; background: #667eea; color: white;
+        }
+        button:hover { background: #5568d3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #analyzeBtn:focus-visible, .btn-secondary:focus-visible, .btn-ghost:focus-visible, .btn-copy:focus-visible {
+            outline: 2px solid #667eea; outline-offset: 2px;
+        }
+        .grid {
+            display: grid; grid-template-columns: 1.15fr 1fr; gap: 18px; align-items: start; margin-top: 16px;
+        }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        .panel {
+            background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px;
+        }
+        .panel h2 { margin: 0 0 8px 0; font-size: 15px; color: #222; }
+        .image-stage { position: relative; width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid #eee; background: #fafafa; }
+        #preview { width: 100%; height: auto; display: block; }
+        .overlay { position: absolute; inset: 0; pointer-events: none; }
+        .box {
+            position: absolute; border: 2px solid rgba(220, 53, 69, 0.95); background: rgba(220, 53, 69, 0.04);
+            box-sizing: border-box; box-shadow: 0 0 0 1px rgba(255,255,255,0.6) inset;
+        }
+        .box.ocr { border-color: rgba(13, 110, 253, 0.95); background: rgba(13, 110, 253, 0.05); }
+        .box.vision { border-color: rgba(255, 159, 28, 0.98); background: rgba(255, 193, 7, 0.06); }
+        .box-label {
+            position: absolute; left: 0; top: -20px; padding: 2px 8px; border-radius: 6px;
+            font-size: 11px; font-weight: 600;
+            background: rgba(255, 255, 255, 0.96); color: #222;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            white-space: nowrap; max-width: 280px; overflow: hidden; text-overflow: ellipsis;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        #result { margin-top: 12px; padding: 14px; border-radius: 10px; display: none; }
+        .status-COMPLIANT { background: #d4edda; border-left: 4px solid #28a745; }
+        .status-NON_COMPLIANT { background: #f8d7da; border-left: 4px solid #dc3545; }
+        .status-REVIEW_REQUIRED { background: #fff3cd; border-left: 4px solid #ffc107; }
+        .violation {
+            background: #fff; padding: 12px; margin: 10px 0; border-left: 3px solid #dc3545;
+            border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .violation-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .severity { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .severity-HIGH { background: #f8d7da; color: #721c24; }
+        .severity-MEDIUM { background: #fff3cd; color: #856404; }
+        .severity-LOW { background: #d1ecf1; color: #0c5460; }
+        .severity-CRITICAL { background: #f5c6cb; color: #721c24; }
+        .evidence { background: #f8f9fa; padding: 8px; margin: 6px 0; border-radius: 4px; font-size: 12px; }
+        .loading { text-align: center; padding: 16px; color: #667eea; }
+        .error { background: #f8d7da; color: #721c24; padding: 12px; border-radius: 6px; margin-top: 12px; }
+        .pill {
+            display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px;
+            border: 1px solid #ddd; background: #fff; margin-right: 6px; margin-bottom: 4px;
+        }
+        .pill.green { border-color: #28a745; color: #155724; background: #d4edda; }
+        .pill.yellow { border-color: #ffc107; color: #856404; background: #fff3cd; }
+        .pill.red { border-color: #dc3545; color: #721c24; background: #f8d7da; }
+        .muted { color: #666; font-size: 12px; }
+        .toggle-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+        .toggle-row label { margin: 0; font-weight: 600; font-size: 12px; }
+        details { margin-top: 8px; }
+        summary { cursor: pointer; font-weight: 700; font-size: 13px; }
+        code { font-size: 11px; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; }
+        .domain-hint {
+            margin: 6px 0 0 0; font-size: 12px; color: #555; line-height: 1.45;
+        }
+        .btn-secondary {
+            background: #5c6bc0; margin-top: 8px; padding: 10px; font-size: 13px; width: auto; display: inline-block;
+        }
+        .btn-secondary:hover { background: #4a55a8; }
+        .btn-secondary:disabled { background: #aaa; }
+        #llmSection { border-top: 1px solid #eee; margin-top: 12px; padding-top: 12px; }
+        #llmSection h3 { font-size: 14px; margin: 0 0 6px 0; color: #333; }
+        .api-input-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .api-input-row input[type="text"] { flex: 1; min-width: 200px; margin-top: 4px; }
+        .btn-ghost {
+            margin-top: 4px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+            background: #fff; color: #5c6bc0; border: 1px solid #c5cae9; border-radius: 6px;
+        }
+        .btn-ghost:hover { background: #f5f5ff; border-color: #667eea; }
+        .btn-ghost:focus-visible { outline: 2px solid #667eea; outline-offset: 2px; }
+        .health { margin: 4px 0 0 0; font-size: 12px; min-height: 1.2em; }
+        .health.ok { color: #155724; }
+        .health.err { color: #721c24; }
+        .run-progress { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 12px 0; padding: 10px 12px; background: #f8f9ff; border: 1px solid #e8eaf6; border-radius: 8px; font-size: 12px; }
+        .run-progress[hidden] { display: none !important; }
+        .run-progress .step { display: flex; align-items: center; gap: 6px; color: #888; }
+        .run-progress .step .dot { width: 20px; height: 20px; border-radius: 50%; background: #e0e0e0; color: #666; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+        .run-progress .step.active { color: #424242; font-weight: 600; }
+        .run-progress .step.active .dot { background: #667eea; color: #fff; }
+        .run-progress .step.done { color: #1b5e20; }
+        .run-progress .step.done .dot { background: #28a745; color: #fff; }
+        .poll-detail { margin: 0 0 8px 0; font-size: 12px; }
+        .preview-placeholder { padding: 24px; text-align: center; color: #666; background: #fafafa; border: 1px dashed #ddd; border-radius: 10px; line-height: 1.5; }
+        .raw-graph-details { margin-top: 12px; }
+        .result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+        .btn-copy { padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer; background: #fff; border: 1px solid #ccc; border-radius: 6px; }
+        .btn-copy:hover { background: #f5f5f5; }
+        .next-hint { margin-top: 10px; font-size: 12px; color: #555; }
+        .result-panel { min-height: 2rem; }
+        .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #c5cae9; border-top-color: #667eea; border-radius: 50%; animation: plspin 0.7s linear infinite; vertical-align: -2px; }
+        @keyframes plspin { to { transform: rotate(360deg); } }
+        .box-label { pointer-events: none; }
+        .image-stage.labels-off .box-label { opacity: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Zataone PolicyLens</h1>
+        <p class="subtitle">Ad &amp; compliance visual review — run the pipeline, inspect overlays, optional advisory (Gemini). <code>POST /assets/image</code> or <code>POST /assets</code> → poll → <code>GET /assets/{id}/graph</code>.</p>
+
+        <label for="apiBase">API base URL (no trailing slash)</label>
+        <div class="api-input-row">
+            <input type="text" id="apiBase" placeholder="https://zataone-api-….run.app" autocomplete="url" enterkeyhint="go" />
+            <button type="button" id="testConnBtn" class="btn-ghost">Test connection</button>
+        </div>
+        <p id="apiHealth" class="health" role="status" aria-live="polite"></p>
+
+        <!-- Domain: sent on every API request as X-Domain. API must allow via ZATAONE_ALLOWED_DOMAINS on Cloud Run
+             (default domain always allowed; else 403). Add <option> in domainPresets when new domains ship.
+             zataone_domain in localStorage; input+change persist while typing. -->
+        <label for="domain">Compliance domain (<code>X-Domain</code>)</label>
+        <input type="text" id="domain" list="domainPresets" placeholder="ad_compliance" autocomplete="off" spellcheck="false" />
+        <datalist id="domainPresets">
+            <option value="ad_compliance"></option>
+        </datalist>
+        <p class="domain-hint">
+            Sent on every API request. The service must allow this name (Cloud Run env
+            <code>ZATAONE_ALLOWED_DOMAINS</code>, comma-separated; the default domain is always allowed).
+            If you pick a domain the server does not allow, the API returns <strong>403</strong>.
+        </p>
+
+        <div class="row-modes">
+            <label><input type="radio" name="mode" value="image" checked /> Image</label>
+            <label><input type="radio" name="mode" value="text" /> Text</label>
+        </div>
+
+        <div id="imagePanel">
+            <div class="upload-area" id="uploadArea">
+                <p>Click or drag & drop an image</p>
+                <input type="file" id="imageInput" accept="image/*" />
+            </div>
+        </div>
+
+        <div id="textPanel" style="display:none;">
+            <label for="textContent">Text content</label>
+            <textarea id="textContent" placeholder="Paste ad copy…"></textarea>
+        </div>
+
+        <div class="toggle-row">
+            <label><input type="checkbox" id="toggleOcr" checked /> OCR boxes</label>
+            <label><input type="checkbox" id="toggleVision" checked /> Vision boxes</label>
+            <label><input type="checkbox" id="toggleAllSignals" /> All signal boxes (ignore violation)</label>
+            <label><input type="checkbox" id="toggleLabels" checked /> Show box labels</label>
+        </div>
+
+        <button type="button" id="analyzeBtn" disabled>Run compliance check</button>
+
+        <div id="runProgress" class="run-progress" hidden>
+            <div class="step" data-step="1"><span class="dot">1</span> Upload</div>
+            <div class="step" data-step="2"><span class="dot">2</span> Process</div>
+            <div class="step" data-step="3"><span class="dot">3</span> Graph &amp; result</div>
+        </div>
+        <p id="pollDetail" class="poll-detail" style="display:none" aria-live="polite"></p>
+
+        <div class="grid">
+            <div class="panel" id="leftPreviewPanel">
+                <h2>Preview & overlays</h2>
+                <p class="muted">Boxes appear when extractors store <code>bbox</code> in signal / evidence JSON. (<strong>Image</strong> mode only.)</p>
+                <p id="textModeNote" class="preview-placeholder" style="display:none;">You’re in <strong>Text</strong> mode. Switch to <strong>Image</strong> to see the preview and bounding-box overlays after a run.</p>
+                <div class="image-stage" id="imageStage" style="display:none;">
+                    <img id="preview" alt="Preview" />
+                    <div class="overlay" id="overlay"></div>
+                </div>
+            </div>
+            <div class="panel result-panel" id="rightResultPanel">
+                <h2>Results</h2>
+                <div id="result" role="status" aria-live="polite"></div>
+                <div id="llmSection" style="display: none;">
+                    <h3>Advisory review (Gemini)</h3>
+                    <p class="muted" id="llmHint" style="margin: 0 0 8px 0;">
+                        Optional: deterministic context is sent to the API; in image mode the same file is re-sent for a VLM
+                        pass. Does not replace the policy verdict. Server needs <code>GEMINI_API_KEY</code>.
+                    </p>
+                    <button type="button" id="llmReviewBtn" class="btn-secondary" disabled>Run advisory review</button>
+                    <div id="llmReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LS_KEY = 'zataone_api_base';
+        const LS_DOMAIN = 'zataone_domain';
+
+        const apiBase = () => document.getElementById('apiBase').value.replace(/\/$/, '');
+        const domainValue = () => {
+            const v = document.getElementById('domain').value.trim();
+            return v || 'ad_compliance';
+        };
+        /** Merge with JSON or FormData requests; do not set Content-Type on multipart. */
+        const domainHeaders = (extra) => ({ ...(extra || {}), 'X-Domain': domainValue() });
+        const defaultApiBase =
+            (window.location.pathname || '').startsWith('/ui/')
+                ? window.location.origin
+                : '';
+        document.getElementById('apiBase').value =
+            localStorage.getItem(LS_KEY) || defaultApiBase;
+        document.getElementById('domain').value =
+            localStorage.getItem(LS_DOMAIN) || 'ad_compliance';
+        document.getElementById('apiBase').addEventListener('change', () => {
+            localStorage.setItem(LS_KEY, apiBase());
+        });
+        const domainEl = document.getElementById('domain');
+        const persistDomain = () => localStorage.setItem(LS_DOMAIN, domainValue());
+        domainEl.addEventListener('change', persistDomain);
+        domainEl.addEventListener('input', persistDomain);
+
+        function syncPreviewMode() {
+            const img = document.querySelector('input[name="mode"]:checked').value === 'image';
+            document.getElementById('imagePanel').style.display = img ? 'block' : 'none';
+            document.getElementById('textPanel').style.display = img ? 'none' : 'block';
+            const note = document.getElementById('textModeNote');
+            const st = document.getElementById('imageStage');
+            if (!img) {
+                note.style.display = 'block';
+                st.style.display = 'none';
+            } else {
+                note.style.display = 'none';
+                st.style.display = st.dataset.visible === '1' ? 'block' : 'none';
+            }
+        }
+        document.querySelectorAll('input[name="mode"]').forEach((r) => {
+            r.addEventListener('change', () => {
+                syncPreviewMode();
+                syncButton();
+            });
+        });
+        syncPreviewMode();
+
+        const uploadArea = document.getElementById('uploadArea');
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultDiv = document.getElementById('result');
+        const imageStage = document.getElementById('imageStage');
+        const overlay = document.getElementById('overlay');
+        const toggleOcr = document.getElementById('toggleOcr');
+        const toggleVision = document.getElementById('toggleVision');
+        const toggleAllSignals = document.getElementById('toggleAllSignals');
+        const toggleLabels = document.getElementById('toggleLabels');
+        const runProgressEl = document.getElementById('runProgress');
+        const pollDetailEl = document.getElementById('pollDetail');
+        const testConnBtn = document.getElementById('testConnBtn');
+        const apiHealthEl = document.getElementById('apiHealth');
+        const MAX_OVERLAY_BOXES = 60;
+
+        /** phase: 0=hide, 1=upload, 2=process, 3=graph, 4=all done */
+        function setRunProgress(phase) {
+            if (!phase) {
+                runProgressEl.hidden = true;
+                pollDetailEl.style.display = 'none';
+                pollDetailEl.textContent = '';
+                return;
+            }
+            runProgressEl.hidden = false;
+            const steps = runProgressEl.querySelectorAll('.step');
+            steps.forEach((s) => s.classList.remove('active', 'done'));
+            if (phase === 1) {
+                steps[0].classList.add('active');
+            } else if (phase === 2) {
+                steps[0].classList.add('done');
+                steps[1].classList.add('active');
+            } else if (phase === 3) {
+                steps[0].classList.add('done');
+                steps[1].classList.add('done');
+                steps[2].classList.add('active');
+            } else if (phase === 4) {
+                steps.forEach((s) => s.classList.add('done'));
+            }
+        }
+        function syncLabelVisibility() {
+            if (toggleLabels.checked) {
+                imageStage.classList.remove('labels-off');
+            } else {
+                imageStage.classList.add('labels-off');
+            }
+        }
+        toggleLabels.addEventListener('change', syncLabelVisibility);
+        syncLabelVisibility();
+
+        function shortLabelOcr(t) {
+            const s = (t || '').replace(/\s+/g, ' ').trim();
+            if (s.length <= 18) return s ? `OCR: ${s}` : 'OCR';
+            return `OCR: ${s.slice(0, 16)}…`;
+        }
+        function shortLabelVision(_st, label) {
+            const s = String(label || 'object').replace(/\s+/g, ' ').trim() || 'object';
+            if (s.length > 20) return `Vis: ${s.slice(0, 18)}…`;
+            return `Vis: ${s}`;
+        }
+
+        testConnBtn.addEventListener('click', async () => {
+            const b = apiBase();
+            apiHealthEl.className = 'health';
+            apiHealthEl.textContent = b ? 'Checking…' : 'Enter an API base URL first.';
+            if (!b) {
+                apiHealthEl.classList.add('err');
+                return;
+            }
+            try {
+                const r = await fetch(`${b}/health`, { headers: domainHeaders() });
+                if (!r.ok) throw new Error(r.status + ' ' + r.statusText);
+                const d = await readJsonResponse(r);
+                apiHealthEl.classList.add('ok');
+                apiHealthEl.textContent = 'Connected — ' + (d.service || 'ok') + (d.status ? ' (' + d.status + ')' : '');
+            } catch (e) {
+                const msg = e && e.message ? e.message : String(e);
+                apiHealthEl.classList.add('err');
+                apiHealthEl.textContent = 'Failed: ' + msg + ( /fetch|Network|Failed/i.test(msg) ? ' (check URL, CORS, and that the API is up)' : '');
+            }
+        });
+
+        let lastResponse = null;
+        let lastGraph = null;
+        let selectedViolationId = null;
+        let lastAssetId = null;
+        let lastRunWasImage = false;
+
+        function formatApiDetail(detail) {
+            if (detail == null || detail === '') return '';
+            if (typeof detail === 'string') return detail;
+            if (Array.isArray(detail)) {
+                return detail
+                    .map((e) => {
+                        if (e && typeof e === 'object' && 'msg' in e) {
+                            const loc = Array.isArray(e.loc) ? e.loc.filter((x) => x !== 'body').join('.') : '';
+                            return loc ? `${loc}: ${e.msg}` : e.msg;
+                        }
+                        return JSON.stringify(e);
+                    })
+                    .join('; ');
+            }
+            if (typeof detail === 'object') return JSON.stringify(detail);
+            return String(detail);
+        }
+
+        async function readJsonResponse(r) {
+            const text = await r.text();
+            if (!text) return {};
+            try {
+                return JSON.parse(text);
+            } catch {
+                throw new Error(`Non-JSON response (${r.status}): ${text.slice(0, 280)}`);
+            }
+        }
+
+        uploadArea.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', handleFileSelect);
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length && files[0].type.startsWith('image/')) {
+                imageInput.files = files;
+                handleFileSelect({ target: { files } });
+            }
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    preview.src = ev.target.result;
+                    imageStage.style.display = 'block';
+                    imageStage.dataset.visible = '1';
+                    clearOverlay();
+                    syncButton();
+                    syncPreviewMode();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function syncButton() {
+            const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
+            analyzeBtn.disabled = imgMode ? !imageInput.files[0] : !document.getElementById('textContent').value.trim();
+        }
+        document.getElementById('textContent').addEventListener('input', syncButton);
+
+        async function pollAsset(assetId, onProgress) {
+            const b = apiBase();
+            const max = 240;
+            for (let i = 0; i < max; i++) {
+                const r = await fetch(`${b}/assets/${assetId}`, { headers: domainHeaders() });
+                const data = await readJsonResponse(r);
+                if (!r.ok) throw new Error(formatApiDetail(data.detail) || r.statusText);
+                if (onProgress) onProgress(i + 1, max);
+                if (data.status === 'completed') return data;
+                if (data.status === 'failed') {
+                    throw new Error(
+                        data.detail ||
+                            'Processing failed. On Cloud Run, enable CPU always allocated if jobs never finish (background work after POST).'
+                    );
+                }
+                if (data.status !== 'processing') return data;
+                await new Promise((x) => setTimeout(x, 500));
+            }
+            throw new Error(
+                'Timeout waiting for completion. Redeploy the API (Cloud Run uses in-request processing when K_SERVICE is set).'
+            );
+        }
+
+        async function fetchGraph(assetId) {
+            const b = apiBase();
+            const r = await fetch(`${b}/assets/${assetId}/graph`, { headers: domainHeaders() });
+            const data = await readJsonResponse(r);
+            if (!r.ok) throw new Error(formatApiDetail(data.detail) || r.statusText);
+            return data;
+        }
+
+        function severityLabel(sev) {
+            if (typeof sev === 'number') return sev >= 0.85 ? 'CRITICAL' : sev >= 0.7 ? 'HIGH' : sev >= 0.4 ? 'MEDIUM' : 'LOW';
+            return String(sev || 'MEDIUM');
+        }
+
+        function inferEvidenceType(sig, data) {
+            const st = (sig && sig.signal_type) ? String(sig.signal_type) : '';
+            const t = data.type || data.signal_type;
+            if (t === 'vision_object' || st.includes('vision')) return 'vision_object';
+            if (data.ocr_text || t === 'ocr_text') return 'text_match';
+            if (st.includes('keyword') || st === 'keyword' || st.includes('text')) return 'text_match';
+            if (data.bbox) {
+                if (Array.isArray(data.bbox)) return 'vision_object';
+                if (typeof data.bbox === 'object' && typeof data.bbox.x === 'number') return 'text_match';
+            }
+            return 'text_match';
+        }
+
+        function enrichEvidenceRow(evRow, sigById) {
+            const sig = sigById[evRow.signal_id];
+            const data = { ...(evRow.evidence_data || {}) };
+            if (sig && sig.value && typeof sig.value === 'object') Object.assign(data, sig.value);
+            const evidence_type = inferEvidenceType(sig, data);
+            return { evidence_type, data };
+        }
+
+        function buildLegacyModel(poll, graph) {
+            const complianceStatus = poll.compliance_status || '';
+            const violationsPoll = Array.isArray(poll.violations) ? poll.violations : [];
+            const gViol = graph.violations || [];
+            const gEv = graph.evidence || [];
+            const gSig = graph.signals || [];
+            const sigById = Object.fromEntries(gSig.map((s) => [s.id, s]));
+
+            let violations = [];
+            if (violationsPoll.length) {
+                violations = violationsPoll.map((v, i) => {
+                    const ruleId = v.rule_id || v.ruleId || 'unknown';
+                    let gv = gViol.find((x) => x.rule_id === ruleId);
+                    if (!gv && gViol[i]) gv = gViol[i];
+                    const vid = gv ? gv.id : `poll-${i}`;
+                    const evRows = gv ? gEv.filter((e) => e.violation_id === gv.id) : [];
+                    return {
+                        violation_id: vid,
+                        rule_id: ruleId,
+                        rule_name: v.rule_name || ruleId,
+                        severity: typeof v.severity === 'string' ? v.severity : severityLabel(gv && gv.severity),
+                        description: v.description || '',
+                        evidence: evRows.length ? evRows.map((e) => enrichEvidenceRow(e, sigById)) : (Array.isArray(v.evidence) ? v.evidence : []),
+                    };
+                });
+            } else if (gViol.length) {
+                violations = gViol.map((gv) => ({
+                    violation_id: gv.id,
+                    rule_id: gv.rule_id,
+                    rule_name: gv.rule_id,
+                    severity: severityLabel(gv.severity),
+                    description: '',
+                    evidence: gEv.filter((e) => e.violation_id === gv.id).map((e) => enrichEvidenceRow(e, sigById)),
+                }));
+            }
+
+            return {
+                status: complianceStatus || 'UNKNOWN',
+                verdict: poll.verdict || 'unknown',
+                risk_score: typeof poll.risk_score === 'number' ? poll.risk_score : null,
+                violations,
+                metadata: poll.metadata,
+                _graph: graph,
+                _sigById: sigById,
+            };
+        }
+
+        function displayResult(data, assetId) {
+            resultDiv.className = `status-${data.status || ''}`;
+            const verdict = data.verdict || 'unknown';
+            const riskScore = typeof data.risk_score === 'number' ? data.risk_score : null;
+            const status = data.status || 'UNKNOWN';
+            const violations = Array.isArray(data.violations) ? data.violations : [];
+            const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
+
+            const verdictPill = verdict === 'likely_approved' ? 'green' : verdict === 'borderline' ? 'yellow' : verdict === 'likely_rejected' ? 'red' : '';
+
+            let html = '<h3>Result</h3>';
+            if (assetId) {
+                html += `<div class="result-actions"><code id="assetIdDisplay" class="muted" style="font-size:12px;">${escapeHtml(String(assetId))}</code>`;
+                html += ` <button type="button" class="btn-copy" id="copyAssetIdBtn" title="Copy asset id">Copy id</button></div>`;
+            }
+            html += `<div style="display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0;">`;
+            html += `<span class="pill ${verdictPill}">Verdict: ${escapeHtml(verdict)}</span>`;
+            html += `<span class="pill">Compliance: ${escapeHtml(status)}</span>`;
+            html += `<span class="pill">Risk: ${riskScore === null ? 'n/a' : riskScore.toFixed(2)}</span>`;
+            html += `<span class="pill">Violations: ${violations.length}</span></div>`;
+
+            if (!violations.length) html += '<p class="muted">No violations in response.</p>';
+            else {
+                html += '<h3>Violations</h3>';
+                violations.forEach((v) => {
+                    const vid = v.violation_id || '';
+                    const sev = v.severity || 'UNKNOWN';
+                    const ruleId = v.rule_id || 'unknown';
+                    const ruleName = v.rule_name || ruleId;
+                    const evidence = Array.isArray(v.evidence) ? v.evidence : [];
+                    html += `
+                        <div class="violation">
+                            <div class="violation-header">
+                                <button type="button" style="background:transparent;border:none;padding:0;text-align:left;cursor:pointer;font-weight:700;color:#222;"
+                                  onclick="selectViolation('${escapeAttr(vid)}')">${escapeHtml(ruleName)}</button>
+                                <span class="severity severity-${escapeAttr(sev)}">${escapeHtml(sev)}</span>
+                            </div>
+                            <div class="muted">Policy: <code>${escapeHtml(ruleId)}</code></div>
+                            <p style="margin:6px 0;font-size:13px;">${escapeHtml(v.description || '')}</p>
+                            <details><summary>Evidence</summary>${renderEvidenceGroups(evidence)}</details>
+                        </div>`;
+                });
+            }
+
+            if (imgMode) {
+                html += '<p class="next-hint">Use toggles in <strong>Preview &amp; overlays</strong> to show or hide boxes. <strong>Run advisory review</strong> below for an optional Gemini pass (re-uploads the same image for vision if enabled on the server).</p>';
+            } else {
+                html += '<p class="next-hint">Switch to <strong>Image</strong> mode to see preview overlays. Advisory review still uses text+deterministic context.</p>';
+            }
+
+            html += '<details class="raw-graph-details"><summary>Raw graph (debug)</summary><pre style="font-size:11px;overflow:auto;max-height:240px;">' +
+                escapeHtml(JSON.stringify(lastGraph || {}, null, 2)) + '</pre></details>';
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+            const cpy = document.getElementById('copyAssetIdBtn');
+            if (cpy && assetId) {
+                cpy.addEventListener('click', () => {
+                    navigator.clipboard.writeText(String(assetId)).then(() => {
+                        cpy.textContent = 'Copied';
+                        setTimeout(() => { cpy.textContent = 'Copy id'; }, 1500);
+                    }).catch(() => {});
+                });
+            }
+        }
+
+        function renderEvidenceGroups(evidence) {
+            const ocr = evidence.filter((e) => e.evidence_type === 'text_match');
+            const vision = evidence.filter((e) => e.evidence_type === 'vision_object');
+            let html = '';
+            if (ocr.length) {
+                html += '<h4 style="margin:8px 0 4px 0;">OCR / text</h4>';
+                html += ocr.map((e) => {
+                    const t = e.data && e.data.ocr_text ? String(e.data.ocr_text) : (e.data.matched_term || '');
+                    const b = e.data && e.data.bbox ? e.data.bbox : null;
+                    return `<div class="evidence"><strong>Text:</strong> ${escapeHtml(t)}${b ? `<div class="muted">bbox: ${escapeHtml(JSON.stringify(b))}</div>` : ''}</div>`;
+                }).join('');
+            }
+            if (vision.length) {
+                html += '<h4 style="margin:8px 0 4px 0;">Vision</h4>';
+                html += vision.map((e) => {
+                    const label = e.data && e.data.label ? String(e.data.label) : '';
+                    const bbox = e.data && e.data.bbox ? e.data.bbox : null;
+                    return `<div class="evidence"><strong>Object:</strong> ${escapeHtml(label)}${bbox ? `<div class="muted">bbox: ${escapeHtml(JSON.stringify(bbox))}</div>` : ''}</div>`;
+                }).join('');
+            }
+            if (!ocr.length && !vision.length) {
+                html += '<div class="muted">No structured evidence rows (check graph → signals / evidence).</div>';
+            }
+            return html;
+        }
+
+        window.selectViolation = function (violationId) {
+            selectedViolationId = violationId || null;
+            renderOverlayForSelectedViolation();
+        };
+
+        function getSelectedViolation() {
+            if (!lastResponse || !Array.isArray(lastResponse.violations) || !selectedViolationId) return null;
+            return lastResponse.violations.find((v) => String(v.violation_id || '') === String(selectedViolationId)) || null;
+        }
+
+        function clearOverlay() {
+            overlay.innerHTML = '';
+        }
+
+        /** API may send bbox as {x,y,width,height}, {x,y,w,h}, or [left, top, width, height]. */
+        function normalizeBBox(bbox) {
+            if (bbox == null) return null;
+            if (Array.isArray(bbox) && bbox.length === 4) {
+                const x = Number(bbox[0]), y = Number(bbox[1]), w = Number(bbox[2]), h = Number(bbox[3]);
+                if (![x, y, w, h].every((n) => Number.isFinite(n))) return null;
+                return { x, y, w: Math.max(0, w), h: Math.max(0, h) };
+            }
+            if (typeof bbox === 'object' && !Array.isArray(bbox)) {
+                const x = bbox.x;
+                const y = bbox.y;
+                const w = bbox.width != null ? bbox.width : bbox.w;
+                const h = bbox.height != null ? bbox.height : bbox.h;
+                if (![x, y, w, h].every((n) => typeof n === 'number' && Number.isFinite(n))) return null;
+                return { x, y, w: Math.max(0, w), h: Math.max(0, h) };
+            }
+            return null;
+        }
+
+        function drawBoxesFromEvidence(evidence, showOcr, showVision, scaleX, scaleY) {
+            if (!Array.isArray(evidence)) return;
+            let n = 0;
+            if (showOcr) {
+                evidence.filter((e) => e.evidence_type === 'text_match').forEach((e) => {
+                    if (n >= MAX_OVERLAY_BOXES) return;
+                    const raw = e.data && e.data.bbox;
+                    const b = normalizeBBox(raw);
+                    const txt = e.data && e.data.ocr_text ? String(e.data.ocr_text) : '';
+                    if (b) {
+                        const full = `OCR: ${txt || '(text)'}`;
+                        addBox('ocr', b.x, b.y, b.w, b.h, shortLabelOcr(txt), full, scaleX, scaleY);
+                        n += 1;
+                    }
+                });
+            }
+            if (showVision) {
+                evidence.filter((e) => e.evidence_type === 'vision_object').forEach((e) => {
+                    if (n >= MAX_OVERLAY_BOXES) return;
+                    const b = normalizeBBox(e.data && e.data.bbox);
+                    const label = e.data && e.data.label ? String(e.data.label) : 'object';
+                    if (b) {
+                        const full = `Vision: ${label}`;
+                        addBox('vision', b.x, b.y, b.w, b.h, shortLabelVision('', label), full, scaleX, scaleY);
+                        n += 1;
+                    }
+                });
+            }
+        }
+
+        function drawBoxesFromAllSignals(graph, showOcr, showVision, scaleX, scaleY) {
+            let n = 0;
+            (graph.signals || []).forEach((sig) => {
+                if (n >= MAX_OVERLAY_BOXES) return;
+                const v = sig.value || {};
+                const b = normalizeBBox(v.bbox);
+                if (!b) return;
+                const st = String(sig.signal_type || '');
+                const isVision = v.type === 'vision_object' || st === 'object' || st.includes('vision');
+                const txt = v.ocr_text || v.text || '';
+                if (isVision && showVision) {
+                    const lab = v.label != null ? String(v.label) : st;
+                    const full = `Vision: ${lab}`;
+                    addBox('vision', b.x, b.y, b.w, b.h, shortLabelVision(st, lab), full, scaleX, scaleY);
+                    n += 1;
+                } else if (!isVision && showOcr) {
+                    const full = `OCR (${st}): ${txt || ''}`.trim();
+                    addBox('ocr', b.x, b.y, b.w, b.h, shortLabelOcr(txt || st), full, scaleX, scaleY);
+                    n += 1;
+                }
+            });
+        }
+
+        function addBox(kind, x, y, w, h, displayText, fullText, scaleX, scaleY) {
+            const box = document.createElement('div');
+            box.className = `box ${kind}`;
+            box.style.left = `${x * scaleX}px`;
+            box.style.top = `${y * scaleY}px`;
+            box.style.width = `${w * scaleX}px`;
+            box.style.height = `${h * scaleY}px`;
+            if (fullText) {
+                box.title = fullText;
+            }
+            const lab = document.createElement('div');
+            lab.className = 'box-label';
+            lab.textContent = displayText;
+            if (fullText && fullText !== displayText) {
+                lab.title = fullText;
+            }
+            box.appendChild(lab);
+            overlay.appendChild(box);
+        }
+
+        function renderOverlayForSelectedViolation() {
+            clearOverlay();
+            const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
+            if (!imgMode || !preview.complete || !preview.naturalWidth || !lastGraph) return;
+
+            const stageRect = preview.getBoundingClientRect();
+            const scaleX = stageRect.width / preview.naturalWidth;
+            const scaleY = stageRect.height / preview.naturalHeight;
+            const showOcr = toggleOcr.checked;
+            const showVision = toggleVision.checked;
+
+            if (toggleAllSignals.checked) {
+                drawBoxesFromAllSignals(lastGraph, showOcr, showVision, scaleX, scaleY);
+                return;
+            }
+
+            const v = getSelectedViolation();
+            if (v && Array.isArray(v.evidence) && v.evidence.length) {
+                drawBoxesFromEvidence(v.evidence, showOcr, showVision, scaleX, scaleY);
+            } else {
+                drawBoxesFromAllSignals(lastGraph, showOcr, showVision, scaleX, scaleY);
+            }
+        }
+
+        preview.addEventListener('load', () => renderOverlayForSelectedViolation());
+        window.addEventListener('resize', () => renderOverlayForSelectedViolation());
+        toggleOcr.addEventListener('change', () => renderOverlayForSelectedViolation());
+        toggleVision.addEventListener('change', () => renderOverlayForSelectedViolation());
+        toggleAllSignals.addEventListener('change', () => renderOverlayForSelectedViolation());
+
+        analyzeBtn.addEventListener('click', async () => {
+            const b = apiBase();
+            if (!b) {
+                alert('Set API base URL');
+                return;
+            }
+            localStorage.setItem(LS_KEY, b);
+            localStorage.setItem(LS_DOMAIN, domainValue());
+
+            setRunProgress(1);
+            resultDiv.innerHTML = '<div class="loading"><span class="spinner" aria-hidden="true"></span> Uploading to API…</div>';
+            resultDiv.style.display = 'block';
+            pollDetailEl.style.display = 'none';
+            analyzeBtn.disabled = true;
+            lastGraph = null;
+            lastResponse = null;
+            selectedViolationId = null;
+            hideLlmSection();
+
+            try {
+                const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
+                let assetId;
+                let postJson;
+                lastRunWasImage = imgMode;
+
+                if (imgMode) {
+                    const file = imageInput.files[0];
+                    if (!file) throw new Error('Choose an image');
+                    const fd = new FormData();
+                    fd.append('file', file);
+                    const r = await fetch(`${b}/assets/image`, {
+                        method: 'POST',
+                        headers: domainHeaders(),
+                        body: fd,
+                    });
+                    postJson = await readJsonResponse(r);
+                    if (!r.ok) throw new Error(formatApiDetail(postJson.detail) || r.statusText);
+                    assetId = postJson.asset_id;
+                } else {
+                    const content = document.getElementById('textContent').value.trim();
+                    if (!content) throw new Error('Enter text');
+                    const r = await fetch(`${b}/assets`, {
+                        method: 'POST',
+                        headers: domainHeaders({ 'Content-Type': 'application/json' }),
+                        body: JSON.stringify({ content, type: 'text' }),
+                    });
+                    postJson = await readJsonResponse(r);
+                    if (!r.ok) throw new Error(formatApiDetail(postJson.detail) || r.statusText);
+                    assetId = postJson.asset_id;
+                }
+
+                if (!assetId) {
+                    throw new Error(
+                        'No asset_id in POST response. If you use Idempotency-Key, redeploy API so cached hits include asset_id.'
+                    );
+                }
+
+                setRunProgress(2);
+                pollDetailEl.style.display = 'block';
+                pollDetailEl.innerHTML = '<span class="spinner" aria-hidden="true"></span> Processing… <code style="font-size:11px;">' + escapeHtml(String(assetId)) + '</code>';
+                resultDiv.innerHTML = '<p class="muted" style="margin:0 0 8px 0;">Waiting for <code>completed</code>…</p>';
+                let poll;
+                if (postJson.status === 'completed') {
+                    poll = postJson;
+                    pollDetailEl.textContent = 'Already completed, loading graph…';
+                } else if (postJson.status === 'failed') {
+                    throw new Error(
+                        postJson.detail ||
+                            'Processing failed. On Cloud Run, try redeploying the API or check logs.'
+                    );
+                } else {
+                    poll = await pollAsset(assetId, (n) => {
+                        pollDetailEl.textContent = 'Polling for verdict… ' + n + ' / 240 (every 0.5s)';
+                    });
+                }
+                setRunProgress(3);
+                pollDetailEl.textContent = 'Loading graph for overlays…';
+                lastGraph = await fetchGraph(assetId);
+                lastResponse = buildLegacyModel(poll, lastGraph);
+                selectedViolationId = lastResponse.violations[0] ? lastResponse.violations[0].violation_id : null;
+                setRunProgress(4);
+                pollDetailEl.textContent = 'Done';
+                setTimeout(() => { setRunProgress(0); }, 1500);
+                displayResult(lastResponse, assetId);
+                lastAssetId = assetId;
+                llmSection.style.display = 'block';
+                llmReviewBtn.disabled = false;
+                llmReviewOut.innerHTML = '';
+                renderOverlayForSelectedViolation();
+            } catch (err) {
+                setRunProgress(0);
+                pollDetailEl.style.display = 'none';
+                const msg = err && err.message ? err.message : String(err);
+                const hint =
+                    /Failed to fetch|NetworkError|Load failed/i.test(msg)
+                        ? ' (Often CORS: set CORS_ORIGINS on the API to include this page’s origin, or CORS_ALLOW_ALL=true for local testing.)'
+                        : '';
+                resultDiv.innerHTML = `<div class="error"><strong>Error:</strong> ${escapeHtml(msg)}${escapeHtml(hint)}</div>`;
+            } finally {
+                analyzeBtn.disabled = false;
+                syncButton();
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+        function escapeAttr(str) {
+            return escapeHtml(str).replace(/`/g, '&#96;');
+        }
+
+        const llmSection = document.getElementById('llmSection');
+        const llmReviewBtn = document.getElementById('llmReviewBtn');
+        const llmReviewOut = document.getElementById('llmReviewOut');
+
+        function hideLlmSection() {
+            llmSection.style.display = 'none';
+            lastAssetId = null;
+            lastRunWasImage = false;
+            llmReviewBtn.disabled = true;
+            llmReviewOut.innerHTML = '';
+        }
+
+        function formatLlmFinalReviewBlock(review) {
+            if (!review || typeof review !== 'object') return '<p class="muted">(no review object)</p>';
+            const a = review.agreement_with_deterministic || '';
+            return (
+                '<p><strong>Agreement:</strong> ' +
+                escapeHtml(a) +
+                '</p><p><strong>Summary</strong></p><p style="white-space:pre-wrap;">' +
+                escapeHtml(review.summary || '') +
+                '</p><p><strong>Rationale</strong></p><p style="white-space:pre-wrap;">' +
+                escapeHtml(review.rationale || '') +
+                '</p><p class="muted" style="font-size:12px;">' +
+                escapeHtml(review.disclaimer || '') +
+                '</p>'
+            );
+        }
+
+        async function runLlmFinalReview() {
+            const b = apiBase();
+            if (!b || !lastAssetId) return;
+            llmReviewBtn.disabled = true;
+            llmReviewOut.innerHTML =
+                '<div class="loading">Calling advisory review… (server must have <code>GEMINI_API_KEY</code>)</div>';
+            try {
+                const fd = new FormData();
+                if (lastRunWasImage && imageInput.files[0]) {
+                    fd.append('file', imageInput.files[0]);
+                }
+                const r = await fetch(`${b}/assets/${lastAssetId}/llm-final-review`, {
+                    method: 'POST',
+                    headers: domainHeaders(),
+                    body: fd,
+                });
+                const data = await readJsonResponse(r);
+                if (!r.ok) throw new Error(formatApiDetail(data.detail) || r.statusText);
+                const review = data.llm_final_review;
+                let html = formatLlmFinalReviewBlock(review);
+                if (data.advisory_vlm) {
+                    const v = data.advisory_vlm;
+                    const vlmLine =
+                        v.vlm_succeeded
+                            ? 'VLM ran: a vision summary was sent to the text model.'
+                            : v.vlm_error
+                              ? 'VLM failed: ' + v.vlm_error
+                              : v.vlm_eligible
+                                ? 'VLM returned an empty summary.'
+                                : 'VLM skipped (re-select the same image and run advisory again for vision; text-only used).';
+                    html += '<p class="muted" style="margin-top:12px;font-size:12px;"><strong>Vision (Gemini) · </strong>' + escapeHtml(vlmLine) + '</p>';
+                }
+                html +=
+                    '<details style="margin-top:10px;"><summary>Raw</summary><pre style="font-size:11px;overflow:auto;max-height:200px;">' +
+                    escapeHtml(JSON.stringify(data, null, 2)) +
+                    '</pre></details>';
+                llmReviewOut.innerHTML = html;
+            } catch (err) {
+                const msg = err && err.message ? err.message : String(err);
+                llmReviewOut.innerHTML = '<div class="error">LLM review failed: ' + escapeHtml(msg) + '</div>';
+            } finally {
+                llmReviewBtn.disabled = false;
+            }
+        }
+
+        llmReviewBtn.addEventListener('click', runLlmFinalReview);
+    </script>
+</body>
+</html>

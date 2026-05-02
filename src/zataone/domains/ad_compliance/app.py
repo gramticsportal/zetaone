@@ -12,7 +12,7 @@ app = create_app()
 if __name__ == '__main__':
     
     print("=" * 60)
-    print("🚀 SentriLens Compliance API")
+    print("🚀 Zataone Ad Compliance API")
     print("=" * 60)
     print("Server starting on http://localhost:5001")
     print()

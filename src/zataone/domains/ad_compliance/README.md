@@ -1,6 +1,6 @@
-# SentriLens Compliance API
+# Zataone — Ad compliance (domain module)
 
-API-first advertising compliance system for Meta image ads (v1).
+API-first advertising compliance system for Meta image ads (v1). This folder is the **`ad_compliance`** domain inside the monorepo. For the main product **browser UI**, use **PolicyLens** at [`web/policylens.html`](../../../../web/policylens.html) (served as `/ui/policylens.html` on the main FastAPI app).
 
 ## Architecture
 

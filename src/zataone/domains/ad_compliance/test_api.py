@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script for SentriLens Compliance API
+Test script for Zataone Ad Compliance API (domain bundle)
 Run this to test all endpoints
 """
 
@@ -264,7 +264,7 @@ def test_error_handling():
 def main():
     """Run all tests"""
     print("\n" + "="*60)
-    print("  🧪 SentriLens Compliance API - Test Suite")
+    print("  🧪 Zataone Ad Compliance API — test suite")
     print("="*60)
     print(f"  Testing: {BASE_URL}")
     print("  Make sure the API is running: python app.py")

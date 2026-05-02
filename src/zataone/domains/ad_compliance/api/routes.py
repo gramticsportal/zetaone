@@ -33,7 +33,7 @@ def create_app() -> Flask:
     def home():
         """API information endpoint."""
         return jsonify({
-            "app": "SentriLens Compliance API",
+            "app": "Zataone Ad Compliance API",
             "version": "1.0.0",
             "description": "API-first advertising compliance system for Meta image ads",
             "endpoints": {

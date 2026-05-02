@@ -80,7 +80,7 @@ def root() -> dict[str, str]:
         "health": "/health",
     }
     if _WEB_DIR.is_dir():
-        out["ui"] = "/ui/sentrilens.html"
+        out["ui"] = "/ui/policylens.html"
     return out
 
 

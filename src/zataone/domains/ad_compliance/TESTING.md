@@ -12,7 +12,7 @@ python app.py
 
 You should see:
 ```
-🚀 SentriLens Compliance API
+🚀 Zataone Ad Compliance API
 Server starting on http://localhost:5000
 ```
 

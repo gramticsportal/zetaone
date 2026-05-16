@@ -22,7 +22,8 @@ The platform follows a strict separation of concerns: AI extracts signals, the p
 ## Architecture
 
 ```
-Asset → Normalization → Signal Extraction → Policy Evaluation → Evidence → Verdict → Audit
+Asset → Normalization → Signal Extraction → Document Build → Policy Retrieval (optional)
+     → Policy Evaluation → Evidence → Verdict → Audit
 ```
 
 | Layer | Responsibility |
@@ -52,6 +53,30 @@ Expansion is configuration-only:
 - **Policy packs** — New domains (healthcare, finance, advertising) via YAML/config
 - **Signal extractors** — New modalities (text, image, video) as pluggable modules
 - **Jurisdiction adapters** — New regulations via policy overrides
+
+---
+
+## Policy engine enhancements
+
+Recent work extends the deterministic core without changing the verdict contract:
+
+| Capability | Description | Default |
+|------------|-------------|---------|
+| **Document layer** | Merges OCR, ASR, and vision scene text into `normalized_text` for explainability and optional rule matching | Built every run; matching uses document text only when flag is on |
+| **Policy corpus** | Versioned `policy_pack` + `clauses` in YAML (`meta_ads.yaml`); registry in `configs/policy_registry.yaml` | Loaded for `ad_compliance` |
+| **BM25 retrieval** | Shortlists active rule IDs from document text before evaluation | Off |
+| **DSL pilot** | Explicit `match:` blocks (`any` / `terms` / `requires_context` / `exceptions`) for selected Meta rules | Mixed with legacy keyword rules |
+
+**Feature flags** (environment variables):
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `ZATAONE_DOCUMENT_CENTRIC` | Match rules against unified document text instead of per-signal fragments | `false` |
+| `ZATAONE_POLICY_RETRIEVAL` | Enable BM25 rule shortlist | `false` |
+| `ZATAONE_RETRIEVAL_TOP_K` | Max rules retrieved | `8` |
+| `ZATAONE_RETRIEVAL_FALLBACK_ALL` | If retrieval returns nothing, evaluate all rules | `true` |
+
+Verdict and graph metadata may include `document`, `policy_pack`, `retrieval`, and the flag states above for UI explainability.
 
 ---
 
@@ -108,7 +133,7 @@ curl http://localhost:8000/health
 | POST | `/assets/image` | Submit image for compliance check (async) |
 | POST | `/assets/audio` | Submit audio for transcription (faster-whisper) + compliance check |
 | GET | `/assets/{asset_id}` | Poll for verdict when ready |
-| GET | `/assets/{asset_id}/graph` | Compliance graph (signals, evidence, violations) for explainability / UI overlays |
+| GET | `/assets/{asset_id}/graph` | Compliance graph: signals, evidence, violations, verdict, plus `document`, `policy_pack`, `retrieval` when available |
 | POST | `/assets/{asset_id}/llm-final-review` | Optional advisory pass (Gemini VLM + text); does not override deterministic verdict |
 
 **POST /assets** — Submit content for compliance evaluation. Returns immediately with `status: processing` and `asset_id`. Poll `GET /assets/{asset_id}` for the verdict.
@@ -182,7 +207,46 @@ After the pipeline **completes**, you can request an **advisory** second read th
 | `GEMINI_REVIEW_MAX_TOKENS` / `GEMINI_VLM_MAX_TOKENS` | Cap advisory JSON / VLM inspection length (defaults are set in code) |
 | `ZATAONE_ALLOWED_DOMAINS` | Comma-separated; requests send **`X-Domain`**; unknown domains return **403** |
 
-**UI:** [web/policylens.html](web/policylens.html) — **PolicyLens** (upload, poll, graph overlays, **advisory review**). Configure **API base URL** and **X-Domain** in the page; enable **CORS** on the API. Served at `/ui/policylens.html` when `web/` is in the image. The old [web/sentrilens.html](web/sentrilens.html) path redirects to PolicyLens.
+### Compliance graph (`GET /assets/{asset_id}/graph`)
+
+Used by PolicyLens and other explainability clients. Typical top-level fields:
+
+| Field | Description |
+|-------|-------------|
+| `signals` | Extractor output (OCR, vision, embedding, ASR, VLM, etc.) |
+| `violations` | Rule hits with severity |
+| `evidence` | Rows linked to violations (text spans, bboxes) |
+| `verdict` | Final deterministic outcome |
+| `document` | `normalized_text`, modality, span metadata (when pipeline built a document) |
+| `policy_pack` | Pack id, platform, jurisdiction, version |
+| `retrieval` | `method` (`bm25` or `all_rules`), `retrieved_rule_ids`, `retrieval_scores` |
+| `document_centric_enabled` / `policy_retrieval_enabled` | Echo of server flags |
+
+### PolicyLens UI
+
+**[web/policylens.html](web/policylens.html)** — static demo UI for production-style reviews (no separate frontend build).
+
+| Area | Features |
+|------|----------|
+| **Run flow** | Image or text upload → poll → graph; 6-step pipeline progress; run stats (time, signal count, rules in scope) |
+| **Verdict** | Polished card: compliance status (green/yellow/red), platform verdict, risk score, violation count |
+| **Explainability** | Collapsible panels: normalized document with highlighted spans, policy pack/version, BM25 retrieved rules + scores, triggered rules, signals grouped by modality (confidence bars, extractor IDs), raw JSON |
+| **Overlays** | OCR / vision bboxes from graph; violation-scoped or all-signal mode |
+| **Advisory** | Optional Gemini pass via `POST /assets/{id}/llm-final-review` (does not override verdict) |
+
+Configure **API base URL** and **`X-Domain`** in the page; enable **CORS** on the API (`CORS_ORIGINS` or `CORS_ALLOW_ALL` for local testing).
+
+```bash
+# API + UI (same origin when using uvicorn static mount)
+uvicorn zataone.main:app --reload --port 8000
+# Open http://localhost:8000/ui/policylens.html
+
+# Or serve web/ separately (set API base URL in the page)
+cd web && python -m http.server 5500
+# Open http://localhost:5500/policylens.html
+```
+
+See [web/README.md](web/README.md). Legacy [web/sentrilens.html](web/sentrilens.html) redirects to PolicyLens.
 
 ---
 
@@ -243,6 +307,22 @@ pytest tests/ -v
 
 - `tests/test_zataone_pipeline.py` — Mocked pipeline (no external deps)
 - `tests/test_persistence.py` — Integration test for DB persistence (requires PostgreSQL)
+- `tests/test_document_builder.py`, `tests/test_document_regression.py` — Document normalization and aggregation
+- `tests/test_policy_engine_document_centric.py` — Document-centric vs fragment matching
+- `tests/test_policy_pack_loader.py` — Policy corpus / pack loading
+- `tests/test_policy_retrieval.py` — BM25 shortlist behavior
+- `tests/test_dsl_evaluator.py`, `tests/test_policy_engine_dsl_pilot.py` — DSL match evaluation
+- `tests/test_explainability_document.py` — Graph API document metadata
+
+---
+
+## Configuration
+
+| Path | Purpose |
+|------|---------|
+| `configs/policy_registry.yaml` | Maps domains to policy pack paths |
+| `src/zataone/domains/ad_compliance/policies/meta_ads.yaml` | Meta Ads pack: `policy_pack`, `clauses`, `rules` (legacy + DSL `match:` pilot) |
+| `configs/logging.yaml` | Loguru / logging config |
 
 ---
 
@@ -298,13 +378,13 @@ gcloud builds submit --config cloudbuild.yaml \
 
 ## Future Roadmap
 
-| Phase | Focus |
-|-------|-------|
-| **Foundation** | PostgreSQL models, asset ingestion API, basic extractors, policy engine |
-| **MVP** | HIPAA policy pack, evidence system, verdict UI, audit log, auth |
-| **Scale** | Image/video extractors, multi-tenancy, webhooks, 10+ policy packs |
-| **Platform** | Custom extractor SDK, policy builder, marketplace, SOC 2 |
-| **Ecosystem** | White-label, platform partnerships, on-prem, advanced ML |
+| Phase | Focus | Status |
+|-------|-------|--------|
+| **Foundation** | PostgreSQL, ingestion API, extractors, policy engine, PolicyLens UI | In progress |
+| **Explainability** | Document layer, policy corpus, BM25 retrieval, DSL pilot, graph metadata | Shipped (flags default off) |
+| **MVP** | Additional policy packs, hardened auth, audit exports | Planned |
+| **Scale** | Multi-tenancy, webhooks, video pipeline, 10+ packs | Planned |
+| **Platform** | Policy builder UI, extractor SDK, marketplace, SOC 2 | Planned |
 
 ---
 

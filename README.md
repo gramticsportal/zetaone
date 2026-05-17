@@ -21,9 +21,150 @@ The platform follows a strict separation of concerns: AI extracts signals, the p
 
 ## Architecture
 
+### System schematic
+
+How clients, the API, pipeline, storage, and optional advisory layer connect:
+
+```mermaid
+flowchart TB
+  subgraph clients["Clients"]
+    PL["PolicyLens UI<br/>web/policylens.html"]
+    EXT["Static host<br/>e.g. underintelligence.com"]
+    API_CLIENT["curl / integrations"]
+  end
+
+  subgraph gcp["Google Cloud — zetaone-493600"]
+    CR["Cloud Run<br/>zataone-api"]
+    AR["Artifact Registry<br/>Docker image"]
+    SQL["Cloud SQL<br/>PostgreSQL"]
+    CB["Cloud Build<br/>cloudbuild.yaml"]
+  end
+
+  subgraph api["FastAPI — zataone.main"]
+    ROUTES["API routes<br/>/assets · /graph · /health"]
+    CORS["CORS + X-Domain"]
+  end
+
+  subgraph pipeline["CompliancePipeline"]
+    ING["IngestionService"]
+    REG["ExtractorRegistry"]
+    DOC["DocumentBuilder"]
+    RET["PolicyRetriever<br/>BM25 optional"]
+    PE["PolicyEngine<br/>YAML + DSL"]
+    EV["EvidenceService"]
+    VS["VerdictService"]
+    AUD["AuditService"]
+  end
+
+  subgraph extractors["Domain extractors — ad_compliance"]
+    OCR["OCR"]
+    VIS["Vision<br/>Grounding DINO"]
+    EMB["Embedding<br/>SigLIP"]
+    ASR["ASR<br/>faster-whisper"]
+    VLM["VLM"]
+    TXT["Text"]
+  end
+
+  subgraph config["Configuration"]
+    YAML["meta_ads.yaml<br/>policy_pack · clauses · rules"]
+    REGISTRY["policy_registry.yaml"]
+    FLAGS["Feature flags<br/>DOCUMENT_CENTRIC · POLICY_RETRIEVAL"]
+  end
+
+  subgraph advisory["Optional — non-binding"]
+    GEM["Gemini advisory<br/>llm-final-review"]
+  end
+
+  subgraph persist["Persistence"]
+    PG[("PostgreSQL")]
+    TBL["assets · signals · violations<br/>evidence · verdicts · audit_events"]
+  end
+
+  PL -->|"HTTPS + API base URL"| CR
+  EXT -->|"HTTPS + CORS_ORIGINS"| CR
+  API_CLIENT --> CR
+  CB --> AR --> CR
+  CR --> ROUTES
+  ROUTES --> CORS
+  CORS --> ING
+  ING --> REG
+  REG --> OCR & VIS & EMB & ASR & VLM & TXT
+  OCR & VIS & EMB & ASR & VLM & TXT --> DOC
+  YAML & REGISTRY --> PE
+  FLAGS --> DOC & RET & PE
+  DOC --> RET --> PE
+  PE --> EV --> VS --> AUD
+  VS --> ROUTES
+  AUD --> PG
+  ING --> PG
+  PG --> TBL
+  CR --- SQL
+  ROUTES -.->|"POST /assets/{id}/llm-final-review"| GEM
+  GEM -.-> VS
+
+  ROUTES -->|"GET /assets/{id}/graph"| PL
 ```
-Asset → Normalization → Signal Extraction → Document Build → Policy Retrieval (optional)
-     → Policy Evaluation → Evidence → Verdict → Audit
+
+> Diagrams render on GitHub. For a local preview, use VS Code with a Mermaid extension or [mermaid.live](https://mermaid.live).
+
+### Request flow (one compliance check)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as User / PolicyLens
+  participant API as FastAPI
+  participant P as CompliancePipeline
+  participant X as Extractors
+  participant D as DocumentBuilder
+  participant R as PolicyRetriever
+  participant E as PolicyEngine
+  participant DB as PostgreSQL
+
+  U->>API: POST /assets or /assets/image
+  API->>DB: create asset stub (processing)
+  API-->>U: asset_id + status processing
+  API->>P: run pipeline (sync or background)
+
+  P->>X: extract per modality
+  X-->>P: signals[]
+  P->>D: build normalized document
+  opt ZATAONE_POLICY_RETRIEVAL=true
+    P->>R: BM25 shortlist rule IDs
+    R-->>P: retrieved_rule_ids + scores
+  end
+  P->>E: evaluate rules (+ optional document text)
+  E-->>P: violations[]
+  P->>P: evidence + verdict + metadata
+  P->>DB: persist graph (atomic)
+  P-->>API: verdict
+
+  U->>API: GET /assets/{id} (poll)
+  API-->>U: status completed + verdict
+  U->>API: GET /assets/{id}/graph
+  API-->>U: signals, evidence, document, policy_pack, retrieval
+
+  opt Advisory only
+    U->>API: POST /assets/{id}/llm-final-review
+    API-->>U: Gemini narrative (does not change verdict)
+  end
+```
+
+### Pipeline stages (deterministic core)
+
+```mermaid
+flowchart LR
+  A[Asset] --> B[Signal extraction]
+  B --> C[Document build]
+  C --> D{Retrieval enabled?}
+  D -->|yes| E[BM25 rule shortlist]
+  D -->|no| F[All rules]
+  E --> G[Policy evaluation]
+  F --> G
+  G --> H[Evidence]
+  H --> I[Verdict + risk score]
+  I --> J[Audit + DB persist]
+  J --> K[Graph API / PolicyLens]
 ```
 
 | Layer | Responsibility |

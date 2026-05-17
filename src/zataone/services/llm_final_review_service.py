@@ -302,6 +302,9 @@ def run_llm_final_review(
         "vlm_called": vlm_eligible,
         "vlm_succeeded": bool((vlm_summary or "").strip()),
         "vlm_error": vlm_error,
+        "inspection": (vlm_summary or "").strip() or None,
+        "skipped": not vlm_eligible,
+        "skipped_reason": None if vlm_eligible else advisory_vlm.get("skipped_reason"),
     }
     return stored, vlm_status
 

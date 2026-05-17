@@ -133,6 +133,17 @@
         .btn-secondary:disabled { background: #aaa; }
         #llmSection { border-top: 1px solid #eee; margin-top: 12px; padding-top: 12px; }
         #llmSection h3 { font-size: 14px; margin: 0 0 6px 0; color: #333; }
+        .advisory-block {
+            border: 1px solid var(--pl-border); border-radius: 10px; padding: 12px 14px;
+            margin-top: 10px; background: #fafbfd;
+        }
+        .advisory-block h4 { margin: 0 0 8px 0; font-size: 13px; color: var(--pl-text); }
+        .advisory-block .advisory-tag {
+            display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px;
+        }
+        .advisory-block.vlm .advisory-tag { background: #fff3e0; color: #e65100; }
+        .advisory-block.llm .advisory-tag { background: #eef0ff; color: var(--pl-primary-dark); }
         .api-input-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         .api-input-row input[type="text"] { flex: 1; min-width: 200px; margin-top: 4px; }
         .btn-ghost {
@@ -330,8 +341,9 @@
                 <div id="llmSection" style="display: none;">
                     <h3>Advisory review (Gemini)</h3>
                     <p class="muted" id="llmHint" style="margin: 0 0 8px 0;">
-                        Optional: deterministic context is sent to the API; in image mode the same file is re-sent for a VLM
-                        pass. Does not replace the policy verdict. Server needs <code>GEMINI_API_KEY</code>.
+                        Optional second read (Gemini). <strong>Step 1 — VLM:</strong> inspects the image.
+                        <strong>Step 2 — Text LLM:</strong> reasons over deterministic verdict + signals + VLM notes.
+                        Does not replace the policy verdict. Cloud Run needs <code>GEMINI_API_KEY</code>.
                     </p>
                     <button type="button" id="llmReviewBtn" class="btn-secondary" disabled>Run advisory review</button>
                     <div id="llmReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
@@ -1263,20 +1275,39 @@
             llmReviewOut.innerHTML = '';
         }
 
-        function formatLlmFinalReviewBlock(review) {
-            if (!review || typeof review !== 'object') return '<p class="muted">(no review object)</p>';
+        function formatAdvisoryVlmBlock(v) {
+            if (!v) return '';
+            let status = '';
+            if (v.vlm_succeeded) status = 'Vision model finished.';
+            else if (v.vlm_error) status = 'Vision failed: ' + v.vlm_error;
+            else if (v.vlm_eligible) status = 'Vision returned no text.';
+            else if (v.skipped) status = 'Skipped: ' + (v.skipped_reason || 'not an image or no file re-uploaded');
+            else status = 'Not run (text-only advisory).';
+
+            let body = '<p class="muted" style="margin:0 0 8px 0;font-size:12px;">' + escapeHtml(status) + '</p>';
+            if (v.inspection && String(v.inspection).trim()) {
+                body += '<p style="white-space:pre-wrap;margin:0;font-size:13px;">' + escapeHtml(String(v.inspection)) + '</p>';
+            } else if (v.vlm_succeeded) {
+                body += '<p class="muted" style="margin:0;">(No inspection text returned.)</p>';
+            }
+            return (
+                '<div class="advisory-block vlm"><span class="advisory-tag">Step 1 · VLM (vision)</span>' +
+                '<h4>What the model saw in the image</h4>' + body + '</div>'
+            );
+        }
+
+        function formatLlmTextBlock(review) {
+            if (!review || typeof review !== 'object') return '<p class="muted">(no text LLM output)</p>';
             const a = review.agreement_with_deterministic || '';
             return (
-                '<p><strong>Agreement:</strong> ' +
-                escapeHtml(a) +
-                '</p><p><strong>Summary</strong></p><p style="white-space:pre-wrap;">' +
-                escapeHtml(review.summary || '') +
-                '</p><p><strong>Rationale</strong></p><p style="white-space:pre-wrap;">' +
-                escapeHtml(review.rationale || '') +
-                '</p><p class="muted" style="font-size:12px;">' +
-                escapeHtml(review.disclaimer || '') +
-                '</p>'
-            );
+                '<div class="advisory-block llm"><span class="advisory-tag">Step 2 · Text LLM (reasoning)</span>' +
+                '<h4>Advisory vs deterministic verdict</h4>' +
+                '<p><strong>Agreement with policy engine:</strong> ' + escapeHtml(a) + '</p>' +
+                '<p><strong>Summary</strong></p><p style="white-space:pre-wrap;margin:0 0 10px 0;">' +
+                escapeHtml(review.summary || '') + '</p>' +
+                '<p><strong>Rationale</strong></p><p style="white-space:pre-wrap;margin:0 0 10px 0;">' +
+                escapeHtml(review.rationale || '') + '</p>' +
+                '<p class="muted" style="font-size:12px;margin:0;">' + escapeHtml(review.disclaimer || '') + '</p></div>';
         }
 
         async function runLlmFinalReview() {
@@ -1298,19 +1329,9 @@
                 const data = await readJsonResponse(r);
                 if (!r.ok) throw new Error(formatApiDetail(data.detail) || r.statusText);
                 const review = data.llm_final_review;
-                let html = formatLlmFinalReviewBlock(review);
-                if (data.advisory_vlm) {
-                    const v = data.advisory_vlm;
-                    const vlmLine =
-                        v.vlm_succeeded
-                            ? 'VLM ran: a vision summary was sent to the text model.'
-                            : v.vlm_error
-                              ? 'VLM failed: ' + v.vlm_error
-                              : v.vlm_eligible
-                                ? 'VLM returned an empty summary.'
-                                : 'VLM skipped (re-select the same image and run advisory again for vision; text-only used).';
-                    html += '<p class="muted" style="margin-top:12px;font-size:12px;"><strong>Vision (Gemini) · </strong>' + escapeHtml(vlmLine) + '</p>';
-                }
+                let html = '';
+                if (data.advisory_vlm) html += formatAdvisoryVlmBlock(data.advisory_vlm);
+                html += formatLlmTextBlock(review);
                 html +=
                     '<details style="margin-top:10px;"><summary>Raw</summary><pre style="font-size:11px;overflow:auto;max-height:200px;">' +
                     escapeHtml(JSON.stringify(data, null, 2)) +

@@ -1307,7 +1307,8 @@
                 escapeHtml(review.summary || '') + '</p>' +
                 '<p><strong>Rationale</strong></p><p style="white-space:pre-wrap;margin:0 0 10px 0;">' +
                 escapeHtml(review.rationale || '') + '</p>' +
-                '<p class="muted" style="font-size:12px;margin:0;">' + escapeHtml(review.disclaimer || '') + '</p></div>';
+                '<p class="muted" style="font-size:12px;margin:0;">' + escapeHtml(review.disclaimer || '') + '</p></div>'
+            );
         }
 
         async function runLlmFinalReview() {

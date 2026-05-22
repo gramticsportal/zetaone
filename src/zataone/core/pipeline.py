@@ -324,6 +324,7 @@ class CompliancePipeline:
             "verdict": verdict,
             "signals": signals,
             "violations_raw": violations,
+            "evidence": evidence,
             "extractor_counts": counts,
             "timing_ms": {"deterministic_core_ms": round((time.perf_counter() - t0) * 1000)},
         }
@@ -370,6 +371,7 @@ class CompliancePipeline:
 
         verdict = det_bundle["verdict"]
         signals = det_bundle["signals"]
+        evidence = det_bundle["evidence"]
         counts = det_bundle.get("extractor_counts") or {}
 
         maybe_run_pipeline_advisory(

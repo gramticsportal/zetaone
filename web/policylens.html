@@ -97,6 +97,18 @@
         .status-COMPLIANT { background: #d4edda; border-left: 4px solid #28a745; }
         .status-NON_COMPLIANT { background: #f8d7da; border-left: 4px solid #dc3545; }
         .status-REVIEW_REQUIRED { background: #fff3cd; border-left: 4px solid #ffc107; }
+        .verdict-override-banner {
+            background: #fff8e6; border: 1px solid #ffc107; border-radius: 8px;
+            padding: 10px 12px; margin: 0 0 12px 0; font-size: 13px;
+        }
+        .verdict-dual-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+        }
+        @media (max-width: 700px) { .verdict-dual-grid { grid-template-columns: 1fr; } }
+        .verdict-subcard {
+            border: 1px solid var(--pl-border); border-radius: 10px; padding: 12px; background: #fafbfe;
+        }
+        .verdict-subcard.display-card { border-color: #ffc107; background: #fffdf5; }
         .violation {
             background: #fff; padding: 12px; margin: 10px 0; border-left: 3px solid #dc3545;
             border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
@@ -286,6 +298,11 @@
             <label><input type="radio" name="mode" value="image" checked /> Image</label>
             <label><input type="radio" name="mode" value="text" /> Text</label>
         </div>
+        <div class="row-modes" id="pipelineModeRow">
+            <span style="font-weight:600;margin-right:4px;">Pipeline:</span>
+            <label><input type="radio" name="pipelineMode" value="full" checked /> Full (extractors + policy)</label>
+            <label><input type="radio" name="pipelineMode" value="fast" /> Quick (VLM + LLM + policy clauses)</label>
+        </div>
 
         <div id="imagePanel">
             <div class="upload-area" id="uploadArea">
@@ -354,6 +371,7 @@
     <script>
         const LS_KEY = 'zataone_api_base';
         const LS_DOMAIN = 'zataone_domain';
+        const LS_PIPELINE = 'zataone_pipeline_mode';
 
         const apiBase = () => document.getElementById('apiBase').value.replace(/\/$/, '');
         const domainValue = () => {
@@ -361,7 +379,15 @@
             return v || 'ad_compliance';
         };
         /** Merge with JSON or FormData requests; do not set Content-Type on multipart. */
-        const domainHeaders = (extra) => ({ ...(extra || {}), 'X-Domain': domainValue() });
+        const pipelineModeValue = () => {
+            const el = document.querySelector('input[name="pipelineMode"]:checked');
+            return el ? el.value : 'full';
+        };
+        const domainHeaders = (extra) => ({
+            ...(extra || {}),
+            'X-Domain': domainValue(),
+            'X-Pipeline-Mode': pipelineModeValue(),
+        });
         const defaultApiBase =
             (window.location.pathname || '').startsWith('/ui/')
                 ? window.location.origin
@@ -370,6 +396,13 @@
             localStorage.getItem(LS_KEY) || defaultApiBase;
         document.getElementById('domain').value =
             localStorage.getItem(LS_DOMAIN) || 'ad_compliance';
+        const savedPipeline = localStorage.getItem(LS_PIPELINE) || 'full';
+        document.querySelectorAll('input[name="pipelineMode"]').forEach((r) => {
+            r.checked = r.value === savedPipeline;
+        });
+        document.querySelectorAll('input[name="pipelineMode"]').forEach((r) => {
+            r.addEventListener('change', () => localStorage.setItem(LS_PIPELINE, pipelineModeValue()));
+        });
         document.getElementById('apiBase').addEventListener('change', () => {
             localStorage.setItem(LS_KEY, apiBase());
         });
@@ -816,7 +849,24 @@
             keys.forEach((k) => {
                 if (prog[k]) parts.push(k + ': ' + prog[k]);
             });
+            if (prog.pipeline_mode) parts.unshift('mode: ' + prog.pipeline_mode);
             return parts.length ? parts.join(' · ') : '';
+        }
+
+        /** Map server pipeline_progress to step bar (1–6). */
+        function updateProgressFromApi(prog) {
+            if (!prog || typeof prog !== 'object') return;
+            let phase = 2;
+            const ext = prog.extraction;
+            if (ext === 'running') phase = 2;
+            else if (ext === 'completed' || ext === 'skipped') phase = 3;
+            if (prog.vlm === 'running') phase = 3;
+            if (prog.vlm === 'completed' || prog.vlm === 'failed' || prog.vlm === 'skipped') phase = 4;
+            if (prog.deterministic === 'running') phase = 5;
+            if (prog.deterministic === 'completed') phase = 5;
+            if (prog.advisory === 'running') phase = 6;
+            if (prog.advisory === 'completed' || prog.advisory === 'failed' || prog.advisory === 'skipped') phase = 6;
+            setRunProgress(phase);
         }
 
         function renderPipelineAdvisory(poll) {
@@ -934,13 +984,23 @@
             if (poll.llm_final_review) meta.llm_final_review = poll.llm_final_review;
             if (poll.advisory_vlm) meta.advisory_vlm = poll.advisory_vlm;
             if (poll.pipeline_progress) meta.pipeline_progress = poll.pipeline_progress;
+            const sigCount = typeof poll.signal_count === 'number'
+                ? poll.signal_count
+                : (graph.signals || []).length;
             return {
-                status: complianceStatus || 'UNKNOWN',
-                verdict: poll.verdict || 'unknown',
+                status: poll.display_compliance_status || complianceStatus || 'UNKNOWN',
+                deterministic_status: poll.deterministic_compliance_status || complianceStatus || 'UNKNOWN',
+                deterministic_verdict: poll.deterministic_verdict || poll.verdict || 'unknown',
+                verdict: poll.display_verdict || poll.verdict || 'unknown',
                 risk_score: typeof poll.risk_score === 'number' ? poll.risk_score : null,
                 violations,
                 metadata: meta,
                 llm_final_review: poll.llm_final_review,
+                elevated_by_advisory: !!poll.elevated_by_advisory,
+                verdict_source: poll.verdict_source || 'deterministic',
+                override_reason: poll.override_reason || null,
+                pipeline_mode: poll.pipeline_mode || meta.pipeline_mode || 'full',
+                signal_count: sigCount,
                 _graph: graph,
                 _sigById: sigById,
             };
@@ -948,21 +1008,48 @@
 
         function displayResult(data, assetId) {
             const status = data.status || 'UNKNOWN';
+            const detStatus = data.deterministic_status || status;
             const dot = statusDotClass(status);
+            const detDot = statusDotClass(detStatus);
             resultDiv.className = 'verdict-card status-' + status;
             const verdict = data.verdict || 'unknown';
+            const detVerdict = data.deterministic_verdict || verdict;
             const riskScore = typeof data.risk_score === 'number' ? data.risk_score : null;
             const violations = Array.isArray(data.violations) ? data.violations : [];
             const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
+            const elevated = !!data.elevated_by_advisory;
+            const sigCount = typeof data.signal_count === 'number' ? data.signal_count : (data._graph && data._graph.signals ? data._graph.signals.length : 0);
+            const pipeMode = data.pipeline_mode || 'full';
 
-            let html = '<p class="muted" style="margin:0 0 10px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Authoritative · policy engine</p>';
-            html += '<div class="verdict-hero"><div class="verdict-hero-main">';
-            html += '<div class="verdict-label">Compliance status</div>';
-            html += '<p class="verdict-value"><span class="status-dot ' + dot + '"></span>' + escapeHtml(status.replace(/_/g, ' ')) + '</p>';
-            html += '<div class="verdict-label" style="margin-top:12px;">Platform verdict</div>';
-            html += '<p class="verdict-value" style="font-size:1.1rem;">' + escapeHtml(verdictDisplayLabel(verdict)) + '</p></div>';
-            html += '<div class="metric-grid" style="min-width:180px;"><div class="metric-box"><span class="val">' + (riskScore === null ? '—' : riskScore.toFixed(2)) + '</span><span class="lbl">Risk</span></div>';
-            html += '<div class="metric-box"><span class="val">' + violations.length + '</span><span class="lbl">Violations</span></div></div></div>';
+            let html = '';
+            if (elevated) {
+                html += '<div class="verdict-override-banner"><strong>Human review recommended</strong> — ';
+                html += escapeHtml((data.override_reason || 'advisory_escalation').replace(/_/g, ' '));
+                html += '. Deterministic outcome preserved for audit.</div>';
+            }
+            if (sigCount === 0 && pipeMode === 'full') {
+                html += '<div class="verdict-override-banner"><strong>No extractor signals</strong> — OCR/vision may have missed content; treat deterministic COMPLIANT with caution.</div>';
+            }
+            html += '<p class="muted" style="margin:0 0 10px;font-size:11px;">Pipeline: <strong>' + escapeHtml(pipeMode) + '</strong></p>';
+            if (elevated || detStatus !== status) {
+                html += '<div class="verdict-dual-grid">';
+                html += '<div class="verdict-subcard"><p class="muted" style="margin:0 0 6px;font-size:11px;text-transform:uppercase;">Deterministic (audit)</p>';
+                html += '<p class="verdict-value" style="font-size:1rem;margin:0;"><span class="status-dot ' + detDot + '"></span>' + escapeHtml(detStatus.replace(/_/g, ' ')) + '</p>';
+                html += '<p class="muted" style="margin:6px 0 0;">' + escapeHtml(verdictDisplayLabel(detVerdict)) + '</p></div>';
+                html += '<div class="verdict-subcard display-card"><p class="muted" style="margin:0 0 6px;font-size:11px;text-transform:uppercase;">Display (shown to user)</p>';
+                html += '<p class="verdict-value" style="font-size:1rem;margin:0;"><span class="status-dot ' + dot + '"></span>' + escapeHtml(status.replace(/_/g, ' ')) + '</p>';
+                html += '<p class="muted" style="margin:6px 0 0;">' + escapeHtml(verdictDisplayLabel(verdict)) + '</p></div></div>';
+            } else {
+                html += '<p class="muted" style="margin:0 0 10px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Policy engine · display</p>';
+                html += '<div class="verdict-hero"><div class="verdict-hero-main">';
+                html += '<div class="verdict-label">Compliance status</div>';
+                html += '<p class="verdict-value"><span class="status-dot ' + dot + '"></span>' + escapeHtml(status.replace(/_/g, ' ')) + '</p>';
+                html += '<div class="verdict-label" style="margin-top:12px;">Platform verdict</div>';
+                html += '<p class="verdict-value" style="font-size:1.1rem;">' + escapeHtml(verdictDisplayLabel(verdict)) + '</p></div>';
+                html += '<div class="metric-grid" style="min-width:180px;"><div class="metric-box"><span class="val">' + (riskScore === null ? '—' : riskScore.toFixed(2)) + '</span><span class="lbl">Risk</span></div>';
+                html += '<div class="metric-box"><span class="val">' + violations.length + '</span><span class="lbl">Violations</span></div>';
+                html += '<div class="metric-box"><span class="val">' + sigCount + '</span><span class="lbl">Signals</span></div></div></div>';
+            }
 
             if (assetId) {
                 html += '<div class="result-actions"><code id="assetIdDisplay" class="muted" style="font-size:11px;">' + escapeHtml(String(assetId)) + '</code>';
@@ -1253,6 +1340,7 @@
                 } else {
                     setRunProgress(3);
                     poll = await pollAsset(assetId, (n, _max, data) => {
+                        updateProgressFromApi(data.pipeline_progress);
                         const pl = pipelineProgressLabel(data.pipeline_progress);
                         pollDetailEl.textContent =
                             'Polling… ' + n + ' / 240' + (pl ? ' — ' + pl : '');

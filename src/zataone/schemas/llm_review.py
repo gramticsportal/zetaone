@@ -53,6 +53,8 @@ def build_review_context(
     signals: list[dict[str, Any]],
     violations: list[dict[str, Any]],
     advisory_vlm: dict[str, Any] | None,
+    policy_context: dict[str, Any] | None = None,
+    asset_content_preview: str | None = None,
 ) -> dict[str, Any]:
     """
     Single JSON object passed to the advisory text LLM.
@@ -67,7 +69,7 @@ def build_review_context(
         "skipped_reason": "no_vision_input",
     }
     inspection = av.get("inspection")
-    return {
+    out: dict[str, Any] = {
         "schema_version": schema_version,
         "asset_id": str(asset_id),
         "domain": domain,
@@ -81,9 +83,16 @@ def build_review_context(
             "You receive only structured inputs. Do not invent OCR or object labels not present in signals. "
             "advisory_vlm.inspection is a first-pass VLM write-up: it may miss text or be wrong; treat persisted "
             "signals as the primary structured extractors. Use the vision inspection to reason about layout, "
-            "salience, and anything not fully captured in signals when helpful."
+            "salience, and anything not fully captured in signals when helpful. "
+            "policy_context.clauses_for_review and rules_for_review are authoritative policy text for this run—"
+            "cite rule_id or clause_id when your rationale references policy."
         ),
     }
+    if policy_context:
+        out["policy_context"] = policy_context
+    if asset_content_preview:
+        out["asset_content_preview"] = asset_content_preview[:4000]
+    return out
 
 
 def context_json_for_prompt(ctx: dict[str, Any]) -> str:

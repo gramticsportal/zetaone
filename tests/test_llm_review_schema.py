@@ -20,10 +20,15 @@ def test_build_review_context():
             "skipped": False,
             "skipped_reason": None,
         },
+        policy_context={
+            "clauses_for_review": [{"clause_id": "c1", "text": "No false claims.", "rule_ids": ["r1"]}],
+            "rules_for_review": [{"rule_id": "r1", "name": "False claims", "description": "…"}],
+        },
     )
     assert ctx["vlm_image_summary"] == "A test image."
     assert ctx["advisory_vlm"]["inspection"] == "A test image."
     assert "deterministic_verdict" in ctx
+    assert ctx["policy_context"]["clauses_for_review"][0]["clause_id"] == "c1"
 
 
 def test_llm_final_review_v1_flexible_agreement():

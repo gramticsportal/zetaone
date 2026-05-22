@@ -24,6 +24,7 @@ from zataone.models import (
 )
 from pydantic import ValidationError
 
+from zataone.core.policy_context import build_policy_context_for_llm
 from zataone.schemas.llm_review import (
     LlmFinalReviewV1,
     build_review_context,
@@ -47,13 +48,15 @@ _SYSTEM = """You are a compliance review assistant. Your inputs are a JSON objec
 - deterministic_verdict: the policy engine outcome already computed (authoritative for product logic).
 - signals: extracted features (explainability; cite these by id when relevant).
 - violations: rule hits linked to the assessment.
+- policy_context: policy pack summary plus clauses_for_review and rules_for_review (use these for policy reasoning).
 - advisory_vlm: optional first-pass vision inspection (field 'inspection' is free text from a VLM; may be imperfect).
 - vlm_image_summary: duplicate of advisory_vlm.inspection when present (legacy alias).
+- asset_content_preview: optional raw text when extractors were skipped (fast mode).
 
-Task: provide an advisory second read. Do NOT replace the deterministic verdict. Output a single JSON object
-with keys: schema_version ("1.0"), summary, agreement_with_deterministic (one of: aligns, mostly_aligns, unclear, diverges),
-rationale, cited_signal_ids (array of signal id strings, may be empty), disclaimer (include the standard advisory text from the schema).
-No markdown fences. No other top-level keys."""
+Task: provide an advisory second read grounded in policy_context when present. Do NOT replace the deterministic verdict.
+Output a single JSON object with keys: schema_version ("1.0"), summary, agreement_with_deterministic
+(one of: aligns, mostly_aligns, unclear, diverges), rationale, cited_signal_ids (array of signal id strings, may be empty),
+disclaimer (include the standard advisory text from the schema). No markdown fences. No other top-level keys."""
 
 _VLM_SYSTEM = """You support an advisory compliance workflow. You do not set or override policy.
 Describe what is visible in the image in ways that help a separate text model reason about the asset.
@@ -212,6 +215,13 @@ def run_advisory_synthesis_in_memory(
         except ValueError:
             aid = None
 
+    meta = verdict.get("metadata") or {}
+    policy_ctx = build_policy_context_for_llm(meta)
+    content_preview = None
+    raw_content = getattr(asset, "content", None)
+    if raw_content and asset_type == "text":
+        content_preview = str(raw_content)
+
     ctx = build_review_context(
         schema_version=_CTX_VERSION,
         asset_id=aid or UUID(int=0),
@@ -221,6 +231,8 @@ def run_advisory_synthesis_in_memory(
         signals=_signal_rows_from_raw(signals),
         violations=_violation_rows_from_raw(violations),
         advisory_vlm=advisory_vlm,
+        policy_context=policy_ctx,
+        asset_content_preview=content_preview,
     )
     user_msg = context_json_for_prompt(ctx)
     review = _advisory_json_from_gemini(
@@ -422,6 +434,9 @@ def run_llm_final_review(
             "skipped_reason": reason,
         }
 
+    meta = (verdict.result or {}).get("metadata") or {}
+    policy_ctx = build_policy_context_for_llm(meta)
+
     ctx = build_review_context(
         schema_version=_CTX_VERSION,
         asset_id=asset_id,
@@ -431,6 +446,7 @@ def run_llm_final_review(
         signals=[_signal_row(s) for s in signals],
         violations=[_violation_row(v) for v in violations],
         advisory_vlm=advisory_vlm,
+        policy_context=policy_ctx,
     )
     user_msg = context_json_for_prompt(ctx)
     max_toks = _max_review_output_tokens()

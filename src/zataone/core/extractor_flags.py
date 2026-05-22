@@ -34,6 +34,12 @@ def pipeline_parallel_extractors_enabled() -> bool:
     return _env_bool("ZATAONE_PARALLEL_EXTRACTORS", default=True)
 
 
+def pipeline_mode() -> str:
+    """full = extractors + policy + advisory; fast = VLM/LLM with policy clauses (minimal extractors)."""
+    v = (os.environ.get("ZATAONE_PIPELINE_MODE") or "full").strip().lower()
+    return "fast" if v == "fast" else "full"
+
+
 def pipeline_auto_advisory_enabled() -> bool:
     """Run Gemini advisory synthesis at end of pipeline when API key is set."""
     if os.environ.get("ZATAONE_PIPELINE_ADVISORY", "").strip().lower() in (

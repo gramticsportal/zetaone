@@ -1,0 +1,16 @@
+# Upload working-tree files for Cloud Build (do not rely on git index / assume-unchanged).
+.git
+.gcloudignore
+.venv
+venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.pyc
+.DS_Store
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/

@@ -6,6 +6,7 @@ from typing import Any
 
 from zataone.core.extractor_flags import (
     embedding_enabled,
+    pipeline_mode,
     pipeline_vlm_extractor_enabled,
 )
 from zataone.extractors.base import BaseExtractor
@@ -81,8 +82,12 @@ def select_extractors_for_asset(
     extractors: list[BaseExtractor],
     asset: Any,
     domain_config: dict | None = None,
+    *,
+    run_pipeline_mode: str | None = None,
 ) -> list[BaseExtractor]:
     """Filter registered extractors by asset modality and global flags."""
+    if (run_pipeline_mode or pipeline_mode()) == "fast":
+        return []
     config = domain_config or {}
     asset_type = getattr(asset, "type", None) or "text"
     yaml_ids = _yaml_enabled_ids(config)

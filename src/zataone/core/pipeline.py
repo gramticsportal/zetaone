@@ -12,7 +12,12 @@ import time
 import uuid
 from typing import Any
 
-from zataone.core.extractor_flags import embedding_enabled, pipeline_vlm_extractor_enabled
+from zataone.core.extractor_flags import (
+    embedding_enabled,
+    pipeline_mode as default_pipeline_mode,
+    pipeline_vlm_extractor_enabled,
+)
+from zataone.core.verdict_display import apply_display_verdict
 from zataone.core.extractor_plan import allow_domain_short_name, select_extractors_for_asset
 from zataone.core.pipeline_progress import clear as progress_clear
 from zataone.core.pipeline_progress import get as progress_get
@@ -38,6 +43,15 @@ from zataone.services.verdict_service import VerdictService
 from zataone.services.violation_service import ViolationService
 
 logger = logging.getLogger(__name__)
+
+
+def resolve_pipeline_mode(mode: str | None = None) -> str:
+    """Request header or env ZATAONE_PIPELINE_MODE (full|fast)."""
+    if mode and str(mode).strip().lower() == "fast":
+        return "fast"
+    if mode and str(mode).strip().lower() == "full":
+        return "full"
+    return default_pipeline_mode()
 
 
 def _enabled_domain_modalities(config: dict) -> set[str] | None:
@@ -256,13 +270,72 @@ class CompliancePipeline:
         )
         self._policy_retriever = PolicyRetriever(self._policy_pack)
 
-    def _run_deterministic_core(self, asset: Any, *, asset_id: str | None = None) -> dict[str, Any]:
+    def _run_fast_stub_core(
+        self, asset: Any, *, asset_id: str | None = None, run_mode: str = "fast"
+    ) -> dict[str, Any]:
+        """Fast mode: policy metadata + empty signals; policy engine skipped."""
+        t0 = time.perf_counter()
+        if asset_id:
+            progress_update(asset_id, extraction="skipped", signal_count=0)
+
+        signals: list[Any] = []
+        document = DocumentBuilder.build(asset, signals)
+        if not document.normalized_text and getattr(asset, "content", None):
+            document.normalized_text = str(asset.content)[:50000]
+        document.metadata["document_centric_enabled"] = document_centric_enabled()
+        document.metadata["pipeline_mode"] = run_mode
+
+        retrieval_result = None
+        if self._policy_retriever is not None and document.normalized_text:
+            vision_primary_ids = {
+                rid
+                for rid, rule in (self._policy_pack.rules if self._policy_pack else {}).items()
+                if rule.get("vision_primary_labels")
+            }
+            retrieval_result = self._policy_retriever.retrieve(
+                document.normalized_text,
+                vision_rule_ids=vision_primary_ids,
+            )
+
+        violations: list[Any] = []
+        evidence = self._evidence_service.generate(signals, violations)
+        verdict = self._verdict_service.generate(evidence)
+
+        verdict_metadata = dict(verdict.get("metadata") or {})
+        verdict_metadata["document"] = document.to_dict()
+        verdict_metadata["document_centric_enabled"] = document_centric_enabled()
+        verdict_metadata["pipeline_mode"] = run_mode
+        verdict_metadata["fast_mode_no_extractors"] = True
+        if self._policy_pack is not None:
+            verdict_metadata["policy_pack"] = self._policy_pack.to_dict()
+        if retrieval_result is not None:
+            verdict_metadata["retrieval"] = retrieval_result.to_dict()
+        verdict_metadata["policy_retrieval_enabled"] = policy_retrieval_enabled()
+        verdict["metadata"] = verdict_metadata
+
+        return {
+            "verdict": verdict,
+            "signals": signals,
+            "violations_raw": violations,
+            "evidence": evidence,
+            "extractor_counts": {},
+            "timing_ms": {"fast_stub_ms": round((time.perf_counter() - t0) * 1000)},
+        }
+
+    def _run_deterministic_core(
+        self,
+        asset: Any,
+        *,
+        asset_id: str | None = None,
+        run_pipeline_mode: str = "full",
+    ) -> dict[str, Any]:
         """Extraction → document → policy → evidence → verdict (no advisory)."""
         t0 = time.perf_counter()
         extractors = select_extractors_for_asset(
             self._extractor_registry.list(),
             asset,
             self._domain_config,
+            run_pipeline_mode=run_pipeline_mode,
         )
         signals, counts = extract_signals_parallel(extractors, asset, asset_id=asset_id)
 
@@ -318,6 +391,7 @@ class CompliancePipeline:
         if retrieval_result is not None:
             verdict_metadata["retrieval"] = retrieval_result.to_dict()
         verdict_metadata["policy_retrieval_enabled"] = policy_retrieval_enabled()
+        verdict_metadata["pipeline_mode"] = run_pipeline_mode
         verdict["metadata"] = verdict_metadata
 
         return {
@@ -336,6 +410,7 @@ class CompliancePipeline:
         persist: bool = True,
         idempotency_key: str | None = None,
         existing_asset_id: uuid.UUID | None = None,
+        pipeline_mode: str | None = None,
     ) -> dict:
         """
         Run the compliance pipeline on an asset.
@@ -351,15 +426,20 @@ class CompliancePipeline:
             status, fix_suggestions, metadata.
         """
         start_time = time.perf_counter()
+        mode = resolve_pipeline_mode(pipeline_mode)
         aid_str = str(existing_asset_id) if existing_asset_id else None
         if aid_str:
             progress_clear(aid_str)
-            progress_update(aid_str, status="processing")
+            progress_update(aid_str, status="processing", pipeline_mode=mode)
 
         image_bytes = getattr(asset, "image_data", None)
 
         def _deterministic_core() -> dict[str, Any]:
-            return self._run_deterministic_core(asset, asset_id=aid_str)
+            if mode == "fast":
+                return self._run_fast_stub_core(asset, asset_id=aid_str, run_mode=mode)
+            return self._run_deterministic_core(
+                asset, asset_id=aid_str, run_pipeline_mode=mode
+            )
 
         det_bundle, vlm_status, parallel_timing = run_parallel_vlm_and_deterministic(
             asset=asset,
@@ -383,7 +463,10 @@ class CompliancePipeline:
             image_bytes=image_bytes,
         )
 
+        apply_display_verdict(verdict, signal_count=len(signals))
+
         verdict_metadata = dict(verdict.get("metadata") or {})
+        verdict_metadata["pipeline_mode"] = mode
         verdict_metadata["pipeline_timing"] = {
             **det_bundle.get("timing_ms", {}),
             **parallel_timing,

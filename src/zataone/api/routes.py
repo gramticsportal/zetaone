@@ -11,7 +11,8 @@ from typing import Any, Literal
 from fastapi import APIRouter, BackgroundTasks, File, Header, HTTPException, Path, UploadFile
 from pydantic import BaseModel, Field
 
-from zataone.core.pipeline import CompliancePipeline
+from zataone.core.pipeline import CompliancePipeline, resolve_pipeline_mode
+from zataone.core.verdict_display import enrich_api_verdict_payload
 from zataone.models import (
     Asset as AssetModel,
     Evidence as EvidenceModel,
@@ -149,9 +150,15 @@ class AssetCreateRequest(BaseModel):
 # ---------------------------------------------------------------------------
 
 
+def _pipeline_mode_header(x_pipeline_mode: str | None) -> str | None:
+    if x_pipeline_mode and x_pipeline_mode.strip().lower() in ("fast", "full"):
+        return x_pipeline_mode.strip().lower()
+    return None
+
+
 def _format_verdict_response(result: dict[str, Any]) -> dict[str, Any]:
     """Format pipeline verdict as API response."""
-    return {
+    formatted = {
         "verdict": result.get("verdict", ""),
         "risk_score": result.get("risk_score", 0.0),
         "status": result.get("status", ""),
@@ -160,6 +167,7 @@ def _format_verdict_response(result: dict[str, Any]) -> dict[str, Any]:
         "fix_suggestions": result.get("fix_suggestions", []),
         "metadata": result.get("metadata", {}),
     }
+    return enrich_api_verdict_payload(formatted)
 
 
 def _run_pipeline_background(
@@ -168,6 +176,7 @@ def _run_pipeline_background(
     tenant_id: str | None,
     idempotency_key: str | None,
     domain: str,
+    pipeline_mode: str | None = None,
 ) -> None:
     """Background task: run pipeline and persist result to existing asset."""
     import logging
@@ -181,6 +190,7 @@ def _run_pipeline_background(
             persist=True,
             idempotency_key=idempotency_key,
             existing_asset_id=asset_id,
+            pipeline_mode=pipeline_mode,
         )
         logger.info("Background pipeline completed for asset %s", asset_id)
     except Exception as e:
@@ -200,6 +210,7 @@ def post_assets(
     body: AssetCreateRequest,
     x_tenant_id: str | None = Header(None, alias="X-Tenant-ID"),
     x_domain: str | None = Header(None, alias="X-Domain"),
+    x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -212,6 +223,7 @@ def post_assets(
     returns the existing verdict without re-running the pipeline.
     """
     domain = _resolve_domain(x_domain)
+    pm = _pipeline_mode_header(x_pipeline_mode)
     if idempotency_key:
         session = get_session_factory()()
         try:
@@ -260,6 +272,7 @@ def post_assets(
                 persist=True,
                 idempotency_key=idempotency_key,
                 existing_asset_id=asset_id,
+                pipeline_mode=pm,
             )
         except Exception as e:
             session = get_session_factory()()
@@ -284,9 +297,10 @@ def post_assets(
         x_tenant_id,
         idempotency_key,
         domain,
+        pm,
     )
 
-    return {"status": "processing", "asset_id": str(asset_id)}
+    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm)}
 
 
 @router.post("/assets/image")
@@ -295,6 +309,7 @@ async def post_assets_image(
     file: UploadFile = File(...),
     x_tenant_id: str | None = Header(None, alias="X-Tenant-ID"),
     x_domain: str | None = Header(None, alias="X-Domain"),
+    x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -307,6 +322,7 @@ async def post_assets_image(
     returns the existing verdict without re-running the pipeline.
     """
     domain = _resolve_domain(x_domain)
+    pm = _pipeline_mode_header(x_pipeline_mode)
     if idempotency_key:
         session = get_session_factory()()
         try:
@@ -361,6 +377,7 @@ async def post_assets_image(
                 persist=True,
                 idempotency_key=idempotency_key,
                 existing_asset_id=asset_id,
+                pipeline_mode=pm,
             )
 
         try:
@@ -388,9 +405,10 @@ async def post_assets_image(
         x_tenant_id,
         idempotency_key,
         domain,
+        pm,
     )
 
-    return {"status": "processing", "asset_id": str(asset_id)}
+    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm)}
 
 
 @router.post("/assets/audio")
@@ -399,6 +417,7 @@ async def post_assets_audio(
     file: UploadFile = File(...),
     x_tenant_id: str | None = Header(None, alias="X-Tenant-ID"),
     x_domain: str | None = Header(None, alias="X-Domain"),
+    x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -407,6 +426,7 @@ async def post_assets_audio(
     Poll GET /assets/{asset_id} for the verdict when async; sync on Cloud Run (see _use_sync_pipeline).
     """
     domain = _resolve_domain(x_domain)
+    pm = _pipeline_mode_header(x_pipeline_mode)
     if idempotency_key:
         session = get_session_factory()()
         try:
@@ -462,6 +482,7 @@ async def post_assets_audio(
                 persist=True,
                 idempotency_key=idempotency_key,
                 existing_asset_id=asset_id,
+                pipeline_mode=pm,
             )
 
         try:
@@ -489,9 +510,10 @@ async def post_assets_audio(
         x_tenant_id,
         idempotency_key,
         domain,
+        pm,
     )
 
-    return {"status": "processing", "asset_id": str(asset_id)}
+    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm)}
 
 
 @router.get("/assets/{asset_id}")

@@ -149,6 +149,8 @@ def maybe_run_pipeline_advisory(
     image_bytes: bytes | None,
 ) -> dict[str, Any] | None:
     """Gemini text advisory after deterministic verdict; does not change compliance_status."""
+    if (det_bundle["verdict"].get("metadata") or {}).get("fast_combined_review"):
+        return det_bundle["verdict"].get("llm_final_review")
     if not pipeline_auto_advisory_enabled():
         if asset_id:
             progress_update(asset_id, advisory="skipped", advisory_skipped_reason="disabled")

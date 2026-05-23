@@ -35,9 +35,19 @@ def pipeline_parallel_extractors_enabled() -> bool:
 
 
 def pipeline_mode() -> str:
-    """full = extractors + policy + advisory; fast = VLM/LLM with policy clauses (minimal extractors)."""
+    """full = extractors + optional rule engine + advisory; fast = VLM then LLM vs policy."""
     v = (os.environ.get("ZATAONE_PIPELINE_MODE") or "full").strip().lower()
     return "fast" if v == "fast" else "full"
+
+
+def policy_engine_enabled() -> bool:
+    """YAML rule-engine evaluation on signals (off by default; use LLM vs policy corpus)."""
+    return _env_bool("ZATAONE_POLICY_ENGINE_ENABLED", default=False)
+
+
+def fast_combined_review_enabled() -> bool:
+    """Quick image path: one Gemini vision+policy call instead of VLM then text LLM."""
+    return _env_bool("ZATAONE_FAST_COMBINED_REVIEW", default=True)
 
 
 def pipeline_auto_advisory_enabled() -> bool:

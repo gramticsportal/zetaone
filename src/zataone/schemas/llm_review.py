@@ -26,6 +26,14 @@ class LlmFinalReviewV1(BaseModel):
     )
     rationale: str = Field(..., description="Why, citing rule/signal ideas in words")
     cited_signal_ids: list[str] = Field(default_factory=list)
+    recommended_compliance_status: str | None = Field(
+        default=None,
+        description="COMPLIANT | REVIEW_REQUIRED | LIKELY_REJECTED when LLM is primary assessor",
+    )
+    recommended_verdict: str | None = Field(
+        default=None,
+        description="likely_approved | borderline | likely_rejected when LLM is primary assessor",
+    )
     disclaimer: str = (
         "Advisory only. The binding compliance outcome is the deterministic verdict "
         "and the stored signals/evidence graph."
@@ -55,6 +63,7 @@ def build_review_context(
     advisory_vlm: dict[str, Any] | None,
     policy_context: dict[str, Any] | None = None,
     asset_content_preview: str | None = None,
+    review_mode: str = "advisory_second_read",
 ) -> dict[str, Any]:
     """
     Single JSON object passed to the advisory text LLM.
@@ -69,24 +78,39 @@ def build_review_context(
         "skipped_reason": "no_vision_input",
     }
     inspection = av.get("inspection")
+    if review_mode == "fast_vlm_policy":
+        instructions = (
+            "Quick pipeline: the YAML rule engine did NOT run. Compare advisory_vlm.inspection and any "
+            "asset_content_preview to policy_context.clauses_for_review and rules_for_review. "
+            "Your recommended_compliance_status and recommended_verdict drive the user-visible outcome. "
+            "Set agreement_with_deterministic to diverges when policy likely violated, aligns when clearly compliant. "
+            "Cite clause_id or rule_id in rationale."
+        )
+    elif review_mode == "full_signals_vlm_policy":
+        instructions = (
+            "Full pipeline with rule engine OFF. Use signals (if any), advisory_vlm.inspection, and "
+            "policy_context to assess compliance. recommended_* fields drive the displayed outcome. "
+            "Do not invent signal ids; cite only ids present in signals."
+        )
+    else:
+        instructions = (
+            "Second read after the rule engine. Do not replace the deterministic verdict; use "
+            "agreement_with_deterministic. Signals are primary structured extractors; VLM inspection "
+            "supplements. policy_context.clauses_for_review and rules_for_review are authoritative policy text."
+        )
+
     out: dict[str, Any] = {
         "schema_version": schema_version,
         "asset_id": str(asset_id),
         "domain": domain,
         "asset_type": asset_type,
+        "review_mode": review_mode,
         "deterministic_verdict": deterministic_verdict,
         "signals": signals,
         "violations": violations,
         "advisory_vlm": av,
         "vlm_image_summary": inspection,
-        "_instructions": (
-            "You receive only structured inputs. Do not invent OCR or object labels not present in signals. "
-            "advisory_vlm.inspection is a first-pass VLM write-up: it may miss text or be wrong; treat persisted "
-            "signals as the primary structured extractors. Use the vision inspection to reason about layout, "
-            "salience, and anything not fully captured in signals when helpful. "
-            "policy_context.clauses_for_review and rules_for_review are authoritative policy text for this run—"
-            "cite rule_id or clause_id when your rationale references policy."
-        ),
+        "_instructions": instructions,
     }
     if policy_context:
         out["policy_context"] = policy_context

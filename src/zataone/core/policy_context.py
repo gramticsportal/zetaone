@@ -10,6 +10,9 @@ def build_policy_context_for_llm(
     *,
     max_clauses: int = 12,
     max_rule_snippets: int = 8,
+    max_clause_chars: int = 1200,
+    max_rule_chars: int = 500,
+    vlm_inspection: str | None = None,
 ) -> dict[str, Any]:
     """
     Build compact policy corpus slice for advisory prompts.
@@ -18,6 +21,7 @@ def build_policy_context_for_llm(
     meta = metadata or {}
     pack = meta.get("policy_pack") or {}
     retrieval = meta.get("retrieval") or {}
+    _ = vlm_inspection  # reserved; BM25 retrieval is stored on metadata by the pipeline
 
     pack_summary = {
         "id": pack.get("id"),
@@ -38,7 +42,7 @@ def build_policy_context_for_llm(
                 clauses_out.append(
                     {
                         "clause_id": c.get("clause_id", ""),
-                        "text": (c.get("text") or "")[:1200],
+                        "text": (c.get("text") or "")[:max_clause_chars],
                         "rule_ids": c.get("rule_ids") or [],
                     }
                 )
@@ -47,7 +51,7 @@ def build_policy_context_for_llm(
             clauses_out.append(
                 {
                     "clause_id": c.get("clause_id", ""),
-                    "text": (c.get("text") or "")[:1200],
+                    "text": (c.get("text") or "")[:max_clause_chars],
                     "rule_ids": c.get("rule_ids") or [],
                 }
             )
@@ -63,7 +67,7 @@ def build_policy_context_for_llm(
                     {
                         "rule_id": rid,
                         "name": r.get("name", rid),
-                        "description": (r.get("description") or "")[:500],
+                        "description": (r.get("description") or "")[:max_rule_chars],
                     }
                 )
 

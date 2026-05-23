@@ -14,18 +14,15 @@ echo "==> Sanity check local PolicyLens"
 wc -c web/policylens.html
 grep -c pipelineModeRow web/policylens.html
 
-echo "==> Delete old Cloud Run revisions (keeps newest listed first)"
-mapfile -t ALL_REVS < <(
-  gcloud run revisions list \
-    --service="$SERVICE" \
-    --region="$REGION" \
-    --project="$PROJECT_ID" \
-    --format="value(metadata.name)" 2>/dev/null || true
-)
-for i in "${!ALL_REVS[@]}"; do
-  [[ "$i" -eq 0 ]] && continue
-  rev="${ALL_REVS[$i]}"
-  [[ -z "$rev" ]] && continue
+echo "==> Delete old Cloud Run revisions (keeps newest; macOS-safe, no mapfile)"
+n=0
+for rev in $(gcloud run revisions list \
+  --service="$SERVICE" \
+  --region="$REGION" \
+  --project="$PROJECT_ID" \
+  --format="value(metadata.name)" 2>/dev/null || true); do
+  n=$((n + 1))
+  [[ "$n" -eq 1 ]] && continue
   echo "    deleting revision $rev"
   gcloud run revisions delete "$rev" \
     --region="$REGION" \
@@ -42,7 +39,7 @@ BUILD_ID=$(gcloud builds list --project="$PROJECT_ID" --limit=1 --format='value(
 DIGEST=$(gcloud builds describe "$BUILD_ID" --project="$PROJECT_ID" \
   --format='value(results.images[0].digest)')
 
-IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/zetaone/${SERVICE}@${DIGEST}"
+IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/zataone/zataone-api@${DIGEST}"
 echo "==> Deploy $IMAGE"
 gcloud run services update "$SERVICE" \
   --project="$PROJECT_ID" \

@@ -44,19 +44,60 @@ class AssetNotReadyForLlmReview(Exception):
 
 _CTX_VERSION = "1.0"
 
-_SYSTEM = """You are a compliance review assistant. Your inputs are a JSON object with:
+_SYSTEM_SECOND_READ = """You are a compliance review assistant. Your inputs are a JSON object with:
 - deterministic_verdict: the policy engine outcome already computed (authoritative for product logic).
-- signals: extracted features (explainability; cite these by id when relevant).
+- signals: extracted features (cite these by id when relevant).
 - violations: rule hits linked to the assessment.
-- policy_context: policy pack summary plus clauses_for_review and rules_for_review (use these for policy reasoning).
-- advisory_vlm: optional first-pass vision inspection (field 'inspection' is free text from a VLM; may be imperfect).
-- vlm_image_summary: duplicate of advisory_vlm.inspection when present (legacy alias).
-- asset_content_preview: optional raw text when extractors were skipped (fast mode).
+- policy_context: policy pack summary plus clauses_for_review and rules_for_review.
+- advisory_vlm: optional vision inspection (field 'inspection' is free text; may be imperfect).
 
-Task: provide an advisory second read grounded in policy_context when present. Do NOT replace the deterministic verdict.
-Output a single JSON object with keys: schema_version ("1.0"), summary, agreement_with_deterministic
-(one of: aligns, mostly_aligns, unclear, diverges), rationale, cited_signal_ids (array of signal id strings, may be empty),
-disclaimer (include the standard advisory text from the schema). No markdown fences. No other top-level keys."""
+Task: advisory second read only. Do NOT replace the deterministic verdict.
+Output JSON: schema_version ("1.0"), summary, agreement_with_deterministic
+(aligns | mostly_aligns | unclear | diverges), rationale, cited_signal_ids (array, may be empty),
+disclaimer. No markdown fences. No other top-level keys."""
+
+_SYSTEM_FAST_COMBINED = """Quick compliance: ONE pass over the image. Inspect visible copy/claims, compare to policy_context, output JSON only.
+Keys: schema_version ("1.0"), inspection (brief factual vision notes, max ~400 words), summary,
+agreement_with_deterministic (aligns|mostly_aligns|unclear|diverges),
+recommended_compliance_status (COMPLIANT|REVIEW_REQUIRED|LIKELY_REJECTED),
+recommended_verdict (likely_approved|borderline|likely_rejected),
+rationale (cite clause_id or rule_id), cited_signal_ids ([]), disclaimer.
+No markdown fences."""
+
+_SYSTEM_FAST_VLM_POLICY = """You are the primary compliance assessor (Quick pipeline). The YAML rule engine did NOT run.
+Compare advisory_vlm.inspection and any asset_content_preview to policy_context.clauses_for_review and rules_for_review.
+
+Output JSON: schema_version ("1.0"), summary, agreement_with_deterministic (aligns | mostly_aligns | unclear | diverges),
+recommended_compliance_status (COMPLIANT | REVIEW_REQUIRED | LIKELY_REJECTED),
+recommended_verdict (likely_approved | borderline | likely_rejected),
+rationale (cite clause_id or rule_id when referencing policy), cited_signal_ids (empty array),
+disclaimer noting this is an LLM assessment against the policy corpus, not a rule-engine audit. No markdown fences."""
+
+_SYSTEM_FULL_LLM_POLICY = """You are the primary compliance assessor (Full pipeline, rule engine off).
+Use signals (if any), advisory_vlm.inspection, and policy_context to judge the asset against policy.
+
+Output JSON: schema_version ("1.0"), summary, agreement_with_deterministic (aligns | mostly_aligns | unclear | diverges),
+recommended_compliance_status (COMPLIANT | REVIEW_REQUIRED | LIKELY_REJECTED),
+recommended_verdict (likely_approved | borderline | likely_rejected),
+rationale, cited_signal_ids (only ids present in signals), disclaimer. No markdown fences."""
+
+
+def _system_prompt_for_review_mode(review_mode: str) -> str:
+    if review_mode == "fast_vlm_policy":
+        return _SYSTEM_FAST_VLM_POLICY
+    if review_mode == "full_signals_vlm_policy":
+        return _SYSTEM_FULL_LLM_POLICY
+    return _SYSTEM_SECOND_READ
+
+
+def _resolve_review_mode(meta: dict[str, Any]) -> str:
+    mode = str(meta.get("pipeline_mode") or "full").strip().lower()
+    engine_ran = bool(meta.get("policy_engine_ran"))
+    if mode == "fast":
+        return "fast_vlm_policy"
+    if not engine_ran:
+        return "full_signals_vlm_policy"
+    return "advisory_second_read"
 
 _VLM_SYSTEM = """You support an advisory compliance workflow. You do not set or override policy.
 Describe what is visible in the image in ways that help a separate text model reason about the asset.
@@ -75,6 +116,25 @@ def _vlm_max_output_tokens() -> int:
     if v.isdigit():
         return max(256, min(4096, int(v)))
     return 1200
+
+
+def _fast_combined_max_tokens() -> int:
+    v = (os.environ.get("ZATAONE_FAST_COMBINED_MAX_TOKENS") or "").strip()
+    if v.isdigit():
+        return max(512, min(2048, int(v)))
+    return 1024
+
+
+def _fast_review_max_tokens() -> int:
+    v = (os.environ.get("ZATAONE_FAST_REVIEW_MAX_TOKENS") or "").strip()
+    if v.isdigit():
+        return max(512, min(4096, int(v)))
+    return 1200
+
+
+def _fast_model() -> str | None:
+    m = (os.environ.get("GEMINI_FAST_MODEL") or os.environ.get("GEMINI_MODEL") or "").strip()
+    return m or None
 
 
 def _signal_rows_from_raw(signals: list[Any]) -> list[dict[str, Any]]:
@@ -165,6 +225,57 @@ def run_gemini_vlm_inspection(
     return vlm_summary, vlm_error, status
 
 
+def run_fast_combined_image_review(
+    image_bytes: bytes,
+    *,
+    domain: str,
+    verdict: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """
+    Quick path: single Gemini vision call with compact policy_context (replaces separate VLM + text LLM).
+    """
+    meta = verdict.get("metadata") or {}
+    policy_ctx = build_policy_context_for_llm(
+        meta,
+        max_clauses=5,
+        max_rule_snippets=4,
+        max_clause_chars=400,
+        max_rule_chars=200,
+    )
+    user_payload = {
+        "domain": domain,
+        "pipeline_mode": "fast",
+        "policy_context": policy_ctx,
+    }
+    user_text = json.dumps(user_payload, ensure_ascii=True, default=str, separators=(",", ":"))
+    raw = gemini_mod.gemini_vision_image(
+        image_bytes,
+        user_text,
+        system_prompt=_SYSTEM_FAST_COMBINED,
+        model=_fast_model(),
+        max_output_tokens=_fast_combined_max_tokens(),
+    )
+    t = raw.strip()
+    t = re.sub(r"^```(?:json)?\s*", "", t)
+    t = re.sub(r"\s*```$", "", t)
+    data = json.loads(t)
+    inspection = (data.pop("inspection", None) or "").strip() or None
+    review = LlmFinalReviewV1.model_validate(data)
+    stored = wrap_stored_review(review)
+    vlm_status: dict[str, Any] = {
+        "vlm_eligible": True,
+        "file_bytes_received": bool(image_bytes),
+        "vlm_called": True,
+        "vlm_succeeded": bool(inspection),
+        "vlm_error": None,
+        "inspection": inspection,
+        "skipped": False,
+        "skipped_reason": None,
+        "fast_combined": True,
+    }
+    return stored, vlm_status
+
+
 def run_advisory_synthesis_in_memory(
     *,
     domain: str,
@@ -216,7 +327,21 @@ def run_advisory_synthesis_in_memory(
             aid = None
 
     meta = verdict.get("metadata") or {}
-    policy_ctx = build_policy_context_for_llm(meta)
+    review_mode = _resolve_review_mode(meta)
+    ctx_kwargs: dict[str, Any] = {"vlm_inspection": inspection}
+    max_toks = _max_review_output_tokens()
+    if review_mode == "fast_vlm_policy":
+        ctx_kwargs.update(
+            max_clauses=5,
+            max_rule_snippets=4,
+            max_clause_chars=400,
+            max_rule_chars=200,
+        )
+        max_toks = _fast_review_max_tokens()
+    elif review_mode == "full_signals_vlm_policy":
+        ctx_kwargs.update(max_clauses=8, max_clause_chars=600)
+        max_toks = _fast_review_max_tokens()
+    policy_ctx = build_policy_context_for_llm(meta, **ctx_kwargs)
     content_preview = None
     raw_content = getattr(asset, "content", None)
     if raw_content and asset_type == "text":
@@ -233,13 +358,17 @@ def run_advisory_synthesis_in_memory(
         advisory_vlm=advisory_vlm,
         policy_context=policy_ctx,
         asset_content_preview=content_preview,
+        review_mode=review_mode,
     )
     user_msg = context_json_for_prompt(ctx)
+    model = _fast_model() if review_mode != "advisory_second_read" else (
+        os.environ.get("GEMINI_REVIEW_MODEL") or None
+    )
     review = _advisory_json_from_gemini(
         user_msg,
-        system_prompt=_SYSTEM,
-        model=os.environ.get("GEMINI_REVIEW_MODEL") or None,
-        max_toks=_max_review_output_tokens(),
+        system_prompt=_system_prompt_for_review_mode(review_mode),
+        model=model,
+        max_toks=max_toks,
     )
     stored = wrap_stored_review(review)
     return stored, vlm_status or {}
@@ -435,7 +564,9 @@ def run_llm_final_review(
         }
 
     meta = (verdict.result or {}).get("metadata") or {}
-    policy_ctx = build_policy_context_for_llm(meta)
+    review_mode = _resolve_review_mode(meta)
+    inspection = advisory_vlm.get("inspection")
+    policy_ctx = build_policy_context_for_llm(meta, vlm_inspection=inspection)
 
     ctx = build_review_context(
         schema_version=_CTX_VERSION,
@@ -447,13 +578,17 @@ def run_llm_final_review(
         violations=[_violation_row(v) for v in violations],
         advisory_vlm=advisory_vlm,
         policy_context=policy_ctx,
+        review_mode=review_mode,
     )
     user_msg = context_json_for_prompt(ctx)
     max_toks = _max_review_output_tokens()
     m = os.environ.get("GEMINI_REVIEW_MODEL") or None
     try:
         review = _advisory_json_from_gemini(
-            user_msg, system_prompt=_SYSTEM, model=m, max_toks=max_toks
+            user_msg,
+            system_prompt=_system_prompt_for_review_mode(review_mode),
+            model=m,
+            max_toks=max_toks,
         )
     except BadLlmReviewOutput:
         raise

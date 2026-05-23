@@ -251,6 +251,9 @@
         .run-progress.pipeline-extended .step { font-size: 11px; }
         .run-progress .step .dot { transition: background var(--pl-transition), color var(--pl-transition); }
         .run-progress .connector { color: #ccc; font-size: 10px; user-select: none; }
+        .run-progress.pipeline-quick .step { min-width: 0; }
+        .toggle-row.pipeline-quick label { opacity: 0.45; cursor: not-allowed; }
+        .toggle-row.pipeline-quick input { pointer-events: none; }
 
         /* Empty / loading */
         .empty-state { text-align: center; padding: 24px 16px; color: var(--pl-muted); font-size: 13px; border: 1px dashed var(--pl-border); border-radius: 10px; background: #fafbfd; }
@@ -271,7 +274,7 @@
 <body>
     <div class="container">
         <h1>Zataone PolicyLens</h1>
-        <p class="subtitle">Visual compliance review for demos — deterministic verdict, document explainability, and optional Gemini advisory. Same APIs: upload → poll → graph.</p>
+        <p class="subtitle">Visual compliance review for demos — <strong>Quick</strong> (VLM → LLM vs policy) or <strong>Full</strong> (extractors + LLM vs policy; optional YAML rule engine). Same APIs: upload → poll → graph.</p>
 
         <label for="apiBase">API base URL (no trailing slash)</label>
         <div class="api-input-row">
@@ -300,9 +303,13 @@
         </div>
         <div class="row-modes" id="pipelineModeRow">
             <span style="font-weight:600;margin-right:4px;">Pipeline:</span>
-            <label><input type="radio" name="pipelineMode" value="full" checked /> Full (extractors + policy)</label>
-            <label><input type="radio" name="pipelineMode" value="fast" /> Quick (VLM + LLM + policy clauses)</label>
+            <label><input type="radio" name="pipelineMode" value="full" checked /> Full (extractors + LLM vs policy)</label>
+            <label><input type="radio" name="pipelineMode" value="fast" /> Quick (VLM → LLM vs policy)</label>
         </div>
+        <p class="domain-hint" style="margin-top:6px;">
+            <strong>Quick:</strong> no extractors, rule engine off — outcome from Gemini VLM + text LLM vs policy clauses.
+            <strong>Full:</strong> OCR/vision signals + LLM vs policy; set API env <code>ZATAONE_POLICY_ENGINE_ENABLED=true</code> only if you want YAML rule matching too.
+        </p>
 
         <div id="imagePanel">
             <div class="upload-area" id="uploadArea">
@@ -325,25 +332,15 @@
 
         <button type="button" id="analyzeBtn" disabled>Run compliance check</button>
 
-        <div id="runProgress" class="run-progress pipeline-extended" hidden aria-label="Pipeline progress">
-            <div class="step" data-step="1"><span class="dot">1</span> Upload</div>
-            <div class="step" data-step="2"><span class="dot">2</span> Extraction</div>
-            <span class="connector" aria-hidden="true">→</span>
-            <div class="step" data-step="3"><span class="dot">3</span> Document</div>
-            <span class="connector" aria-hidden="true">→</span>
-            <div class="step" data-step="4"><span class="dot">4</span> Retrieval</div>
-            <span class="connector" aria-hidden="true">→</span>
-            <div class="step" data-step="5"><span class="dot">5</span> Policy</div>
-            <span class="connector" aria-hidden="true">→</span>
-            <div class="step" data-step="6"><span class="dot">6</span> Verdict</div>
-        </div>
+        <div id="runProgress" class="run-progress pipeline-extended" hidden aria-label="Pipeline progress"></div>
         <p id="runStats" class="run-stats" hidden></p>
         <p id="pollDetail" class="poll-detail" style="display:none" aria-live="polite"></p>
 
         <div class="grid">
             <div class="panel" id="leftPreviewPanel">
                 <h2>Preview & overlays</h2>
-                <p class="muted">Boxes appear when extractors store <code>bbox</code> in signal / evidence JSON. (<strong>Image</strong> mode only.)</p>
+                <p class="muted" id="overlayHelp">Boxes appear when extractors store <code>bbox</code> in signal / evidence JSON. (<strong>Image</strong> mode only.)</p>
+                <p id="quickOverlayNote" class="muted overlay-hint" style="display:none;">Quick mode skips extractors — use <strong>Full</strong> for OCR/vision overlays.</p>
                 <p id="textModeNote" class="preview-placeholder" style="display:none;">You’re in <strong>Text</strong> mode. Switch to <strong>Image</strong> to see the preview and bounding-box overlays after a run.</p>
                 <div class="image-stage" id="imageStage" style="display:none;">
                     <img id="preview" alt="Preview" />
@@ -357,10 +354,7 @@
                 <div id="explainMount"></div>
                 <div id="llmSection" style="display: none;">
                     <h3>Advisory review (Gemini)</h3>
-                    <p class="muted" id="llmHint" style="margin: 0 0 8px 0;">
-                        Pipeline runs <strong>VLM ∥ extractors</strong> (images), then <strong>text LLM</strong> when <code>GEMINI_API_KEY</code> is set.
-                        Shown below after the authoritative verdict. Does not replace policy engine status.
-                    </p>
+                    <p class="muted" id="llmHint" style="margin: 0 0 8px 0;"></p>
                     <button type="button" id="llmReviewBtn" class="btn-secondary" disabled>Run advisory review</button>
                     <div id="llmReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
                 </div>
@@ -400,8 +394,24 @@
         document.querySelectorAll('input[name="pipelineMode"]').forEach((r) => {
             r.checked = r.value === savedPipeline;
         });
+        function syncLlmHint() {
+            const hint = document.getElementById('llmHint');
+            if (!hint) return;
+            if (pipelineModeValue() === 'fast') {
+                hint.innerHTML =
+                    '<strong>Quick:</strong> VLM describes the image, then <strong>text LLM</strong> judges it against ' +
+                    '<code>policy_context</code> clauses. Rule engine is off; the <strong>Results</strong> card shows the LLM assessment when <code>GEMINI_API_KEY</code> is set.';
+            } else {
+                hint.innerHTML =
+                    '<strong>Full:</strong> extractors build signals; VLM runs in parallel on images; then <strong>text LLM</strong> compares signals + VLM to policy. ' +
+                    'YAML rule engine is <strong>off by default</strong> (<code>ZATAONE_POLICY_ENGINE_ENABLED=true</code> on the API to enable).';
+            }
+        }
         document.querySelectorAll('input[name="pipelineMode"]').forEach((r) => {
-            r.addEventListener('change', () => localStorage.setItem(LS_PIPELINE, pipelineModeValue()));
+            r.addEventListener('change', () => {
+                localStorage.setItem(LS_PIPELINE, pipelineModeValue());
+                syncPipelineUi();
+            });
         });
         document.getElementById('apiBase').addEventListener('change', () => {
             localStorage.setItem(LS_KEY, apiBase());
@@ -454,7 +464,49 @@
         const explainMount = document.getElementById('explainMount');
         let runStartedAt = 0;
 
-        /** phase: 0=hide, 1–6 pipeline steps, 7=all done */
+        function buildProgressBarHtml(mode) {
+            if (mode === 'fast') {
+                return (
+                    '<div class="step" data-step="1"><span class="dot">1</span> Upload</div>' +
+                    '<span class="connector" aria-hidden="true">→</span>' +
+                    '<div class="step" data-step="2"><span class="dot">2</span> VLM</div>' +
+                    '<span class="connector" aria-hidden="true">→</span>' +
+                    '<div class="step" data-step="3"><span class="dot">3</span> LLM vs policy</div>' +
+                    '<span class="connector" aria-hidden="true">→</span>' +
+                    '<div class="step" data-step="4"><span class="dot">4</span> Result</div>'
+                );
+            }
+            return (
+                '<div class="step" data-step="1"><span class="dot">1</span> Upload</div>' +
+                '<span class="connector" aria-hidden="true">→</span>' +
+                '<div class="step" data-step="2"><span class="dot">2</span> Extraction</div>' +
+                '<span class="connector" aria-hidden="true">→</span>' +
+                '<div class="step" data-step="3"><span class="dot">3</span> Document</div>' +
+                '<span class="connector" aria-hidden="true">→</span>' +
+                '<div class="step" data-step="4"><span class="dot">4</span> Retrieval</div>' +
+                '<span class="connector" aria-hidden="true">→</span>' +
+                '<div class="step" data-step="5"><span class="dot">5</span> Policy / LLM</div>' +
+                '<span class="connector" aria-hidden="true">→</span>' +
+                '<div class="step" data-step="6"><span class="dot">6</span> Result</div>'
+            );
+        }
+
+        function syncPipelineUi() {
+            const quick = pipelineModeValue() === 'fast';
+            if (runProgressEl) {
+                runProgressEl.classList.toggle('pipeline-quick', quick);
+                runProgressEl.innerHTML = buildProgressBarHtml(quick ? 'fast' : 'full');
+            }
+            const toggleRow = document.querySelector('.toggle-row');
+            if (toggleRow) toggleRow.classList.toggle('pipeline-quick', quick);
+            const qNote = document.getElementById('quickOverlayNote');
+            const oHelp = document.getElementById('overlayHelp');
+            if (qNote) qNote.style.display = quick ? 'block' : 'none';
+            if (oHelp) oHelp.style.display = quick ? 'none' : 'block';
+            syncLlmHint();
+        }
+
+        /** phase: 0=hide; full 1–6 + 7=done; quick 1–4 + 5=done */
         function setRunProgress(phase) {
             if (!phase) {
                 runProgressEl.hidden = true;
@@ -463,10 +515,12 @@
                 return;
             }
             runProgressEl.hidden = false;
+            const quick = pipelineModeValue() === 'fast';
             const steps = runProgressEl.querySelectorAll('.step');
             steps.forEach((s) => s.classList.remove('active', 'done'));
             const n = steps.length;
-            if (phase >= 7 || phase === 'done') {
+            const donePhase = quick ? 5 : 7;
+            if (phase >= donePhase || phase === 'done') {
                 steps.forEach((s) => s.classList.add('done'));
                 return;
             }
@@ -703,29 +757,38 @@
                 explainMount.querySelectorAll('.explain-section').forEach((d) => { d.open = false; });
             });
             const copyDoc = explainMount.querySelector('.btn-copy-doc');
-            if (copyDoc) copyDoc.addEventListener('click', () => {
-                const el = document.getElementById('docHighlight');
-                copyToClipboard(el ? el.innerText : '', copyDoc);
-                const copyRaw = explainMount.querySelector('.btn-copy-raw');
-            if (copyRaw) copyRaw.addEventListener('click', () => {
-                const pre = explainMount.querySelector('.raw-json');
-                copyToClipboard(pre ? pre.textContent : '', copyRaw);
-            });
-        });
+            if (copyDoc) {
+                copyDoc.addEventListener('click', () => {
+                    const el = document.getElementById('docHighlight');
+                    copyToClipboard(el ? el.innerText : '', copyDoc);
+                });
+            }
             const copyRaw = explainMount.querySelector('.btn-copy-raw');
-            if (copyRaw) copyRaw.addEventListener('click', () => {
-                const pre = explainMount.querySelector('.raw-json');
-                copyToClipboard(pre ? pre.textContent : '', copyRaw);
-            });
+            if (copyRaw) {
+                copyRaw.addEventListener('click', () => {
+                    const pre = explainMount.querySelector('.raw-json');
+                    copyToClipboard(pre ? pre.textContent : '', copyRaw);
+                });
+            }
         }
 
-        function showRunStats(graph, elapsedMs) {
+        function showRunStats(graph, elapsedMs, poll) {
             const sigCount = (graph.signals || []).length;
             const retrieval = graph.retrieval || {};
             const ruleCount = retrieval.retrieved_rule_ids ? retrieval.retrieved_rule_ids.length : 'all';
+            const pipe =
+                (poll && poll.pipeline_mode) ||
+                (poll && poll.metadata && poll.metadata.pipeline_mode) ||
+                pipelineModeValue();
+            const authority =
+                (poll && poll.verdict_authority) ||
+                (poll && poll.metadata && poll.metadata.verdict_authority) ||
+                '';
             runStatsEl.hidden = false;
             runStatsEl.innerHTML =
                 '<span><strong>' + (elapsedMs / 1000).toFixed(1) + 's</strong> total</span>' +
+                '<span>Pipeline: <strong>' + escapeHtml(pipe) + '</strong></span>' +
+                (authority ? '<span>Authority: <strong>' + escapeHtml(authority) + '</strong></span>' : '') +
                 '<span><strong>' + sigCount + '</strong> signals</span>' +
                 '<span><strong>' + ruleCount + '</strong> rules in scope</span>' +
                 '<span>Retrieval: <strong>' + escapeHtml(retrieval.method || 'n/a') + '</strong></span>';
@@ -739,6 +802,7 @@
         }
         toggleLabels.addEventListener('change', syncLabelVisibility);
         syncLabelVisibility();
+        syncPipelineUi();
 
         function shortLabelOcr(t) {
             const s = (t || '').replace(/\s+/g, ' ').trim();
@@ -853,9 +917,21 @@
             return parts.length ? parts.join(' · ') : '';
         }
 
-        /** Map server pipeline_progress to step bar (1–6). */
+        /** Map server pipeline_progress to step bar (full 1–6, quick 1–4). */
         function updateProgressFromApi(prog) {
             if (!prog || typeof prog !== 'object') return;
+            const mode = prog.pipeline_mode || pipelineModeValue();
+            if (mode === 'fast') {
+                let phase = 1;
+                if (prog.extraction === 'skipped' || prog.vlm === 'running') phase = 2;
+                if (prog.vlm === 'completed' || prog.vlm === 'failed') phase = 3;
+                if (prog.advisory === 'running' || prog.deterministic === 'completed') phase = 3;
+                if (prog.advisory === 'completed' || prog.advisory === 'failed' || prog.advisory === 'skipped') {
+                    phase = 4;
+                }
+                setRunProgress(phase);
+                return;
+            }
             let phase = 2;
             const ext = prog.extraction;
             if (ext === 'running') phase = 2;
@@ -865,7 +941,9 @@
             if (prog.deterministic === 'running') phase = 5;
             if (prog.deterministic === 'completed') phase = 5;
             if (prog.advisory === 'running') phase = 6;
-            if (prog.advisory === 'completed' || prog.advisory === 'failed' || prog.advisory === 'skipped') phase = 6;
+            if (prog.advisory === 'completed' || prog.advisory === 'failed' || prog.advisory === 'skipped') {
+                phase = 6;
+            }
             setRunProgress(phase);
         }
 
@@ -879,9 +957,20 @@
                 llmReviewBtn.disabled = false;
                 return;
             }
-            let html = '<p class="muted" style="margin:0 0 8px;font-size:12px;"><strong>Included in this run</strong> (VLM ∥ deterministic → text LLM)</p>';
+            const mode = poll.pipeline_mode || (poll.metadata && poll.metadata.pipeline_mode) || pipelineModeValue();
+            const authority = poll.verdict_authority || poll.verdict_source || 'advisory';
+            let runLine = 'Full: extractors + VLM → LLM vs policy';
+            if (mode === 'fast') {
+                const combined = poll.fast_combined_review || (poll.metadata && poll.metadata.fast_combined_review);
+                runLine = combined
+                    ? 'Quick: one Gemini pass (vision + policy)'
+                    : 'Quick: VLM → LLM vs policy (rule engine off)';
+            }
+            else if (authority === 'advisory') runLine = 'Full: extractors + VLM → LLM vs policy (rule engine off)';
+            else runLine = 'Full: extractors + rule engine + LLM second read';
+            let html = '<p class="muted" style="margin:0 0 8px;font-size:12px;"><strong>Included in this run</strong> — ' + escapeHtml(runLine) + '</p>';
             if (vlm) html += formatAdvisoryVlmBlock(vlm);
-            html += formatLlmTextBlock(review);
+            html += formatLlmTextBlock(review, { pipeline_mode: mode, verdict_authority: authority });
             llmReviewOut.innerHTML = html;
             llmReviewBtn.disabled = false;
             llmReviewBtn.textContent = 'Re-run advisory review';
@@ -1001,6 +1090,8 @@
                 override_reason: poll.override_reason || null,
                 pipeline_mode: poll.pipeline_mode || meta.pipeline_mode || 'full',
                 signal_count: sigCount,
+                policy_engine_ran: !!poll.policy_engine_ran,
+                verdict_authority: poll.verdict_authority || poll.verdict_source || 'deterministic',
                 _graph: graph,
                 _sigById: sigById,
             };
@@ -1020,18 +1111,34 @@
             const elevated = !!data.elevated_by_advisory;
             const sigCount = typeof data.signal_count === 'number' ? data.signal_count : (data._graph && data._graph.signals ? data._graph.signals.length : 0);
             const pipeMode = data.pipeline_mode || 'full';
+            const verdictAuthority = data.verdict_authority || data.verdict_source || 'deterministic';
+            const engineRan = !!data.policy_engine_ran;
 
             let html = '';
-            if (elevated) {
+            if (pipeMode === 'fast' || verdictAuthority === 'advisory') {
+                html += '<div class="verdict-override-banner"><strong>LLM vs policy corpus</strong> — rule engine ';
+                html += engineRan ? 'ran (unusual for Quick).' : 'off; outcome from VLM + LLM advisory.';
+                html += '</div>';
+            } else if (elevated) {
                 html += '<div class="verdict-override-banner"><strong>Human review recommended</strong> — ';
                 html += escapeHtml((data.override_reason || 'advisory_escalation').replace(/_/g, ' '));
-                html += '. Deterministic outcome preserved for audit.</div>';
+                html += '. Rule-engine outcome preserved for audit.</div>';
             }
-            if (sigCount === 0 && pipeMode === 'full') {
-                html += '<div class="verdict-override-banner"><strong>No extractor signals</strong> — OCR/vision may have missed content; treat deterministic COMPLIANT with caution.</div>';
+            if (sigCount === 0 && pipeMode === 'full' && engineRan) {
+                html += '<div class="verdict-override-banner"><strong>No extractor signals</strong> — OCR/vision may have missed content; treat rule-engine COMPLIANT with caution.</div>';
             }
-            html += '<p class="muted" style="margin:0 0 10px;font-size:11px;">Pipeline: <strong>' + escapeHtml(pipeMode) + '</strong></p>';
-            if (elevated || detStatus !== status) {
+            html += '<p class="muted" style="margin:0 0 10px;font-size:11px;">Pipeline: <strong>' + escapeHtml(pipeMode) + '</strong>';
+            html += ' · authority: <strong>' + escapeHtml(verdictAuthority) + '</strong></p>';
+            if (verdictAuthority === 'advisory') {
+                html += '<p class="muted" style="margin:0 0 10px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Assessment (LLM + policy)</p>';
+                html += '<div class="verdict-hero"><div class="verdict-hero-main">';
+                html += '<div class="verdict-label">Compliance status</div>';
+                html += '<p class="verdict-value"><span class="status-dot ' + dot + '"></span>' + escapeHtml(status.replace(/_/g, ' ')) + '</p>';
+                html += '<div class="verdict-label" style="margin-top:12px;">Platform verdict</div>';
+                html += '<p class="verdict-value" style="font-size:1.1rem;">' + escapeHtml(verdictDisplayLabel(verdict)) + '</p></div>';
+                html += '<div class="metric-grid" style="min-width:180px;"><div class="metric-box"><span class="val">' + (riskScore === null ? '—' : riskScore.toFixed(2)) + '</span><span class="lbl">Risk</span></div>';
+                html += '<div class="metric-box"><span class="val">' + sigCount + '</span><span class="lbl">Signals</span></div></div></div>';
+            } else if (elevated || detStatus !== status) {
                 html += '<div class="verdict-dual-grid">';
                 html += '<div class="verdict-subcard"><p class="muted" style="margin:0 0 6px;font-size:11px;text-transform:uppercase;">Deterministic (audit)</p>';
                 html += '<p class="verdict-value" style="font-size:1rem;margin:0;"><span class="status-dot ' + detDot + '"></span>' + escapeHtml(detStatus.replace(/_/g, ' ')) + '</p>';
@@ -1057,7 +1164,10 @@
             }
 
             if (!violations.length) {
-                html += '<div class="empty-state" style="margin-top:12px;"><strong>No violations</strong>Policy engine found no rule matches.</div>';
+                const noViolMsg = engineRan
+                    ? 'Policy engine found no rule matches.'
+                    : 'Rule engine skipped — assessment from LLM vs policy clauses.';
+                html += '<div class="empty-state" style="margin-top:12px;"><strong>No violations</strong>' + escapeHtml(noViolMsg) + '</div>';
             } else {
                 html += '<h3 style="margin:16px 0 8px;font-size:14px;">Violations</h3>';
                 violations.forEach((v) => {
@@ -1275,6 +1385,7 @@
             localStorage.setItem(LS_DOMAIN, domainValue());
 
             runStartedAt = performance.now();
+            syncPipelineUi();
             setRunProgress(1);
             resultDiv.innerHTML = '<div class="loading"><span class="spinner" aria-hidden="true"></span> Uploading to API…</div>';
             resultDiv.style.display = 'block';
@@ -1338,7 +1449,7 @@
                             'Processing failed. On Cloud Run, try redeploying the API or check logs.'
                     );
                 } else {
-                    setRunProgress(3);
+                    setRunProgress(pipelineModeValue() === 'fast' ? 2 : 3);
                     poll = await pollAsset(assetId, (n, _max, data) => {
                         updateProgressFromApi(data.pipeline_progress);
                         const pl = pipelineProgressLabel(data.pipeline_progress);
@@ -1346,14 +1457,17 @@
                             'Polling… ' + n + ' / 240' + (pl ? ' — ' + pl : '');
                     });
                 }
+                const quickRun = pipelineModeValue() === 'fast';
                 setRunProgress(4);
-                pollDetailEl.textContent = 'Loading graph for overlays…';
-                setRunProgress(5);
+                pollDetailEl.textContent = quickRun
+                    ? 'Finalizing assessment…'
+                    : 'Loading graph for overlays…';
+                if (!quickRun) setRunProgress(5);
                 lastGraph = await fetchGraph(assetId);
                 lastResponse = buildLegacyModel(poll, lastGraph);
                 selectedViolationId = lastResponse.violations[0] ? lastResponse.violations[0].violation_id : null;
-                setRunProgress(7);
-                showRunStats(lastGraph, performance.now() - runStartedAt);
+                setRunProgress(quickRun ? 5 : 7);
+                showRunStats(lastGraph, performance.now() - runStartedAt, poll);
                 pollDetailEl.textContent = 'Done';
                 setTimeout(() => { setRunProgress(0); }, 1500);
                 displayResult(lastResponse, assetId);
@@ -1417,13 +1531,30 @@
             );
         }
 
-        function formatLlmTextBlock(review) {
+        function formatLlmTextBlock(review, opts) {
             if (!review || typeof review !== 'object') return '<p class="muted">(no text LLM output)</p>';
+            opts = opts || {};
+            const mode = opts.pipeline_mode || 'full';
+            const authority = opts.verdict_authority || 'advisory';
             const a = review.agreement_with_deterministic || '';
+            const recStatus = review.recommended_compliance_status || '';
+            const recVerdict = review.recommended_verdict || '';
+            let h4 = 'Policy assessment (LLM vs corpus)';
+            let agreementLabel = 'Policy alignment (agreement field)';
+            if (mode === 'full' && authority === 'deterministic') {
+                h4 = 'Advisory vs rule engine';
+                agreementLabel = 'Agreement with rule engine';
+            }
+            let recLine = '';
+            if (recStatus || recVerdict) {
+                recLine = '<p><strong>Recommended display:</strong> ' +
+                    escapeHtml([recStatus, recVerdict].filter(Boolean).join(' · ')) + '</p>';
+            }
             return (
                 '<div class="advisory-block llm"><span class="advisory-tag">Step 2 · Text LLM (reasoning)</span>' +
-                '<h4>Advisory vs deterministic verdict</h4>' +
-                '<p><strong>Agreement with policy engine:</strong> ' + escapeHtml(a) + '</p>' +
+                '<h4>' + escapeHtml(h4) + '</h4>' +
+                '<p><strong>' + escapeHtml(agreementLabel) + ':</strong> ' + escapeHtml(a) + '</p>' +
+                recLine +
                 '<p><strong>Summary</strong></p><p style="white-space:pre-wrap;margin:0 0 10px 0;">' +
                 escapeHtml(review.summary || '') + '</p>' +
                 '<p><strong>Rationale</strong></p><p style="white-space:pre-wrap;margin:0 0 10px 0;">' +

@@ -2,9 +2,8 @@
 #
 #   export PROJECT_ID=your-project-id
 #   export REGION=us-central1
-#   gcloud config set project $PROJECT_ID
 #   gcloud builds submit --config cloudbuild.yaml \
-#     --substitutions=_REGION=$REGION,_IMAGE_TAG=phase4-$(date +%Y%m%d-%H%M%S) .
+#     --substitutions=_REGION=us-central1,_IMAGE_TAG=phase4-$(date +%Y%m%d-%H%M%S) .
 #
 substitutions:
   _REGION: us-central1
@@ -20,14 +19,11 @@ steps:
       - -f
       - docker/Dockerfile
       - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/zataone/zetaone-api:${_IMAGE_TAG}
-      - -t
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/zataone/zetaone-api:latest
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/zataone/zataone-api:${_IMAGE_TAG}
       - .
 
 images:
   - ${_REGION}-docker.pkg.dev/$PROJECT_ID/zataone/zataone-api:${_IMAGE_TAG}
-  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/zataone/zataone-api:latest
 
 timeout: 2400s
 options:

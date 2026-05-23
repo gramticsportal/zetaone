@@ -43,7 +43,8 @@ def test_fast_mode_skips_extractors(monkeypatch):
     meta = result.get("metadata") or {}
     assert meta.get("pipeline_mode") == "fast"
     assert meta.get("fast_mode_no_extractors") is True
-    assert meta.get("signal_count") == 0
+    assert meta.get("policy_engine_ran") is False
+    assert meta.get("verdict_authority") == "advisory"
 
 
 def test_resolve_pipeline_mode_header_overrides_env(monkeypatch):
@@ -67,3 +68,19 @@ def test_full_mode_runs_extractors(monkeypatch):
     meta = result.get("metadata") or {}
     assert meta.get("pipeline_mode") == "full"
     assert "fast_mode_no_extractors" not in meta
+    assert meta.get("policy_engine_ran") is False
+
+
+def test_full_mode_policy_engine_when_enabled(monkeypatch):
+    monkeypatch.setenv("ZATAONE_PIPELINE_ADVISORY", "0")
+    monkeypatch.setenv("ZATAONE_POLICY_ENGINE_ENABLED", "1")
+    from zataone.core.pipeline import CompliancePipeline
+
+    with patch.object(CompliancePipeline, "_load_domain_extractors", _mock_pipeline()):
+        with patch.object(CompliancePipeline, "_load_domain_policies"):
+            pipeline = CompliancePipeline(domain="ad_compliance")
+            asset = {"content": "guaranteed instant cure 100%", "type": "text"}
+            result = pipeline.run(asset, persist=False, pipeline_mode="full")
+
+    meta = result.get("metadata") or {}
+    assert meta.get("policy_engine_ran") is True

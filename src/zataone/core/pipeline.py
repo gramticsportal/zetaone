@@ -14,8 +14,12 @@ from typing import Any
 
 from zataone.core.extractor_flags import (
     embedding_enabled,
+    fast_combined_review_enabled,
+    pipeline_auto_advisory_enabled,
     pipeline_mode as default_pipeline_mode,
+    pipeline_parallel_vlm_enabled,
     pipeline_vlm_extractor_enabled,
+    policy_engine_enabled,
 )
 from zataone.core.verdict_display import apply_display_verdict
 from zataone.core.extractor_plan import allow_domain_short_name, select_extractors_for_asset
@@ -270,10 +274,15 @@ class CompliancePipeline:
         )
         self._policy_retriever = PolicyRetriever(self._policy_pack)
 
-    def _run_fast_stub_core(
-        self, asset: Any, *, asset_id: str | None = None, run_mode: str = "fast"
+    def _run_fast_precore(
+        self,
+        asset: Any,
+        *,
+        asset_id: str | None = None,
+        run_mode: str = "fast",
+        vlm_inspection: str | None = None,
     ) -> dict[str, Any]:
-        """Fast mode: policy metadata + empty signals; policy engine skipped."""
+        """Quick mode: no extractors / no rule engine; placeholder until LLM assessment."""
         t0 = time.perf_counter()
         if asset_id:
             progress_update(asset_id, extraction="skipped", signal_count=0)
@@ -282,30 +291,27 @@ class CompliancePipeline:
         document = DocumentBuilder.build(asset, signals)
         if not document.normalized_text and getattr(asset, "content", None):
             document.normalized_text = str(asset.content)[:50000]
+        if not document.normalized_text and vlm_inspection:
+            document.normalized_text = str(vlm_inspection)[:8000]
         document.metadata["document_centric_enabled"] = document_centric_enabled()
         document.metadata["pipeline_mode"] = run_mode
 
         retrieval_result = None
-        if self._policy_retriever is not None and document.normalized_text:
-            vision_primary_ids = {
-                rid
-                for rid, rule in (self._policy_pack.rules if self._policy_pack else {}).items()
-                if rule.get("vision_primary_labels")
-            }
-            retrieval_result = self._policy_retriever.retrieve(
-                document.normalized_text,
-                vision_rule_ids=vision_primary_ids,
-            )
 
         violations: list[Any] = []
         evidence = self._evidence_service.generate(signals, violations)
         verdict = self._verdict_service.generate(evidence)
+        verdict["status"] = "PENDING_ADVISORY"
+        verdict["verdict"] = "pending_advisory"
 
         verdict_metadata = dict(verdict.get("metadata") or {})
         verdict_metadata["document"] = document.to_dict()
         verdict_metadata["document_centric_enabled"] = document_centric_enabled()
         verdict_metadata["pipeline_mode"] = run_mode
         verdict_metadata["fast_mode_no_extractors"] = True
+        verdict_metadata["policy_engine_ran"] = False
+        verdict_metadata["policy_engine_enabled"] = False
+        verdict_metadata["verdict_authority"] = "advisory"
         if self._policy_pack is not None:
             verdict_metadata["policy_pack"] = self._policy_pack.to_dict()
         if retrieval_result is not None:
@@ -319,7 +325,7 @@ class CompliancePipeline:
             "violations_raw": violations,
             "evidence": evidence,
             "extractor_counts": {},
-            "timing_ms": {"fast_stub_ms": round((time.perf_counter() - t0) * 1000)},
+            "timing_ms": {"fast_precore_ms": round((time.perf_counter() - t0) * 1000)},
         }
 
     def _run_deterministic_core(
@@ -377,11 +383,18 @@ class CompliancePipeline:
         else:
             self._policy_engine.set_active_rule_ids(None)
 
-        violations = self._policy_engine.evaluate(signals, document=evaluate_document)
+        engine_on = policy_engine_enabled()
+        if engine_on:
+            violations = self._policy_engine.evaluate(signals, document=evaluate_document)
+        else:
+            violations = []
         self._policy_engine.set_active_rule_ids(None)
 
         evidence = self._evidence_service.generate(signals, violations)
         verdict = self._verdict_service.generate(evidence)
+        if not engine_on:
+            verdict["status"] = "PENDING_ADVISORY"
+            verdict["verdict"] = "pending_advisory"
 
         verdict_metadata = dict(verdict.get("metadata") or {})
         verdict_metadata["document"] = document.to_dict()
@@ -392,6 +405,9 @@ class CompliancePipeline:
             verdict_metadata["retrieval"] = retrieval_result.to_dict()
         verdict_metadata["policy_retrieval_enabled"] = policy_retrieval_enabled()
         verdict_metadata["pipeline_mode"] = run_pipeline_mode
+        verdict_metadata["policy_engine_ran"] = engine_on
+        verdict_metadata["policy_engine_enabled"] = engine_on
+        verdict_metadata["verdict_authority"] = "deterministic" if engine_on else "advisory"
         verdict["metadata"] = verdict_metadata
 
         return {
@@ -433,37 +449,119 @@ class CompliancePipeline:
             progress_update(aid_str, status="processing", pipeline_mode=mode)
 
         image_bytes = getattr(asset, "image_data", None)
+        asset_type = getattr(asset, "type", None) or "text"
+        parallel_timing: dict[str, Any] = {}
+        vlm_status: dict[str, Any] | None = None
 
-        def _deterministic_core() -> dict[str, Any]:
-            if mode == "fast":
-                return self._run_fast_stub_core(asset, asset_id=aid_str, run_mode=mode)
-            return self._run_deterministic_core(
-                asset, asset_id=aid_str, run_pipeline_mode=mode
+        if mode == "fast":
+            det_bundle = self._run_fast_precore(asset, asset_id=aid_str, run_mode=mode)
+            use_combined = (
+                fast_combined_review_enabled()
+                and asset_type == "image"
+                and bool(image_bytes)
+                and pipeline_auto_advisory_enabled()
             )
+            if use_combined:
+                from zataone.services.llm_final_review_service import run_fast_combined_image_review
 
-        det_bundle, vlm_status, parallel_timing = run_parallel_vlm_and_deterministic(
-            asset=asset,
-            image_bytes=image_bytes,
-            domain=self._domain,
-            asset_id=aid_str,
-            deterministic_fn=_deterministic_core,
-        )
+                if aid_str:
+                    progress_update(aid_str, vlm="running", advisory="running")
+                t_fast = time.perf_counter()
+                try:
+                    stored, vlm_status = run_fast_combined_image_review(
+                        image_bytes,
+                        domain=self._domain,
+                        verdict=det_bundle["verdict"],
+                    )
+                    det_bundle["verdict"]["llm_final_review"] = stored
+                    meta = det_bundle["verdict"].setdefault("metadata", {})
+                    meta["advisory_vlm"] = vlm_status
+                    meta["fast_combined_review"] = True
+                    meta["pipeline_advisory"] = True
+                    parallel_timing["fast_combined_ms"] = round(
+                        (time.perf_counter() - t_fast) * 1000
+                    )
+                    if aid_str:
+                        progress_update(aid_str, vlm="completed", advisory="completed")
+                except Exception:
+                    logger.exception("Fast combined review failed; falling back to VLM+LLM")
+                    use_combined = False
+                    if aid_str:
+                        progress_update(aid_str, advisory="skipped")
+
+            if not use_combined:
+                inspection: str | None = None
+                run_vlm = (
+                    pipeline_parallel_vlm_enabled()
+                    and asset_type == "image"
+                    and bool(image_bytes)
+                    and pipeline_auto_advisory_enabled()
+                )
+                if run_vlm:
+                    from zataone.services.llm_final_review_service import run_gemini_vlm_inspection
+
+                    if aid_str:
+                        progress_update(aid_str, vlm="running")
+                    t_vlm = time.perf_counter()
+                    vlm_summary, vlm_error, vlm_status = run_gemini_vlm_inspection(
+                        image_bytes,
+                        domain=self._domain,
+                        det={"status": "PROCESSING", "verdict": "pending", "risk_score": None},
+                    )
+                    parallel_timing["vlm_ms"] = round((time.perf_counter() - t_vlm) * 1000)
+                    inspection = vlm_summary
+                    if aid_str:
+                        progress_update(
+                            aid_str,
+                            vlm="completed" if (vlm_status or {}).get("vlm_succeeded") else "failed",
+                            vlm_error=vlm_error,
+                        )
+                elif aid_str:
+                    progress_update(aid_str, vlm="skipped", vlm_skipped_reason="not_image_or_no_key")
+                if inspection:
+                    doc = (det_bundle["verdict"].get("metadata") or {}).get("document") or {}
+                    if isinstance(doc, dict) and not doc.get("normalized_text"):
+                        doc["normalized_text"] = str(inspection)[:8000]
+
+            if aid_str:
+                progress_update(aid_str, deterministic="completed")
+        else:
+
+            def _deterministic_core() -> dict[str, Any]:
+                return self._run_deterministic_core(
+                    asset, asset_id=aid_str, run_pipeline_mode=mode
+                )
+
+            det_bundle, vlm_status, parallel_timing = run_parallel_vlm_and_deterministic(
+                asset=asset,
+                image_bytes=image_bytes,
+                domain=self._domain,
+                asset_id=aid_str,
+                deterministic_fn=_deterministic_core,
+            )
 
         verdict = det_bundle["verdict"]
         signals = det_bundle["signals"]
         evidence = det_bundle["evidence"]
         counts = det_bundle.get("extractor_counts") or {}
 
-        maybe_run_pipeline_advisory(
-            domain=self._domain,
-            asset=asset,
-            asset_id=aid_str,
-            det_bundle=det_bundle,
-            vlm_status=vlm_status,
-            image_bytes=image_bytes,
-        )
+        if not (det_bundle["verdict"].get("metadata") or {}).get("fast_combined_review"):
+            maybe_run_pipeline_advisory(
+                domain=self._domain,
+                asset=asset,
+                asset_id=aid_str,
+                det_bundle=det_bundle,
+                vlm_status=vlm_status,
+                image_bytes=image_bytes,
+            )
 
-        apply_display_verdict(verdict, signal_count=len(signals))
+        engine_ran = bool((verdict.get("metadata") or {}).get("policy_engine_ran"))
+        apply_display_verdict(
+            verdict,
+            signal_count=len(signals),
+            pipeline_mode=mode,
+            policy_engine_ran=engine_ran,
+        )
 
         verdict_metadata = dict(verdict.get("metadata") or {})
         verdict_metadata["pipeline_mode"] = mode

@@ -219,6 +219,28 @@ Recent work extends the deterministic core without changing the verdict contract
 
 Verdict and graph metadata may include `document`, `policy_pack`, `retrieval`, and the flag states above for UI explainability.
 
+### Pipeline modes (Quick vs Full)
+
+Clients select mode with header **`X-Pipeline-Mode: full`** (default) or **`fast`**, or env **`ZATAONE_PIPELINE_MODE`**.
+
+| Mode | Extractors | YAML rule engine | Gemini | Display authority |
+|------|------------|------------------|--------|-------------------|
+| **Quick (`fast`)** | Skipped | Off | **One** vision+policy call by default (`ZATAONE_FAST_COMBINED_REVIEW=true`), else VLM then text LLM | **LLM vs `policy_context`** (`verdict_authority: advisory`) |
+| **Full (`full`)** | OCR / vision / etc. | **Off by default** (`ZATAONE_POLICY_ENGINE_ENABLED=false`); optional audit path when `true` | VLM ∥ core, then text LLM vs signals + VLM + policy | **LLM** when engine off; **rule engine + optional LLM second read** when engine on |
+
+**Quick** is for fast demos (e.g. handwriting where OCR returns 0 signals). **Full** keeps extractor signals and graph overlays for explainability; the LLM compares signals + VLM to the policy corpus unless the YAML engine is enabled.
+
+Additional flags:
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `ZATAONE_POLICY_ENGINE_ENABLED` | Run YAML `policy_engine.evaluate()` on Full | `false` |
+| `ZATAONE_FAST_COMBINED_REVIEW` | Quick images: single Gemini pass (vision + policy JSON) | `true` |
+| `ZATAONE_FAST_COMBINED_MAX_TOKENS` | Cap combined Quick response size | `1024` |
+| `ZATAONE_PIPELINE_ADVISORY` | Auto-run Gemini at end of pipeline | on when `GEMINI_API_KEY` set |
+
+API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
+
 ---
 
 ## Tech Stack
@@ -332,20 +354,23 @@ ASSET_ID=$(echo $RESP | jq -r '.asset_id')
 curl "http://localhost:8000/assets/$ASSET_ID"
 ```
 
-### Advisory review (optional Gemini)
+### Advisory review (Gemini)
 
-After the pipeline **completes**, you can request an **advisory** second read that uses **Google Gemini** (not the policy engine). It **does not** change the binding compliance outcome; the result is stored on the latest verdict (e.g. `llm_final_review`) for explainability.
+When **`ZATAONE_PIPELINE_ADVISORY`** is enabled (default if `GEMINI_API_KEY` is set), the pipeline runs Gemini automatically at the end of each check.
 
-- **Text:** One Gemini call with structured context (deterministic verdict, signals, violations).
-- **Image:** If the asset is an image, **re-upload the same file** in the multipart `file` field so the service can run a **VLM** pass first (compliance-oriented visual inspection), then merge that into the JSON context for the final text call.
+- **Quick:** Primary assessment — image + compact `policy_context` (clauses/rules) → JSON with `recommended_compliance_status` / `recommended_verdict`.
+- **Full (engine off):** Same primary role using **signals + VLM + policy_context**.
+- **Full (engine on):** Second read only — does not replace YAML rule outcomes; use `agreement_with_deterministic`.
+
+Manual re-run: **`POST /assets/{asset_id}/llm-final-review`** (PolicyLens button). For images, re-upload the file in multipart **`file`** if VLM must run again.
 
 | Variable | Role |
 |----------|------|
 | `GEMINI_API_KEY` or `GOOGLE_API_KEY` | Required for advisory calls (Google AI / AI Studio) |
 | `ZATAONE_LLM_FINAL_REVIEW` | `0`/`false` to disable; if unset, advisory is on when a Gemini key is set |
-| `GEMINI_MODEL` | Default generative model (text + vision if unset; see [Gemini API models](https://ai.google.dev/gemini-api/docs/models)) |
-| `GEMINI_REVIEW_MODEL` / `GEMINI_VLM_MODEL` | Optional overrides for the text and vision steps |
-| `GEMINI_REVIEW_MAX_TOKENS` / `GEMINI_VLM_MAX_TOKENS` | Cap advisory JSON / VLM inspection length (defaults are set in code) |
+| `GEMINI_FAST_MODEL` / `GEMINI_MODEL` | Model for Quick combined pass and text review |
+| `GEMINI_REVIEW_MODEL` / `GEMINI_VLM_MODEL` | Optional overrides for Full text and vision steps |
+| `GEMINI_REVIEW_MAX_TOKENS` / `GEMINI_VLM_MAX_TOKENS` | Cap advisory JSON / VLM inspection length |
 | `ZATAONE_ALLOWED_DOMAINS` | Comma-separated; requests send **`X-Domain`**; unknown domains return **403** |
 
 ### Compliance graph (`GET /assets/{asset_id}/graph`)
@@ -369,11 +394,14 @@ Used by PolicyLens and other explainability clients. Typical top-level fields:
 
 | Area | Features |
 |------|----------|
-| **Run flow** | Image or text upload → poll → graph; 6-step pipeline progress; run stats (time, signal count, rules in scope) |
-| **Verdict** | Polished card: compliance status (green/yellow/red), platform verdict, risk score, violation count |
-| **Explainability** | Collapsible panels: normalized document with highlighted spans, policy pack/version, BM25 retrieved rules + scores, triggered rules, signals grouped by modality (confidence bars, extractor IDs), raw JSON |
-| **Overlays** | OCR / vision bboxes from graph; violation-scoped or all-signal mode |
-| **Advisory** | Optional Gemini pass via `POST /assets/{id}/llm-final-review` (does not override verdict) |
+| **Pipeline toggle** | **Full** (extractors + LLM vs policy) or **Quick** (VLM → LLM vs policy; optional single Gemini pass on API) |
+| **Run flow** | Image or text upload → poll (or sync on Cloud Run) → graph; mode-specific progress bar (4 or 6 steps) |
+| **Verdict** | **LLM + policy** card when `verdict_authority: advisory`; dual audit/display cards when YAML engine ran |
+| **Explainability** | Collapsible panels: document, policy pack, BM25 rules, signals, raw JSON |
+| **Overlays** | OCR / vision bboxes (Full only; Quick skips extractors) |
+| **Advisory** | Inline pipeline Gemini + re-run via `POST /assets/{id}/llm-final-review` |
+
+**Production:** API at **`/ui/policylens.html`** (same origin) or static host (e.g. underintelligence.com) with **`CORS_ORIGINS`**. Artifact Registry image path uses repo **`zataone`** (not `zetaone`). Cloud Run service: **`zataone-api`**.
 
 Configure **API base URL** and **`X-Domain`** in the page; enable **CORS** on the API (`CORS_ORIGINS` or `CORS_ALLOW_ALL` for local testing).
 

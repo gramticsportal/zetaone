@@ -14,17 +14,24 @@ from zataone.models import Verdict as VerdictModel
 class VerdictService:
     """Verdict finalization, risk scoring, and persistence service."""
 
+    # Spec-defined severity point values (0–100 scale).
+    _SEVERITY_POINTS = {"CRITICAL": 100, "HIGH": 50, "MEDIUM": 20, "LOW": 5}
+    # Confidence multipliers from spec.
+    _CONF_HIGH = 1.0   # confidence > 0.9
+    _CONF_MED  = 0.7   # confidence 0.7–0.9
+    _CONF_LOW  = 0.3   # confidence < 0.7
+    # Status / verdict thresholds on 0–100 scale.
+    _NON_COMPLIANT_THRESHOLD = 70.0
+    _BORDERLINE_THRESHOLD    = 30.0
+
     def __init__(self) -> None:
+        # Legacy weights kept for _get_severity_value helper only.
         self._severity_weights = {
             "LOW": 0.2,
             "MEDIUM": 0.4,
             "HIGH": 0.7,
             "CRITICAL": 1.0,
         }
-        self._verdict_threshold = 0.7
-        self._count_factor = 0.03
-        self._severity_factor_critical = 0.2
-        self._severity_factor_high = 0.1
 
     def generate(self, evidence: dict[str, Any]) -> dict[str, Any]:
         """
@@ -95,13 +102,38 @@ class VerdictService:
         session: Session,
         asset_id: uuid.UUID,
         verdict_result: dict[str, Any],
+        *,
+        tenant_id: uuid.UUID | str | None = None,
+        policy_pack_id: str | None = None,
+        processing_time_ms: int | None = None,
     ) -> VerdictModel:
         """Persist Verdict. Returns the persisted Verdict model."""
         result = self._sanitize_for_json(verdict_result)
+
+        tid: uuid.UUID | None = None
+        if tenant_id is not None:
+            try:
+                tid = uuid.UUID(str(tenant_id))
+            except (ValueError, AttributeError):
+                tid = None
+
+        # Prefer explicit arg; fall back to timing in metadata.
+        if processing_time_ms is None:
+            timing = (verdict_result.get("metadata") or {}).get("pipeline_timing") or {}
+            ms = timing.get("total_ms")
+            if ms is not None:
+                try:
+                    processing_time_ms = int(ms)
+                except (TypeError, ValueError):
+                    pass
+
         model = VerdictModel(
             asset_id=asset_id,
+            tenant_id=tid,
+            policy_pack_id=policy_pack_id,
             status=verdict_result.get("status", ""),
             risk_score=float(verdict_result.get("risk_score", 0.0)),
+            processing_time_ms=processing_time_ms,
             result=result,
         )
         session.add(model)
@@ -119,59 +151,65 @@ class VerdictService:
             return sv.value if hasattr(sv, "value") else str(sv)
         return str(v.get("severity", "HIGH"))
 
+    def _confidence_multiplier(self, confidence: float) -> float:
+        """Spec: >0.9 → 1.0x, 0.7–0.9 → 0.7x, <0.7 → 0.3x."""
+        if confidence > 0.9:
+            return self._CONF_HIGH
+        if confidence >= 0.7:
+            return self._CONF_MED
+        return self._CONF_LOW
+
+    def _severity_points(self, severity_name: str) -> float:
+        """Spec: CRITICAL=100, HIGH=50, MEDIUM=20, LOW=5."""
+        return float(self._SEVERITY_POINTS.get(severity_name.upper(), 20))
+
     def _calculate_risk_score(self, violations: list[Any]) -> float:
+        """
+        Spec formula: SUM(severity_points × confidence_mult × jurisdiction_mult × history_mult),
+        capped at 100. Jurisdiction and history default to 1.0 until those data points exist.
+        Returns score on 0.0–100.0 scale.
+        """
         if not violations:
             return 0.0
-        total_weighted_risk = 0.0
-        total_weight = 0.0
-        for v in violations:
-            if hasattr(v, "evidence_data"):
-                ed = getattr(v, "evidence_data", {})
-                avg_conf = ed.get("confidence", 0.8) * ed.get("signal_confidence", 0.8)
-                base_risk = getattr(v, "severity", 0.5)
-                if not isinstance(base_risk, (int, float)):
-                    base_risk = self._severity_weights.get(self._get_severity_value(v), 0.5)
-            else:
-                evidence_list = (
-                    v.get("evidence", []) if isinstance(v, dict) else getattr(v, "evidence", [])
-                )
-                if evidence_list:
-                    def _ev_data(e):
-                        return e.data if hasattr(e, "data") else e.get("data", {})
 
-                    avg_conf = sum(
-                        _ev_data(e).get("confidence", 0.8)
-                        * _ev_data(e).get("signal_confidence", 0.8)
-                        for e in evidence_list
-                    ) / len(evidence_list)
-                else:
-                    avg_conf = 0.8
-                base_risk = self._severity_weights.get(self._get_severity_value(v), 0.5)
-            total_weighted_risk += base_risk * avg_conf
-            total_weight += avg_conf
-        base_score = total_weighted_risk / total_weight if total_weight > 0 else 0.5
-        count_factor = min(len(violations) * self._count_factor, 0.15)
-        severities = [self._get_severity_value(v) for v in violations]
-        has_critical = "CRITICAL" in severities
-        has_high = "HIGH" in severities
-        severity_factor = (
-            self._severity_factor_critical
-            if has_critical
-            else self._severity_factor_high if has_high else 0.0
-        )
-        return round(min(base_score + count_factor + severity_factor, 1.0), 3)
+        total = 0.0
+        for v in violations:
+            severity_name = self._get_severity_value(v)
+            points = self._severity_points(severity_name)
+
+            # Extract the best available confidence value.
+            if hasattr(v, "evidence_data"):
+                ed = getattr(v, "evidence_data", {}) or {}
+                raw_conf = ed.get("confidence") or ed.get("signal_confidence") or 0.8
+            elif isinstance(v, dict):
+                raw_conf = v.get("confidence", 0.8)
+            else:
+                raw_conf = getattr(v, "confidence", 0.8)
+            try:
+                conf = float(raw_conf)
+            except (TypeError, ValueError):
+                conf = 0.8
+
+            conf_mult = self._confidence_multiplier(conf)
+            # Jurisdiction and historical context multipliers — 1.0x until implemented.
+            jurisdiction_mult = 1.0
+            history_mult = 1.0
+
+            total += points * conf_mult * jurisdiction_mult * history_mult
+
+        return round(min(total, 100.0), 2)
 
     def _determine_status(self, risk_score: float, violations: list[Any]) -> str:
         if risk_score == 0.0:
             return "COMPLIANT"
-        if risk_score >= 0.7:
+        if risk_score >= self._NON_COMPLIANT_THRESHOLD:
             return "NON_COMPLIANT"
         return "REVIEW_REQUIRED"
 
     def _determine_verdict(self, risk_score: float) -> str:
-        if risk_score > self._verdict_threshold:
+        if risk_score >= self._NON_COMPLIANT_THRESHOLD:
             return "likely_rejected"
-        if risk_score >= 0.3:
+        if risk_score >= self._BORDERLINE_THRESHOLD:
             return "borderline"
         return "likely_approved"
 

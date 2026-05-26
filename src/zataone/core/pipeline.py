@@ -664,8 +664,17 @@ class CompliancePipeline:
                 session, asset_record.id, signal_records, violation_records
             )
 
+            policy_pack_id: str | None = None
+            if self._policy_pack is not None:
+                pp = self._policy_pack
+                policy_pack_id = getattr(pp, "pack_id", None) or getattr(pp, "name", None)
+
             verdict_record = self._verdict_service.persist_verdict(
-                session, asset_record.id, verdict
+                session,
+                asset_record.id,
+                verdict,
+                tenant_id=tenant_id,
+                policy_pack_id=policy_pack_id,
             )
 
             self._audit_service.persist_audit_event(
@@ -673,6 +682,13 @@ class CompliancePipeline:
                 asset_record.id,
                 verdict_record.id,
                 "COMPLIANCE_CHECK",
+                tenant_id=tenant_id,
+                action="COMPLIANCE_CHECK",
+                after_state={
+                    "status": verdict.get("status"),
+                    "risk_score": verdict.get("risk_score"),
+                    "verdict": verdict.get("verdict"),
+                },
             )
 
             session.commit()

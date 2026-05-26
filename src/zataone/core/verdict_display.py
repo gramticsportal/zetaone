@@ -70,25 +70,12 @@ def apply_display_verdict(
         display_status, display_platform, override_reason, elevated = _display_from_advisory(review)
         verdict_source = "advisory"
     else:
-        agreement = str(review.get("agreement_with_deterministic") or "unclear").strip().lower()
+        # Engine ran: deterministic result is authoritative. Advisory is annotation only.
         elevated = False
         override_reason: str | None = None
         display_status = det_status
         display_platform = det_platform
         verdict_source = "deterministic"
-
-        if signal_count == 0:
-            elevated = True
-            display_status = "REVIEW_REQUIRED"
-            display_platform = "borderline"
-            override_reason = "no_extractor_signals"
-            verdict_source = "advisory_escalation"
-        elif agreement == "diverges":
-            elevated = True
-            display_status = "REVIEW_REQUIRED"
-            display_platform = "borderline"
-            override_reason = "advisory_diverges_from_deterministic"
-            verdict_source = "advisory_escalation"
 
     meta["elevated_by_advisory"] = elevated
     meta["verdict_source"] = verdict_source

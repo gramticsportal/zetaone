@@ -366,6 +366,7 @@ class CompliancePipeline:
         evaluate_document = document if document_centric_enabled() else None
 
         retrieval_result = None
+        active_rule_ids = None
         if self._policy_retriever is not None:
             vision_primary_ids = {
                 rid
@@ -377,18 +378,15 @@ class CompliancePipeline:
                 vision_rule_ids=vision_primary_ids,
             )
             if policy_retrieval_enabled() and retrieval_result.retrieved_rule_ids:
-                self._policy_engine.set_active_rule_ids(retrieval_result.retrieved_rule_ids)
-            else:
-                self._policy_engine.set_active_rule_ids(None)
-        else:
-            self._policy_engine.set_active_rule_ids(None)
+                active_rule_ids = set(retrieval_result.retrieved_rule_ids)
 
         engine_on = policy_engine_enabled()
         if engine_on:
-            violations = self._policy_engine.evaluate(signals, document=evaluate_document)
+            violations = self._policy_engine.evaluate(
+                signals, document=evaluate_document, active_rule_ids=active_rule_ids
+            )
         else:
             violations = []
-        self._policy_engine.set_active_rule_ids(None)
 
         evidence = self._evidence_service.generate(signals, violations)
         verdict = self._verdict_service.generate(evidence)

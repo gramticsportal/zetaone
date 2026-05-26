@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field
 
 from zataone.api.auth import AuthContext, get_auth_context
 from zataone.core.pipeline import CompliancePipeline, resolve_pipeline_mode
+from zataone.policy_engine.jurisdiction.router import JurisdictionRouter as _JR
 from zataone.core.verdict_display import enrich_api_verdict_payload
 from zataone.models import (
     Asset as AssetModel,
@@ -41,12 +42,14 @@ _pipeline_cache: dict[str, "CompliancePipeline"] = {}
 _pipeline_cache_lock = threading.Lock()
 
 
-def _get_pipeline(domain: str) -> "CompliancePipeline":
-    if domain not in _pipeline_cache:
+def _get_pipeline(domain: str, jurisdiction: str = "US") -> "CompliancePipeline":
+    j = _JR().normalize(jurisdiction)
+    key = f"{domain}:{j}"
+    if key not in _pipeline_cache:
         with _pipeline_cache_lock:
-            if domain not in _pipeline_cache:
-                _pipeline_cache[domain] = CompliancePipeline(domain=domain)
-    return _pipeline_cache[domain]
+            if key not in _pipeline_cache:
+                _pipeline_cache[key] = CompliancePipeline(domain=domain, jurisdiction=j)
+    return _pipeline_cache[key]
 
 
 def _resolve_domain(x_domain: str | None) -> str:
@@ -192,13 +195,14 @@ def _run_pipeline_background(
     idempotency_key: str | None,
     domain: str,
     pipeline_mode: str | None = None,
+    jurisdiction: str = "US",
 ) -> None:
     """Background task: run pipeline and persist result to existing asset."""
     import logging
 
     logger = logging.getLogger(__name__)
     try:
-        pipeline = _get_pipeline(domain)
+        pipeline = _get_pipeline(domain, jurisdiction)
         pipeline.run(
             asset,
             tenant_id=tenant_id,
@@ -226,6 +230,7 @@ def post_assets(
     auth: AuthContext = Depends(get_auth_context),
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
+    x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -239,6 +244,7 @@ def post_assets(
     """
     x_tenant_id = str(auth.tenant_id) if auth.tenant_id else None
     domain = _resolve_domain(x_domain)
+    jurisdiction = _JR().normalize(x_jurisdiction)
     pm = _pipeline_mode_header(x_pipeline_mode)
     if idempotency_key:
         session = get_session_factory()()
@@ -282,7 +288,7 @@ def post_assets(
 
     if _use_sync_pipeline():
         try:
-            _get_pipeline(domain).run(
+            _get_pipeline(domain, jurisdiction).run(
                 asset,
                 tenant_id=x_tenant_id,
                 persist=True,
@@ -314,9 +320,10 @@ def post_assets(
         idempotency_key,
         domain,
         pm,
+        jurisdiction,
     )
 
-    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm)}
+    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm), "jurisdiction": jurisdiction}
 
 
 @router.post("/assets/image")
@@ -326,6 +333,7 @@ async def post_assets_image(
     auth: AuthContext = Depends(get_auth_context),
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
+    x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -339,6 +347,7 @@ async def post_assets_image(
     """
     x_tenant_id = str(auth.tenant_id) if auth.tenant_id else None
     domain = _resolve_domain(x_domain)
+    jurisdiction = _JR().normalize(x_jurisdiction)
     pm = _pipeline_mode_header(x_pipeline_mode)
     if idempotency_key:
         session = get_session_factory()()
@@ -388,7 +397,7 @@ async def post_assets_image(
     if _use_sync_pipeline():
 
         def _run_img_pipeline() -> None:
-            _get_pipeline(domain).run(
+            _get_pipeline(domain, jurisdiction).run(
                 asset,
                 tenant_id=x_tenant_id,
                 persist=True,
@@ -423,9 +432,10 @@ async def post_assets_image(
         idempotency_key,
         domain,
         pm,
+        jurisdiction,
     )
 
-    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm)}
+    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm), "jurisdiction": jurisdiction}
 
 
 @router.post("/assets/audio")
@@ -435,6 +445,7 @@ async def post_assets_audio(
     auth: AuthContext = Depends(get_auth_context),
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
+    x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -444,6 +455,7 @@ async def post_assets_audio(
     """
     x_tenant_id = str(auth.tenant_id) if auth.tenant_id else None
     domain = _resolve_domain(x_domain)
+    jurisdiction = _JR().normalize(x_jurisdiction)
     pm = _pipeline_mode_header(x_pipeline_mode)
     if idempotency_key:
         session = get_session_factory()()
@@ -494,7 +506,7 @@ async def post_assets_audio(
     if _use_sync_pipeline():
 
         def _run_audio_pipeline() -> None:
-            _get_pipeline(domain).run(
+            _get_pipeline(domain, jurisdiction).run(
                 asset,
                 tenant_id=x_tenant_id,
                 persist=True,
@@ -529,9 +541,10 @@ async def post_assets_audio(
         idempotency_key,
         domain,
         pm,
+        jurisdiction,
     )
 
-    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm)}
+    return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm), "jurisdiction": jurisdiction}
 
 
 @router.get("/assets/{asset_id}")

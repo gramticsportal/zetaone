@@ -35,6 +35,7 @@ from zataone.document.builder import DocumentBuilder
 from zataone.document.flags import document_centric_enabled
 from zataone.extractors.registry import ExtractorRegistry
 from zataone.policy_engine.corpus.loader import load_policy_pack_from_dict
+from zataone.policy_engine.jurisdiction.router import JurisdictionRouter
 from zataone.policy_engine.engine import PolicyEngine
 from zataone.policy_engine.retrieval.flags import policy_retrieval_enabled
 from zataone.policy_engine.retrieval.retriever import PolicyRetriever
@@ -89,16 +90,17 @@ class CompliancePipeline:
     Loads domain extractors and policies, orchestrates the full flow.
     """
 
-    def __init__(self, domain: str):
+    def __init__(self, domain: str, jurisdiction: str = "US"):
         """
-        Initialize pipeline for a domain.
+        Initialize pipeline for a domain + jurisdiction.
 
         Args:
-            domain: Domain name (e.g. "ad_compliance").
-                   Loads extractors from zataone.domains.<domain>.extractors
-                   and policy pack from zataone.domains.<domain>.policies
+            domain:      Domain name (e.g. "ad_compliance").
+            jurisdiction: ISO-style jurisdiction code (US, EU, UK, CA, AU).
+                         Selects the matching policy pack YAML; falls back to US.
         """
         self._domain = domain
+        self._jurisdiction = JurisdictionRouter().normalize(jurisdiction)
         self._extractor_registry = ExtractorRegistry()
         self._policy_engine = PolicyEngine()
         self._policy_pack = None
@@ -197,15 +199,17 @@ class CompliancePipeline:
         if hasattr(extractors_module, "AsrExtractor") and _allow("asr"):
             extractor_classes.append(("AsrExtractor", {}))
 
-        # Core extractors for ad_compliance (text always; OCR/Vision/Embedding/VLM optional stubs)
+        # Core extractors for ad_compliance (text + video always; OCR/Vision/Embedding/VLM optional)
         if self._domain == "ad_compliance":
             from zataone.extractors.text_extractor import TextExtractor
+            from zataone.extractors.video_extractor import VideoExtractor
             from zataone.extractors.ocr_extractor import OCRExtractor
             from zataone.extractors.vision_extractor import VisionExtractor
             from zataone.extractors.embedding_extractor import EmbeddingExtractor
             from zataone.extractors.vlm_extractor import VLMExtractor
 
             self._extractor_registry.register(TextExtractor())
+            self._extractor_registry.register(VideoExtractor())
             if _core_stub_extractors_disabled():
                 logger.info(
                     "Core stub extractors disabled (ZATAONE_DISABLE_CORE_STUB_EXTRACTORS); "
@@ -238,22 +242,31 @@ class CompliancePipeline:
             return yaml.safe_load(f) or {}
 
     def _load_domain_policies(self) -> None:
-        """Load policy pack from domain policies."""
+        """Load jurisdiction-appropriate policy pack from domain policies."""
         domain_module = importlib.import_module(f"zataone.domains.{self._domain}")
         domain_path = os.path.dirname(domain_module.__file__)
 
         import yaml
 
-        policy_path = os.path.join(domain_path, "policies", "meta_ads.yaml")
-        if not os.path.exists(policy_path):
-            policy_path = os.path.join(domain_path, "policies", f"{self._domain}.yaml")
-        if not os.path.exists(policy_path):
+        policy_path = JurisdictionRouter().resolve_policy_path(
+            domain_path, self._domain, self._jurisdiction
+        )
+        if not policy_path:
             return
+
+        logger.info(
+            "Loading policy pack: %s (domain=%s, jurisdiction=%s)",
+            os.path.basename(policy_path), self._domain, self._jurisdiction,
+        )
 
         with open(policy_path, "r") as f:
             data = yaml.safe_load(f) or {}
 
-        self._policy_pack = load_policy_pack_from_dict(data, source_path=policy_path)
+        self._policy_pack = load_policy_pack_from_dict(
+            data,
+            source_path=policy_path,
+            jurisdiction=self._jurisdiction,
+        )
         rules = self._policy_pack.rules
 
         vision_support_map = {}

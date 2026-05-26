@@ -1,0 +1,222 @@
+# Meta Ads — EU jurisdiction policy pack
+# Extends the US base rules with GDPR and EU consumer-protection obligations.
+# jurisdiction: EU
+
+policy_pack:
+  id: meta_ads_eu
+  platform: meta
+  jurisdiction: EU
+  version: "2025-05-01"
+  effective_date: "2025-05-01"
+  modalities:
+    - text
+    - image
+
+clauses:
+  - clause_id: eu.gdpr.data_collection_disclosure
+    text: "Advertisers must clearly disclose what personal data is collected, for what purpose, and on what legal basis (GDPR Art. 13/14)."
+    modalities: [text]
+    rule_ids: [gdpr_data_collection_disclosure]
+
+  - clause_id: eu.gdpr.consent_required
+    text: "Advertising must not use deceptive consent language or pre-ticked consent boxes. Consent must be freely given, specific, and informed."
+    modalities: [text]
+    rule_ids: [gdpr_consent_language]
+
+  - clause_id: eu.gdpr.automated_decision
+    text: "Advertisers must disclose when automated profiling or decision-making affects consumers and provide a right to explanation."
+    modalities: [text]
+    rule_ids: [gdpr_automated_decision]
+
+  - clause_id: eu.ucpd.misleading_claims
+    text: "Unfair Commercial Practices Directive: advertising must not use misleading or exaggerated claims that could cause consumers to make a transactional decision they would not otherwise make."
+    modalities: [text]
+    rule_ids: [misleading_exaggerated_claims, eu_absolute_claims]
+
+  - clause_id: eu.health.claims
+    text: "EU Regulation 1924/2006: health and nutrition claims must be authorised by EFSA. Unsubstantiated health claims are prohibited."
+    modalities: [text]
+    rule_ids: [eu_unsubstantiated_health_claims]
+
+  - clause_id: eu.finance.disclosure
+    text: "EU MiFID II / Consumer Credit Directive: financial promotions must include required risk warnings and representative APR."
+    modalities: [text]
+    rule_ids: [eu_financial_risk_warning_missing]
+
+  - clause_id: meta.gambling.restricted
+    text: "Promotion of real-money gambling is restricted except where permitted."
+    modalities: [text]
+    rule_ids: [gambling]
+
+rules:
+  # ── GDPR-specific rules ───────────────────────────────────────────────────
+
+  gdpr_data_collection_disclosure:
+    name: "GDPR: Missing Data Collection Disclosure"
+    severity: HIGH
+    description: "Ad collects personal data without clear GDPR disclosure language"
+    type: keyword
+    clause_ids: [eu.gdpr.data_collection_disclosure]
+    prohibited_terms:
+      - "your data will be shared"
+      - "we sell your data"
+      - "your information is sold"
+      - "share your details with third parties"
+    patterns:
+      - pattern: "your\\s+(personal\\s+)?data\\s+will\\s+be\\s+(sold|shared\\s+with)"
+        confidence: 0.9
+        description: "Explicit data-sharing statement without consent context"
+      - pattern: "we\\s+(sell|share|transfer)\\s+your\\s+(data|information|details)"
+        confidence: 0.9
+        description: "Data monetisation without disclosure"
+
+  gdpr_consent_language:
+    name: "GDPR: Deceptive Consent Language"
+    severity: HIGH
+    description: "Pre-ticked boxes, opt-out framed as opt-in, or bundled consent"
+    type: keyword
+    clause_ids: [eu.gdpr.consent_required]
+    prohibited_terms:
+      - "by continuing you agree"
+      - "by clicking accept you consent to all"
+      - "uncheck to opt out"
+      - "untick to opt out"
+    patterns:
+      - pattern: "by\\s+(continuing|using|accessing)\\s+you\\s+(agree|consent|accept)"
+        confidence: 0.85
+        description: "Implied consent by use"
+      - pattern: "un(check|tick|select)\\s+(the\\s+box\\s+)?to\\s+opt\\s+out"
+        confidence: 0.9
+        description: "Opt-out framed as affirmative action (dark pattern)"
+      - pattern: "consent\\s+to\\s+(all|everything|all\\s+cookies)"
+        confidence: 0.85
+        description: "Bundled consent"
+
+  gdpr_automated_decision:
+    name: "GDPR: Automated Decision Without Disclosure"
+    severity: MEDIUM
+    description: "Automated profiling or scoring without right-to-explanation disclosure"
+    type: keyword
+    clause_ids: [eu.gdpr.automated_decision]
+    patterns:
+      - pattern: "automatically\\s+(approved|rejected|scored|assessed)\\b"
+        confidence: 0.8
+        description: "Automated decision outcome without right-to-explanation"
+      - pattern: "\\b(ai|algorithm|automated\\s+system)\\s+(decides?|determines?|scores?)"
+        confidence: 0.8
+        description: "AI-driven decision without GDPR disclosure"
+
+  # ── EU absolute / superlative claim rules ────────────────────────────────
+
+  eu_absolute_claims:
+    name: "EU: Absolute or Superlative Claims"
+    severity: MEDIUM
+    description: "Absolute superlatives require substantiation under UCPD"
+    type: keyword
+    clause_ids: [eu.ucpd.misleading_claims]
+    patterns:
+      - pattern: "\\b(the\\s+)?(best|#1|number\\s+one|world['-]s\\s+(best|leading|largest))\\b"
+        confidence: 0.75
+        description: "Unsubstantiated superlative claim"
+      - pattern: "\\bunbeatable\\s+(price|quality|value)\\b"
+        confidence: 0.8
+        description: "Absolute price/quality claim"
+      - pattern: "\\b(nobody|no\\s+one)\\s+(beats?|offers?|matches?)\\s+our\\b"
+        confidence: 0.8
+        description: "Comparative absolute claim"
+
+  # ── EU health claim rules (EFSA) ─────────────────────────────────────────
+
+  eu_unsubstantiated_health_claims:
+    name: "EU: Unsubstantiated Health / Nutrition Claim"
+    severity: HIGH
+    description: "Health or nutrition claims must be EFSA-authorised (Reg. 1924/2006)"
+    type: keyword
+    clause_ids: [eu.health.claims]
+    prohibited_terms:
+      - "clinically proven"
+      - "scientifically proven"
+      - "doctor recommended"
+      - "efsa approved"
+      - "eu approved"
+    patterns:
+      - pattern: "\\b(clinically|scientifically|medically)\\s+proven\\b"
+        confidence: 0.9
+        description: "Unsubstantiated clinical/scientific claim"
+      - pattern: "\\bprotects?\\s+(against|from)\\s+\\w+\\s+(disease|cancer|condition)\\b"
+        confidence: 0.9
+        description: "Disease protection claim (requires EFSA authorisation)"
+      - pattern: "\\b(reduces?|prevents?|reverses?)\\s+\\w*\\s*(disease|cancer|diabetes|obesity)\\b"
+        confidence: 0.85
+        description: "Disease prevention/reduction claim"
+      - pattern: "boosts?\\s+(immune|immunity|metabolism|brain)"
+        confidence: 0.8
+        description: "Unsubstantiated functional claim"
+
+  # ── EU financial rules (MiFID II / CCD) ─────────────────────────────────
+
+  eu_financial_risk_warning_missing:
+    name: "EU: Financial Promotion Missing Risk Warning"
+    severity: HIGH
+    description: "Financial promotions must include required risk warning (MiFID II Art. 24)"
+    type: keyword
+    clause_ids: [eu.finance.disclosure]
+    patterns:
+      - pattern: "\\b(invest|investment|trading|portfolio|returns?)\\b(?!.*\\b(risk|capital|loss|may\\s+(go\\s+down|fall|decrease)))"
+        confidence: 0.7
+        description: "Investment promotion without visible risk warning"
+      - pattern: "guaranteed\\s+(returns?|profits?|income)"
+        confidence: 0.95
+        description: "Guaranteed financial return (prohibited)"
+      - pattern: "\\b(no\\s+risk|risk\\s+free|risk-free)\\b"
+        confidence: 0.9
+        description: "Risk-free financial claim (prohibited under MiFID II)"
+
+  # ── Shared rules (kept for EU pack completeness) ────────────────────────
+
+  misleading_exaggerated_claims:
+    name: "Misleading or Exaggerated Claims"
+    severity: HIGH
+    description: "Misleading or exaggerated advertising claims"
+    type: keyword
+    clause_ids: [eu.ucpd.misleading_claims]
+    prohibited_terms:
+      - guaranteed
+      - instant
+      - "100%"
+      - miracle
+      - overnight
+      - immediate
+      - scientifically proven
+      - clinically proven
+    patterns:
+      - pattern: "lose\\s+\\d+\\s+pounds?\\s+in\\s+\\d+\\s+days?"
+        confidence: 0.95
+        description: "Weight loss claim with timeframe"
+      - pattern: "\\d+%\\s+(guaranteed|safe|effective)"
+        confidence: 0.9
+        description: "Percentage-based guarantee"
+
+  gambling:
+    name: "Gambling and Betting"
+    severity: HIGH
+    description: "Restricted gambling promotions"
+    type: keyword
+    clause_ids: [meta.gambling.restricted]
+    prohibited_terms:
+      - betting
+      - sportsbook
+      - casino
+      - wager
+      - real money bets
+    patterns:
+      - pattern: "\\b(betting|sportsbook|casino|wager)\\b"
+        confidence: 0.9
+        description: "Gambling/betting"
+      - pattern: "real\\s+money\\s+(bet|gambling)"
+        confidence: 0.92
+        description: "Real money gambling"
+    exception_terms:
+      - for fun
+      - free to play
+      - no real money

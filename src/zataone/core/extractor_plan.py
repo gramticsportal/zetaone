@@ -19,6 +19,7 @@ _SHORT_TO_IDS: dict[str, frozenset[str]] = {
     "vlm": frozenset({"ad_compliance_vlm", "vlm_extractor"}),
     "asr": frozenset({"ad_compliance_asr"}),
     "text": frozenset({"text_extractor"}),
+    "video": frozenset({"video_extractor"}),
 }
 
 # Default extractors by asset type when YAML list is absent
@@ -28,7 +29,7 @@ _DEFAULT_BY_TYPE: dict[str, frozenset[str]] = {
         {"text_extractor", "ad_compliance_ocr", "ocr_extractor", "ad_compliance_vision", "vision_extractor"}
     ),
     "audio": frozenset({"text_extractor", "ad_compliance_asr"}),
-    "video": frozenset({"text_extractor", "ad_compliance_ocr", "ocr_extractor"}),
+    "video": frozenset({"text_extractor", "video_extractor", "ad_compliance_ocr", "ocr_extractor"}),
 }
 
 

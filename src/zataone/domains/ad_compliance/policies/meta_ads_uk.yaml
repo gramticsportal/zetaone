@@ -1,0 +1,221 @@
+# Meta Ads — UK jurisdiction policy pack
+# UK Advertising Standards Authority (ASA) / CAP Code obligations.
+# Post-Brexit: UK GDPR applies (not EU GDPR), MHRA governs health claims.
+# jurisdiction: UK
+
+policy_pack:
+  id: meta_ads_uk
+  platform: meta
+  jurisdiction: UK
+  version: "2025-05-01"
+  effective_date: "2025-05-01"
+  modalities:
+    - text
+    - image
+
+clauses:
+  - clause_id: uk.cap.misleading
+    text: "CAP Code Rule 3: Advertising must not materially mislead or be likely to mislead consumers."
+    modalities: [text]
+    rule_ids: [misleading_exaggerated_claims, uk_absolute_claims]
+
+  - clause_id: uk.cap.health_claims
+    text: "CAP Code Rule 12 / MHRA: Health and medical claims must be substantiated. Only licensed medicines may claim to treat disease."
+    modalities: [text]
+    rule_ids: [uk_unsubstantiated_health_claims]
+
+  - clause_id: uk.fca.financial
+    text: "FCA COBS 4: Financial promotions must be fair, clear, and not misleading. Risk warnings are mandatory for investment products."
+    modalities: [text]
+    rule_ids: [uk_financial_risk_warning, uk_high_risk_investment]
+
+  - clause_id: uk.cap.pressure_tactics
+    text: "CAP Code Rule 8: Promotions must not use undue pressure, urgency, or fear to influence consumers."
+    modalities: [text]
+    rule_ids: [uk_pressure_tactics]
+
+  - clause_id: uk.gdpr.consent
+    text: "UK GDPR Schedule 1: Consent must be freely given, specific, informed, and unambiguous."
+    modalities: [text]
+    rule_ids: [uk_gdpr_consent]
+
+  - clause_id: meta.gambling.restricted
+    text: "Gambling promotion restricted to licensed operators; must include problem-gambling messaging."
+    modalities: [text]
+    rule_ids: [gambling]
+
+rules:
+  # ── CAP Code: misleading / absolute claims ───────────────────────────────
+
+  misleading_exaggerated_claims:
+    name: "CAP: Misleading or Exaggerated Claims"
+    severity: HIGH
+    description: "CAP Code 3.1 – substantiation required for all objective claims"
+    type: keyword
+    clause_ids: [uk.cap.misleading]
+    prohibited_terms:
+      - guaranteed
+      - "100%"
+      - miracle
+      - instant results
+      - scientifically proven
+      - clinically proven
+      - overnight results
+    patterns:
+      - pattern: "lose\\s+\\d+\\s+pounds?\\s+in\\s+\\d+\\s+days?"
+        confidence: 0.95
+        description: "Weight loss claim with timeframe"
+      - pattern: "\\d+%\\s+(guaranteed|effective|safe)"
+        confidence: 0.9
+        description: "Percentage guarantee"
+
+  uk_absolute_claims:
+    name: "CAP: Unsubstantiated Superlative"
+    severity: MEDIUM
+    description: "CAP Code 3.2 — absolute/superlative claims require substantiation"
+    type: keyword
+    clause_ids: [uk.cap.misleading]
+    patterns:
+      - pattern: "\\b(the\\s+)?(best|#1|number\\s+one|uk['-]s\\s+(best|leading))\\b"
+        confidence: 0.75
+        description: "Unsubstantiated superlative"
+      - pattern: "\\b(nobody|no\\s+one)\\s+(beats?|offers?|matches?)\\b"
+        confidence: 0.8
+        description: "Comparative absolute claim"
+
+  # ── CAP / MHRA: health claims ─────────────────────────────────────────────
+
+  uk_unsubstantiated_health_claims:
+    name: "MHRA / CAP: Unsubstantiated Health Claim"
+    severity: HIGH
+    description: "Health claims must be substantiated; disease claims require licensed medicine"
+    type: keyword
+    clause_ids: [uk.cap.health_claims]
+    prohibited_terms:
+      - "clinically proven"
+      - "scientifically proven"
+      - "doctor recommended"
+      - "nhs approved"
+      - "nhs recommended"
+    patterns:
+      - pattern: "\\b(clinically|scientifically|medically)\\s+(proven|tested|backed)\\b"
+        confidence: 0.9
+        description: "Unsubstantiated clinical/scientific claim"
+      - pattern: "\\b(cures?|treats?|heals?|reverses?)\\s+\\w*\\s*(disease|cancer|diabetes|arthritis)\\b"
+        confidence: 0.9
+        description: "Disease treatment claim (MHRA licensed medicine required)"
+      - pattern: "\\bnhs\\s+(approved|recommended|endorsed)\\b"
+        confidence: 0.95
+        description: "False NHS endorsement"
+      - pattern: "boosts?\\s+(immune|immunity|metabolism)"
+        confidence: 0.8
+        description: "Unsubstantiated functional claim"
+
+  # ── FCA financial promotions ──────────────────────────────────────────────
+
+  uk_financial_risk_warning:
+    name: "FCA: Missing Capital-at-Risk Warning"
+    severity: HIGH
+    description: "FCA COBS 4.2: Investment promotions must state capital is at risk"
+    type: keyword
+    clause_ids: [uk.fca.financial]
+    patterns:
+      - pattern: "\\b(invest|investment|trading|crypto|shares|stocks|etf|fund)\\b(?!.*\\bcapital\\s+(at\\s+risk|is\\s+at\\s+risk))"
+        confidence: 0.7
+        description: "Investment promotion without capital-at-risk warning"
+      - pattern: "guaranteed\\s+(return|profit|income|yield)"
+        confidence: 0.95
+        description: "Guaranteed financial return (prohibited by FCA)"
+      - pattern: "\\b(no\\s+risk|risk\\s+free|risk-free)\\b"
+        confidence: 0.9
+        description: "Risk-free financial claim"
+
+  uk_high_risk_investment:
+    name: "FCA: High-Risk Investment Without Warning"
+    severity: HIGH
+    description: "FCA PS22/10: Cryptoassets and CFDs require prominent risk warnings"
+    type: keyword
+    clause_ids: [uk.fca.financial]
+    patterns:
+      - pattern: "\\b(bitcoin|ethereum|crypto|nft|defi|cfds?|spread\\s+betting)\\b(?!.*\\b(high\\s+risk|capital\\s+at\\s+risk|you\\s+may\\s+lose))"
+        confidence: 0.8
+        description: "Crypto/CFD promotion without FCA-mandated risk warning"
+      - pattern: "\\b\\d{2,3}%\\s+(of\\s+)?(investors?|traders?|accounts?)\\s+lose"
+        confidence: 0.9
+        description: "Mandated retail-loss disclosure (present = compliant context marker)"
+
+  # ── CAP pressure tactics ──────────────────────────────────────────────────
+
+  uk_pressure_tactics:
+    name: "CAP: Undue Pressure / Urgency Tactics"
+    severity: MEDIUM
+    description: "CAP Code 8.2 – promotions must not use psychological pressure or artificial urgency"
+    type: keyword
+    clause_ids: [uk.cap.pressure_tactics]
+    prohibited_terms:
+      - "act now"
+      - "limited time offer"
+      - "don't miss out"
+      - "last chance"
+      - "offer expires today"
+      - "only a few left"
+    patterns:
+      - pattern: "\\b(act|buy|order|sign\\s+up)\\s+now\\b"
+        confidence: 0.8
+        description: "Urgency trigger"
+      - pattern: "limited\\s+(time|offer|availability|stock)"
+        confidence: 0.8
+        description: "Artificial scarcity / urgency"
+      - pattern: "offer\\s+(expires?|ends?)\\s+(today|tonight|soon|in\\s+\\d+)"
+        confidence: 0.85
+        description: "Countdown pressure"
+      - pattern: "only\\s+\\d+\\s+(left|remaining|available)"
+        confidence: 0.85
+        description: "False scarcity claim"
+
+  # ── UK GDPR consent ───────────────────────────────────────────────────────
+
+  uk_gdpr_consent:
+    name: "UK GDPR: Deceptive Consent Language"
+    severity: HIGH
+    description: "UK GDPR Sch. 1 Para. 3 – consent must be freely given and unambiguous"
+    type: keyword
+    clause_ids: [uk.gdpr.consent]
+    prohibited_terms:
+      - "by continuing you agree"
+      - "by clicking accept you consent to all"
+      - "uncheck to opt out"
+    patterns:
+      - pattern: "by\\s+(continuing|using|accessing)\\s+you\\s+(agree|consent|accept)"
+        confidence: 0.85
+        description: "Implied consent by use"
+      - pattern: "un(check|tick|select)\\s+(the\\s+box\\s+)?to\\s+opt\\s+out"
+        confidence: 0.9
+        description: "Opt-out dark pattern"
+
+  # ── Shared ────────────────────────────────────────────────────────────────
+
+  gambling:
+    name: "Gambling: Licensed Operators Only"
+    severity: HIGH
+    description: "UKGC: gambling promotions restricted to licensed operators; must include BeGambleAware"
+    type: keyword
+    clause_ids: [meta.gambling.restricted]
+    prohibited_terms:
+      - betting
+      - casino
+      - sportsbook
+      - wager
+      - real money bets
+    patterns:
+      - pattern: "\\b(betting|sportsbook|casino|wager)\\b"
+        confidence: 0.9
+        description: "Gambling/betting"
+      - pattern: "real\\s+money\\s+(bet|gambling)"
+        confidence: 0.92
+        description: "Real money gambling"
+    exception_terms:
+      - for fun
+      - free to play
+      - no real money
+      - begambleaware

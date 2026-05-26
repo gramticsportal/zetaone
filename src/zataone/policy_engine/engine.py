@@ -63,16 +63,22 @@ class PolicyEngine:
                 self._rule_asts[rule_id] = ast
 
     def set_active_rule_ids(self, rule_ids: set[str] | list[str] | None) -> None:
-        """Restrict evaluation to a subset (e.g. after retrieval). None = all rules."""
+        """Deprecated: pass active_rule_ids directly to evaluate() instead."""
         if rule_ids is None:
             self._active_rule_ids = None
         else:
             self._active_rule_ids = set(rule_ids)
 
     def iter_rules(self) -> list[tuple[str, dict]]:
-        if self._active_rule_ids is None:
+        """Iterate all rules (legacy; use _iter_rules_filtered for thread-safe per-call filtering)."""
+        return list(self._rules.items())
+
+    def _iter_rules_filtered(
+        self, active_rule_ids: set[str] | None
+    ) -> list[tuple[str, dict]]:
+        if active_rule_ids is None:
             return list(self._rules.items())
-        return [(rid, r) for rid, r in self._rules.items() if rid in self._active_rule_ids]
+        return [(rid, r) for rid, r in self._rules.items() if rid in active_rule_ids]
 
     def evaluate(
         self,
@@ -80,27 +86,31 @@ class PolicyEngine:
         policy_pack_id: str | None = None,
         rules: list[Rule] | None = None,
         document: DocumentSignal | None = None,
+        active_rule_ids: set[str] | list[str] | None = None,
     ) -> list[ViolationSchema]:
         """
         Evaluate policies against signals. Returns List[Violation].
-        Each violation has signal_id, rule_id, violation_type, severity, evidence_data.
 
-        When ZATAONE_DOCUMENT_CENTRIC=true and document is provided, text rules
-        match against document.normalized_text (phrase-aware). Otherwise each
-        text-bearing signal is evaluated in isolation (legacy behavior).
+        active_rule_ids: restrict evaluation to this subset (e.g. from retrieval).
+        Pass per-call instead of using set_active_rule_ids() for thread safety.
         """
         if not self._rules:
             return []
 
-        if document_centric_enabled() and document is not None:
-            return self._evaluate_with_document(signals, document)
+        effective_ids: set[str] | None = (
+            set(active_rule_ids) if active_rule_ids is not None else self._active_rule_ids
+        )
 
-        return self._evaluate_fragment_centric(signals)
+        if document_centric_enabled() and document is not None:
+            return self._evaluate_with_document(signals, document, effective_ids)
+
+        return self._evaluate_fragment_centric(signals, effective_ids)
 
     def _evaluate_with_document(
         self,
         signals: list[Any],
         document: DocumentSignal,
+        active_rule_ids: set[str] | None = None,
     ) -> list[ViolationSchema]:
         text_signals = [s for s in signals if self._is_text_signal(s)]
         vision_object_signals = [
@@ -112,7 +122,7 @@ class PolicyEngine:
         doc_text = document.normalized_text or ""
         rule_matches: dict[str, tuple[str, float, dict[str, Any] | None]] = {}
 
-        for rule_id, rule in self.iter_rules():
+        for rule_id, rule in self._iter_rules_filtered(active_rule_ids):
             dsl_hit = self._match_rule(doc_text, rule_id, rule)
             if not dsl_hit:
                 continue
@@ -130,9 +140,14 @@ class PolicyEngine:
             },
             document=document,
             document_centric=True,
+            active_rule_ids=active_rule_ids,
         )
 
-    def _evaluate_fragment_centric(self, signals: list[Any]) -> list[ViolationSchema]:
+    def _evaluate_fragment_centric(
+        self,
+        signals: list[Any],
+        active_rule_ids: set[str] | None = None,
+    ) -> list[ViolationSchema]:
         text_signals = [s for s in signals if self._is_text_signal(s)]
         vision_object_signals = [
             s for s in signals
@@ -143,7 +158,7 @@ class PolicyEngine:
         rule_matches: dict[str, list[tuple[Any, str, float, dict | None]]] = {}
         for signal in text_signals:
             text_content = (getattr(signal, "raw_data", {}) or {}).get("text", "")
-            for rule_id, rule in self.iter_rules():
+            for rule_id, rule in self._iter_rules_filtered(active_rule_ids):
                 dsl_hit = self._match_rule(text_content, rule_id, rule)
                 if dsl_hit:
                     span = dsl_hit.span
@@ -159,6 +174,7 @@ class PolicyEngine:
             rule_matches=rule_matches,
             document=None,
             document_centric=False,
+            active_rule_ids=active_rule_ids,
         )
 
     def _assemble_violations(
@@ -171,6 +187,7 @@ class PolicyEngine:
         rule_matches: dict[str, list[tuple[Any | None, str, float, dict | None]]],
         document: DocumentSignal | None,
         document_centric: bool,
+        active_rule_ids: set[str] | None = None,
     ) -> list[ViolationSchema]:
         def _severity_to_float(sev: str) -> float:
             return _SEVERITY_WEIGHTS.get(str(sev), 0.5)
@@ -182,7 +199,7 @@ class PolicyEngine:
             return out
 
         vision_triggered_rules = {}
-        for rule_id, rule in self.iter_rules():
+        for rule_id, rule in self._iter_rules_filtered(active_rule_ids):
             primary_labels = rule.get("vision_primary_labels")
             if not primary_labels:
                 continue
@@ -195,7 +212,7 @@ class PolicyEngine:
                 vision_triggered_rules[rule_id] = matched
 
         vision_primary_rule_ids = {
-            r for r, rule in self.iter_rules() if rule.get("vision_primary_labels")
+            r for r, rule in self._iter_rules_filtered(active_rule_ids) if rule.get("vision_primary_labels")
         }
         ocr_triggered_ids = set(rule_matches.keys()) - vision_primary_rule_ids
         all_violation_rule_ids = ocr_triggered_ids | set(vision_triggered_rules.keys())

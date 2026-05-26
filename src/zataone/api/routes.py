@@ -4,6 +4,7 @@ import asyncio
 import json
 import os
 import re
+import threading
 import uuid
 from types import SimpleNamespace
 from typing import Any, Literal
@@ -32,6 +33,19 @@ from zataone.storage.database import get_session_factory
 router = APIRouter()
 
 _DOMAIN_RE = re.compile(r"^[a-z0-9_]+$")
+
+# Pipeline singleton cache: one CompliancePipeline per domain, created once at first use.
+# Avoids YAML + module loading + AST compilation on every request.
+_pipeline_cache: dict[str, "CompliancePipeline"] = {}
+_pipeline_cache_lock = threading.Lock()
+
+
+def _get_pipeline(domain: str) -> "CompliancePipeline":
+    if domain not in _pipeline_cache:
+        with _pipeline_cache_lock:
+            if domain not in _pipeline_cache:
+                _pipeline_cache[domain] = CompliancePipeline(domain=domain)
+    return _pipeline_cache[domain]
 
 
 def _resolve_domain(x_domain: str | None) -> str:
@@ -183,7 +197,7 @@ def _run_pipeline_background(
 
     logger = logging.getLogger(__name__)
     try:
-        pipeline = CompliancePipeline(domain=domain)
+        pipeline = _get_pipeline(domain)
         pipeline.run(
             asset,
             tenant_id=tenant_id,
@@ -266,7 +280,7 @@ def post_assets(
 
     if _use_sync_pipeline():
         try:
-            CompliancePipeline(domain=domain).run(
+            _get_pipeline(domain).run(
                 asset,
                 tenant_id=x_tenant_id,
                 persist=True,
@@ -371,7 +385,7 @@ async def post_assets_image(
     if _use_sync_pipeline():
 
         def _run_img_pipeline() -> None:
-            CompliancePipeline(domain=domain).run(
+            _get_pipeline(domain).run(
                 asset,
                 tenant_id=x_tenant_id,
                 persist=True,
@@ -476,7 +490,7 @@ async def post_assets_audio(
     if _use_sync_pipeline():
 
         def _run_audio_pipeline() -> None:
-            CompliancePipeline(domain=domain).run(
+            _get_pipeline(domain).run(
                 asset,
                 tenant_id=x_tenant_id,
                 persist=True,

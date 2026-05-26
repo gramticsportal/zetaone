@@ -79,6 +79,7 @@ def create_all_tables() -> None:
         Verdict,
         Violation,
         AuditEvent,
+        Webhook,
     )
 
     Base.metadata.create_all(bind=get_engine())

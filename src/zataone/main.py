@@ -67,7 +67,8 @@ async def _no_cache_ui_html(request: Request, call_next):
     return response
 
 
-app.include_router(api_router)
+app.include_router(api_router)                          # legacy: /assets
+app.include_router(api_router, prefix="/api/v1")        # versioned: /api/v1/assets
 app.include_router(admin_router)
 
 if _WEB_DIR.is_dir():

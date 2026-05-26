@@ -8,6 +8,7 @@ from zataone.models.evidence import Evidence
 from zataone.models.verdict import Verdict
 from zataone.models.violation import Violation
 from zataone.models.audit import AuditEvent
+from zataone.models.webhook import Webhook
 
 __all__ = [
     "Tenant",
@@ -18,4 +19,5 @@ __all__ = [
     "Verdict",
     "Violation",
     "AuditEvent",
+    "Webhook",
 ]

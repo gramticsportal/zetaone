@@ -692,6 +692,29 @@ class CompliancePipeline:
             )
 
             session.commit()
+
+            # Fire webhooks after successful commit (non-blocking, daemon thread).
+            try:
+                from zataone.services.webhook_service import WebhookService
+                verdict_status = verdict.get("status", "")
+                event_type = (
+                    "verdict.flagged"
+                    if verdict_status in ("NON_COMPLIANT", "BORDERLINE")
+                    else "verdict.completed"
+                )
+                WebhookService().fire_event_async(
+                    event_type,
+                    {
+                        "asset_id": str(asset_record.id),
+                        "verdict": verdict_status,
+                        "risk_score": verdict.get("risk_score"),
+                        "policy_pack_id": policy_pack_id,
+                    },
+                    tenant_id=tenant_id,
+                )
+            except Exception:
+                pass  # webhook errors must never abort the pipeline
+
             return asset_record.id
         except Exception as e:
             if session is not None:

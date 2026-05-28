@@ -6,6 +6,7 @@ Orchestration delegates to ZataOne core when available; this module
 provides domain-specific rule checking and outcome assembly.
 """
 
+from __future__ import annotations
 from typing import List, Tuple, Optional
 import sys
 import os

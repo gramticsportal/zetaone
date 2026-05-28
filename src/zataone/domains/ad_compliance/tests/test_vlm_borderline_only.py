@@ -8,6 +8,7 @@ Test: vlm_called_only_for_borderline
 - Verify returned reasoning text is attached to evidence
 """
 
+from __future__ import annotations
 import os
 import sys
 import uuid

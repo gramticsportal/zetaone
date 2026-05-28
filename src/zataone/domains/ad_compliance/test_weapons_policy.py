@@ -6,6 +6,7 @@ Unit tests for the Weapons, Ammunition, Explosives policy.
 - Vision is the primary trigger; OCR and embeddings are supporting evidence only.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

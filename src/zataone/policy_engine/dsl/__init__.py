@@ -1,5 +1,6 @@
 # zataone policy DSL
 
+from __future__ import annotations
 from zataone.policy_engine.dsl.ast import MatchAST, MatchGroup, PatternSpec
 from zataone.policy_engine.dsl.evaluator import DSLMatchResult, RuleEvaluator
 from zataone.policy_engine.dsl.legacy_adapter import rule_to_match_ast

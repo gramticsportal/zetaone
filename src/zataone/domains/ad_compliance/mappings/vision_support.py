@@ -5,6 +5,7 @@ Vision objects listed here provide SUPPORTING evidence only (not primary trigger
 Used when OCR has already matched; vision objects boost confidence.
 """
 
+from __future__ import annotations
 VISION_SUPPORT_MAP = {
     "medical_health_claims": {"pill", "medicine", "syringe"},
     "misleading_exaggerated_claims": {"money", "cash", "banknote"},

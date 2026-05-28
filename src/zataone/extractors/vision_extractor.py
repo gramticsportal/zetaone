@@ -6,6 +6,7 @@ Phase 2 MVP stub: dependency-free heuristic detection.
 No ML models; safe fallback for visual compliance signals.
 """
 
+from __future__ import annotations
 import base64
 import logging
 import uuid

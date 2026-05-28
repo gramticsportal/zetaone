@@ -1,5 +1,6 @@
 # Signal extractors module
 
+from __future__ import annotations
 from zataone.extractors.embedding_extractor import EmbeddingExtractor
 from zataone.extractors.ocr_extractor import OCRExtractor
 from zataone.extractors.text_extractor import TextExtractor

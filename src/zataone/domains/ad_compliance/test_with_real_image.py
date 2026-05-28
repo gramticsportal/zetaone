@@ -7,6 +7,7 @@ Usage:
     python test_with_real_image.py path/to/your/image.jpg --domain biopharma
 """
 
+from __future__ import annotations
 import sys
 import requests
 import json

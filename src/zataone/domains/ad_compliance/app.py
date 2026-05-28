@@ -5,6 +5,7 @@ Run with: python app.py
 Gunicorn: gunicorn app:app
 """
 
+from __future__ import annotations
 from api.routes import create_app
 
 app = create_app()

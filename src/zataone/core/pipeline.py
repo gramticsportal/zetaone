@@ -5,6 +5,7 @@ Domain-agnostic compliance pipeline.
 Orchestrates extractors, policy evaluation, evidence, verdict, and persistence.
 """
 
+from __future__ import annotations
 import importlib
 import logging
 import os

@@ -7,6 +7,7 @@ Unit tests for the Tobacco and Nicotine policy.
 - Exceptions: smoking cessation / NRT must not trigger.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

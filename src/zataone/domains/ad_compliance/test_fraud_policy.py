@@ -6,6 +6,7 @@ Unit tests for the Fraud, Scams, and Deceptive Practices policy.
 - OCR is the only trigger; vision and embeddings are supporting evidence only.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

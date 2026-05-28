@@ -5,6 +5,7 @@ Embedding similarity signals provide low-weight supporting evidence only.
 For each rule_id, lists the regulation name(s) from embedding extractor to use.
 """
 
+from __future__ import annotations
 EMBEDDING_RULE_MAP = {
     "misleading_exaggerated_claims": "misleading_claims",
     "medical_health_claims": "medical_health_claims",

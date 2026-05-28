@@ -9,6 +9,7 @@ Requirements:
 - No mocking; skip cleanly if vision model unavailable
 """
 
+from __future__ import annotations
 import os
 import sys
 import uuid

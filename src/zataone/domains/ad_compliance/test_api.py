@@ -4,6 +4,7 @@ Test script for Zataone Ad Compliance API (domain bundle)
 Run this to test all endpoints
 """
 
+from __future__ import annotations
 import requests
 import json
 import time

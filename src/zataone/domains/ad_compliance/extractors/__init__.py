@@ -1,5 +1,6 @@
 # ad_compliance extractors
 
+from __future__ import annotations
 from .ocr_extractor import OCRExtractor, OCRBackend, TesseractOCRBackend, get_ocr_backend
 from .vision_extractor import VisionExtractor
 from .embedding_extractor import EmbeddingExtractor, encode_regulation_texts

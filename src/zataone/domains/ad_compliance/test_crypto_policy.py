@@ -7,6 +7,7 @@ Unit tests for the Cryptocurrency Services policy.
 - Exceptions: educational, informational, news, security/risk disclosures.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

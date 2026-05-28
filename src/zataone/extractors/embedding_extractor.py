@@ -6,6 +6,7 @@ MVP stub: uses semantic keyword groups as proxy for embeddings.
 No external ML; deterministic keyword matching.
 """
 
+from __future__ import annotations
 import logging
 import uuid
 from typing import Any

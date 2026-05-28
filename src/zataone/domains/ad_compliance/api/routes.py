@@ -2,6 +2,7 @@
 API route handlers.
 """
 
+from __future__ import annotations
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from datetime import datetime

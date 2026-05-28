@@ -4,6 +4,7 @@ Test script for Outcome generation.
 Tests risk_score calculation, verdict determination, and fix_suggestions.
 """
 
+from __future__ import annotations
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

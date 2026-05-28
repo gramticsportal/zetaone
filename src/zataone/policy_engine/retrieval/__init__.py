@@ -1,5 +1,6 @@
 # zataone policy retrieval
 
+from __future__ import annotations
 from zataone.policy_engine.retrieval.flags import (
     policy_retrieval_enabled,
     retrieval_fallback_all,

@@ -8,6 +8,7 @@ Requirements:
 - Assert no violations are created from vision signals alone
 """
 
+from __future__ import annotations
 import os
 import sys
 import uuid

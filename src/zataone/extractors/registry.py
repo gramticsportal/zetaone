@@ -1,5 +1,6 @@
 # zataone extractor registry
 
+from __future__ import annotations
 from typing import Type
 
 from zataone.extractors.base import BaseExtractor

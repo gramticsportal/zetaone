@@ -9,6 +9,7 @@ Defines the core data structures:
 - Outcome: Final compliance assessment
 """
 
+from __future__ import annotations
 from .models import Asset, Signal, Violation, Evidence, Outcome, Verdict
 
 __all__ = ['Asset', 'Signal', 'Violation', 'Evidence', 'Outcome', 'Verdict']

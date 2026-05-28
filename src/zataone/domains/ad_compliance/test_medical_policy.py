@@ -7,6 +7,7 @@ Scope:
 - Embedding similarity signals may appear as supporting evidence only.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

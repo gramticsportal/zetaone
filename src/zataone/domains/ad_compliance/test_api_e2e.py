@@ -4,6 +4,7 @@ End-to-end API validation test.
 Tests that POST /v1/ads/meta/image/check returns all required fields.
 """
 
+from __future__ import annotations
 import requests
 import json
 import time

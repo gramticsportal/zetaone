@@ -7,6 +7,7 @@ Unit tests for the Financial Products and Guarantees policy.
 - Exceptions: informational, educational, financial literacy.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

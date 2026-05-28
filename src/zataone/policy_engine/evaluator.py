@@ -1,5 +1,6 @@
 # zataone policy evaluator
 
+from __future__ import annotations
 from typing import Any
 
 from zataone.policy_engine.rule import Rule

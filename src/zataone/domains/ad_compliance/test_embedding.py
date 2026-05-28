@@ -4,6 +4,7 @@ Test script for SigLIP embedding extraction.
 Tests embedding vector extraction and normalization.
 """
 
+from __future__ import annotations
 import sys
 import os
 

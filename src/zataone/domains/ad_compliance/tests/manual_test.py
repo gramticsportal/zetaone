@@ -15,6 +15,7 @@ triggers misleading + medical policy violations).
 Prerequisite: API running on http://localhost:5001
 """
 
+from __future__ import annotations
 import json
 import os
 import sys

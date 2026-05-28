@@ -5,6 +5,7 @@ VLM (Vision-Language Model) extractor for contextual signal detection.
 MVP stub: no external models; heuristic phrase and image detection.
 """
 
+from __future__ import annotations
 import base64
 import logging
 import uuid

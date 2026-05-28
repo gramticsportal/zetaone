@@ -6,6 +6,7 @@ Extracts keyword and pattern signals for compliance evaluation.
 Pure extractor—no DB writes.
 """
 
+from __future__ import annotations
 import re
 import uuid
 from dataclasses import dataclass

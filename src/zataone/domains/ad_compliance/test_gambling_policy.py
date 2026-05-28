@@ -7,6 +7,7 @@ Unit tests for the Gambling and Betting policy.
 - Exceptions: informational, non-monetary / for-fun games.
 """
 
+from __future__ import annotations
 import sys
 import os
 import uuid

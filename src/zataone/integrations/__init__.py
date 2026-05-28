@@ -1,5 +1,6 @@
 """Optional integrations: local/remote model APIs (Ollama, OpenAI, etc.)."""
 
+from __future__ import annotations
 from zataone.integrations.ollama import (
     ollama_chat,
     ollama_generate,

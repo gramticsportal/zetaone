@@ -241,6 +241,18 @@ Additional flags:
 
 API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
 
+**Hybrid verdict model:** Quick and Full (engine off) use **LLM vs policy** for display. When `ZATAONE_POLICY_ENGINE_ENABLED=true`, the YAML engine is the audit authority and the LLM **explains / augments** (escalates on 0 signals or diverges).
+
+### Platform additions (merged)
+
+| Area | Notes |
+|------|--------|
+| **API keys** | `src/zataone/api/auth.py`, admin routes; migration `create_api_keys_table.sql` |
+| **Webhooks** | `webhook_service.py`; migration `create_webhooks_table.sql` |
+| **Jurisdiction** | `JurisdictionRouter` — US / EU / UK policy packs (`meta_ads_eu.yaml`, `meta_ads_uk.yaml`) |
+| **Text / video** | Expanded `TextExtractor`; `VideoExtractor` for video assets |
+| **Local smoke test** | `test_local.py` at repo root |
+
 ---
 
 ## Tech Stack

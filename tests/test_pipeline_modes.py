@@ -59,11 +59,24 @@ def test_full_mode_runs_extractors(monkeypatch):
     monkeypatch.setenv("ZATAONE_PIPELINE_ADVISORY", "0")
     from zataone.core.pipeline import CompliancePipeline
 
+    fake_signal = SimpleNamespace(
+        id="sig-1",
+        extractor_id="text",
+        signal_type="text",
+        confidence=0.9,
+        value={"text": "test ad copy"},
+        raw_data={"text": "test ad copy"},
+    )
+
     with patch.object(CompliancePipeline, "_load_domain_extractors", _mock_pipeline()):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
-            pipeline = CompliancePipeline(domain="ad_compliance")
-            asset = {"content": "test ad copy", "type": "text"}
-            result = pipeline.run(asset, persist=False, pipeline_mode="full")
+            with patch(
+                "zataone.core.pipeline.extract_signals_parallel",
+                return_value=([fake_signal], {"text": 1}),
+            ):
+                pipeline = CompliancePipeline(domain="ad_compliance")
+                asset = {"content": "test ad copy", "type": "text"}
+                result = pipeline.run(asset, persist=False, pipeline_mode="full")
 
     meta = result.get("metadata") or {}
     assert meta.get("pipeline_mode") == "full"
@@ -76,11 +89,24 @@ def test_full_mode_policy_engine_when_enabled(monkeypatch):
     monkeypatch.setenv("ZATAONE_POLICY_ENGINE_ENABLED", "1")
     from zataone.core.pipeline import CompliancePipeline
 
+    fake_signal = SimpleNamespace(
+        id="sig-1",
+        extractor_id="text",
+        signal_type="text",
+        confidence=0.9,
+        value={"text": "guaranteed instant cure 100%"},
+        raw_data={"text": "guaranteed instant cure 100%"},
+    )
+
     with patch.object(CompliancePipeline, "_load_domain_extractors", _mock_pipeline()):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
-            pipeline = CompliancePipeline(domain="ad_compliance")
-            asset = {"content": "guaranteed instant cure 100%", "type": "text"}
-            result = pipeline.run(asset, persist=False, pipeline_mode="full")
+            with patch(
+                "zataone.core.pipeline.extract_signals_parallel",
+                return_value=([fake_signal], {"text": 1}),
+            ):
+                pipeline = CompliancePipeline(domain="ad_compliance")
+                asset = {"content": "guaranteed instant cure 100%", "type": "text"}
+                result = pipeline.run(asset, persist=False, pipeline_mode="full")
 
     meta = result.get("metadata") or {}
     assert meta.get("policy_engine_ran") is True

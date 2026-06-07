@@ -41,8 +41,8 @@ def pipeline_mode() -> str:
 
 
 def policy_engine_enabled() -> bool:
-    """YAML rule-engine evaluation on signals (on by default; set ZATAONE_POLICY_ENGINE_ENABLED=0 to disable)."""
-    return _env_bool("ZATAONE_POLICY_ENGINE_ENABLED", default=True)
+    """YAML rule-engine evaluation on signals (off by default; LLM-primary demos). Set =1 for audit path."""
+    return _env_bool("ZATAONE_POLICY_ENGINE_ENABLED", default=False)
 
 
 def fast_combined_review_enabled() -> bool:

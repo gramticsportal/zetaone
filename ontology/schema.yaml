@@ -1,0 +1,116 @@
+# ZataOne canonical advertising-compliance ontology — schema v0
+#
+# This file DEFINES the schema (field names, types, allowed values). Instance
+# data lives in ontology/categories.yaml, ontology/corpus/*.yaml,
+# ontology/mappings.yaml, and ontology/examples/*.yaml.
+#
+# Design principle: every platform AND regulator clause maps into ONE universal
+# ontology. The moat is the combination of (1) structured corpus, (2) cross-source
+# mappings, and (3) a labeled evaluation dataset with measured precision/recall.
+
+schema_version: "0.1.0"
+
+# ---------------------------------------------------------------------------
+# Enumerations (allowed values)
+# ---------------------------------------------------------------------------
+enums:
+  source_type: [platform, regulator]
+  modality: [text, image, video, audio, landing_page]
+  severity: [low, medium, high]
+  status: [active, deprecated, superseded]          # lifecycle of clause/rule/source
+  mapping_relation: [equivalent, stricter, broader, related]
+  mapping_confidence: [exact, high, medium]         # not every mapping is identical
+  example_label: [compliant, non_compliant, borderline]
+  labeled_by: [expert, model, customer]
+  split: [train, dev, test]
+
+# ---------------------------------------------------------------------------
+# Entity definitions
+# ---------------------------------------------------------------------------
+entities:
+
+  category:
+    description: Universal advertising-risk axis. Everything maps to a category.
+    fields:
+      id: {type: slug, required: true}              # e.g. misleading
+      name: {type: string, required: true}
+      description: {type: string, required: true}
+      parent_id: {type: slug, required: false}      # supports sub-categories
+
+  source:
+    description: Where rules originate — a platform or a regulator.
+    fields:
+      id: {type: slug, required: true}              # e.g. meta_ads_us
+      type: {type: enum, enum: source_type, required: true}
+      name: {type: string, required: true}
+      jurisdiction: {type: list[code], required: true}   # [US] | [EU] | [GLOBAL]
+      url: {type: url, required: true}
+      status: {type: enum, enum: status, default: active}
+      retrieved_at: {type: date, required: true}    # when first ingested
+      last_verified_at: {type: date, required: true} # when last confirmed current
+
+  clause:
+    description: A verbatim policy statement from one source.
+    fields:
+      id: {type: slug, required: true}              # e.g. meta.misleading.exaggerated_claims
+      source_id: {type: slug, required: true}
+      category_id: {type: slug, required: true}
+      text: {type: string, required: true}          # verbatim
+      modalities: {type: list[enum], enum: modality, required: true}
+      jurisdiction: {type: list[code], required: true}
+      effective_date: {type: date, required: true}
+      version: {type: string, required: true}
+      url: {type: url, required: false}             # deep link to exact clause
+      status: {type: enum, enum: status, default: active}
+      superseded_by: {type: slug, required: false}  # id of replacing clause (if status=superseded)
+      last_verified_at: {type: date, required: true}
+
+  rule:
+    description: Machine-checkable expression of one or more clauses.
+    fields:
+      id: {type: slug, required: true}              # e.g. misleading_exaggerated_claims
+      canonical_id: {type: slug, required: true}    # universal rule id shared across sources
+      clause_ids: {type: list[slug], required: true}
+      category_id: {type: slug, required: true}
+      severity: {type: enum, enum: severity, required: true}
+      modalities: {type: list[enum], enum: modality, required: true}
+      priority: {type: int, required: true}         # higher wins when clauses conflict
+      detection: {type: string, required: true}     # natural-language detection intent (LLM-first)
+      exceptions: {type: list[string], required: false}
+      status: {type: enum, enum: status, default: active}
+      superseded_by: {type: slug, required: false}
+
+  mapping:
+    description: Links equivalent/related clauses across sources via a category.
+    fields:
+      canonical_id: {type: slug, required: true}    # the universal rule these collapse into
+      category_id: {type: slug, required: true}
+      clause_ids: {type: list[slug], required: true}  # 2+ clauses from different sources
+      relation: {type: enum, enum: mapping_relation, required: true}
+      confidence: {type: enum, enum: mapping_confidence, required: true}
+      note: {type: string, required: false}
+
+  example:
+    description: Labeled evaluation item linked to clauses/categories. The eval dataset.
+    fields:
+      id: {type: slug, required: true}              # e.g. ex_0001
+      content: {type: string, required: true}       # text, or ref/URI for image/video
+      modality: {type: enum, enum: modality, required: true}
+      label: {type: enum, enum: example_label, required: true}
+      category_ids: {type: list[slug], required: true}
+      violated_clause_ids: {type: list[slug], required: false}  # empty if compliant
+      jurisdiction: {type: code, required: true}
+      labeled_by: {type: enum, enum: labeled_by, required: true}
+      split: {type: enum, enum: split, required: true}
+      note: {type: string, required: false}
+
+# ---------------------------------------------------------------------------
+# Graph (relationships)
+# ---------------------------------------------------------------------------
+graph:
+  - category   "1..*"  clause       # a category has many clauses
+  - source     "1..*"  clause       # a source has many clauses
+  - clause     "*..*"  rule         # clauses ↔ rules (via rule.clause_ids)
+  - rule       "*..1"  canonical    # many source rules share one canonical_id
+  - mapping    links    clause<->clause   # cross-source, same category/canonical_id
+  - example    "*..*"  clause       # eval items reference violated clauses

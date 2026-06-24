@@ -1,0 +1,56 @@
+# Universal advertising-compliance categories (the foundation axis).
+# Conforms to entities.category in ontology/schema.yaml.
+# Start deep on `misleading` and `health`; the rest are scaffolded for later.
+
+categories:
+  - id: misleading
+    name: Misleading / Deceptive
+    description: Exaggerated, false, or unsubstantiated claims that deceive consumers.
+
+  - id: health
+    name: Health / Medical
+    description: Unsubstantiated medical or health claims (cure, treat, heal, etc.).
+
+  - id: financial
+    name: Financial
+    description: Misleading financial product claims (guaranteed returns, risk-free, approvals).
+
+  - id: gambling
+    name: Gambling
+    description: Real-money gambling, betting, and casino promotion (restricted).
+
+  - id: alcohol
+    name: Alcohol
+    description: Alcohol promotion subject to age/jurisdiction restrictions.
+
+  - id: drugs
+    name: Drugs / Tobacco / Nicotine
+    description: Controlled substances, tobacco, and nicotine products.
+
+  - id: adult
+    name: Adult
+    description: Sexual or adult content restrictions.
+
+  - id: political
+    name: Political
+    description: Political and issue advertising disclosure requirements.
+
+  - id: ip_trademark
+    name: IP / Trademark
+    description: Intellectual property and trademark infringement.
+
+  - id: safety
+    name: Safety
+    description: Weapons, explosives, and other safety-restricted products.
+
+  - id: privacy
+    name: Privacy
+    description: Data harvesting, sensitive personal data, and privacy violations.
+
+  - id: discrimination
+    name: Employment / Housing / Credit
+    description: Discriminatory targeting in employment, housing, or credit (e.g. US special ad categories).
+
+  - id: restricted_products
+    name: Restricted Products
+    description: Other products restricted by platform or jurisdiction.

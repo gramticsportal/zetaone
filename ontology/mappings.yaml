@@ -1,0 +1,26 @@
+# Cross-source mappings — the differentiator.
+# Collapse equivalent platform + regulator clauses into one canonical_id per category.
+# Conforms to entities.mapping in ontology/schema.yaml.
+
+mappings:
+  - canonical_id: misleading.exaggerated_claims
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.exaggerated_claims   # platform
+      - ftc.misleading.deceptive_claims      # regulator
+    relation: related
+    confidence: high
+    note: >
+      Meta targets exaggerated/guaranteed-outcome claims; FTC covers the broader
+      truthful/substantiated standard. FTC is broader, so relation=related, not exact.
+
+  - canonical_id: health.unsubstantiated_claims
+    category_id: health
+    clause_ids:
+      - meta.health.health_claims            # platform
+      - fda.health.disease_claims            # regulator
+    relation: stricter
+    confidence: high
+    note: >
+      FDA disease-claim prohibition is stricter and higher-precedence than Meta's
+      health-claims clause; both collapse to the same canonical rule.

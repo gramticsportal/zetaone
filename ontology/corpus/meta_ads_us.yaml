@@ -1,0 +1,69 @@
+# Meta Ads (US) — canonical-ontology instance.
+# Narrow first slice: `misleading` + `health`. Conforms to ontology/schema.yaml.
+# This is the new cross-source format; the legacy engine format remains at
+# src/zataone/domains/ad_compliance/policies/meta_ads.yaml.
+
+source:
+  id: meta_ads_us
+  type: platform
+  name: Meta Advertising Standards
+  jurisdiction: [US]
+  url: https://transparency.meta.com/policies/ad-standards/
+  status: active
+  retrieved_at: 2026-06-24
+  last_verified_at: 2026-06-24
+
+clauses:
+  - id: meta.misleading.exaggerated_claims
+    source_id: meta_ads_us
+    category_id: misleading
+    text: "Advertising must not use misleading or exaggerated claims such as guaranteed outcomes, miracle results, or unrealistic time-bound promises."
+    modalities: [text, image]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    url: https://transparency.meta.com/policies/ad-standards/deceptive-content/
+    status: active
+    last_verified_at: 2026-06-24
+
+  - id: meta.health.health_claims
+    source_id: meta_ads_us
+    category_id: health
+    text: "Advertising must not make unsubstantiated medical or health claims including cure, treat, or heal language in a health context."
+    modalities: [text, image]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    url: https://transparency.meta.com/policies/ad-standards/health-wellness/
+    status: active
+    last_verified_at: 2026-06-24
+
+rules:
+  - id: meta_misleading_exaggerated_claims
+    canonical_id: misleading.exaggerated_claims
+    clause_ids: [meta.misleading.exaggerated_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image]
+    priority: 50
+    detection: >
+      Claims of guaranteed, miracle, instant, or exaggerated outcomes without
+      substantiation; unrealistic time-bound promises (e.g. "lose 10 lbs in 7 days").
+    exceptions:
+      - "Clearly substantiated claims with cited, verifiable evidence."
+    status: active
+
+  - id: meta_health_unsubstantiated_claims
+    canonical_id: health.unsubstantiated_claims
+    clause_ids: [meta.health.health_claims]
+    category_id: health
+    severity: high
+    modalities: [text, image]
+    priority: 60
+    detection: >
+      Cure/treat/heal/reverse language tied to a health condition, or guaranteed
+      health results, without regulatory substantiation.
+    exceptions:
+      - "General wellness statements with no disease/treatment claim."
+      - "Claims permitted under an approved regulatory authorization."
+    status: active

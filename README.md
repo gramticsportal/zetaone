@@ -572,6 +572,8 @@ Ordered by priority. The defensible moat is the combination of a deep policy cor
 
 Items 1–3 run in parallel and feed each other: deepening the corpus, building the eval set, and onboarding pilots compound together.
 
+The canonical compliance ontology (schema, categories, cross-source mappings, eval seed) lives in [`ontology/`](ontology/README.md) — one unified corpus where every platform and regulator policy maps into the same schema.
+
 ### Platform roadmap
 
 | Phase | Focus | Status |

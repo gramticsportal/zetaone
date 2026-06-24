@@ -1,0 +1,75 @@
+# US federal regulators (FTC, FDA) — canonical-ontology instance.
+# Same narrow slice (`misleading` + `health`) so clauses can be MAPPED to Meta's.
+# Conforms to ontology/schema.yaml.
+
+sources:
+  - id: ftc_us
+    type: regulator
+    name: US Federal Trade Commission
+    jurisdiction: [US]
+    url: https://www.ftc.gov/business-guidance/advertising-marketing
+    status: active
+    retrieved_at: 2026-06-24
+    last_verified_at: 2026-06-24
+
+  - id: fda_us
+    type: regulator
+    name: US Food and Drug Administration
+    jurisdiction: [US]
+    url: https://www.fda.gov/
+    status: active
+    retrieved_at: 2026-06-24
+    last_verified_at: 2026-06-24
+
+clauses:
+  - id: ftc.misleading.deceptive_claims
+    source_id: ftc_us
+    category_id: misleading
+    text: "Advertising must be truthful and non-deceptive; objective claims must be substantiated, and material claims must not mislead a reasonable consumer."
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1983-10-14
+    version: "ftc-deception-policy"
+    url: https://www.ftc.gov/legal-library/browse/ftc-policy-statement-deception
+    status: active
+    last_verified_at: 2026-06-24
+
+  - id: fda.health.disease_claims
+    source_id: fda_us
+    category_id: health
+    text: "Products not approved as drugs must not claim to cure, treat, mitigate, or prevent disease; such claims render the product an unapproved drug."
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1938-06-25
+    version: "fdca-disease-claims"
+    url: https://www.fda.gov/
+    status: active
+    last_verified_at: 2026-06-24
+
+rules:
+  - id: ftc_misleading_deceptive_claims
+    canonical_id: misleading.exaggerated_claims
+    clause_ids: [ftc.misleading.deceptive_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 90                # regulator outranks platform on conflict
+    detection: >
+      Unsubstantiated objective claims, or material representations that would
+      mislead a reasonable consumer.
+    exceptions:
+      - "Substantiated claims backed by competent and reliable evidence."
+    status: active
+
+  - id: fda_health_disease_claims
+    canonical_id: health.unsubstantiated_claims
+    clause_ids: [fda.health.disease_claims]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95                # FDA disease claims are high-precedence
+    detection: >
+      Claims to cure/treat/mitigate/prevent disease for a non-drug product.
+    exceptions:
+      - "FDA-approved drugs making authorized claims."
+    status: active

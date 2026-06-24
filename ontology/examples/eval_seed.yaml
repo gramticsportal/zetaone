@@ -1,0 +1,74 @@
+# Evaluation dataset seed — the real moat.
+# Labeled examples linked to clauses/categories. Grow this to thousands.
+# Compute precision/recall PER category_id and PER canonical_id from these.
+# Conforms to entities.example in ontology/schema.yaml.
+
+examples:
+  - id: ex_0001
+    content: "Miracle cure guaranteed in 7 days!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading, health]
+    violated_clause_ids:
+      - meta.misleading.exaggerated_claims
+      - meta.health.health_claims
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ex_0002
+    content: "Clinically studied ingredients to support everyday wellness."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: General wellness, no disease/treatment claim.
+
+  - id: ex_0003
+    content: "Lose 20 pounds in 10 days — 100% guaranteed!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading, health]
+    violated_clause_ids:
+      - meta.misleading.exaggerated_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ex_0004
+    content: "Our supplement reverses diabetes and cures high blood pressure."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.health_claims
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ex_0005
+    content: "Comfortable running shoes designed for daily training."
+    modality: text
+    label: compliant
+    category_ids: []
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: No regulated claim; clean negative.
+
+  - id: ex_0006
+    content: "Results may vary. Consult your doctor before starting any supplement."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Disclaimer-style; useful boundary case for calibration.

@@ -405,3 +405,45 @@ mappings:
       political ads; no ads by political figures/entities; election info limited
       to official election authorities) and LinkedIn (political ads prohibited,
       including candidate/party/ballot/issue advocacy and fundraising).
+
+  # =========================================================================
+  # Children / Minors vertical canonical rules:
+  #   minors.personalized_targeting_of_minors_restricted (Meta, Google, TikTok)
+  #   minors.age_restricted_products_not_shown_to_minors (Meta, Google, TikTok)
+  #   minors.parental_consent_for_childrens_data         (FTC COPPA — single-source)
+  #   minors.child_directed_content_ad_restrictions      (Google — single-source)
+  # US jurisdiction. The two regulator/Google-only canonicals carry NO mapping
+  # entry (COPPA's verifiable-parental-consent regime and Google's made-for-kids
+  # restrictions have no genuinely equivalent clause on another source yet).
+  # =========================================================================
+  - canonical_id: minors.personalized_targeting_of_minors_restricted
+    category_id: minors
+    clause_ids:
+      - meta.minors.teen_targeting_limited
+      - google.minors.no_personalized_ads_under_18
+      - tiktok.minors.targeting_limited_under_18
+    relation: related
+    confidence: high
+    note: >
+      Under-18 audiences may not be reached with personalized / interest- /
+      behavior-based targeting: Meta (age + location only; no interests,
+      behaviors, gender, off-app activity, or ZIP/pin-drop), Google (under-18 not
+      eligible for personalized advertising of any kind), TikTok (detailed
+      targeting unavailable for under-18; limited in US/CA/EEA/UK/CH/LatAm).
+      Same intent; mechanics and exact age handling differ slightly per platform.
+
+  - canonical_id: minors.age_restricted_products_not_shown_to_minors
+    category_id: minors
+    clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+    relation: related
+    confidence: high
+    note: >
+      Age-restricted / sensitive product categories must not be shown or targeted
+      to minors: Meta (alcohol, financial products, weight-loss not to under-18),
+      Google (gambling, alcohol, adult, dating, body modification/weight loss,
+      shocking content restricted for under-18), TikTok (e.g. alcohol not to
+      audiences under the legal drinking age). Category lists differ; the
+      protect-minors-from-age-inappropriate-ads intent is genuinely equivalent.

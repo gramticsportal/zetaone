@@ -3,7 +3,7 @@
 # reproducible and benchmarkable alongside the evaluation dataset. Bump the
 # version and add a release entry whenever a category is completed/changed.
 
-current_version: "Ad Corpus v0.5"
+current_version: "Ad Corpus v0.6"
 
 releases:
   - version: "Ad Corpus v0.1"
@@ -126,3 +126,35 @@ releases:
       canonical with no `mapping` entry until a second official source matches.
       New source fec_us. Every clause carries an `evidence` block (verbatim
       quote, deep link, section, retrieved_at) + `last_reviewed_by: ai`.
+
+  - version: "Ad Corpus v0.6"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us]
+    canonical_rules_added:
+      - minors.personalized_targeting_of_minors_restricted
+      - minors.age_restricted_products_not_shown_to_minors
+      - minors.parental_consent_for_childrens_data          # FTC COPPA (single-source)
+      - minors.child_directed_content_ad_restrictions        # Google made-for-kids (single-source)
+    eval_examples: 330       # + 60 children/minors
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    new_artifacts:
+      - ontology/policy_versions.yaml   # sidecar: per-source policy version/effective/updated/status/change-history
+    note: >
+      Adds Children / Minors vertical (US only, new category `minors`) from
+      official Meta (About Advertising to Teens — age+location only; restricted
+      topics not to under-18), Google (Ad-serving protections for children and
+      teens — under-18 ineligible for personalized advertising; sensitive
+      categories restricted; made-for-kids: no personalized ads/third-party
+      trackers/purchase incitement/misleading claims), TikTok (About advertising
+      to under-18 + Protecting minors initiatives), and FTC COPPA (16 CFR Part
+      312 — verifiable parental consent before collecting children's personal
+      information; persistent identifiers; no behavioral advertising under the
+      internal-operations exception). Two cross-source canonicals (personalized
+      targeting of minors restricted; age-restricted products not to minors) plus
+      two single-source canonicals (COPPA parental consent; Google made-for-kids)
+      kept honestly unmapped. Introduces ontology/policy_versions.yaml sidecar to
+      track policy version / effective / last-updated / deprecated-superseded
+      status / officially published change history — without changing the frozen
+      schema.

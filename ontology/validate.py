@@ -15,9 +15,10 @@ import yaml
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
-AUDIENCE = {"all", "18+", "21+", "25+"}
+AUDIENCE = {"all", "under_13", "minors", "13+", "16+", "18+", "21+", "25+"}
 REVIEW_ACTOR = {"human", "ai"}
 EXAMPLE_LABEL = {"compliant", "non_compliant", "borderline"}
+POLICY_STATUS = {"active", "deprecated", "superseded"}
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -141,9 +142,32 @@ def main() -> int:
         if e.get("label") == "non_compliant" and not (e.get("violated_clause_ids") or []):
             err(f"eval_seed.yaml: {eid} non_compliant but no violated_clause_ids")
 
+    # ---- policy_versions sidecar (optional; NOT part of frozen schema) -
+    pv_path = os.path.join(ROOT, "policy_versions.yaml")
+    pv_count = 0
+    if os.path.exists(pv_path):
+        pv = load(pv_path) or {}
+        seen_pv: set[str] = set()
+        for p in pv.get("policies", []) or []:
+            pv_count += 1
+            sid = p.get("source_id")
+            if sid not in source_ids:
+                err(f"policy_versions.yaml: entry references unknown source {sid!r}")
+            if sid in seen_pv:
+                warn(f"policy_versions.yaml: duplicate source entry {sid!r} (ok if multiple policies)")
+            seen_pv.add(sid)
+            st = p.get("status")
+            if st not in POLICY_STATUS:
+                err(f"policy_versions.yaml: {sid} bad status {st!r}")
+            if st == "superseded" and not p.get("superseded_by"):
+                warn(f"policy_versions.yaml: {sid} superseded but no superseded_by")
+            for ch in p.get("change_history", []) or []:
+                if not ch.get("date"):
+                    err(f"policy_versions.yaml: {sid} change_history entry missing date")
+
     # ---- report --------------------------------------------------------
     print(f"clauses: {len(clause_ids)}  sources: {len(source_ids)}  "
-          f"examples: {len(seen_ids)} {counts}")
+          f"examples: {len(seen_ids)} {counts}  policy_versions: {pv_count}")
     for w in warnings:
         print(f"WARN  {w}")
     if errors:

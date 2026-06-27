@@ -1,11 +1,12 @@
 # Evaluation dataset — Misleading + Health + Financial + Housing/Employment +
-# Political/Social-Issues verticals.
-# 270 examples total:
+# Political/Social-Issues + Children/Minors verticals.
+# 330 examples total:
 #   Misleading:           30 (10 non_compliant, 10 compliant, 10 borderline)
 #   Health:               60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Financial:            60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Housing/Employment:   60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Political:            60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Children/Minors:      60 (20 non_compliant, 20 compliant, 20 borderline)
 # Labeled examples linked to clauses/categories. Compute precision/recall PER
 # category_id and PER canonical_id from these. Conforms to entities.example.
 # labeled_by: expert here = seed authoring; replace with reviewed labels as the
@@ -3110,3 +3111,662 @@ examples:
     labeled_by: expert
     split: dev
     note: "Corporate-values statement; generally allowed but can edge into social-issue territory."
+
+  # =========================================================================
+  # CHILDREN / MINORS (60)
+  # non_compliant = personalized/interest targeting of under-18, age-restricted
+  # products to minors, made-for-kids ad violations, or collecting children's
+  # data for ads without verifiable parental consent. compliant = age+location
+  # only, contextual ads, minors excluded, or COPPA-consented. borderline =
+  # teen-appealing creative / age-adjacent products where context decides.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: min_nc_001
+    content: "[Ad set targeting users 13-17 by 'gaming' interest and by gender]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.teen_targeting_limited
+      - google.minors.no_personalized_ads_under_18
+      - tiktok.minors.targeting_limited_under_18
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Interest + gender targeting of under-18 — only age and location allowed."
+
+  - id: min_nc_002
+    content: "[Alcohol brand ad targeted to a 16-20 year-old audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_003
+    content: "[Remarketing campaign serving personalized ads to 15-year-olds]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.no_personalized_ads_under_18
+      - meta.minors.teen_targeting_limited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_004
+    content: "[Sports-betting ad shown to an under-18 audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+      - meta.minors.restricted_topics_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_005
+    content: "[Kids' mobile game collects device IDs for ad profiling without parental consent]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Persistent identifiers from under-13 used for behavioral advertising — COPPA VPC required."
+
+  - id: min_nc_006
+    content: "[Weight-loss supplement ad targeted to teenagers]"
+    modality: image
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_007
+    content: "[Made-for-kids YouTube video runs personalized ads with third-party trackers]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.made_for_kids
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_008
+    content: "[Ad on made-for-kids content: 'Buy now! Ask mom for her credit card!']"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.made_for_kids
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Inciting children to purchase on made-for-kids content."
+
+  - id: min_nc_009
+    content: "[Credit-card offer targeted to 17-year-olds]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_010
+    content: "[Dating-app ad served to 16-year-old users]"
+    modality: image
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_011
+    content: "[Ad set reaching teens using ZIP-code / pin-drop location]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.teen_targeting_limited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_012
+    content: "[Kids' app shares children's persistent identifiers with ad networks for targeted ads]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_013
+    content: "[Vape / e-cigarette ad targeted to under-18 audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_014
+    content: "[Customer Match list used to serve ads to an under-18 segment]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.no_personalized_ads_under_18
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_015
+    content: "[Casino app ad served to 15-year-olds]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+      - meta.minors.restricted_topics_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_016
+    content: "[Sales - TikTok Shop campaign targeting an under-18 audience]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - tiktok.minors.targeting_limited_under_18
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_017
+    content: "[Cosmetic-surgery ad targeted to teenage girls]"
+    modality: image
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_018
+    content: "[Behavioral ad profile built on a 12-year-old's browsing without parental consent]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_019
+    content: "[Interest-based ad to teens based on Instagram pages they liked]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.teen_targeting_limited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_020
+    content: "[Made-for-kids content ad with a misleading 'win a free toy' claim]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.made_for_kids
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: min_c_001
+    content: "[Kids' cereal ad targeted only by age (13+) and city location]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Age + location only — the permitted way to include teens."
+
+  - id: min_c_002
+    content: "[Contextual board-game ad on a family content channel, no personalization, no trackers]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_003
+    content: "[Brand-awareness Reach campaign to a 13+ audience using age + location only]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_004
+    content: "[Educational-app contextual ad on made-for-kids content, no third-party trackers]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Made-for-kids allows contextual ads without personalization/trackers/purchase incitement."
+
+  - id: min_c_005
+    content: "[Alcohol ad targeted to 21+ only, minors excluded]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_006
+    content: "[Toy ad to a 13+ audience with no interest/behavior targeting]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_007
+    content: "[Kids' clothing brand ad using age and location targeting only]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_008
+    content: "[Mobile game collects a persistent identifier solely for internal operations, not behavioral advertising]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "COPPA internal-operations exception (no profiling/behavioral advertising)."
+
+  - id: min_c_009
+    content: "[Sneaker ad to a general audience including teens, age + location only]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_010
+    content: "[Made-for-kids contextual ad for an all-ages movie, no incitement to purchase]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_011
+    content: "[Family-restaurant promo to 13+ by city, no personalization]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_012
+    content: "[Gambling ad restricted to 21+ with minors excluded]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_013
+    content: "[Amusement-park ad to a 13+ audience, age + location only]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_014
+    content: "[School-supplies ad served contextually on an education page]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_015
+    content: "[Streaming-service ad to a 13+ general audience, no behavioral targeting]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_016
+    content: "[Children's-book contextual ad on made-for-kids content, no trackers, no purchase incitement]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_017
+    content: "[Bicycle ad to teens using only age and location]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_018
+    content: "[Operator obtains verifiable parental consent before collecting a child's data for ads]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "COPPA-compliant: notice + verifiable parental consent before collection/use/disclosure."
+
+  - id: min_c_019
+    content: "[Awareness TopView campaign reaching 13+ without detailed targeting]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_020
+    content: "[Sportswear contextual ad on a general sports article]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: min_b_001
+    content: "[Energy-drink ad to a 16+ audience]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Caffeine products aren't uniformly age-restricted; some markets/platforms restrict."
+
+  - id: min_b_002
+    content: "[PG-13 movie trailer targeted to teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Film/TV/game trailer age rules vary by market (TikTok BC market-specific)."
+
+  - id: min_b_003
+    content: "[Influencer promotes a skincare brand; content appeals to teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_004
+    content: "[Mobile-game ad with cartoonish characters shown to a general audience]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Could be deemed primarily appealing to children depending on creative."
+
+  - id: min_b_005
+    content: "[Fast-food promo featuring a kids'-meal toy]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_006
+    content: "[Gym-membership ad to a 16+ audience]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Fitness framing can edge into weight-loss/body-image restrictions."
+
+  - id: min_b_007
+    content: "[Sugary-snack ad on a general entertainment channel]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_008
+    content: "[Teen fashion brand using age + location to reach 13-17]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Permitted if strictly age+location; borderline because creative targets teens."
+
+  - id: min_b_009
+    content: "[Collectible card-game ad that strongly appeals to children]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_010
+    content: "[Streaming-show ad with mild violence shown to teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Depends on whether it crosses the 'shocking content' threshold for teens."
+
+  - id: min_b_011
+    content: "[Acne-treatment OTC product ad to teens]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_012
+    content: "[Loot-box mobile-game ad to a general audience including minors]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Gambling-adjacent mechanics; treatment varies by jurisdiction."
+
+  - id: min_b_013
+    content: "[Branded-content trailer for a video game in the US]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "TikTok Branded Content market-specific age rules for game trailers (US)."
+
+  - id: min_b_014
+    content: "[Theme-park season-pass ad to 13+ with city targeting]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_015
+    content: "[Protein-snack ad to a 16+ audience]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Muscle/weight framing can trigger body-image restrictions for minors."
+
+  - id: min_b_016
+    content: "[Smartphone ad featuring an influencer popular among teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_017
+    content: "[Back-to-school electronics ad reaching teens by age + location]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_018
+    content: "[Caffeinated-soda ad to a general audience]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_019
+    content: "[Online-tutoring service ad to teens that collects signup data]"
+    modality: text
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "If signups collect data from under-13s, COPPA consent obligations may attach."
+
+  - id: min_b_020
+    content: "[Trading-card retailer ad with characters that appeal to kids]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev

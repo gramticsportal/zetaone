@@ -840,6 +840,95 @@ clauses:
       section: "Political content > Disclosure requirements for synthetic or digitally altered content"
       retrieved_at: 2026-06-27
 
+  # ===================== Children / Minors =====================
+  - id: google.minors.no_personalized_ads_under_18
+    source_id: google_ads_us
+    category_id: minors
+    text: >
+      Users under the age of 18 are not eligible for personalized advertising of
+      any kind, including serving based on Predefined Google Audiences.
+      Advertisers using advertiser-curated audiences are prohibited from
+      uploading customer information from viewers of child-directed content.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-08-15
+    version: "personalized-advertising-restricted-targeting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Users under the age of 18 are not eligible for personalized advertising
+        of any kind, including serving based on Predefined Google Audiences.
+        Advertisers using advertiser-curated audiences are prohibited from
+        uploading customer information from viewers of child-directed content.
+      source_url: https://support.google.com/adspolicy/answer/143465
+      section: "Restricted targeting in Personalized advertising > Users under 18"
+      retrieved_at: 2026-06-27
+
+  - id: google.minors.sensitive_categories_restricted
+    source_id: google_ads_us
+    category_id: minors
+    text: >
+      Ad-serving protections for children and teens disable ads personalization
+      and restrict sensitive ad content and categories for users under 18, such
+      as gambling, alcohol, adult content and pornography, shocking content,
+      dating and relationships, and body modification and weight loss.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-08-15
+    version: "ad-serving-protections-children-teens"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        These protections include disabling ads personalization and restricting
+        sensitive ad content and categories for users above the digital age of
+        consent and under 18 years old, such as: ... Shocking content ...
+        Gambling ... Alcohol ... Adult content and pornography ... Dating and
+        relationships ... Body modification and weight loss.
+      source_url: https://support.google.com/adspolicy/answer/15416897
+      section: "Ad protections for children and teens"
+      retrieved_at: 2026-06-27
+
+  - id: google.minors.made_for_kids
+    source_id: google_ads_us
+    category_id: minors
+    text: >
+      On content set as "made for kids" on YouTube, advertisers may not run
+      personalized ads or use any third-party trackers. The policy also prohibits
+      inciting children to purchase a product and prohibits misleading and
+      deceptive claims.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2020-01-06
+    version: "ads-and-made-for-kids-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [under_13]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Under this policy, advertisers may not run personalized ads or make use
+        of any third party trackers on content set as "made for kids". The policy
+        also prohibits inciting children to purchase a product and misleading and
+        deceptive claims.
+      source_url: https://support.google.com/adspolicy/answer/15416897
+      section: "Ad protections for children and teens > Ads & made for kids content"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: google_unreliable_claims
     canonical_id: misleading.exaggerated_results
@@ -1095,4 +1184,44 @@ rules:
       required altered/synthetic-content disclosure.
     exceptions:
       - "Inconsequential edits (resizing, cropping, color correction)."
+    status: active
+
+  # --- Children / Minors ---
+  - id: google_minors_personalization
+    canonical_id: minors.personalized_targeting_of_minors_restricted
+    clause_ids: [google.minors.no_personalized_ads_under_18]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Personalized advertising (predefined audiences, remarketing, Customer
+      Match, custom segments) served to users under 18.
+    exceptions: []
+    status: active
+
+  - id: google_minors_sensitive_categories
+    canonical_id: minors.age_restricted_products_not_shown_to_minors
+    clause_ids: [google.minors.sensitive_categories_restricted]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Sensitive categories (gambling, alcohol, adult, dating, body modification/
+      weight loss, shocking content) served to users under 18.
+    exceptions: []
+    status: active
+
+  - id: google_minors_made_for_kids
+    canonical_id: minors.child_directed_content_ad_restrictions
+    clause_ids: [google.minors.made_for_kids]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      On made-for-kids content: personalized ads, third-party trackers, ads
+      inciting children to purchase, or misleading/deceptive claims.
+    exceptions: []
     status: active

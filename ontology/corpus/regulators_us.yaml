@@ -861,6 +861,46 @@ clauses:
       section: "11 CFR 110.11(a)-(c) — Communications; advertising; disclaimers (52 U.S.C. 30120)"
       retrieved_at: 2026-06-27
 
+  # ===================== FTC: Children / Minors (COPPA) =====================
+  - id: ftc.minors.coppa_parental_consent
+    source_id: ftc_us
+    category_id: minors
+    text: >
+      Under the COPPA Rule, an operator of a website or online service directed
+      to children (under 13), or with actual knowledge that it collects personal
+      information from a child, must provide notice and obtain verifiable parental
+      consent before any collection, use, or disclosure of personal information
+      from children. Personal information includes persistent identifiers (e.g.
+      cookies, device IDs) used to recognize a user over time and across services.
+      The "support for internal operations" exception cannot be used to contact a
+      specific individual, including through behavioral advertising, or to amass a
+      profile on a specific individual.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-06-23
+    version: "16cfr312-2025"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [under_13]
+      industries: [minors]
+    evidence:
+      quote: >-
+        An operator is required to obtain verifiable parental consent before any
+        collection, use, or disclosure of personal information from children ...
+        Personal information means individually identifiable information about an
+        individual collected online, including ... (7) A persistent identifier
+        that can be used to recognize a user over time and across different Web
+        sites or online services. ... Support for the internal operations ... So
+        long as the information collected ... is not used or disclosed to contact
+        a specific individual, including through behavioral advertising, to amass
+        a profile on a specific individual, or for any other purpose.
+      source_url: https://www.law.cornell.edu/cfr/text/16/part-312
+      section: "16 CFR 312.2, 312.5 — Children's Online Privacy Protection Rule (COPPA)"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: ftc_unsubstantiated_objective_claims
@@ -1104,4 +1144,21 @@ rules:
       stating who paid for and, where required, authorized the communication.
     exceptions:
       - "Small items (bumper stickers, pins) where a disclaimer is impracticable (11 CFR 110.11(f))."
+    status: active
+
+  # --- Children / Minors (COPPA) ---
+  - id: ftc_minors_coppa
+    canonical_id: minors.parental_consent_for_childrens_data
+    clause_ids: [ftc.minors.coppa_parental_consent]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Collecting personal information (incl. persistent identifiers) from
+      under-13 children for behavioral advertising/profiling without notice and
+      verifiable parental consent.
+    exceptions:
+      - "Support for internal operations not used for behavioral advertising or profiling."
+      - "Other limited 312.5(c) exceptions (one-time response, safety, etc.)."
     status: active

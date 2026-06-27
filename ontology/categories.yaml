@@ -54,3 +54,7 @@ categories:
   - id: restricted_products
     name: Restricted Products
     description: Other products restricted by platform or jurisdiction.
+
+  - id: minors
+    name: Children / Minors
+    description: Protections for under-18 audiences — restricted targeting, age-inappropriate products, and children's data (COPPA).

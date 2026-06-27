@@ -533,6 +533,66 @@ clauses:
       section: "Ads about Social Issues, Elections or Politics"
       retrieved_at: 2026-06-27
 
+  # ===================== Children / Minors =====================
+  - id: meta.minors.teen_targeting_limited
+    source_id: meta_ads_us
+    category_id: minors
+    text: >
+      When an audience includes people under 18 (older in some countries), only
+      age and location can be used to reach them. Advertisers cannot select
+      interests, behaviors, gender, or activity on other apps and websites to
+      show ads to teens, and ZIP-code / sub-city ("pin drop") location targeting
+      is unavailable.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-02-01
+    version: "2023-teen-targeting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        We don't allow advertisers to select interests, behaviours, gender or
+        activity on other apps and websites when choosing to show their ads to
+        teens. Advertisers can decide to include teens in their audience only
+        based on age and location. ... [Not available to show ads to teens:] ZIP
+        code or locations smaller than cities (custom location radius or "pin
+        drop").
+      source_url: https://www.facebook.com/help/980264326141711
+      section: "How Facebook decides which ads to show teens"
+      retrieved_at: 2026-06-27
+
+  - id: meta.minors.restricted_topics_not_to_minors
+    source_id: meta_ads_us
+    category_id: minors
+    text: >
+      Meta's Advertising Standards prohibit ads about restricted topics — such as
+      alcohol, financial products, and weight-loss products and services — from
+      being shown to people under 18 (and older in certain countries).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-02-01
+    version: "2023-teen-restricted-topics"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Our Advertising Standards already prohibit ads about restricted topics —
+        like alcohol, financial products and weight loss products and services —
+        to be shown to people under 18 (and older in certain countries).
+      source_url: https://about.fb.com/news/2023/01/age-appropriate-ads-for-teens/
+      section: "Continuing to Create Age-Appropriate Ad Experiences for Teens"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: meta_misleading_deceptive_practices
@@ -721,4 +781,32 @@ rules:
     exceptions:
       - "Authorized advertisers with a verified 'Paid for by' disclaimer."
       - "News publishers identified by Meta."
+    status: active
+
+  # --- Children / Minors ---
+  - id: meta_minors_targeting
+    canonical_id: minors.personalized_targeting_of_minors_restricted
+    clause_ids: [meta.minors.teen_targeting_limited]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Ads reaching under-18 audiences using interests, behaviors, gender,
+      off-platform activity, or ZIP/sub-city ("pin drop") targeting.
+    exceptions:
+      - "Age and location targeting only."
+    status: active
+
+  - id: meta_minors_restricted_products
+    canonical_id: minors.age_restricted_products_not_shown_to_minors
+    clause_ids: [meta.minors.restricted_topics_not_to_minors]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Restricted-topic ads (alcohol, financial products, weight-loss products/
+      services) shown to people under 18.
+    exceptions: []
     status: active

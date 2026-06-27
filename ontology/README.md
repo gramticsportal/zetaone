@@ -15,10 +15,11 @@ mappings + a labeled evaluation dataset with measured precision/recall.
 | `corpus/google_ads_us.yaml` | Google Ads (US) — Misrepresentation + Healthcare/Medicines + Financial + Discrimination + Political clauses + rules |
 | `corpus/tiktok_ads_us.yaml` | TikTok Ads (US) — Misleading & false content + Healthcare/Pharmaceuticals + Financial + Discrimination + Political |
 | `corpus/linkedin_ads_us.yaml` | LinkedIn Ads (US) — Financial + Discrimination + Political clauses + rules |
-| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political) |
+| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA) |
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
-| `examples/eval_seed.yaml` | Labeled evaluation dataset (270 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political) |
-| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.5) |
+| `examples/eval_seed.yaml` | Labeled evaluation dataset (330 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political + 60 children/minors) |
+| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.6) |
+| `policy_versions.yaml` | Sidecar policy-metadata registry: per-source version / effective / last-updated / deprecated-superseded status / officially published change history (not part of the frozen schema) |
 | `validate.py` | Validator: parse + referential integrity + evidence/applicability completeness |
 
 ## Entities
@@ -50,10 +51,10 @@ category ─< clause >── source
 
 ## Scope so far
 
-- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep)
+- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep), `minors` (Children / Minors, deep)
 - **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC, FEC
 - **Jurisdiction:** US
-- **Current corpus version:** `Ad Corpus v0.5` (see `corpus_version.yaml`)
+- **Current corpus version:** `Ad Corpus v0.6` (see `corpus_version.yaml`)
 
 ### Misleading / Deceptive — canonical rules (vertical 1)
 
@@ -157,6 +158,40 @@ periods, synthetic-content disclosure), TikTok Politics, Governments, and
 Elections, LinkedIn Advertising Policies (Political), FEC 11 CFR 110.11 / 52
 U.S.C. 30120 (communications disclaimers). Jurisdiction: US only.
 
+### Children / Minors — canonical rules (vertical 6, category `minors`)
+
+| `canonical_id` | Sources mapped |
+|----------------|----------------|
+| `minors.personalized_targeting_of_minors_restricted` | Meta, Google, TikTok |
+| `minors.age_restricted_products_not_shown_to_minors` | Meta, Google, TikTok |
+| `minors.parental_consent_for_childrens_data` | FTC COPPA only (single-source — no `mapping` entry) |
+| `minors.child_directed_content_ad_restrictions` | Google made-for-kids only (single-source — no `mapping` entry) |
+
+Platforms converge on two protections — (1) no personalized/interest/behavior
+targeting of under-18s (Meta: age + location only; Google: under-18 ineligible
+for personalized advertising; TikTok: detailed targeting unavailable for
+under-18) and (2) age-restricted/sensitive products not shown to minors — so
+those two are mapped cross-source. COPPA's verifiable-parental-consent regime
+(FTC, priority 95) and Google's made-for-kids restrictions are distinct
+obligations with no equivalent on another source, so they stay single-source and
+unmapped — honest by design.
+
+Children/Minors sources: Meta About Advertising to Teens / age-appropriate ads,
+Google Ad-serving protections for children and teens + Restricted targeting in
+Personalized advertising, TikTok About advertising to under-18 + Protecting
+minors initiatives, FTC COPPA (16 CFR Part 312, 2025 amended rule). Jurisdiction:
+US only.
+
+### Policy-metadata registry (`policy_versions.yaml`)
+
+A **sidecar** (not part of the frozen schema) that records, per official source/
+policy: `policy_version`, `effective_date`, `last_updated`, `status`
+(active/deprecated/superseded), `superseded_by`, and an officially published
+`change_history`. This lets us answer "what changed?" across policy versions
+later. Fields are populated only when officially published — omitted, never
+invented, when a source does not state them. `validate.py` checks referential
+integrity (every entry's `source_id` exists) and the `status` enum.
+
 > **TikTok US note:** TikTok's healthcare policy is per-market. In the *United
 > States*, prescription/OTC meds, pharmacies, fillers, and microdermabrasion
 > *may be allowed* with FDA / NABP / LegitScript certification and 18+ targeting
@@ -177,7 +212,8 @@ the eval dataset:
 - **Ad Corpus v0.2** — adds Health / Medical (frozen)
 - **Ad Corpus v0.3** — adds Financial services & investments (frozen)
 - **Ad Corpus v0.4** — adds Housing & Employment (frozen)
-- **Ad Corpus v0.5** — adds Political & Social Issues (frozen, current)
+- **Ad Corpus v0.5** — adds Political & Social Issues (frozen)
+- **Ad Corpus v0.6** — adds Children / Minors + `policy_versions.yaml` sidecar (frozen, current)
 
 ## Build order
 
@@ -187,15 +223,16 @@ the eval dataset:
 4. ✅ Financial vertical: Meta + Google + TikTok + LinkedIn + FTC + SEC + FINRA + CFPB, mapped → **Ad Corpus v0.3** (60 eval examples).
 5. ✅ Housing & Employment vertical: Meta + Google + TikTok + LinkedIn + HUD + EEOC + FTC, mapped → **Ad Corpus v0.4** (60 eval examples).
 6. ✅ Political & Social Issues vertical: Meta + Google + TikTok + LinkedIn + FEC, mapped → **Ad Corpus v0.5** (60 eval examples).
-7. Next domains (by business impact): Children / Minors → Privacy & Personal Data → Alcohol / Tobacco / Cannabis → Gambling & Gaming → Intellectual Property / Counterfeit.
-8. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
-9. Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
+7. ✅ Children / Minors vertical: Meta + Google + TikTok + FTC COPPA, mapped → **Ad Corpus v0.6** (60 eval examples). Adds `policy_versions.yaml` sidecar.
+8. Next domains (by business impact): Privacy & Personal Data → Alcohol / Tobacco / Cannabis → Gambling & Gaming → Intellectual Property / Counterfeit.
+9. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
+10. Phase 2 — Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Begins only after the five remaining domains are complete + validated. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
 
 > Clause text is sourced from official policy pages (Meta Transparency Center,
 > Google Ads Help, TikTok Business Help Center, LinkedIn Advertising Policies,
 > FTC.gov, FDA.gov, SEC.gov / 17 CFR 275.206(4)-1, FINRA Rule 2210, CFPB / 12 CFR
 > 1026.24, 21 CFR 202.1, HUD / 42 U.S.C. § 3604, EEOC / 29 U.S.C. § 623,
-> 12 CFR 1002.4, FEC / 11 CFR 110.11 / 52 U.S.C. 30120). Some pages are JS-heavy and were captured via official-source
+> 12 CFR 1002.4, FEC / 11 CFR 110.11 / 52 U.S.C. 30120, FTC COPPA / 16 CFR Part 312). Some pages are JS-heavy and were captured via official-source
 > search snippets; **verify verbatim text and effective dates against the cited
 > URLs before using metrics or decisions externally.** Run
 > `python ontology/validate.py` after any change.

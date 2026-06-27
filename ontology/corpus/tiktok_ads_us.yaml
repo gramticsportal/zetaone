@@ -546,6 +546,77 @@ clauses:
       section: "Advertising Policies > Politics, Governments, and Elections"
       retrieved_at: 2026-06-27
 
+  # ===================== Children / Minors =====================
+  - id: tiktok.minors.targeting_limited_under_18
+    source_id: tiktok_ads_us
+    category_id: minors
+    text: >
+      Some targeting and campaign options are not available when an audience
+      includes people under 18 in certain locations; TikTok limits advertisers'
+      ability to target users under 18 in the U.S., Canada, the EEA, the UK,
+      Switzerland and Latin America. Detailed (interest/behavior) targeting is
+      not available when the audience includes people under 18, and the Sales –
+      TikTok Shop objective is unavailable for under-18 audiences.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-04-01
+    version: "2025-04-age-targeting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Some targeting and campaign options are not available when you create ad
+        campaigns including audiences under the age of 18 in certain locations.
+        ... we have taken steps to limit the ability of advertisers to target
+        users under the age of 18 in the U.S., Canada, the European Economic Area
+        (EEA), the UK, Switzerland and Latin America. ... The following detailed
+        targeting options will not be available when your audience includes
+        people under the age of 18 ... [and] The following advertising objectives
+        will not be available when reaching people under the age of 18: Sales -
+        TikTok Shop.
+      source_url: https://ads.tiktok.com/help/article/about-advertising-to-people-under-the-age-of-18
+      section: "About TikTok advertising restrictions for people under the age of 18"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.minors.age_restricted_not_to_minors
+    source_id: tiktok_ads_us
+    category_id: minors
+    text: >
+      TikTok restricts a non-exhaustive list of content categories from being
+      targeted based on user age; for example, advertisements for alcoholic
+      products or other alcohol-related products or services are not allowed to
+      target audiences under the legal drinking age. Advertisers must follow
+      local legal requirements on advertising to users under 18 and all of
+      TikTok's ad policies.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "protecting-minors-initiatives"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        The following is a non-exhaustive list of some notable content categories
+        that we restrict from targeting based on user age: Advertisements for
+        alcoholic products or other alcohol-related products or services are not
+        allowed to target audiences under the legal drinking age. ... We expect
+        all of our advertisers to follow local legal requirements when creating
+        ad campaigns, including any regulations on advertising to users under the
+        age of 18, as well as all of TikTok's Ads policies.
+      source_url: https://ads.tiktok.com/help/article/protecting-minors-on-tiktok-advertising-initiatives
+      section: "Protecting minors on TikTok: advertising initiatives"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: tiktok_absolute_terms
     canonical_id: misleading.guaranteed_outcomes
@@ -731,4 +802,32 @@ rules:
       narrow official-election-authority exception.
     exceptions:
       - "Official entities overseeing elections (election-process information)."
+    status: active
+
+  # --- Children / Minors ---
+  - id: tiktok_minors_targeting
+    canonical_id: minors.personalized_targeting_of_minors_restricted
+    clause_ids: [tiktok.minors.targeting_limited_under_18]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Detailed (interest/behavior) targeting of under-18 audiences, or use of
+      restricted objectives (e.g. Sales – TikTok Shop) reaching under-18s.
+    exceptions:
+      - "Awareness objectives (Reach, R&F, TopView) not relying on detailed targeting."
+    status: active
+
+  - id: tiktok_minors_age_restricted
+    canonical_id: minors.age_restricted_products_not_shown_to_minors
+    clause_ids: [tiktok.minors.age_restricted_not_to_minors]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Age-restricted categories (e.g. alcohol) targeted to minors / users below
+      the legal age.
+    exceptions: []
     status: active

@@ -965,6 +965,132 @@ clauses:
       section: "Restricted targeting in Personalized advertising > Sensitive interest categories"
       retrieved_at: 2026-06-27
 
+  # ===================== Alcohol / Tobacco / Cannabis =====================
+  - id: google.atc.alcohol
+    source_id: google_ads_us
+    category_id: alcohol
+    text: >
+      Google Ads follows local alcohol laws and industry standards. Alcohol ads
+      must not target minors and may only target locations allowed to show
+      alcohol ads. Content that promotes harmful or illegal consumption is
+      prohibited: any ad implying health or social benefits from alcohol,
+      promoting alcohol use in dangerous situations (e.g. driving), or encouraging
+      underage or excessive drinking will be disapproved.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-alcohol"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [alcohol]
+    evidence:
+      quote: >-
+        Google Ads prohibits content that promotes harmful or illegal consumption
+        or alcohol. Any ad implying health or social benefits from alcohol,
+        promoting alcohol use in dangerous situations like driving, or encouraging
+        underage or excessive drinking will be disapproved. ... The following is
+        not allowed: Targeting individuals below the legal drinking age in one or
+        more locations your ads target.
+      source_url: https://support.google.com/adspolicy/answer/6012382
+      section: "Advertising Policies > Alcohol"
+      retrieved_at: 2026-06-27
+
+  - id: google.atc.tobacco
+    source_id: google_ads_us
+    category_id: drugs
+    text: >
+      Ads for tobacco or any products containing tobacco are not allowed. Ads for
+      products that form a component part of a tobacco product, or that directly
+      facilitate or promote tobacco consumption, are not allowed, as are ads for
+      products designed to simulate tobacco smoking (e.g. herbal cigarettes,
+      electronic cigarettes, e-cigarettes).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-tobacco"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads for tobacco or any products containing tobacco are not allowed. ...
+        Ads for products that form a component part of a tobacco product, as well
+        as products and services that directly facilitate or promote tobacco
+        consumption are not allowed. ... Ads for products designed to simulate
+        tobacco smoking are not allowed. Examples (non-exhaustive): Herbal
+        cigarettes, electronic cigarettes, e-cigarettes.
+      source_url: https://support.google.com/adspolicy/answer/16489929
+      section: "Dangerous products or services > Tobacco"
+      retrieved_at: 2026-06-27
+
+  - id: google.atc.recreational_drugs
+    source_id: google_ads_us
+    category_id: drugs
+    text: >
+      Ads for substances that alter mental state for the purpose of recreation or
+      otherwise induce "highs" are not allowed, as are ads for products or
+      services marketed as facilitating recreational drug use and instructional
+      content about producing, purchasing, or using recreational drugs.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-dangerous-recreational-drugs"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads for substances that alter mental state for the purpose of recreation
+        or otherwise induce "highs" are not allowed. Ads for products or services
+        marketed as facilitating recreational drug use are not allowed. Ads for
+        instructional content about producing, purchasing, or using recreational
+        drugs are not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6014299
+      section: "Dangerous products or services > Recreational drugs"
+      retrieved_at: 2026-06-27
+
+  - id: google.atc.cbd
+    source_id: google_ads_us
+    category_id: drugs
+    text: >
+      Ads for topical, hemp-derived cannabidiol (CBD) products with THC content of
+      0.3% or less are allowed only if the advertiser applies to advertise these
+      CBD products and targets only California, Colorado, and Puerto Rico; some ad
+      formats have additional restrictions. Other CBD-based products (supplements,
+      food additives, inhalants) remain disallowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-01-20
+    version: "adspolicy-cbd-2023"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads for topical, hemp-derived cannabidiol (CBD) products with THC content
+        of 0.3% or less are allowed. Advertisers must apply to advertise these CBD
+        products and only target California, Colorado, and Puerto Rico. Some ad
+        formats may have additional restrictions for promotion of CBD products.
+      source_url: https://support.google.com/adspolicy/answer/6014299
+      section: "Dangerous products or services > Recreational drugs > CBD"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: google_unreliable_claims
     canonical_id: misleading.exaggerated_results
@@ -1276,4 +1402,59 @@ rules:
       (health, sexual orientation, race, religion, financial hardship, etc.).
     exceptions:
       - "Predefined Google audiences (sensitive signals excluded)."
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: google_atc_alcohol
+    canonical_id: atc.alcohol_age_and_location_targeting_required
+    clause_ids: [google.atc.alcohol]
+    category_id: alcohol
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Alcohol ads targeting below the legal drinking age, targeting disallowed
+      locations, or promoting harmful/illegal/excessive consumption or health/
+      social benefits.
+    exceptions: []
+    status: active
+
+  - id: google_atc_tobacco
+    canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    clause_ids: [google.atc.tobacco]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads for tobacco, tobacco components/paraphernalia, or products that
+      simulate smoking (e-cigarettes, herbal cigarettes).
+    exceptions: []
+    status: active
+
+  - id: google_atc_recreational_drugs
+    canonical_id: atc.recreational_drugs_and_thc_prohibited
+    clause_ids: [google.atc.recreational_drugs]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ads for recreational drugs / mind-altering "high"-inducing substances,
+      drug-use facilitation, or instructional drug content.
+    exceptions: []
+    status: active
+
+  - id: google_atc_cbd
+    canonical_id: atc.cbd_restricted_with_certification
+    clause_ids: [google.atc.cbd]
+    category_id: drugs
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      CBD ads outside CA/CO/PR, without Google certification, or for non-topical/
+      ingestible CBD (supplements, food additives, inhalants), or THC >0.3%.
+    exceptions:
+      - "Topical hemp-derived CBD <=0.3% THC, certified, targeting only CA/CO/PR."
     status: active

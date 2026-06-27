@@ -651,6 +651,68 @@ clauses:
       section: "Data Collection Standards"
       retrieved_at: 2026-06-27
 
+  # ===================== Alcohol / Tobacco / Cannabis =====================
+  - id: tiktok.atc.tobacco
+    source_id: tiktok_ads_us
+    category_id: drugs
+    text: >
+      TikTok does not allow ad content and landing pages to show, promote, or
+      sell tobacco, nicotine, or related products — including cigarettes, cigars,
+      e-cigarettes, vape pens or vape oils and cartridges, smoking paraphernalia
+      (pipes, rolling papers, filters, vaporizers, nicotine pouches), or venues
+      for smoking such as cigar bars and hookah lounges.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-dangerous-products"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        We do not allow ad content and landing pages to show, promote, or sell
+        tobacco, nicotine, or related products. ... Cigarettes, cigars, tobacco or
+        nicotine, and related products, e-cigarettes, vape pens or vape oils and
+        cartridges, or any other alternative to smoking or consumption of tobacco
+        and nicotine. Smoking paraphernalia, such as smoking pipes, rolling
+        papers, filters, vaporizers, nicotine pouches.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-dangerous-products-or-services
+      section: "Advertising Policies > Dangerous Products or Services > Tobacco and nicotine-related products"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.atc.drugs
+    source_id: tiktok_ads_us
+    category_id: drugs
+    text: >
+      TikTok does not allow ad content and landing pages to display, promote,
+      sell, solicit, or provide access to illegal drugs, controlled drugs,
+      prescription drug abuse, recreational drugs, drug paraphernalia,
+      accessories, supplies, or their use.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-dangerous-products"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        We do not allow ad content and landing pages to display, promote, sell,
+        solicit, or provide access to illegal drugs, controlled drugs,
+        prescription drug abuse, recreational drugs, drug paraphernalia,
+        accessories, supplies, or their use.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-dangerous-products-or-services
+      section: "Advertising Policies > Dangerous Products or Services > Drugs"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: tiktok_absolute_terms
     canonical_id: misleading.guaranteed_outcomes
@@ -877,5 +939,32 @@ rules:
     detection: >
       Landing pages that collect/share/use data without a clear privacy-policy
       disclosure, or distribute malicious/undisclosed/unwanted software.
+    exceptions: []
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: tiktok_atc_tobacco
+    canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    clause_ids: [tiktok.atc.tobacco]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads/landing pages showing, promoting, or selling tobacco, nicotine,
+      e-cigarettes/vapes, paraphernalia, or smoking venues.
+    exceptions: []
+    status: active
+
+  - id: tiktok_atc_drugs
+    canonical_id: atc.recreational_drugs_and_thc_prohibited
+    clause_ids: [tiktok.atc.drugs]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ads/landing pages promoting or providing access to illegal/controlled/
+      recreational drugs, prescription-drug abuse, or drug paraphernalia.
     exceptions: []
     status: active

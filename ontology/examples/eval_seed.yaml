@@ -1,6 +1,6 @@
 # Evaluation dataset — Misleading + Health + Financial + Housing/Employment +
-# Political/Social-Issues + Children/Minors + Privacy verticals.
-# 390 examples total:
+# Political/Social-Issues + Children/Minors + Privacy + Alcohol/Tobacco/Cannabis.
+# 450 examples total:
 #   Misleading:           30 (10 non_compliant, 10 compliant, 10 borderline)
 #   Health:               60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Financial:            60 (20 non_compliant, 20 compliant, 20 borderline)
@@ -8,6 +8,7 @@
 #   Political:            60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Children/Minors:      60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Privacy:              60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Alcohol/Tobacco/Cannabis: 60 (20 non_compliant, 20 compliant, 20 borderline)
 # Labeled examples linked to clauses/categories. Compute precision/recall PER
 # category_id and PER canonical_id from these. Conforms to entities.example.
 # labeled_by: expert here = seed authoring; replace with reviewed labels as the
@@ -4424,3 +4425,666 @@ examples:
     labeled_by: expert
     split: dev
     note: "Personalization wording; borderline depending on data used."
+
+  # =========================================================================
+  # ALCOHOL / TOBACCO / CANNABIS (60)
+  # non_compliant = tobacco/vape, recreational drugs/THC, under-age/harmful
+  # alcohol, uncertified CBD, missing TTB statements, non-compliant tobacco
+  # format. compliant = age/location-correct alcohol with mandatory statements,
+  # cessation products 18+, certified CBD in allowed states, FDA-format tobacco,
+  # anti-smoking PSAs. borderline = non-alcoholic / hemp / dispensary-brand /
+  # nicotine-free edge cases.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: atc_nc_001
+    content: "[Ad selling disposable fruit-flavored vapes]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_002
+    content: "Buy THC gummies — get high legally!"
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_003
+    content: "[Beer ad targeting users aged 16-20]"
+    modality: video
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - meta.atc.alcohol
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_004
+    content: "Vodka makes you more confident, successful, and attractive."
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Implies social/sexual/professional benefits from alcohol."
+
+  - id: atc_nc_005
+    content: "[Cigarette brand ad with full-color lifestyle imagery]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - fda.atc.tobacco_format
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_006
+    content: "[Ingestible CBD oil ad with no LegitScript certification]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.cbd
+      - google.atc.cbd
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_007
+    content: "Magic mushrooms for sale — microdose your way to bliss."
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_008
+    content: "Crush a 12-pack tonight — drink till you drop!"
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Encourages excessive drinking."
+
+  - id: atc_nc_009
+    content: "[Whiskey ad with no responsible-advertiser name or class/type statement]"
+    modality: image
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_010
+    content: "[E-cigarette starter-kit promotion]"
+    modality: video
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_011
+    content: "Recreational weed delivered to your door — shop our dispensary."
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_012
+    content: "[Smokeless-tobacco video ad with music and color graphics]"
+    modality: video
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+      - google.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_013
+    content: "Whiskey cures your stress and heals the soul."
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "False/misleading curative health claim for alcohol."
+
+  - id: atc_nc_014
+    content: "[CBD inhalant product ad targeting Texas]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - google.atc.cbd
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_015
+    content: "Rolling papers, pipes, and bongs — shop our smoke shop."
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_016
+    content: "[Tequila ad showing a shots-drinking competition]"
+    modality: video
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_017
+    content: "Order recreational highs and party powders online."
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_018
+    content: "[Vape brand ad targeting a general TikTok audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - tiktok.atc.tobacco
+      - meta.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_019
+    content: "[CBD gummies ad in the US targeting under-18 users]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.cbd
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_020
+    content: "Beer is good for your heart — drink one daily."
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+      - ttb.atc.alcohol_statements
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: atc_c_001
+    content: "[Wine ad targeting 21+ in permitted US locations, with a responsible-drinking message]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_c_002
+    content: "[Non-alcoholic beer ad that doesn't depict consumption]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_003
+    content: "[FDA-approved nicotine patch ad targeted to people 18+]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_004
+    content: "[Topical CBD balm ad, LegitScript-certified, targeting only California]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_c_005
+    content: "[Distilled-spirits ad with responsible-advertiser name, class/type, and ABV]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "All TTB mandatory statements present."
+
+  - id: atc_c_006
+    content: "[Cigarette ad using only black text on a white background]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Format-compliant with 21 CFR 1140.32 (platform bans still apply separately)."
+
+  - id: atc_c_007
+    content: "[Anti-smoking PSA encouraging people to quit]"
+    modality: video
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_008
+    content: "[Craft-brewery ad targeting 21+ in allowed states]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_009
+    content: "[Smoking-cessation counseling service ad, 18+]"
+    modality: text
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_010
+    content: "[Non-alcoholic cocktail mixer ad]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_011
+    content: "[Whiskey ad with mandatory statements and no health claims]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_012
+    content: "[WHO-approved nicotine gum ad targeted to adults]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_013
+    content: "[Topical hemp CBD cream, certified, targeting Colorado only]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_014
+    content: "[Wine-club ad with age-gating and a responsible-drinking message]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_015
+    content: "[Tobacco ad with audio limited to words only, no music or sound effects]"
+    modality: audio
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Format-compliant with 21 CFR 1140.32(b)."
+
+  - id: atc_c_016
+    content: "[Wine-glass accessory ad with no alcohol depicted]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_017
+    content: "[Educational documentary referencing the history of alcohol]"
+    modality: video
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_018
+    content: "[Certified topical CBD ad targeting Puerto Rico]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_019
+    content: "[Beer ad in an allowed state, 21+ targeting, no excessive-consumption depiction]"
+    modality: video
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_020
+    content: "[FDA-format-compliant smokeless-tobacco static black-text video]"
+    modality: video
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: atc_b_001
+    content: "[Non-alcoholic spirit brand using cocktail-style imagery]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_002
+    content: "[Hemp-seed-oil skincare ad making no CBD claims]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_003
+    content: "[Alcohol-delivery app ad]"
+    modality: video
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_004
+    content: "[Nicotine-free 'wellness' vape ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Meta bans even nicotine-free vapes; some other contexts may differ."
+
+  - id: atc_b_005
+    content: "[Cocktail recipe content from a spirits brand]"
+    modality: video
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_006
+    content: "[CBD pet-treats ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_007
+    content: "[Kombucha ad noting trace alcohol content]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_008
+    content: "[Nicotine-free flavored shisha ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_009
+    content: "[Dispensary brand-awareness ad with no product sale]"
+    modality: video
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_010
+    content: "[Low-alcohol hard-seltzer ad targeting 21+]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_011
+    content: "[Topical CBD ad targeting a state not on Google's allowed list]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Allowed product type but disallowed geography for Google."
+
+  - id: atc_b_012
+    content: "[Bar/restaurant promoting its happy hour]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_013
+    content: "[Functional (non-psychoactive) mushroom supplement ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_014
+    content: "[Wine-pairing editorial sponsored by a winery]"
+    modality: text
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_015
+    content: "[Lighter ad with no mention of tobacco]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "TikTok may allow lighters when promoted without tobacco/nicotine use."
+
+  - id: atc_b_016
+    content: "[Alcohol brand sponsoring a sports event]"
+    modality: video
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_017
+    content: "[Ingestible CBD beverage ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Ingestible CBD is generally disallowed; borderline pending product/jurisdiction."
+
+  - id: atc_b_018
+    content: "[Cannabis-legalization advocacy ad with no product sale]"
+    modality: video
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_019
+    content: "[De-alcoholized wine ad]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_020
+    content: "[Nicotine pouch alternative marketed as 'tobacco-free']"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Tobacco-free nicotine pouches still fall under platform nicotine bans."

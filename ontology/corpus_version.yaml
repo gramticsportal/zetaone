@@ -3,7 +3,7 @@
 # reproducible and benchmarkable alongside the evaluation dataset. Bump the
 # version and add a release entry whenever a category is completed/changed.
 
-current_version: "Ad Corpus v0.7"
+current_version: "Ad Corpus v0.8"
 
 releases:
   - version: "Ad Corpus v0.1"
@@ -183,3 +183,30 @@ releases:
       (TikTok data-collection disclosure; CCPA opt-out; CCPA minor opt-in) kept
       honestly unmapped. Every clause carries an `evidence` block +
       `last_reviewed_by: ai`.
+
+  - version: "Ad Corpus v0.8"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy, alcohol, drugs]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca, ttb_us]
+    canonical_rules_added:
+      - atc.alcohol_age_and_location_targeting_required      # Meta, Google
+      - atc.tobacco_and_nicotine_ads_prohibited              # Meta, Google, TikTok
+      - atc.recreational_drugs_and_thc_prohibited            # Meta, Google, TikTok
+      - atc.cbd_restricted_with_certification                # Meta, Google
+      - atc.alcohol_mandatory_and_prohibited_statements      # TTB (single-source)
+      - atc.tobacco_advertising_format_restrictions          # FDA 21 CFR 1140 (single-source)
+    eval_examples: 450       # + 60 alcohol/tobacco/cannabis
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Alcohol / Tobacco / Cannabis vertical (categories `alcohol` + `drugs`)
+      from official Meta (Alcohol; Tobacco and Related Products; Drugs and
+      Pharmaceuticals incl. THC/CBD), Google (Alcohol; Dangerous products or
+      services — Tobacco, Recreational drugs, CBD), TikTok (Dangerous Products or
+      Services — tobacco/nicotine and drugs), TTB (FAA Act alcohol advertising;
+      27 CFR 4/5/7 mandatory + prohibited statements), and FDA (21 CFR 1140.32
+      cigarette/smokeless-tobacco advertising format). New source ttb_us. Four
+      cross-source canonicals (alcohol age/location; tobacco/nicotine prohibited;
+      recreational drugs/THC prohibited; CBD restricted-with-certification) plus
+      two single-source regulator canonicals (TTB statements; FDA tobacco format)
+      kept honestly unmapped.

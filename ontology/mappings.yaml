@@ -474,3 +474,73 @@ mappings:
       sensitive data: health, race, religion, sexual orientation, political
       opinion, income, etc.). Mechanisms differ (copy vs. audience tooling), but
       the protect-sensitive-attributes intent is genuinely equivalent.
+
+  # =========================================================================
+  # Alcohol / Tobacco / Cannabis vertical canonical rules:
+  #   atc.alcohol_age_and_location_targeting_required    (Meta, Google)
+  #   atc.tobacco_and_nicotine_ads_prohibited            (Meta, Google, TikTok)
+  #   atc.recreational_drugs_and_thc_prohibited          (Meta, Google, TikTok)
+  #   atc.cbd_restricted_with_certification              (Meta, Google)
+  #   atc.alcohol_mandatory_and_prohibited_statements    (TTB — single-source)
+  #   atc.tobacco_advertising_format_restrictions        (FDA 21 CFR 1140 — single-source)
+  # The two regulator rules (TTB mandatory/prohibited alcohol statements; FDA
+  # cigarette/smokeless-tobacco format rules) are distinct obligations with no
+  # equivalent platform clause, so they carry NO mapping entry.
+  # =========================================================================
+  - canonical_id: atc.alcohol_age_and_location_targeting_required
+    category_id: alcohol
+    clause_ids:
+      - meta.atc.alcohol
+      - google.atc.alcohol
+    relation: related
+    confidence: high
+    note: >
+      Alcohol ads are permitted but restricted: Meta (comply with local laws;
+      age + country targeting; no targeting under 18) and Google (follow local
+      alcohol laws; don't target below the legal drinking age; only allowed
+      locations; no harmful/illegal/excessive-consumption or health/social-benefit
+      claims). Age thresholds differ (Meta min 18 vs. local legal drinking age),
+      but the restrict-by-age-and-location intent is genuinely equivalent.
+
+  - canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    category_id: drugs
+    clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    relation: equivalent
+    confidence: high
+    note: >
+      Tobacco/nicotine products and paraphernalia, including e-cigarettes/vapes
+      and smoking simulants, are prohibited across Meta, Google, and TikTok.
+      (Meta allows WHO/FDA-approved cessation products 18+; that's a narrow
+      exception, not a different rule.)
+
+  - canonical_id: atc.recreational_drugs_and_thc_prohibited
+    category_id: drugs
+    clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    relation: equivalent
+    confidence: high
+    note: >
+      Illicit/recreational drugs and THC/psychoactive cannabis products are
+      prohibited across Meta (illicit/recreational drugs; THC >0.3%), Google
+      (substances inducing "highs"; drug-use facilitation/instruction), and
+      TikTok (illegal/controlled/recreational drugs and paraphernalia).
+
+  - canonical_id: atc.cbd_restricted_with_certification
+    category_id: drugs
+    clause_ids:
+      - meta.atc.cbd
+      - google.atc.cbd
+    relation: related
+    confidence: high
+    note: >
+      CBD is allowed only under strict certification/geography limits: Meta
+      (prior written authorization + active LegitScript certification; US-only;
+      18+; no health claims) and Google (topical hemp-derived CBD <=0.3% THC;
+      apply for certification; only CA/CO/PR). Scope differs (Meta US-wide vs.
+      Google three jurisdictions), but the allowed-only-with-certification intent
+      is genuinely equivalent.

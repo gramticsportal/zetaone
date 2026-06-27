@@ -630,6 +630,134 @@ clauses:
       section: "Objectionable Content > Privacy Violations and Personal Attributes"
       retrieved_at: 2026-06-27
 
+  # ===================== Alcohol / Tobacco / Cannabis =====================
+  - id: meta.atc.alcohol
+    source_id: meta_ads_us
+    category_id: alcohol
+    text: >
+      Ads that promote or reference alcohol must comply with all applicable local
+      laws, industry codes, licenses and approvals, and include age and country
+      targeting consistent with Meta's targeting requirements and local laws. At
+      a minimum, ads may not be targeted to people under 18 years of age.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-alcohol"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [alcohol]
+    evidence:
+      quote: >-
+        Ads that promote or reference alcohol must comply with all applicable
+        local laws, required or established industry codes, guidelines, licenses
+        and approvals, and include age and country targeting criteria consistent
+        with Meta's targeting requirements and applicable local laws. ...
+        Advertisers must follow all applicable laws, including targeting their ads
+        in accordance with legal requirements. At a minimum, ads may not be
+        targeted to people under 18 years of age.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/alcohol
+      section: "Restricted Goods and Services > Alcohol"
+      retrieved_at: 2026-06-27
+
+  - id: meta.atc.tobacco
+    source_id: meta_ads_us
+    category_id: drugs
+    text: >
+      Ads must not promote the sale or use of tobacco or nicotine products and
+      related paraphernalia, including electronic nicotine delivery devices such
+      as electronic cigarettes, vaporizers, or other products that simulate
+      smoking. Ads may only promote cessation products approved by the WHO or the
+      U.S. FDA (targeted to people 18 or older). Promoting vapes is not allowed in
+      any context.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-tobacco-related"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads must not promote the sale or use of tobacco or nicotine products and
+        related paraphernalia. Ads must not promote Electronic Nicotine delivery
+        devices, such as electronic cigarettes, vaporizers, or any other products
+        that simulate smoking or are otherwise designed for use with tobacco or
+        nicotine products. Ads may only promote cessation products approved by
+        either the World Health Organization or the U.S. Food and Drug
+        Administration, and must comply with all applicable local laws.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/tobacco-related-products/
+      section: "Restricted Goods and Services > Tobacco and Related Products"
+      retrieved_at: 2026-06-27
+
+  - id: meta.atc.drugs_thc
+    source_id: meta_ads_us
+    category_id: drugs
+    text: >
+      Advertisers can't run ads that promote the sale or use of illicit or
+      recreational drugs, or other unsafe substances, products or supplements.
+      Ads may not promote or offer the sale of THC products or cannabis products
+      containing related psychoactive components (more than 0.3% THC).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-drugs-pharma"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Advertisers can't run ads that promote the sale or use of illicit or
+        recreational drugs, or other unsafe substances, products or supplements,
+        as determined by Meta at its sole discretion. ... Ads may not promote or
+        offer the sale of THC products or cannabis products containing related
+        psychoactive components.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/drugs-pharmaceuticals
+      section: "Restricted Goods and Services > Drugs and Pharmaceuticals"
+      retrieved_at: 2026-06-27
+
+  - id: meta.atc.cbd
+    source_id: meta_ads_us
+    category_id: drugs
+    text: >
+      Ads that promote or offer the sale of CBD or similar cannabinoid products
+      are only allowed with prior written authorization from Meta and active
+      LegitScript certification. CBD ads may only run in the United States, must
+      not be targeted to people under 18, and must not make health or medical
+      claims.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-cbd"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads that promote or offer the sale of cannabidiol (CBD) or similar
+        cannabinoid products are only allowed with prior written authorization.
+        Meta requires advertisers promoting CBD products to be actively certified
+        with LegitScript. ... Ads may only promote or offer the sale of CBD in the
+        United States, and must not be targeted to people under 18 years of age.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/drugs-pharmaceuticals
+      section: "Restricted Goods and Services > Drugs and Pharmaceuticals > CBD"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: meta_misleading_deceptive_practices
@@ -863,4 +991,62 @@ rules:
     exceptions:
       - "Benefit-focused copy that does not imply the viewer has an attribute."
       - "PSAs that don't assert a person/family has a condition."
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: meta_atc_alcohol
+    canonical_id: atc.alcohol_age_and_location_targeting_required
+    clause_ids: [meta.atc.alcohol]
+    category_id: alcohol
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Alcohol ads targeting under-18 (or below local legal drinking age), or run
+      in countries/regions where alcohol promotion is prohibited.
+    exceptions:
+      - "News/documentary/educational/PSA references to alcohol."
+      - "Non-alcoholic products that don't depict alcohol or consumption."
+    status: active
+
+  - id: meta_atc_tobacco
+    canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    clause_ids: [meta.atc.tobacco]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads promoting tobacco/nicotine products, e-cigarettes/vapes, or related
+      paraphernalia.
+    exceptions:
+      - "WHO/FDA-approved cessation products targeted 18+."
+      - "Anti-smoking/vaping campaigns."
+    status: active
+
+  - id: meta_atc_drugs_thc
+    canonical_id: atc.recreational_drugs_and_thc_prohibited
+    clause_ids: [meta.atc.drugs_thc]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ads promoting illicit/recreational drugs or THC/cannabis products with
+      psychoactive components (>0.3% THC).
+    exceptions: []
+    status: active
+
+  - id: meta_atc_cbd
+    canonical_id: atc.cbd_restricted_with_certification
+    clause_ids: [meta.atc.cbd]
+    category_id: drugs
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      CBD/cannabinoid ads without Meta written authorization + active LegitScript
+      certification, outside the US, to under-18, or making health/medical claims.
+    exceptions:
+      - "LegitScript-certified + Meta-authorized CBD, US-only, 18+, no health claims."
     status: active

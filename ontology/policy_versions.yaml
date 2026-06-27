@@ -77,6 +77,14 @@ policies:
         version: "under-18 personalized-ads restriction"
         summary: "Users under 18 made ineligible for personalized advertising; sensitive ad categories restricted for minors."
         url: https://blog.google/technology/families/giving-kids-and-teens-safer-experience-online/
+      - date: 2023-01-20
+        version: "CBD policy update"
+        summary: "Dangerous Products & Services updated to allow topical hemp-derived CBD (<=0.3% THC) and FDA-approved CBD pharmaceuticals in CA/CO/PR, with LegitScript + Google certification."
+        url: https://support.google.com/adspolicy/answer/12997469
+      - date: 2026-06-03
+        version: "personalized-advertising clarification"
+        summary: "Clarified Demand Gen/Discovery use advertiser-curated audiences by default and may be restricted when promoting sensitive interest categories."
+        url: https://support.google.com/adspolicy/answer/143465
 
   - source_id: tiktok_ads_us
     policy_title: "TikTok Advertising Policies"
@@ -142,3 +150,41 @@ policies:
         version: "CPRA (Prop 24)"
         summary: "CPRA operative: added right to opt out of 'sharing' for cross-context behavioral advertising; sensitive personal information limits; under-16 opt-in."
         url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.135
+
+  - source_id: ttb_us
+    policy_title: "TTB alcohol advertising regulations (FAA Act; 27 CFR parts 4, 5, 7)"
+    url: https://www.ttb.gov/what-we-do/program-areas/advertising
+    policy_version: "Industry Circular 2024-1"
+    effective_date: 2024-03-12
+    last_updated: 2024-03-12
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2022-01-01
+        version: "Industry Circular 2022-2"
+        summary: "Prior guidance on applying TTB advertising regulations to social media."
+        url: https://www.ttb.gov/public-information/industry-circulars
+      - date: 2024-03-12
+        version: "Industry Circular 2024-1"
+        summary: "Modifies and supersedes IC 2022-2; addresses use of links/link-sharing sites to satisfy mandatory statements and various social-media forms."
+        url: https://www.ttb.gov/public-information/industry-circulars/ttb-industry-circular-2024-1
+
+  - source_id: fda_us
+    policy_title: "FDA tobacco advertising — 21 CFR Part 1140 (cigarettes & smokeless tobacco)"
+    url: https://www.law.cornell.edu/cfr/text/21/1140.32
+    policy_version: "21 CFR Part 1140"
+    effective_date: 2010-06-22
+    last_updated: 2020-03-18         # 21 CFR Part 1141 required cigarette warnings (85 FR 15708)
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2010-06-22
+        version: "21 CFR 1140 (FSPTCA)"
+        summary: "Tobacco Control Act advertising restrictions, incl. black-text-on-white format (1140.32) for cigarettes/smokeless tobacco."
+        url: https://www.ecfr.gov/current/title-21/chapter-I/subchapter-K/part-1140
+      - date: 2018-08-10
+        version: "covered-tobacco warning compliance"
+        summary: "Compliance date for required health-warning statements on covered tobacco / RYO / cigarette tobacco packages and advertisements."
+        url: https://www.fda.gov/tobacco-products/products-guidance-regulations/labeling-and-warning-statements-tobacco-products

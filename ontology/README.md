@@ -15,10 +15,10 @@ mappings + a labeled evaluation dataset with measured precision/recall.
 | `corpus/google_ads_us.yaml` | Google Ads (US) — Misrepresentation + Healthcare/Medicines + Financial + Discrimination + Political clauses + rules |
 | `corpus/tiktok_ads_us.yaml` | TikTok Ads (US) — Misleading & false content + Healthcare/Pharmaceuticals + Financial + Discrimination + Political |
 | `corpus/linkedin_ads_us.yaml` | LinkedIn Ads (US) — Financial + Discrimination + Political clauses + rules |
-| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC + CCPA/CPRA (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA + Privacy) |
+| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC + CCPA/CPRA + TTB (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA + Privacy + Alcohol/Tobacco) |
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
-| `examples/eval_seed.yaml` | Labeled evaluation dataset (390 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political + 60 children/minors + 60 privacy) |
-| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.7) |
+| `examples/eval_seed.yaml` | Labeled evaluation dataset (450 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political + 60 children/minors + 60 privacy + 60 alcohol/tobacco/cannabis) |
+| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.8) |
 | `policy_versions.yaml` | Sidecar policy-metadata registry: per-source version / effective / last-updated / deprecated-superseded status / officially published change history (not part of the frozen schema) |
 | `validate.py` | Validator: parse + referential integrity + evidence/applicability completeness |
 
@@ -51,10 +51,10 @@ category ─< clause >── source
 
 ## Scope so far
 
-- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep), `minors` (Children / Minors, deep), `privacy` (deep)
-- **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC, FEC, CCPA/CPRA
+- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep), `minors` (Children / Minors, deep), `privacy` (deep), `alcohol` (deep), `drugs` (Tobacco/Nicotine/Cannabis, deep)
+- **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC, FEC, CCPA/CPRA, TTB
 - **Jurisdiction:** US
-- **Current corpus version:** `Ad Corpus v0.7` (see `corpus_version.yaml`)
+- **Current corpus version:** `Ad Corpus v0.8` (see `corpus_version.yaml`)
 
 ### Misleading / Deceptive — canonical rules (vertical 1)
 
@@ -206,6 +206,32 @@ LinkedIn sensitive-data targeting prohibition, TikTok Data Collection Standards,
 CCPA/CPRA (Cal. Civ. Code §§ 1798.120 & 1798.135). Jurisdiction: US (CCPA is
 California-specific).
 
+### Alcohol / Tobacco / Cannabis — canonical rules (vertical 8, categories `alcohol` + `drugs`)
+
+| `canonical_id` | Sources mapped |
+|----------------|----------------|
+| `atc.alcohol_age_and_location_targeting_required` | Meta, Google |
+| `atc.tobacco_and_nicotine_ads_prohibited` | Meta, Google, TikTok |
+| `atc.recreational_drugs_and_thc_prohibited` | Meta, Google, TikTok |
+| `atc.cbd_restricted_with_certification` | Meta, Google |
+| `atc.alcohol_mandatory_and_prohibited_statements` | TTB only (single-source — no `mapping` entry) |
+| `atc.tobacco_advertising_format_restrictions` | FDA 21 CFR 1140 only (single-source — no `mapping` entry) |
+
+Platforms converge: alcohol is allowed but age/location-restricted (Meta, Google);
+tobacco/nicotine/vapes and recreational drugs/THC are prohibited (Meta, Google,
+TikTok); CBD is allowed only with certification + geography limits (Meta, Google).
+The two regulator rules are distinct obligations: TTB requires mandatory
+statements and bars false/misleading/health claims in alcohol ads (27 CFR 4/5/7),
+and FDA fixes the cigarette/smokeless-tobacco advertising format (black text on
+white; audio words-only; video static text — 21 CFR 1140.32). Both stay
+single-source and unmapped — honest by design.
+
+Alcohol/Tobacco/Cannabis sources: Meta Alcohol / Tobacco and Related Products /
+Drugs and Pharmaceuticals (THC, CBD), Google Alcohol + Dangerous products or
+services (Tobacco, Recreational drugs, CBD), TikTok Dangerous Products or
+Services, TTB (FAA Act; 27 CFR parts 4, 5, 7), FDA (21 CFR 1140.32). Jurisdiction:
+US only.
+
 ### Policy-metadata registry (`policy_versions.yaml`)
 
 A **sidecar** (not part of the frozen schema) that records, per official source/
@@ -238,7 +264,8 @@ the eval dataset:
 - **Ad Corpus v0.4** — adds Housing & Employment (frozen)
 - **Ad Corpus v0.5** — adds Political & Social Issues (frozen)
 - **Ad Corpus v0.6** — adds Children / Minors + `policy_versions.yaml` sidecar (frozen)
-- **Ad Corpus v0.7** — adds Privacy & Personal Data (frozen, current)
+- **Ad Corpus v0.7** — adds Privacy & Personal Data (frozen)
+- **Ad Corpus v0.8** — adds Alcohol / Tobacco / Cannabis (frozen, current)
 
 ## Build order
 
@@ -250,16 +277,18 @@ the eval dataset:
 6. ✅ Political & Social Issues vertical: Meta + Google + TikTok + LinkedIn + FEC, mapped → **Ad Corpus v0.5** (60 eval examples).
 7. ✅ Children / Minors vertical: Meta + Google + TikTok + FTC COPPA, mapped → **Ad Corpus v0.6** (60 eval examples). Adds `policy_versions.yaml` sidecar.
 8. ✅ Privacy & Personal Data vertical: Meta + Google + LinkedIn + TikTok + CCPA/CPRA, mapped → **Ad Corpus v0.7** (60 eval examples).
-9. Next domains (by business impact): Alcohol / Tobacco / Cannabis → Gambling & Gaming → Intellectual Property / Counterfeit.
-10. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
-11. Phase 2 — Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Begins only after the five remaining domains are complete + validated. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
+9. ✅ Alcohol / Tobacco / Cannabis vertical: Meta + Google + TikTok + TTB + FDA, mapped → **Ad Corpus v0.8** (60 eval examples).
+10. Next domains (by business impact): Gambling & Gaming → Intellectual Property / Counterfeit.
+11. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
+12. Phase 2 — Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Begins only after the five remaining domains are complete + validated. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
 
 > Clause text is sourced from official policy pages (Meta Transparency Center,
 > Google Ads Help, TikTok Business Help Center, LinkedIn Advertising Policies,
 > FTC.gov, FDA.gov, SEC.gov / 17 CFR 275.206(4)-1, FINRA Rule 2210, CFPB / 12 CFR
 > 1026.24, 21 CFR 202.1, HUD / 42 U.S.C. § 3604, EEOC / 29 U.S.C. § 623,
 > 12 CFR 1002.4, FEC / 11 CFR 110.11 / 52 U.S.C. 30120, FTC COPPA / 16 CFR Part 312,
-> CCPA/CPRA / Cal. Civ. Code §§ 1798.120 & 1798.135). Some pages are JS-heavy and were captured via official-source
+> CCPA/CPRA / Cal. Civ. Code §§ 1798.120 & 1798.135, TTB / FAA Act / 27 CFR 4/5/7,
+> FDA / 21 CFR 1140.32). Some pages are JS-heavy and were captured via official-source
 > search snippets; **verify verbatim text and effective dates against the cited
 > URLs before using metrics or decisions externally.** Run
 > `python ontology/validate.py` after any change.

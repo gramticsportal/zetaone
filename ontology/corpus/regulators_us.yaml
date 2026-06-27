@@ -88,6 +88,15 @@ sources:
     retrieved_at: 2026-06-27
     last_verified_at: 2026-06-27
 
+  - id: ttb_us
+    type: regulator
+    name: Alcohol and Tobacco Tax and Trade Bureau (TTB)
+    jurisdiction: [US]
+    url: https://www.ttb.gov/what-we-do/program-areas/advertising
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
 clauses:
   # ===================== FTC: Misleading backbone =====================
   - id: ftc.misleading.reasonable_basis
@@ -980,6 +989,81 @@ clauses:
       section: "Cal. Civ. Code § 1798.120(c) (CCPA/CPRA) — minors' opt-in to sale/sharing"
       retrieved_at: 2026-06-27
 
+  # ===================== TTB: Alcohol advertising =====================
+  - id: ttb.atc.alcohol_statements
+    source_id: ttb_us
+    category_id: alcohol
+    text: >
+      Under the FAA Act, TTB's advertising regulations (27 CFR parts 4, 5, 7)
+      apply to alcohol advertisements in any media, including social media.
+      Advertisements must contain mandatory statements — the responsible
+      advertiser's name and address (or name and contact information) and the
+      product class/type as on the approved label (distilled spirits also require
+      alcohol content) — and must not include prohibited statements such as ones
+      that are false, untrue, or misleading; inconsistent with the approved label;
+      disparaging of a competitor; or that make false or misleading health-related
+      claims.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-03-01
+    version: "industry-circular-2024-1"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [alcohol]
+    evidence:
+      quote: >-
+        TTB regulates the advertising of alcohol beverage products to prevent
+        consumer deception; provide the consumer with adequate information as to
+        the identity and quality of the product advertised; identify the person
+        responsible for the advertisement; and, in the case of distilled spirits
+        only, disclose the alcohol content. ... Prohibited Practices ... General
+        statements that are false, untrue, or misleading; Statements that are
+        inconsistent with approved product labels; ... Health-related statements
+        that are false or misleading.
+      source_url: https://www.ttb.gov/system/files?file=images%2Ffact_sheets%2Fttb-advertising.pdf
+      section: "TTB Advertising — Mandatory statements & prohibited practices (27 CFR 4.62/5.233/7.233; 4.64/5.235/7.235)"
+      retrieved_at: 2026-06-27
+
+  # ===================== FDA: Tobacco advertising =====================
+  - id: fda.atc.tobacco_format
+    source_id: fda_us
+    category_id: drugs
+    text: >
+      Under 21 CFR 1140.32, each manufacturer, distributor, and retailer
+      advertising cigarettes or smokeless tobacco must use only black text on a
+      white background (with limited exceptions, e.g. adult publications and
+      certain in-facility advertising). Audio advertising is limited to words only
+      with no music or sound effects, and video advertising is limited to static
+      black text on a white background.
+    modalities: [text, image, video, audio]
+    jurisdiction: [US]
+    effective_date: 2010-06-22
+    version: "21cfr1140.32"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Except as provided in paragraph (b) of this section, each manufacturer,
+        distributor, and retailer advertising or causing to be advertised,
+        disseminating or causing to be disseminated, any labeling or advertising
+        for cigarettes or smokeless tobacco shall use only black text on a white
+        background. ... (b) Labeling and advertising in an audio or video format
+        shall be limited as follows: (1) Audio format shall be limited to words
+        only with no music or sound effects. (2) Video formats shall be limited to
+        static black text only on a white background.
+      source_url: https://www.law.cornell.edu/cfr/text/21/1140.32
+      section: "21 CFR 1140.32 — Format and content requirements for labeling and advertising"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: ftc_unsubstantiated_objective_claims
@@ -1270,4 +1354,35 @@ rules:
       without the required affirmative opt-in (consumer 13–15, or parent for
       under 13).
     exceptions: []
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis (TTB, FDA) ---
+  - id: ttb_alcohol_statements
+    canonical_id: atc.alcohol_mandatory_and_prohibited_statements
+    clause_ids: [ttb.atc.alcohol_statements]
+    category_id: alcohol
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 92
+    detection: >
+      Alcohol ads missing mandatory statements (responsible advertiser, class/
+      type, distilled-spirits alcohol content) or containing prohibited false/
+      misleading/label-inconsistent/health claims.
+    exceptions:
+      - "Consumer specialty items needing only company/brand name."
+      - "Space-constrained social posts linking to a compliant page."
+    status: active
+
+  - id: fda_tobacco_format
+    canonical_id: atc.tobacco_advertising_format_restrictions
+    clause_ids: [fda.atc.tobacco_format]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, audio]
+    priority: 92
+    detection: >
+      Cigarette/smokeless-tobacco advertising not in black-text-on-white format,
+      or audio/video ads exceeding the words-only / static-text limits.
+    exceptions:
+      - "Adult publications and certain in-facility advertising (21 CFR 1140.32(b))."
     status: active

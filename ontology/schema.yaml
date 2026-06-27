@@ -1,4 +1,4 @@
-# ZataOne canonical advertising-compliance ontology — schema v0
+# ZataOne canonical advertising-compliance ontology — schema v1 (FROZEN).
 #
 # This file DEFINES the schema (field names, types, allowed values). Instance
 # data lives in ontology/categories.yaml, ontology/corpus/*.yaml,
@@ -7,8 +7,11 @@
 # Design principle: every platform AND regulator clause maps into ONE universal
 # ontology. The moat is the combination of (1) structured corpus, (2) cross-source
 # mappings, and (3) a labeled evaluation dataset with measured precision/recall.
+#
+# STATUS: FROZEN as of 2026-06-24. Do not redesign the schema further; effort now
+# goes into expanding the corpus, building the eval dataset, and benchmarking.
 
-schema_version: "0.1.0"
+schema_version: "1.0.0"
 
 # ---------------------------------------------------------------------------
 # Enumerations (allowed values)
@@ -23,6 +26,8 @@ enums:
   example_label: [compliant, non_compliant, borderline]
   labeled_by: [expert, model, customer]
   split: [train, dev, test]
+  review_actor: [human, ai]                          # who last reviewed a clause
+  audience: [all, 18+, 21+, 25+]                      # who a clause applies to (age gating)
 
 # ---------------------------------------------------------------------------
 # Entity definitions
@@ -43,7 +48,7 @@ entities:
       id: {type: slug, required: true}              # e.g. meta_ads_us
       type: {type: enum, enum: source_type, required: true}
       name: {type: string, required: true}
-      jurisdiction: {type: list[code], required: true}   # [US] | [EU] | [GLOBAL]
+      jurisdiction: {type: "list[code]", required: true}   # [US] | [EU] | [GLOBAL]
       url: {type: url, required: true}
       status: {type: enum, enum: status, default: active}
       retrieved_at: {type: date, required: true}    # when first ingested
@@ -55,28 +60,37 @@ entities:
       id: {type: slug, required: true}              # e.g. meta.misleading.exaggerated_claims
       source_id: {type: slug, required: true}
       category_id: {type: slug, required: true}
-      text: {type: string, required: true}          # verbatim
-      modalities: {type: list[enum], enum: modality, required: true}
-      jurisdiction: {type: list[code], required: true}
+      text: {type: string, required: true}          # verbatim (same as evidence.quote)
+      modalities: {type: "list[enum]", enum: modality, required: true}
+      jurisdiction: {type: "list[code]", required: true}
       effective_date: {type: date, required: true}
       version: {type: string, required: true}
-      url: {type: url, required: false}             # deep link to exact clause
       status: {type: enum, enum: status, default: active}
       superseded_by: {type: slug, required: false}  # id of replacing clause (if status=superseded)
       last_verified_at: {type: date, required: true}
+      last_reviewed_by: {type: enum, enum: review_actor, default: ai}  # human once manually verified
+      evidence:                                     # full audit trail for legal traceability
+        quote: {type: string, required: true}       # exact verbatim clause text
+        source_url: {type: url, required: true}     # deep link to the exact clause
+        section: {type: string, required: true}     # human-readable section path on the source page
+        retrieved_at: {type: date, required: true}  # when this quote was captured
+      applicability:                                # optional — powers scoped retrieval/filtering
+        countries: {type: "list[code]", required: false}        # e.g. [US]
+        audience: {type: "list[enum]", enum: audience, required: false}    # e.g. [18+]
+        industries: {type: "list[slug]", required: false}       # category ids, e.g. [health]; [all] = cross-industry
 
   rule:
     description: Machine-checkable expression of one or more clauses.
     fields:
       id: {type: slug, required: true}              # e.g. misleading_exaggerated_claims
       canonical_id: {type: slug, required: true}    # universal rule id shared across sources
-      clause_ids: {type: list[slug], required: true}
+      clause_ids: {type: "list[slug]", required: true}
       category_id: {type: slug, required: true}
       severity: {type: enum, enum: severity, required: true}
-      modalities: {type: list[enum], enum: modality, required: true}
+      modalities: {type: "list[enum]", enum: modality, required: true}
       priority: {type: int, required: true}         # higher wins when clauses conflict
       detection: {type: string, required: true}     # natural-language detection intent (LLM-first)
-      exceptions: {type: list[string], required: false}
+      exceptions: {type: "list[string]", required: false}
       status: {type: enum, enum: status, default: active}
       superseded_by: {type: slug, required: false}
 
@@ -85,7 +99,7 @@ entities:
     fields:
       canonical_id: {type: slug, required: true}    # the universal rule these collapse into
       category_id: {type: slug, required: true}
-      clause_ids: {type: list[slug], required: true}  # 2+ clauses from different sources
+      clause_ids: {type: "list[slug]", required: true}  # 2+ clauses from different sources
       relation: {type: enum, enum: mapping_relation, required: true}
       confidence: {type: enum, enum: mapping_confidence, required: true}
       note: {type: string, required: false}
@@ -97,8 +111,8 @@ entities:
       content: {type: string, required: true}       # text, or ref/URI for image/video
       modality: {type: enum, enum: modality, required: true}
       label: {type: enum, enum: example_label, required: true}
-      category_ids: {type: list[slug], required: true}
-      violated_clause_ids: {type: list[slug], required: false}  # empty if compliant
+      category_ids: {type: "list[slug]", required: true}
+      violated_clause_ids: {type: "list[slug]", required: false}  # empty if compliant
       jurisdiction: {type: code, required: true}
       labeled_by: {type: enum, enum: labeled_by, required: true}
       split: {type: enum, enum: split, required: true}

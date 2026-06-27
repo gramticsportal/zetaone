@@ -1,26 +1,168 @@
 # Cross-source mappings — the differentiator.
 # Collapse equivalent platform + regulator clauses into one canonical_id per category.
 # Conforms to entities.mapping in ontology/schema.yaml.
+#
+# Misleading / Deceptive vertical canonical rules:
+#   misleading.exaggerated_results
+#   misleading.guaranteed_outcomes
+#   misleading.unsubstantiated_objective_claims
+#   misleading.missing_or_inconsistent_material_info
+#   misleading.false_affiliation_or_endorsement
+#   misleading.clickbait_or_fake_ui
+#   misleading.before_after_distortion
 
 mappings:
-  - canonical_id: misleading.exaggerated_claims
+  - canonical_id: misleading.exaggerated_results
     category_id: misleading
     clause_ids:
-      - meta.misleading.exaggerated_claims   # platform
-      - ftc.misleading.deceptive_claims      # regulator
+      - meta.misleading.deceptive_practices
+      - meta.misleading.exaggerated_success_claims
+      - google.misrep.unreliable_claims
     relation: related
     confidence: high
     note: >
-      Meta targets exaggerated/guaranteed-outcome claims; FTC covers the broader
-      truthful/substantiated standard. FTC is broader, so relation=related, not exact.
+      Meta prohibits exaggerated success claims; Google prohibits improbable
+      results presented as the likely outcome. FTC substantiation (separate
+      canonical) backs both.
 
-  - canonical_id: health.unsubstantiated_claims
-    category_id: health
+  - canonical_id: misleading.guaranteed_outcomes
+    category_id: misleading
     clause_ids:
-      - meta.health.health_claims            # platform
-      - fda.health.disease_claims            # regulator
+      - meta.misleading.health_results_timing
+      - tiktok.misleading.absolute_terms
+    relation: related
+    confidence: high
+    note: >
+      Guaranteed/absolute outcomes in a specific time without disclaimer (Meta:
+      health results timing; TikTok: absolute terms like "right away").
+
+  - canonical_id: misleading.unsubstantiated_objective_claims
+    category_id: misleading
+    clause_ids:
+      - ftc.misleading.reasonable_basis
+      - ftc.misleading.express_implied
+      - tiktok.misleading.unsubstantiated_claims
     relation: stricter
     confidence: high
     note: >
-      FDA disease-claim prohibition is stricter and higher-precedence than Meta's
-      health-claims clause; both collapse to the same canonical rule.
+      FTC reasonable-basis doctrine is the regulatory backbone and is stricter /
+      higher-precedence; TikTok requires claims be realistic and substantiated.
+
+  - canonical_id: misleading.missing_or_inconsistent_material_info
+    category_id: misleading
+    clause_ids:
+      - google.misrep.dishonest_pricing
+      - google.misrep.unavailable_offers
+      - tiktok.misleading.landing_page_consistency
+    relation: related
+    confidence: medium
+    note: >
+      Omitted/inconsistent material info: Google pricing + unavailable offers;
+      TikTok ad-vs-landing-page consistency. Overlapping but not identical scope.
+
+  - canonical_id: misleading.false_affiliation_or_endorsement
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.famous_person_baiting
+      - meta.misleading.misrepresent_entity
+      - google.misrep.unacceptable_business_practices
+      - google.misrep.misleading_representation
+    relation: equivalent
+    confidence: high
+    note: >
+      False affiliation/endorsement/impersonation: Meta (famous-person bait,
+      misrepresenting entities) and Google (unacceptable business practices,
+      misleading representation).
+
+  - canonical_id: misleading.clickbait_or_fake_ui
+    category_id: misleading
+    clause_ids:
+      - google.misrep.clickbait_ads
+      - google.misrep.misleading_ad_design
+    relation: related
+    confidence: high
+    note: >
+      Clickbait tactics and fake-UI / non-identifiable ad design. Google is the
+      most explicit source; Meta/TikTok cover via deceptive-practices clauses.
+
+  - canonical_id: misleading.before_after_distortion
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.before_after_weightloss
+      - google.misrep.manipulated_media
+      - tiktok.misleading.before_after
+    relation: related
+    confidence: high
+    note: >
+      Before-and-after / manipulated transformation imagery. TikTok bans broadly;
+      Meta restricts weight-loss before/after; Google prohibits manipulated media.
+
+  # =========================================================================
+  # Health / Medical vertical canonical rules:
+  #   health.disease_cure_treatment_claims          (Meta, Google, FTC, FDA)
+  #   health.unsubstantiated_health_claims          (FTC, FDA, Google)
+  #   health.prescription_drug_promotion_restricted (Google, TikTok)
+  #   health.unapproved_or_dangerous_products       (Google, TikTok)
+  #   health.negative_self_perception_body_image    (Meta-only — no cross-source mapping yet)
+  #   health.rx_fair_balance_risk_disclosure        (FDA-only — no cross-source mapping yet)
+  #   health.health_privacy_sensitive_attributes    (Meta-only — no cross-source mapping yet)
+  #   health.material_risk_safety_disclosure        (FTC-only — no cross-source mapping yet)
+  # =========================================================================
+  - canonical_id: health.disease_cure_treatment_claims
+    category_id: health
+    clause_ids:
+      - meta.health.disease_cure_claims
+      - google.health.unapproved_substances
+      - ftc.health.disease_implication
+      - fda.health.disease_claims
+    relation: stricter
+    confidence: high
+    note: >
+      Disease cure/treatment claims. FDA/FTC (regulators) are the stricter,
+      higher-precedence backbone; platforms prohibit cure claims for incurable
+      disease (Meta) and disease implications by unapproved products (Google).
+
+  - canonical_id: health.unsubstantiated_health_claims
+    category_id: health
+    clause_ids:
+      - ftc.health.truthful_substantiated
+      - fda.health.benefits_approved_use
+      - google.health.clinical_trials
+    relation: stricter
+    confidence: high
+    note: >
+      Health benefit claims require competent and reliable scientific evidence
+      (FTC); drug benefits limited to FDA-approved use (FDA); clinical-trial
+      promos must not imply safety/efficacy (Google).
+
+  - canonical_id: health.prescription_drug_promotion_restricted
+    category_id: health
+    clause_ids:
+      - google.health.unauthorized_pharmacies
+      - google.health.prescription_drug_services
+      - tiktok.health.overview
+      - tiktok.health.prescription_us
+      - tiktok.health.otc_us
+      - tiktok.health.pharmacies_us
+    relation: related
+    confidence: high
+    note: >
+      Prescription-drug/pharmacy promotion is restricted/gated: Google requires
+      certification/application and bans unauthorized pharmacies; TikTok (US)
+      allows Rx/OTC/pharmacy only with FDA / NABP / LegitScript certification and
+      18+ targeting.
+
+  - canonical_id: health.unapproved_or_dangerous_products
+    category_id: health
+    clause_ids:
+      - google.health.unapproved_substances
+      - google.health.opioid_painkillers
+      - google.health.speculative_experimental
+      - tiktok.health.cbd_us
+    relation: related
+    confidence: medium
+    note: >
+      Unapproved/dangerous or tightly restricted products: Google (unapproved
+      substances, opioids, experimental treatments); TikTok (CBD, allowed only
+      within a narrow topical-hemp <0.3% THC exception). Overlapping, not
+      identical, scope.

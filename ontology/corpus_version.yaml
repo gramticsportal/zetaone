@@ -1,0 +1,49 @@
+# Ad Corpus version manifest.
+# Each completed category is FROZEN and assigned a version so the corpus is
+# reproducible and benchmarkable alongside the evaluation dataset. Bump the
+# version and add a release entry whenever a category is completed/changed.
+
+current_version: "Ad Corpus v0.2"
+
+releases:
+  - version: "Ad Corpus v0.1"
+    date: 2026-06-24
+    status: frozen
+    categories: [misleading]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, ftc_us]
+    canonical_rules:
+      - misleading.exaggerated_results
+      - misleading.guaranteed_outcomes
+      - misleading.false_affiliation_or_endorsement
+      - misleading.before_after_distortion
+      - misleading.fake_scarcity_or_urgency
+      - misleading.missing_or_inconsistent_material_info
+      - misleading.unsubstantiated_objective_claims
+    eval_examples: 30
+    note: First frozen vertical (Misleading / Deceptive).
+
+  - version: "Ad Corpus v0.2"
+    date: 2026-06-24
+    status: frozen
+    categories: [misleading, health]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, ftc_us, fda_us]
+    canonical_rules_added:
+      - health.disease_cure_treatment_claims
+      - health.unsubstantiated_health_claims
+      - health.prescription_drug_promotion_restricted
+      - health.unapproved_or_dangerous_products
+      - health.negative_self_perception_body_image
+      - health.rx_fair_balance_risk_disclosure
+      - health.health_privacy_sensitive_attributes
+      - health.material_risk_safety_disclosure
+    eval_examples: 90        # 30 misleading + 60 health
+    schema_version: "1.0.0"  # schema frozen; evidence + last_reviewed_by added to every clause
+    note: >
+      Adds Health / Medical vertical from official Meta, Google, TikTok, FTC, and
+      FDA sources. All clauses traceable to official policy; nothing invented.
+      Every clause now carries an `evidence` block (verbatim quote, deep link,
+      section, retrieved_at) and `last_reviewed_by` (ai until human-verified).
+      TikTok health clauses corrected to the policy's actual United States market
+      section (Rx/OTC/pharmacy/fillers may be allowed with FDA/NABP/LegitScript
+      certification + 18+); the earlier blanket US weight-loss/invasive-cosmetic
+      bans were not traceable to the official US section and were removed.

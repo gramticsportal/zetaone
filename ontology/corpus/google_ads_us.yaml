@@ -1,0 +1,545 @@
+# Google Ads (US) — canonical-ontology instance.
+# Verticals: Misleading / Deceptive + Health / Medical. Conforms to ontology/schema.yaml.
+# Clause text quoted from the official Google Ads "Misrepresentation" and
+# "Healthcare and medicines" policies. Each clause carries an `evidence` block
+# and `last_reviewed_by` (ai until a human manually verifies on the live page).
+
+source:
+  id: google_ads_us
+  type: platform
+  name: Google Ads Policies — Misrepresentation & Healthcare/Medicines
+  jurisdiction: [US]
+  url: https://support.google.com/adspolicy/answer/6020955
+  status: active
+  retrieved_at: 2026-06-24
+  last_verified_at: 2026-06-24
+
+clauses:
+  - id: google.misrep.unacceptable_business_practices
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Scamming users by hiding or misrepresenting information about your
+      business, products or services is not allowed. This includes making it
+      seem like you're supported by another brand, organization or government
+      entity when you're not; offering products or services you don't have or
+      can't deliver; lying about services that could put health or safety at
+      risk; and impersonating other brands or businesses.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Scamming users by hiding or misrepresenting information about your
+        business, products or services is not allowed. This includes making it
+        seem like you're supported by another brand, organization or government
+        entity when you're not; offering products or services you don't have or
+        can't deliver; lying about services that could put health or safety at
+        risk; and impersonating other brands or businesses.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.misleading_representation
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Making misleading statements, obscuring, or omitting material information
+      about your identity, affiliations, or qualifications is not allowed.
+      Providing an inaccurate business name or one that does not clearly
+      represent the advertised business is not allowed.
+    modalities: [text, image, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Making misleading statements, obscuring, or omitting material
+        information about your identity, affiliations, or qualifications is not
+        allowed. Providing an inaccurate business name or one that does not
+        clearly represent the advertised business is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.dishonest_pricing
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Failure to clearly and conspicuously disclose the payment model or full
+      expense a user will bear before and after purchase is not allowed.
+      Employing pricing practices that create a false or misleading impression
+      of the cost of a product or service, leading to inflated or unexpected
+      charges, is not allowed.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Failure to clearly and conspicuously disclose the payment model or full
+        expense a user will bear before and after purchase is not allowed.
+        Employing pricing practices that create a false or misleading impression
+        of the cost of a product or service, leading to inflated or unexpected
+        charges, is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices > Dishonest pricing"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.clickbait_ads
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Ads that use clickbait tactics or sensationalist text or imagery to drive
+      traffic are not allowed. Ads that use negative life events such as death,
+      accidents, illness, arrests or bankruptcy to induce fear, guilt or other
+      strong negative emotions to pressure the viewer to take immediate action
+      are not allowed.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads that use clickbait tactics or sensationalist text or imagery to
+        drive traffic are not allowed. Ads that use negative life events such as
+        death, accidents, illness, arrests or bankruptcy to induce fear, guilt
+        or other strong negative emotions to pressure the viewer to take
+        immediate action are not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices > Clickbait ads"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.misleading_ad_design
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Ads that make it difficult for the user to understand they are interacting
+      with an ad are not allowed. This includes non-functional elements that
+      resemble buttons or input fields, misleading icons or arrows, designs that
+      mimic system notifications or dialog boxes, inconsistencies between the ad
+      and the landing page, and ads that don't clearly indicate they are
+      advertisements.
+    modalities: [image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads that make it difficult for the user to understand they are
+        interacting with an ad are not allowed. This includes non-functional
+        elements that resemble buttons or input fields, misleading icons or
+        arrows, designs that mimic system notifications or dialog boxes,
+        inconsistencies between the ad and the landing page, and ads that don't
+        clearly indicate they are advertisements.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices > Misleading ad design"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.manipulated_media
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Manipulating media to deceive, defraud, or mislead others is not allowed.
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Manipulating media to deceive, defraud, or mislead others is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Manipulated media"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.unreliable_claims
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Making inaccurate claims or claims that entice the user with an improbable
+      result (even if this result is possible) as the likely outcome a user can
+      expect is not allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Making inaccurate claims or claims that entice the user with an
+        improbable result (even if this result is possible) as the likely
+        outcome a user can expect is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unreliable claims"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.unavailable_offers
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Promising products, services, or promotional offers in the ad that are
+      unavailable or aren't easily found from the destination is not allowed.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Promising products, services, or promotional offers in the ad that are
+        unavailable or aren't easily found from the destination is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unreliable claims > Unavailable offers"
+      retrieved_at: 2026-06-24
+
+  # ===================== Health / Medicines =====================
+  - id: google.health.unauthorized_pharmacies
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Offering prescription drugs without a prescription is not allowed.
+      Targeting locations where you aren't licensed is not allowed.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Offering prescription drugs without a prescription is not allowed.
+        Targeting locations where you aren't licensed is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Unauthorized pharmacies"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.prescription_drug_services
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Google restricts the promotion of services related to the online
+      prescribing, dispensing, and sale of prescription drugs. Advertisers must
+      apply to serve ads for prescription drug services and check the
+      location-specific restrictions for every location where they advertise.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Google restricts the promotion of services related to the online
+        prescribing, dispensing, and sale of prescription drugs. Businesses
+        subject to this policy include but aren't limited to online pharmacies
+        and telemedicine providers. Advertisers must apply to serve ads for
+        prescription drug services.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Prescription drug services"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.unapproved_substances
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Google doesn't allow the promotion of certain products regardless of any
+      claims of legality, including non-government approved products marketed in
+      a way that implies they're safe or effective for use in preventing,
+      curing, or treating a particular disease or ailment, and products that
+      imply they're as effective as prescription drugs or controlled substances.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Google doesn't allow the promotion of certain products, regardless of
+        any claims of legality: ... Non-government approved products that are
+        marketed in a way that implies that they're safe or effective for use in
+        preventing, curing, or treating a particular disease or ailment [and]
+        Products that imply they're as effective as prescription drugs or
+        controlled substances.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Unapproved substances"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.opioid_painkillers
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Google doesn't allow ads promoting or selling prescription opioid
+      painkillers.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Google doesn't allow ads promoting or selling prescription opioid
+        painkillers. This doesn't include medication-assisted treatment (MAT)
+        drugs for opioid use disorder that meet all other requirements for
+        prescription drugs listed on this page.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Prescription opioid painkillers"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.speculative_experimental
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Promotion of speculative and/or experimental medical treatments is not
+      allowed. Promotion of cell or gene therapies is not allowed except, in the
+      United States, FDA licensed or approved therapies by entities holding the
+      relevant FDA license or approval.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Except as provided below in relation to the promotion of cell or gene
+        therapies in the United States, the following isn't allowed: Promotion
+        of speculative and/or experimental medical treatments. Promotion of cell
+        or gene therapies, subject to the exception below.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Speculative and experimental medical treatment, cell therapies, and gene therapies"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.clinical_trials
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Where promotion of clinical trial recruitment is allowed, promotions may
+      not create misleading expectations or effects of a product being tested,
+      and may not imply that the products being tested are safe.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        While promotion of clinical trial recruitment in some locations is
+        allowed, the following restrictions apply: Prescription drugs may not be
+        promoted. Promotions may not create misleading expectations or effects of
+        a product being tested. Promotions may not imply that the products being
+        tested are safe.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Clinical trial recruitment"
+      retrieved_at: 2026-06-24
+
+rules:
+  - id: google_unreliable_claims
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [google.misrep.unreliable_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Inaccurate or improbable results presented as the likely outcome a user
+      can expect.
+    exceptions:
+      - "Typical, substantiated results clearly presented as such."
+    status: active
+
+  - id: google_unacceptable_business_practices
+    canonical_id: misleading.false_affiliation_or_endorsement
+    clause_ids: [google.misrep.unacceptable_business_practices, google.misrep.misleading_representation]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Implying support/affiliation with a brand, org, or government entity when
+      false; impersonation; misrepresenting identity or qualifications.
+    exceptions:
+      - "Documented, authorized affiliations and endorsements."
+    status: active
+
+  - id: google_pricing_and_offers
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [google.misrep.dishonest_pricing, google.misrep.unavailable_offers]
+    category_id: misleading
+    severity: medium
+    modalities: [text, landing_page]
+    priority: 55
+    detection: >
+      Omitting material pricing info, hidden/unexpected charges, or promoting
+      offers unavailable from the destination.
+    exceptions:
+      - "Full cost and offer terms clearly and conspicuously disclosed."
+    status: active
+
+  - id: google_clickbait_and_ad_design
+    canonical_id: misleading.clickbait_or_fake_ui
+    clause_ids: [google.misrep.clickbait_ads, google.misrep.misleading_ad_design]
+    category_id: misleading
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 55
+    detection: >
+      Clickbait/sensationalist tactics; fake UI elements (buttons, fields, alerts)
+      or ads not clearly identifiable as ads.
+    exceptions: []
+    status: active
+
+  - id: google_manipulated_media
+    canonical_id: misleading.before_after_distortion
+    clause_ids: [google.misrep.manipulated_media]
+    category_id: misleading
+    severity: high
+    modalities: [image, video]
+    priority: 55
+    detection: >
+      Media manipulated to deceive, defraud, or mislead (incl. fabricated
+      transformations/effects).
+    exceptions: []
+    status: active
+
+  # --- Health ---
+  - id: google_health_prescription_restricted
+    canonical_id: health.prescription_drug_promotion_restricted
+    clause_ids: [google.health.unauthorized_pharmacies, google.health.prescription_drug_services]
+    category_id: health
+    severity: high
+    modalities: [text, landing_page]
+    priority: 70
+    detection: >
+      Offering prescription drugs without a prescription, or promoting
+      prescription drug services without required certification/application.
+    exceptions:
+      - "Certified pharmacies/telemedicine in allowed locations."
+    status: active
+
+  - id: google_health_unapproved_products
+    canonical_id: health.unapproved_or_dangerous_products
+    clause_ids: [google.health.unapproved_substances, google.health.opioid_painkillers, google.health.speculative_experimental]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Unapproved/dangerous substances, prescription opioid painkillers, or
+      speculative/experimental treatments.
+    exceptions:
+      - "US-permitted FDA-licensed cell/gene therapies by approved entities."
+    status: active
+
+  - id: google_health_disease_implication
+    canonical_id: health.disease_cure_treatment_claims
+    clause_ids: [google.health.unapproved_substances]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Non-approved products implying they prevent, cure, or treat a disease, or
+      that they are as effective as prescription drugs.
+    exceptions: []
+    status: active
+
+  - id: google_health_clinical_trials
+    canonical_id: health.unsubstantiated_health_claims
+    clause_ids: [google.health.clinical_trials]
+    category_id: health
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Clinical-trial recruitment creating misleading expectations or implying
+      the tested product is safe.
+    exceptions: []
+    status: active

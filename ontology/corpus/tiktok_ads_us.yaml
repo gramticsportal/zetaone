@@ -1,0 +1,379 @@
+# TikTok Ads (US) — canonical-ontology instance.
+# Verticals: Misleading / Deceptive + Health / Medical. Conforms to ontology/schema.yaml.
+# Clause text sourced from TikTok's official "Misleading and false content" and
+# "Healthcare and Pharmaceuticals" advertising policies (Business Help Center).
+# Health clauses are taken from the policy's United States market section + global
+# overview (verified against the official article). Each clause carries an
+# `evidence` block and `last_reviewed_by` (ai until a human verifies live).
+
+source:
+  id: tiktok_ads_us
+  type: platform
+  name: TikTok Advertising Policies — Misleading & Healthcare/Pharmaceuticals
+  jurisdiction: [US]
+  url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+  status: active
+  retrieved_at: 2026-06-24
+  last_verified_at: 2026-06-24
+
+clauses:
+  # ===================== Misleading / Deceptive =====================
+  - id: tiktok.misleading.absolute_terms
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      Ad content must not feature absolute terms about a product in relation to
+      time, region, or brand, or promise/exaggerate results. Prohibited examples
+      include "Get slim legs right away" and financial claims such as "Get money
+      in 10 seconds."
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ad content must not feature absolute terms about a product in relation to
+        time, region, or brand, or promise/exaggerate results. Prohibited
+        examples include "Get slim legs right away" and financial claims such as
+        "Get money in 10 seconds."
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.misleading.before_after
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      Before-and-after imagery showing physical transformation is prohibited in
+      paid ads — for example, showing wrinkles disappearing through
+      before-and-after comparisons. Applies to weight loss, skincare, muscle
+      gain, hair growth, and similar transformation claims.
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2026-02-12
+    version: "2026-02"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Before-and-after imagery showing physical transformation is prohibited in
+        paid ads — for example, showing wrinkles disappearing through
+        before-and-after comparisons. Applies to weight loss, skincare, muscle
+        gain, hair growth, and similar transformation claims.
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.misleading.unsubstantiated_claims
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      All claims made in ad creatives must be responsible, true, realistic, and
+      substantiated with evidence. AI must not be used to make a product look
+      more powerful or effective than it really is, including exaggerated effects
+      or unrealistic instant changes.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        All claims made in ad creatives must be responsible, true, realistic, and
+        substantiated with evidence. AI must not be used to make a product look
+        more powerful or effective than it really is, including exaggerated
+        effects or unrealistic instant changes.
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.misleading.landing_page_consistency
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      The prohibition on misleading content extends to the landing page, not
+      just the ad creative. If the ad makes a moderate claim but the landing
+      page uses superlatives or guarantees, the ad will be rejected based on the
+      full user journey.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        The prohibition on misleading content extends to the landing page, not
+        just the ad creative. If the ad makes a moderate claim but the landing
+        page uses superlatives or guarantees, the ad will be rejected based on
+        the full user journey.
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  # ===================== Healthcare & Pharmaceuticals (US) =====================
+  - id: tiktok.health.overview
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      Healthcare is a highly regulated area and some healthcare-related content
+      cannot be advertised at all, while others can be advertised with
+      restrictions in place. Over-the-counter (OTC) medicines, medical
+      institutions, and pharmacies may be allowed if the applicable
+      market-specific requirements are met.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Healthcare is a highly regulated area in most markets and we are
+        dedicated to following advertising regulations for healthcare and
+        pharmaceuticals. Some healthcare-related content cannot be advertised at
+        all, while others can be advertised with restrictions in place.
+        Over-the-counter (OTC) medicines, medical institutions, and pharmacies
+        may be allowed if the applicable Market-specific requirements are met.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > Overview"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.prescription_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, prescription medicine may be allowed only if the
+      advertiser provides proof of approval and certification from appropriate
+      local regional regulating authorities, such as the US Food and Drug
+      Administration (FDA), and restricts the ads to audiences aged 18 years or
+      older.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Prescription medicine — May be allowed if the following requirements are
+        met: Provide proof of approval and certification from appropriate local
+        regional regulating authorities, such as the US Food and Drug
+        Administration (FDA); Restrict the ads to audiences aged 18 years or
+        older.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.otc_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, over-the-counter medicines may be allowed only if
+      the advertiser complies with local laws and regulations, obtains necessary
+      approval and certification from appropriate local regional regulating
+      authorities such as the FDA (certifications may be required), and restricts
+      the ads to audiences aged 18 years or older.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Over-the-counter medicines — May be allowed if the following requirements
+        are met: Comply with local laws and regulations; Certifications from
+        appropriate local regional regulating authorities may be required; Obtain
+        necessary approval and certification from appropriate local regional
+        regulating authorities, such as the US Food and Drug Administration
+        (FDA); Restrict the ads to audiences aged 18 years or older.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.pharmacies_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, ads for brick-and-mortar pharmacies and online
+      pharmacies may be allowed only if the advertiser provides proof of
+      certification by a third-party licensing organization, such as the National
+      Association of Boards of Pharmacy (NABP) or LegitScript, or regional
+      equivalent.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads for brick-and-mortar pharmacies and online pharmacies may be allowed
+        if the following requirement is met: Provide proof of certification by a
+        third-party licensing organization, such as the National Association of
+        Boards of Pharmacy (NABP) or LegitScript, or regional equivalent.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.cbd_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, cannabidiol (CBD) products may be allowed only with
+      restrictions (work with a TikTok Sales representative, comply with all
+      applicable laws, provide proof of LegitScript certification, restrict ads
+      to audiences aged 25 years or older). Only topical hemp products containing
+      less than 0.3% THC may be allowed; all other CBD products are not allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [25+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Cannabidiol (CBD) products — May be allowed if the following requirements
+        are met: Work with a TikTok Sales representative; Comply with all
+        applicable local laws and regulations concerning CBD product production,
+        sale, and advertising, including any specific restrictions or bans in
+        certain regions; Provide proof of certification by LegitScript; Restrict
+        the ads to audiences aged 25 years or older. Example of what may be
+        allowed: Topical hemp products that contain less than 0.3% THC. All other
+        CBD products are not allowed.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+rules:
+  - id: tiktok_absolute_terms
+    canonical_id: misleading.guaranteed_outcomes
+    clause_ids: [tiktok.misleading.absolute_terms]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Absolute/guaranteed terms about results, time, region, or brand
+      (e.g. "right away", "in 10 seconds").
+    exceptions:
+      - "Qualified claims with realistic framing and disclaimers."
+    status: active
+
+  - id: tiktok_unsubstantiated_claims
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [tiktok.misleading.unsubstantiated_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Objective product-effect claims that are not realistic or substantiated by
+      evidence; AI-exaggerated effects.
+    exceptions:
+      - "Claims substantiated with competent and reliable evidence."
+    status: active
+
+  - id: tiktok_before_after
+    canonical_id: misleading.before_after_distortion
+    clause_ids: [tiktok.misleading.before_after]
+    category_id: misleading
+    severity: high
+    modalities: [image, video]
+    priority: 60
+    detection: >
+      Before-and-after transformation imagery in paid ads.
+    exceptions: []
+    status: active
+
+  - id: tiktok_landing_page_consistency
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [tiktok.misleading.landing_page_consistency]
+    category_id: misleading
+    severity: medium
+    modalities: [landing_page]
+    priority: 55
+    detection: >
+      Inconsistency between ad creative and landing page (stronger claims/
+      guarantees on the destination).
+    exceptions:
+      - "Ad and landing page claims consistent and substantiated."
+    status: active
+
+  # --- Health ---
+  - id: tiktok_health_prescription_restricted
+    canonical_id: health.prescription_drug_promotion_restricted
+    clause_ids: [tiktok.health.overview, tiktok.health.prescription_us, tiktok.health.otc_us, tiktok.health.pharmacies_us]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Prescription/OTC/pharmacy promotion in the US without the required FDA
+      approval/certification, third-party pharmacy certification, or 18+ targeting.
+    exceptions:
+      - "FDA-certified Rx/OTC and NABP/LegitScript-certified pharmacies, 18+."
+    status: active
+
+  - id: tiktok_health_cbd_restricted
+    canonical_id: health.unapproved_or_dangerous_products
+    clause_ids: [tiktok.health.cbd_us]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      CBD products beyond the narrow US exception (non-topical, >=0.3% THC, no
+      LegitScript cert, under-25 targeting).
+    exceptions:
+      - "Topical hemp <0.3% THC, LegitScript-certified, 25+, via TikTok rep."
+    status: active

@@ -1,6 +1,10 @@
 # Meta Ads (US) — canonical-ontology instance.
-# Narrow first slice: `misleading` + `health`. Conforms to ontology/schema.yaml.
-# This is the new cross-source format; the legacy engine format remains at
+# Verticals: Misleading / Deceptive + Health / Medical. Conforms to ontology/schema.yaml.
+# Clause text sourced from official Meta Transparency Center ad-standards pages.
+# Each clause carries an `evidence` block (verbatim quote, deep link, section,
+# retrieved_at) and `last_reviewed_by` (human = manually verified on the live page;
+# ai = captured from official source, pending one-time human verification).
+# Legacy rule-engine format remains at
 # src/zataone/domains/ad_compliance/policies/meta_ads.yaml.
 
 source:
@@ -14,56 +18,411 @@ source:
   last_verified_at: 2026-06-24
 
 clauses:
-  - id: meta.misleading.exaggerated_claims
+  # ===================== Misleading / Deceptive =====================
+  - id: meta.misleading.deceptive_practices
     source_id: meta_ads_us
     category_id: misleading
-    text: "Advertising must not use misleading or exaggerated claims such as guaranteed outcomes, miracle results, or unrealistic time-bound promises."
-    modalities: [text, image]
+    text: >
+      We aim to protect users and businesses from being deceived out of their
+      money, property or personal information by removing content and combatting
+      behavior that purposefully employs deceptive means — such as wilful
+      misrepresentation, stolen information and exaggerated claims — to scam or
+      defraud users and businesses, or to drive engagement.
+    modalities: [text, image, video, landing_page]
     jurisdiction: [US]
     effective_date: 2025-05-01
     version: "2025-05-01"
-    url: https://transparency.meta.com/policies/ad-standards/deceptive-content/
     status: active
     last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        We aim to protect users and businesses from being deceived out of their
+        money, property or personal information by removing content and
+        combatting behavior that purposefully employs deceptive means — such as
+        wilful misrepresentation, stolen information and exaggerated claims — to
+        scam or defraud users and businesses, or to drive engagement.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices"
+      retrieved_at: 2026-06-24
 
-  - id: meta.health.health_claims
+  - id: meta.misleading.exaggerated_success_claims
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't use deceptive or exaggerated claims about the success of a
+      product or service to mislead people into purchasing or sharing sensitive
+      information.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't use deceptive or exaggerated claims about the success of a
+        product or service to mislead people into purchasing or sharing
+        sensitive information.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.famous_person_baiting
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't use the image of a famous person and misleading tactics in order
+      to bait people into engaging with an ad.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't use the image of a famous person and misleading tactics in
+        order to bait people into engaging with an ad.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.misrepresent_entity
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't promise financial benefits by misrepresenting an entity,
+      industry association or news outlet to mislead people or ask them to share
+      sensitive information.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't promise financial benefits by misrepresenting an entity,
+        industry association or news outlet to mislead people or ask them to
+        share sensitive information.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.health_results_timing
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't promise specific health-related results in a specific time with
+      no qualifying or disclaimer language.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads can't promise specific health-related results in a specific time
+        with no qualifying or disclaimer language.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices (Misleading Health Practices)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.before_after_weightloss
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads for weight loss products or services can't depict side-by-side
+      comparison after the use of a product or transformation for weight loss,
+      with exception to fitness classes impact (i.e., Pilates).
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2024-12-27
+    version: "2024-12-27"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Side-by-side comparison after the use of a product or transformation for
+        weight loss with exception to fitness classes impact (i.e., Pilates)
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/health-wellness
+      section: "Health and Wellness > Weight Loss and Cosmetic Products and Procedures > Guidelines"
+      retrieved_at: 2026-06-24
+
+  # ===================== Health / Medical =====================
+  - id: meta.health.disease_cure_claims
     source_id: meta_ads_us
     category_id: health
-    text: "Advertising must not make unsubstantiated medical or health claims including cure, treat, or heal language in a health context."
-    modalities: [text, image]
+    text: >
+      Ads can't promote claims (including those from health professionals or
+      health organizations) to cure, heal, or eliminate incurable diseases
+      and/or terminal illnesses.
+    modalities: [text, image, video, landing_page]
     jurisdiction: [US]
     effective_date: 2025-05-01
     version: "2025-05-01"
-    url: https://transparency.meta.com/policies/ad-standards/health-wellness/
     status: active
     last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads can't promote claims (including those from health professionals or
+        health organizations) to cure, heal, or eliminate incurable diseases
+        and/or terminal illnesses.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices (Misleading Health Practices)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.health_clickbait
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads can't employ click-bait tactics in a health context, such as the use
+      of sensational language that makes exaggerated or extreme health claims.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads can't employ click-bait tactics in a health context, such as the use
+        of sensational language that makes exaggerated or extreme health claims.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices (Misleading Health Practices)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.negative_self_perception
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads must not imply or attempt to generate negative self-perception or
+      declare there is a perfect body type or appearance one should aspire to in
+      order to promote diet, weight loss, cosmetic procedures or any other
+      health-related products. Ads promoting or marketing dietary, health or
+      weight loss products and services must be targeted to people at least 18
+      years or older.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2024-12-27
+    version: "2024-12-27"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads must not imply or attempt to generate negative self-perception or
+        declare there is a perfect body type or appearance one should aspire to
+        in order to promote diet, weight loss, cosmetic procedures or any other
+        health-related products. Ads promoting or marketing dietary, health or
+        weight loss products and services must be targeted to people at least 18
+        years or older.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/health-wellness
+      section: "Health and Wellness > Weight Loss and Cosmetic Products and Procedures"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.weightloss_before_after
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads can't promote weight loss products or services depicting a side-by-side
+      comparison after the use of a product or transformation for weight loss
+      (with exception to fitness classes impact, i.e., Pilates), or a close up on
+      a specific body area by pinching fat.
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2024-12-27
+    version: "2024-12-27"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Promote weight loss products or services, depicting: Side-by-side
+        comparison after the use of a product or transformation for weight loss
+        with exception to fitness classes impact (i.e., Pilates) [and] Close up
+        on specific body area by pinching fat
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/health-wellness
+      section: "Health and Wellness > Weight Loss and Cosmetic Products and Procedures > Guidelines (Ads can't)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.personal_attributes
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads must not contain content that asserts or implies personal attributes.
+      This includes direct or indirect assertions or implications about a
+      person's physical or mental health, including medical conditions.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads must not contain content that asserts or implies personal
+        attributes. This includes direct or indirect assertions or implications
+        about a person's race, ethnicity, religion, beliefs, age, sexual
+        orientation or practices, gender identity, disability, physical or mental
+        health (including medical conditions), vulnerable financial status,
+        voting status, membership in a trade union, criminal record, or name.
+      source_url: https://transparency.meta.com/policies/ad-standards/
+      section: "Advertising Standards > Privacy Violations and Personal Attributes"
+      retrieved_at: 2026-06-24
 
 rules:
-  - id: meta_misleading_exaggerated_claims
-    canonical_id: misleading.exaggerated_claims
-    clause_ids: [meta.misleading.exaggerated_claims]
+  # --- Misleading ---
+  - id: meta_misleading_deceptive_practices
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [meta.misleading.deceptive_practices, meta.misleading.exaggerated_success_claims]
     category_id: misleading
     severity: high
-    modalities: [text, image]
-    priority: 50
-    detection: >
-      Claims of guaranteed, miracle, instant, or exaggerated outcomes without
-      substantiation; unrealistic time-bound promises (e.g. "lose 10 lbs in 7 days").
-    exceptions:
-      - "Clearly substantiated claims with cited, verifiable evidence."
-    status: active
-
-  - id: meta_health_unsubstantiated_claims
-    canonical_id: health.unsubstantiated_claims
-    clause_ids: [meta.health.health_claims]
-    category_id: health
-    severity: high
-    modalities: [text, image]
+    modalities: [text, image, video, landing_page]
     priority: 60
     detection: >
-      Cure/treat/heal/reverse language tied to a health condition, or guaranteed
-      health results, without regulatory substantiation.
+      Deceptive or exaggerated claims about the success/effectiveness of a
+      product or service to mislead users into purchasing or sharing info.
     exceptions:
-      - "General wellness statements with no disease/treatment claim."
+      - "Substantiated claims with cited, verifiable evidence."
+    status: active
+
+  - id: meta_misleading_health_results_timing
+    canonical_id: misleading.guaranteed_outcomes
+    clause_ids: [meta.misleading.health_results_timing]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Promises of specific results within a specific timeframe with no
+      qualifying or disclaimer language.
+    exceptions:
+      - "Clearly qualified claims with disclaimer (e.g. 'results may vary')."
+    status: active
+
+  - id: meta_misleading_false_affiliation
+    canonical_id: misleading.false_affiliation_or_endorsement
+    clause_ids: [meta.misleading.famous_person_baiting, meta.misleading.misrepresent_entity]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video]
+    priority: 60
+    detection: >
+      Misuse of a famous person's image, or misrepresenting an entity, news
+      outlet, or association to imply endorsement or affiliation.
+    exceptions:
+      - "Authorized endorsements with documented permission."
+    status: active
+
+  - id: meta_misleading_before_after
+    canonical_id: misleading.before_after_distortion
+    clause_ids: [meta.misleading.before_after_weightloss]
+    category_id: misleading
+    severity: high
+    modalities: [image, video]
+    priority: 55
+    detection: >
+      Side-by-side before-and-after imagery implying transformation/weight loss.
+    exceptions:
+      - "Fitness classes (per Meta exception)."
+    status: active
+
+  # --- Health ---
+  - id: meta_health_disease_cure
+    canonical_id: health.disease_cure_treatment_claims
+    clause_ids: [meta.health.disease_cure_claims, meta.health.health_clickbait]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Claims to cure/heal/eliminate incurable disease or terminal illness, or
+      sensational exaggerated health claims (health clickbait).
+    exceptions:
       - "Claims permitted under an approved regulatory authorization."
+    status: active
+
+  - id: meta_health_negative_self_perception
+    canonical_id: health.negative_self_perception_body_image
+    clause_ids: [meta.health.negative_self_perception, meta.health.weightloss_before_after]
+    category_id: health
+    severity: medium
+    modalities: [text, image, video]
+    priority: 55
+    detection: >
+      Diet/weight-loss/cosmetic ads that generate negative self-perception, body
+      shaming, before-and-after transformation imagery (except fitness), or
+      close-ups pinching fat.
+    exceptions:
+      - "Fitness classes (Meta exception)."
+      - "Cosmetic/non-permanent beauty products outside the policy scope."
+    status: active
+
+  - id: meta_health_personal_attributes
+    canonical_id: health.health_privacy_sensitive_attributes
+    clause_ids: [meta.health.personal_attributes]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Asserting or implying a person's physical/mental health or medical
+      condition (e.g. "Struggling with depression?").
+    exceptions:
+      - "General messaging that does not assert/imply an individual's condition."
     status: active

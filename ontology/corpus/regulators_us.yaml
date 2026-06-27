@@ -1,6 +1,10 @@
 # US federal regulators (FTC, FDA) — canonical-ontology instance.
-# Same narrow slice (`misleading` + `health`) so clauses can be MAPPED to Meta's.
-# Conforms to ontology/schema.yaml.
+# Verticals: Misleading / Deceptive (FTC substantiation) + Health / Medical
+# (FTC Health Products Compliance Guidance, FDA prescription-drug advertising).
+# Clause text quoted from official FTC policy statements / guidance, FDA drug-ad
+# pages, and 21 CFR 202.1. Each clause carries an `evidence` block and
+# `last_reviewed_by` (ai until a human verifies live).
+# Regulator rules carry HIGHER priority than platform rules on conflict.
 
 sources:
   - id: ftc_us
@@ -16,60 +20,371 @@ sources:
     type: regulator
     name: US Food and Drug Administration
     jurisdiction: [US]
-    url: https://www.fda.gov/
+    url: https://www.fda.gov/drugs/prescription-drug-advertising
     status: active
     retrieved_at: 2026-06-24
     last_verified_at: 2026-06-24
 
 clauses:
-  - id: ftc.misleading.deceptive_claims
+  # ===================== FTC: Misleading backbone =====================
+  - id: ftc.misleading.reasonable_basis
     source_id: ftc_us
     category_id: misleading
-    text: "Advertising must be truthful and non-deceptive; objective claims must be substantiated, and material claims must not mislead a reasonable consumer."
+    text: >
+      Advertisers and ad agencies must have a reasonable basis for advertising
+      claims before they are disseminated. A firm's failure to possess and rely
+      upon a reasonable basis for objective claims constitutes an unfair and
+      deceptive act or practice in violation of Section 5 of the FTC Act.
     modalities: [text, image, video, landing_page]
     jurisdiction: [US]
-    effective_date: 1983-10-14
-    version: "ftc-deception-policy"
-    url: https://www.ftc.gov/legal-library/browse/ftc-policy-statement-deception
+    effective_date: 1984-01-01
+    version: "ftc-substantiation-1984"
     status: active
     last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        First, advertisers and ad agencies should have a reasonable basis for
+        advertising claims before they are disseminated. The Commission intends
+        to continue vigorous enforcement of this existing legal requirement that
+        advertisers substantiate express and implied claims, however conveyed,
+        that make objective assertions about the item or service advertised. A
+        firm's failure to possess and rely upon a reasonable basis for objective
+        claims constitutes an unfair and deceptive act or practice in violation
+        of Section 5 of the Federal Trade Commission Act.
+      source_url: https://www.ftc.gov/legal-library/browse/ftc-policy-statement-regarding-advertising-substantiation
+      section: "FTC Policy Statement Regarding Advertising Substantiation"
+      retrieved_at: 2026-06-24
 
+  - id: ftc.misleading.express_implied
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      The FTC holds advertisers responsible for both express and implied claims.
+      An express claim is literally made in the ad; an implied claim is made
+      indirectly or by inference. Advertisers must have proof to back up express
+      and implied claims that consumers take from an ad.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2001-01-01
+    version: "ftc-ad-faqs"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Under the law, claims in advertisements must be truthful, cannot be
+        deceptive or unfair, and must be evidence-based. ... An ad can
+        communicate claims to consumers either expressly or by implication. ...
+        Whether you communicate a claim expressly or by implication, you need to
+        have evidence to back it up.
+      source_url: https://www.ftc.gov/business-guidance/resources/advertising-faqs-guide-small-business
+      section: "Advertising FAQ's: A Guide for Small Business"
+      retrieved_at: 2026-06-24
+
+  # ===================== FTC: Health =====================
+  - id: ftc.health.truthful_substantiated
+    source_id: ftc_us
+    category_id: health
+    text: >
+      FTC truth-in-advertising law distills to two principles: (1) advertising
+      must be truthful and not misleading; and (2) before disseminating an ad,
+      advertisers must have adequate substantiation for all objective product
+      claims conveyed, expressly or by implication. Claims about the health
+      benefits or safety of foods, dietary supplements, drugs, and other
+      health-related products require competent and reliable scientific evidence.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-12-01
+    version: "ftc-health-products-2022"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Sections 5 and 12 of the FTC Act, along with the FTC's policy statements
+        on deception and advertising substantiation, are the foundation of FTC
+        truth-in-advertising law, and can be distilled down to two common-sense
+        principles: 1) Advertising must be truthful and not misleading; and 2)
+        Before disseminating an ad, advertisers must have adequate substantiation
+        for all objective product claims conveyed, expressly or by implication,
+        to consumers acting reasonably. ... As a general rule, however, claims
+        about the health benefits or safety of foods, dietary supplements, drugs,
+        and other health-related products require substantiation in the form of
+        competent and reliable scientific evidence.
+      source_url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+      section: "Health Products Compliance Guidance > II.A. FTC Authority over Advertising of Health-Related Products"
+      retrieved_at: 2026-06-24
+
+  - id: ftc.health.disease_implication
+    source_id: ftc_us
+    category_id: health
+    text: >
+      A statement about a product's effect on the normal structure or function
+      of the body may, depending on context, convey an implied claim that the
+      product is beneficial for the treatment of a disease. If elements of an ad
+      imply a disease benefit, the advertiser must be able to substantiate the
+      implied disease claim even if the ad contains no express reference to a
+      disease.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-12-01
+    version: "ftc-health-products-2022"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Depending on how it is phrased or the context in which it is presented, a
+        statement about a product's effect on the normal "structure or function"
+        of the body may also convey to consumers an implied claim that the
+        product is beneficial for the treatment of a disease. If elements of an
+        ad imply that the product also provides a disease benefit, the advertiser
+        must be able to substantiate the implied disease claim even if the ad
+        contains no express reference to a disease.
+      source_url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+      section: "Health Products Compliance Guidance > III.A.1. Identifying Express and Implied Claims"
+      retrieved_at: 2026-06-24
+
+  - id: ftc.health.material_safety_disclosure
+    source_id: ftc_us
+    category_id: health
+    text: >
+      An ad is misleading if it fails to disclose information that is material in
+      light of the claims made or how consumers customarily use the product.
+      Advertisers should disclose any significant limitations on an advertised
+      health benefit and information about any significant safety risks, clearly
+      and conspicuously.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-12-01
+    version: "ftc-health-products-2022"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Under Section 15 of the FTC Act, an ad is misleading if it fails to
+        disclose information that is material in light of the claims in the ad or
+        with respect to how consumers would customarily use the product. ... For
+        example, advertisers should disclose any significant limitations on an
+        advertised health benefit. Similarly, advertising that makes either an
+        express or implied safety representation should include information about
+        any significant safety risks.
+      source_url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+      section: "Health Products Compliance Guidance > III.A.2. When to Disclose Qualifying Information"
+      retrieved_at: 2026-06-24
+
+  # ===================== FDA: Health =====================
   - id: fda.health.disease_claims
     source_id: fda_us
     category_id: health
-    text: "Products not approved as drugs must not claim to cure, treat, mitigate, or prevent disease; such claims render the product an unapproved drug."
+    text: >
+      Products not approved as drugs must not claim to cure, treat, mitigate, or
+      prevent disease; such claims render the product an unapproved drug under
+      the Federal Food, Drug, and Cosmetic Act.
     modalities: [text, image, video, landing_page]
     jurisdiction: [US]
     effective_date: 1938-06-25
-    version: "fdca-disease-claims"
-    url: https://www.fda.gov/
+    version: "fdca-201g-disease-claims"
     status: active
     last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        The term "drug" means ... articles intended for use in the diagnosis,
+        cure, mitigation, treatment, or prevention of disease in man or other
+        animals; and ... articles (other than food) intended to affect the
+        structure or any function of the body of man or other animals.
+      source_url: https://www.fda.gov/drugs/prescription-drug-advertising/basics-drug-ads
+      section: "Federal Food, Drug, and Cosmetic Act § 201(g) — definition of 'drug'"
+      retrieved_at: 2026-06-24
+
+  - id: fda.health.fair_balance
+    source_id: fda_us
+    category_id: health
+    text: >
+      Product claim ads must present the benefits and risks of a prescription
+      drug in a balanced fashion ("fair balance") and must not be false or
+      misleading in any way. An ad does not present a true statement if the
+      information relating to effectiveness is presented in greater scope, depth,
+      or detail than, and is not fairly balanced by, information relating to side
+      effects and contraindications.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1975-01-01
+    version: "21cfr202.1"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        It fails to present a fair balance between information relating to side
+        effects and contraindications and information relating to effectiveness
+        of the drug in that the information relating to effectiveness is presented
+        in greater scope, depth, or detail than is required by section 502(n) of
+        the act and this information is not fairly balanced by a presentation of a
+        summary of true information relating to side effects and contraindications
+        of the drug.
+      source_url: https://www.law.cornell.edu/cfr/text/21/202.1
+      section: "21 CFR 202.1(e)(5)(ii) — 'True statement' / fair balance"
+      retrieved_at: 2026-06-24
+
+  - id: fda.health.major_statement
+    source_id: fda_us
+    category_id: health
+    text: >
+      Broadcast product claim ads must include the drug's most important risk
+      information (the "major statement") in a way that is clear, conspicuous,
+      and neutral, and must either include every risk or make "adequate
+      provision" for dissemination of the FDA-approved prescribing information.
+    modalities: [video, audio]
+    jurisdiction: [US]
+    effective_date: 1997-01-01
+    version: "fda-broadcast-adequate-provision"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Broadcast product claim ads may make statements about a drug's
+        benefit(s). They must include the drug's most important risk information
+        ("major statement") in a way that is clear, conspicuous, and neutral. In
+        addition, they must include either every risk or provide enough sources
+        for the audience to obtain the drug's prescribing information ("adequate
+        provision").
+      source_url: https://www.fda.gov/drugs/prescription-drug-advertising/basics-drug-ads
+      section: "Basics of Drug Ads > Broadcast product claim ads"
+      retrieved_at: 2026-06-24
+
+  - id: fda.health.benefits_approved_use
+    source_id: fda_us
+    category_id: health
+    text: >
+      The law does not allow drug companies to advertise benefits unless they
+      are related to the FDA-approved use, and advertised benefits must be
+      supported by substantial evidence or substantial clinical experience.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1962-01-01
+    version: "fda-approved-use-benefits"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        The law does not allow drug companies to advertise benefits unless they
+        are related to the FDA-approved use. Also, advertised benefits must be
+        supported by "substantial evidence" or substantial clinical experience.
+      source_url: https://www.fda.gov/drugs/prescription-drug-advertising/drug-advertising-glossary-terms
+      section: "Drug Advertising: A Glossary of Terms > Benefit"
+      retrieved_at: 2026-06-24
 
 rules:
-  - id: ftc_misleading_deceptive_claims
-    canonical_id: misleading.exaggerated_claims
-    clause_ids: [ftc.misleading.deceptive_claims]
+  # --- Misleading ---
+  - id: ftc_unsubstantiated_objective_claims
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [ftc.misleading.reasonable_basis, ftc.misleading.express_implied]
     category_id: misleading
     severity: high
     modalities: [text, image, video, landing_page]
-    priority: 90                # regulator outranks platform on conflict
+    priority: 95                # regulator outranks platform on conflict
     detection: >
-      Unsubstantiated objective claims, or material representations that would
-      mislead a reasonable consumer.
+      Objective claims (express or implied) made without a reasonable basis /
+      adequate substantiation before dissemination.
     exceptions:
-      - "Substantiated claims backed by competent and reliable evidence."
+      - "Claims backed by competent and reliable evidence held before dissemination."
     status: active
 
-  - id: fda_health_disease_claims
-    canonical_id: health.unsubstantiated_claims
-    clause_ids: [fda.health.disease_claims]
+  # --- Health ---
+  - id: ftc_health_substantiation
+    canonical_id: health.unsubstantiated_health_claims
+    clause_ids: [ftc.health.truthful_substantiated, fda.health.benefits_approved_use]
     category_id: health
     severity: high
     modalities: [text, image, video, landing_page]
-    priority: 95                # FDA disease claims are high-precedence
+    priority: 95
     detection: >
-      Claims to cure/treat/mitigate/prevent disease for a non-drug product.
+      Health benefit/safety claims lacking competent and reliable scientific
+      evidence; drug benefits beyond FDA-approved use.
+    exceptions:
+      - "Claims substantiated by competent and reliable scientific evidence."
+    status: active
+
+  - id: ftc_health_disease_implication
+    canonical_id: health.disease_cure_treatment_claims
+    clause_ids: [ftc.health.disease_implication, fda.health.disease_claims]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Express or implied disease cure/treatment/prevention claims for non-drug
+      products (net-impression test).
     exceptions:
       - "FDA-approved drugs making authorized claims."
+    status: active
+
+  - id: ftc_health_material_disclosure
+    canonical_id: health.material_risk_safety_disclosure
+    clause_ids: [ftc.health.material_safety_disclosure]
+    category_id: health
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 90
+    detection: >
+      Failure to clearly and conspicuously disclose material limitations or
+      significant safety risks.
+    exceptions:
+      - "Material qualifying info disclosed clearly and conspicuously."
+    status: active
+
+  - id: fda_rx_fair_balance
+    canonical_id: health.rx_fair_balance_risk_disclosure
+    clause_ids: [fda.health.fair_balance, fda.health.major_statement]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 95
+    detection: >
+      Prescription-drug product-claim ads lacking fair balance of risk vs
+      benefit, or missing the major statement / adequate provision.
+    exceptions:
+      - "Reminder ads (no claims) and help-seeking ads outside product-claim scope."
     status: active

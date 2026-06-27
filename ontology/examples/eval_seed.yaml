@@ -1,57 +1,143 @@
-# Evaluation dataset seed — the real moat.
-# Labeled examples linked to clauses/categories. Grow this to thousands.
-# Compute precision/recall PER category_id and PER canonical_id from these.
-# Conforms to entities.example in ontology/schema.yaml.
+# Evaluation dataset — Misleading / Deceptive + Health / Medical verticals.
+# 90 examples total:
+#   Misleading: 30 (10 non_compliant, 10 compliant, 10 borderline)
+#   Health:     60 (20 non_compliant, 20 compliant, 20 borderline)
+# Labeled examples linked to clauses/categories. Compute precision/recall PER
+# category_id and PER canonical_id from these. Conforms to entities.example.
+# labeled_by: expert here = seed authoring; replace with reviewed labels as the
+# set grows and add inter-annotator agreement before quoting metrics externally.
 
 examples:
-  - id: ex_0001
-    content: "Miracle cure guaranteed in 7 days!"
+  # =========================================================================
+  # NON-COMPLIANT (10)
+  # =========================================================================
+  - id: mis_nc_001
+    content: "Miracle cure guaranteed in 7 days — 100% effective!"
     modality: text
     label: non_compliant
-    category_ids: [misleading, health]
+    category_ids: [misleading]
     violated_clause_ids:
-      - meta.misleading.exaggerated_claims
-      - meta.health.health_claims
-      - fda.health.disease_claims
+      - meta.misleading.exaggerated_success_claims
+      - tiktok.misleading.absolute_terms
+      - ftc.misleading.reasonable_basis
     jurisdiction: US
     labeled_by: expert
     split: test
 
-  - id: ex_0002
-    content: "Clinically studied ingredients to support everyday wellness."
+  - id: mis_nc_002
+    content: "Make $10,000 a week from home — guaranteed passive income, zero risk!"
     modality: text
-    label: compliant
-    category_ids: [health]
-    violated_clause_ids: []
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - meta.misleading.exaggerated_success_claims
+      - google.misrep.unreliable_claims
+      - ftc.misleading.reasonable_basis
     jurisdiction: US
     labeled_by: expert
     split: test
-    note: General wellness, no disease/treatment claim.
 
-  - id: ex_0003
-    content: "Lose 20 pounds in 10 days — 100% guaranteed!"
+  - id: mis_nc_003
+    content: "As recommended by Elon Musk — he made millions with this app!"
     modality: text
     label: non_compliant
-    category_ids: [misleading, health]
+    category_ids: [misleading]
     violated_clause_ids:
-      - meta.misleading.exaggerated_claims
+      - meta.misleading.famous_person_baiting
+      - google.misrep.unacceptable_business_practices
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_004
+    content: "Official notice from the IRS: claim your tax refund now (sponsored)."
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - meta.misleading.misrepresent_entity
+      - google.misrep.unacceptable_business_practices
     jurisdiction: US
     labeled_by: expert
     split: dev
 
-  - id: ex_0004
-    content: "Our supplement reverses diabetes and cures high blood pressure."
+  - id: mis_nc_005
+    content: "Free trial! (Card charged $99/month after 3 days, not disclosed on the ad.)"
     modality: text
     label: non_compliant
-    category_ids: [health]
+    category_ids: [misleading]
     violated_clause_ids:
-      - meta.health.health_claims
-      - fda.health.disease_claims
+      - google.misrep.dishonest_pricing
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: mis_nc_006
+    content: "Get slim legs right away after using — lose 20 lbs in 10 days!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - tiktok.misleading.absolute_terms
+      - meta.misleading.health_results_timing
+      - ftc.misleading.reasonable_basis
     jurisdiction: US
     labeled_by: expert
     split: test
 
-  - id: ex_0005
+  - id: mis_nc_007
+    content: "[Image] Side-by-side before/after of wrinkles disappearing in one week."
+    modality: image
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - tiktok.misleading.before_after
+      - google.misrep.manipulated_media
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_008
+    content: "[Creative] A fake 'Close (X)' button and a system-style 'Virus detected!' alert."
+    modality: image
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.misleading_ad_design
+      - google.misrep.clickbait_ads
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: mis_nc_009
+    content: "Doctors hate this one weird trick that cures diabetes overnight!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.clickbait_ads
+      - meta.misleading.exaggerated_success_claims
+      - ftc.misleading.reasonable_basis
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: mis_nc_010
+    content: "Shop our $5 sneakers! (Destination page has no $5 sneakers anywhere.)"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.unavailable_offers
+      - tiktok.misleading.landing_page_consistency
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # =========================================================================
+  # COMPLIANT (10)
+  # =========================================================================
+  - id: mis_c_001
     content: "Comfortable running shoes designed for daily training."
     modality: text
     label: compliant
@@ -59,11 +145,675 @@ examples:
     violated_clause_ids: []
     jurisdiction: US
     labeled_by: expert
-    split: dev
-    note: No regulated claim; clean negative.
+    split: test
 
-  - id: ex_0006
-    content: "Results may vary. Consult your doctor before starting any supplement."
+  - id: mis_c_002
+    content: "In a 12-week study of 100 participants, 68% reported improved sleep. Results may vary."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: Specific, qualified, substantiated claim with disclaimer.
+
+  - id: mis_c_003
+    content: "Subscription is $12/month, billed monthly. Cancel anytime."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Clear, conspicuous pricing disclosure.
+
+  - id: mis_c_004
+    content: "Official partner of the National Coffee Association (membership verified)."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Affiliation is true and documented.
+
+  - id: mis_c_005
+    content: "Our moisturizer helps keep skin hydrated throughout the day."
+    modality: text
+    label: compliant
+    category_ids: []
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_c_006
+    content: "Brand ambassador Jane Doe shares why she loves our tea (paid partnership)."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Authorized endorsement, disclosed as paid.
+
+  - id: mis_c_007
+    content: "Limited-time 20% off — offer and full terms shown on the linked page."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Offer available and consistent with destination.
+
+  - id: mis_c_008
+    content: "[Image] Product photo of the actual item with accurate color and size."
+    modality: image
+    label: compliant
+    category_ids: []
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_c_009
+    content: "Ad clearly labeled 'Sponsored' with a standard call-to-action button."
+    modality: image
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Clearly identifiable as an ad; no fake UI.
+
+  - id: mis_c_010
+    content: "Financial coaching course. Outcomes depend on effort; no income is guaranteed."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Explicit no-guarantee qualifier.
+
+  # =========================================================================
+  # BORDERLINE (10)
+  # =========================================================================
+  - id: mis_b_001
+    content: "Clinically proven to boost energy."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "'Clinically proven' is fine only if substantiation exists; depends on evidence held."
+
+  - id: mis_b_002
+    content: "The #1 skincare brand."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Superlative may need a substantiated basis (FTC) or be puffery.
+
+  - id: mis_b_003
+    content: "Lose weight fast with our program."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "'Fast' is vague; not an absolute time claim but borders on it."
+
+  - id: mis_b_004
+    content: "Results like these are possible with consistent use."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Possible' vs presenting an improbable result as likely (Google unreliable claims)."
+
+  - id: mis_b_005
+    content: "Trusted by thousands of happy customers."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Quantity claim may need support; often puffery.
+
+  - id: mis_b_006
+    content: "[Image] A single 'after' photo of a fit person using the product."
+    modality: image
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: Not a before/after pair, but transformation implication is close to the line.
+
+  - id: mis_b_007
+    content: "As seen on TV."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Affiliation/endorsement implication; fine if true.
+
+  - id: mis_b_008
+    content: "Doctor recommended."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: Needs substantiation (which/how many doctors) per FTC; not inherently deceptive.
+
+  - id: mis_b_009
+    content: "Free shipping on orders over $50."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Compliant if threshold honored; borderline if conditions hidden.
+
+  - id: mis_b_010
+    content: "Get money in 10 seconds — apply now."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Resembles TikTok's prohibited absolute time claim; borderline if it refers to app UX speed, not returns."
+
+  # =========================================================================
+  # HEALTH / MEDICAL — NON-COMPLIANT (20)
+  # =========================================================================
+  - id: hlt_nc_001
+    content: "This supplement cures cancer — eliminate the disease without chemo."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.disease_cure_claims
+      - fda.health.disease_claims
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_002
+    content: "Reverse type 2 diabetes in 14 days — clinically proven miracle pill."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.disease_claims
+      - ftc.health.truthful_substantiated
+      - meta.misleading.health_results_timing
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_003
+    content: "Our herbal drops heal Alzheimer's and prevent dementia for good."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.disease_cure_claims
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_004
+    content: "Buy Xanax online — no prescription needed, fast discreet shipping."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unauthorized_pharmacies
+      - google.health.prescription_drug_services
+      - tiktok.health.prescription_us
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_005
+    content: "Get OxyContin and other opioid painkillers shipped to your door today."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.opioid_painkillers
+      - google.health.unauthorized_pharmacies
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_006
+    content: "This detox tea melts belly fat fast — burn pounds while you sleep!"
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - ftc.health.truthful_substantiated
+      - tiktok.misleading.unsubstantiated_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_007
+    content: "Hate your body? Look how fat you were — our pills fixed it."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.negative_self_perception
+      - meta.health.weightloss_before_after
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_008
+    content: "Weight-loss before & after: see her go from 200 lbs to 130 lbs with our shake!"
+    modality: image
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.weightloss_before_after
+      - meta.misleading.before_after_weightloss
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_009
+    content: "Struggling with depression? This subscription is made just for people like you."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_010
+    content: "All-natural drops as effective as prescription antibiotics — skip the doctor."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unapproved_substances
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_011
+    content: "Experimental stem-cell therapy guaranteed to regrow cartilage — book now."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.speculative_experimental
+      - ftc.health.truthful_substantiated
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_012
+    content: "Affordable rhinoplasty and lip fillers — instant nose job, no surgery scars!"
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - tiktok.misleading.unsubstantiated_claims
+      - ftc.health.truthful_substantiated
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "US TikTok allows fillers/microdermabrasion; the violation here is the exaggerated 'instant, no scars' performance claim."
+
+  - id: hlt_nc_013
+    content: "Our anti-aging cream is a medical-grade treatment that cures skin disease."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.disease_claims
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_014
+    content: "Scientists now agree: our vitamin prevents heart attacks. Proven by NIH."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - ftc.health.truthful_substantiated
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_015
+    content: "New blood-pressure drug — lowers BP fast! (No risks or side effects mentioned.)"
+    modality: video
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.fair_balance
+      - fda.health.major_statement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_016
+    content: "Join our clinical trial — this safe new drug will cure your arthritis."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.clinical_trials
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_017
+    content: "hCG weight-loss protocol — drop 30 lbs in a month, doctor recommended."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unapproved_substances
+      - ftc.health.truthful_substantiated
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_018
+    content: "Order prescription Ozempic here — no prescription, no consultation required."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unauthorized_pharmacies
+      - tiktok.health.prescription_us
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_019
+    content: "This app treats acne — flashing lights are your salvation, no prescription drugs."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.disease_claims
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Mirrors FTC Health Products Guidance Example 14 (acne app)."
+
+  - id: hlt_nc_020
+    content: "Natural sleep aid with zero side effects — safer than any prescription."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - ftc.health.material_safety_disclosure
+      - google.health.unapproved_substances
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  # =========================================================================
+  # HEALTH / MEDICAL — COMPLIANT (20)
+  # =========================================================================
+  - id: hlt_c_001
+    content: "A daily multivitamin to help support your overall wellness."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_002
+    content: "Our protein shake supports your fitness routine. Results vary with diet and exercise."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_003
+    content: "Certified online pharmacy — licensed and accredited. Valid prescription required."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_004
+    content: "Talk to a licensed therapist online. Schedule a confidential session today."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_005
+    content: "Moisturizing face cream that leaves skin feeling soft and hydrated."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_006
+    content: "Book a consultation with a board-certified dermatologist near you."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_007
+    content: "Over-the-counter pain reliever for temporary relief of minor aches. Use as directed."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: hlt_c_008
+    content: "Stay hydrated with our electrolyte drink during your workouts."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_009
+    content: "Ask your doctor if this FDA-approved medication is right for you. See important safety information."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Help-seeking framing with safety-info reference; compliant for Rx context."
+
+  - id: hlt_c_010
+    content: "Fitness studio offering beginner-friendly Pilates classes for all levels."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_011
+    content: "Our sleep tea blends chamomile and lavender for a calming bedtime ritual."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_012
+    content: "Schedule a routine eye exam at our optometry clinic."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_013
+    content: "Toothpaste with fluoride to help prevent cavities. ADA accepted."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_014
+    content: "Get your annual flu shot at a pharmacy near you."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_015
+    content: "A balanced meal-kit service to help you cook nutritious dinners at home."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_016
+    content: "Vitamin D supplement that contributes to the maintenance of normal bones."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Structure/function style claim without disease implication."
+
+  - id: hlt_c_017
+    content: "Compression socks designed for comfort during long flights."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_018
+    content: "Mindfulness app with guided meditations to help you relax and unwind."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_019
+    content: "Reading glasses in a range of magnifications. Find your perfect fit."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_020
+    content: "Hydrating sunscreen SPF 50 for everyday sun protection."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # =========================================================================
+  # HEALTH / MEDICAL — BORDERLINE (20)
+  # =========================================================================
+  - id: hlt_b_001
+    content: "Supports a healthy immune system during cold and flu season."
     modality: text
     label: borderline
     category_ids: [health]
@@ -71,4 +821,213 @@ examples:
     jurisdiction: US
     labeled_by: expert
     split: dev
-    note: Disclaimer-style; useful boundary case for calibration.
+    note: "Per FTC Example 5, seasonal nose/throat framing can imply a cold-prevention disease claim."
+
+  - id: hlt_b_002
+    content: "Clinically tested ingredient for improved blood flow and endurance."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 18: 'clinically tested ingredient' may imply proven product-level benefit."
+
+  - id: hlt_b_003
+    content: "Promising preliminary studies show our supplement may reduce cholesterol."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 13: vague qualifiers ('promising','preliminary','may') often fail to convey limits."
+
+  - id: hlt_b_004
+    content: "Joint-health cream — keeps you moving and dancing into old age."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 6 'Arthricure': mobility framing can imply an arthritis-treatment claim."
+
+  - id: hlt_b_005
+    content: "Lose weight the healthy way with our balanced nutrition program."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Weight-loss reference: TikTok would reject; Meta may allow if 18+ and no negative self-perception."
+
+  - id: hlt_b_006
+    content: "Feel more confident in your body — start your wellness journey."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Borderline negative self-perception depending on accompanying imagery/tone."
+
+  - id: hlt_b_007
+    content: "Before and after: see the glow from our non-permanent vitamin-C serum."
+    modality: image
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Meta exempts non-permanent cosmetic before/after; borderline if framed as medical correction."
+
+  - id: hlt_b_008
+    content: "Telehealth visits available — get evaluated and prescribed if appropriate."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Compliant if certified/licensed; non-compliant if it facilitates Rx without proper authorization."
+
+  - id: hlt_b_009
+    content: "Our CBD oil promotes calm and relaxation."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Borderline: CBD/ingestible status varies; tips non-compliant if disease/treatment claims attach."
+
+  - id: hlt_b_010
+    content: "Boost your energy and metabolism naturally."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Boost metabolism' edges toward unsubstantiated weight-loss/efficacy claim."
+
+  - id: hlt_b_011
+    content: "Doctor-formulated formula trusted by thousands of patients."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Authority/endorsement framing may imply unproven efficacy (FTC net impression)."
+
+  - id: hlt_b_012
+    content: "Supports healthy blood sugar levels already within the normal range."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Structure/function phrasing; borderline if net impression implies diabetes treatment."
+
+  - id: hlt_b_013
+    content: "Reduce the appearance of fine lines and wrinkles."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Cosmetic appearance claim is usually allowed; borderline if it becomes a medical/anti-aging treatment claim."
+
+  - id: hlt_b_014
+    content: "Our supplement may help maintain healthy cholesterol already in normal range."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Borderline depending on substantiation and disclosure of study limitations."
+
+  - id: hlt_b_015
+    content: "Relieves occasional joint discomfort so you can stay active."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Occasional discomfort' is structure/function; borderline if it implies arthritis treatment."
+
+  - id: hlt_b_016
+    content: "Nasal strips that reduce snoring for a better night's sleep."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 12: needs disclosure it does not treat sleep apnea to avoid deception."
+
+  - id: hlt_b_017
+    content: "Probiotic that supports digestive and gut health."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Generally allowed structure/function claim; borderline if disease/IBS treatment implied."
+
+  - id: hlt_b_018
+    content: "Get summer-ready with our 30-day slim-down challenge."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Weight-loss framing; TikTok rejects, Meta borderline based on self-perception tone and 18+ targeting."
+
+  - id: hlt_b_019
+    content: "Order your OTC allergy medicine online for next-day delivery."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "OTC may be allowed only if market-specific requirements met; borderline pending certification."
+
+  - id: hlt_b_020
+    content: "Backed by science to help you feel your best every day."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Backed by science' implies a substantiation level that must actually be held (FTC)."

@@ -15,10 +15,10 @@ mappings + a labeled evaluation dataset with measured precision/recall.
 | `corpus/google_ads_us.yaml` | Google Ads (US) — Misrepresentation + Healthcare/Medicines + Financial + Discrimination + Political clauses + rules |
 | `corpus/tiktok_ads_us.yaml` | TikTok Ads (US) — Misleading & false content + Healthcare/Pharmaceuticals + Financial + Discrimination + Political |
 | `corpus/linkedin_ads_us.yaml` | LinkedIn Ads (US) — Financial + Discrimination + Political clauses + rules |
-| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA) |
+| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC + CCPA/CPRA (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA + Privacy) |
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
-| `examples/eval_seed.yaml` | Labeled evaluation dataset (330 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political + 60 children/minors) |
-| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.6) |
+| `examples/eval_seed.yaml` | Labeled evaluation dataset (390 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political + 60 children/minors + 60 privacy) |
+| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.7) |
 | `policy_versions.yaml` | Sidecar policy-metadata registry: per-source version / effective / last-updated / deprecated-superseded status / officially published change history (not part of the frozen schema) |
 | `validate.py` | Validator: parse + referential integrity + evidence/applicability completeness |
 
@@ -51,10 +51,10 @@ category ─< clause >── source
 
 ## Scope so far
 
-- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep), `minors` (Children / Minors, deep)
-- **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC, FEC
+- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep), `minors` (Children / Minors, deep), `privacy` (deep)
+- **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC, FEC, CCPA/CPRA
 - **Jurisdiction:** US
-- **Current corpus version:** `Ad Corpus v0.6` (see `corpus_version.yaml`)
+- **Current corpus version:** `Ad Corpus v0.7` (see `corpus_version.yaml`)
 
 ### Misleading / Deceptive — canonical rules (vertical 1)
 
@@ -182,6 +182,30 @@ Personalized advertising, TikTok About advertising to under-18 + Protecting
 minors initiatives, FTC COPPA (16 CFR Part 312, 2025 amended rule). Jurisdiction:
 US only.
 
+### Privacy & Personal Data — canonical rules (vertical 7, category `privacy`)
+
+| `canonical_id` | Sources mapped |
+|----------------|----------------|
+| `privacy.sensitive_attribute_targeting_prohibited` | Meta, Google, LinkedIn |
+| `privacy.data_collection_disclosure_required` | TikTok only (single-source — no `mapping` entry) |
+| `privacy.opt_out_of_sale_or_sharing_for_targeted_ads` | CCPA/CPRA only (single-source — no `mapping` entry) |
+| `privacy.minor_opt_in_for_sale_or_sharing` | CCPA/CPRA only (single-source — no `mapping` entry) |
+
+The sensitive-attribute-targeting rule is genuinely cross-source — Meta (no
+asserting/implying sensitive attributes in copy/targeting), Google (advertiser-
+curated audiences barred for sensitive interest categories), LinkedIn (no
+targeting on sensitive data). The TikTok data-collection-disclosure rule and the
+two CCPA/CPRA rights (opt out of sale/sharing for cross-context behavioral
+advertising; under-16 opt-in) have no equivalent on another source yet, so they
+stay single-source and unmapped — honest by design. CCPA/CPRA (regulator,
+priority 95).
+
+Privacy sources: Meta Privacy Violations and Personal Attributes, Google
+Restricted targeting in Personalized advertising (sensitive interest categories),
+LinkedIn sensitive-data targeting prohibition, TikTok Data Collection Standards,
+CCPA/CPRA (Cal. Civ. Code §§ 1798.120 & 1798.135). Jurisdiction: US (CCPA is
+California-specific).
+
 ### Policy-metadata registry (`policy_versions.yaml`)
 
 A **sidecar** (not part of the frozen schema) that records, per official source/
@@ -213,7 +237,8 @@ the eval dataset:
 - **Ad Corpus v0.3** — adds Financial services & investments (frozen)
 - **Ad Corpus v0.4** — adds Housing & Employment (frozen)
 - **Ad Corpus v0.5** — adds Political & Social Issues (frozen)
-- **Ad Corpus v0.6** — adds Children / Minors + `policy_versions.yaml` sidecar (frozen, current)
+- **Ad Corpus v0.6** — adds Children / Minors + `policy_versions.yaml` sidecar (frozen)
+- **Ad Corpus v0.7** — adds Privacy & Personal Data (frozen, current)
 
 ## Build order
 
@@ -224,15 +249,17 @@ the eval dataset:
 5. ✅ Housing & Employment vertical: Meta + Google + TikTok + LinkedIn + HUD + EEOC + FTC, mapped → **Ad Corpus v0.4** (60 eval examples).
 6. ✅ Political & Social Issues vertical: Meta + Google + TikTok + LinkedIn + FEC, mapped → **Ad Corpus v0.5** (60 eval examples).
 7. ✅ Children / Minors vertical: Meta + Google + TikTok + FTC COPPA, mapped → **Ad Corpus v0.6** (60 eval examples). Adds `policy_versions.yaml` sidecar.
-8. Next domains (by business impact): Privacy & Personal Data → Alcohol / Tobacco / Cannabis → Gambling & Gaming → Intellectual Property / Counterfeit.
-9. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
-10. Phase 2 — Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Begins only after the five remaining domains are complete + validated. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
+8. ✅ Privacy & Personal Data vertical: Meta + Google + LinkedIn + TikTok + CCPA/CPRA, mapped → **Ad Corpus v0.7** (60 eval examples).
+9. Next domains (by business impact): Alcohol / Tobacco / Cannabis → Gambling & Gaming → Intellectual Property / Counterfeit.
+10. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
+11. Phase 2 — Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Begins only after the five remaining domains are complete + validated. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
 
 > Clause text is sourced from official policy pages (Meta Transparency Center,
 > Google Ads Help, TikTok Business Help Center, LinkedIn Advertising Policies,
 > FTC.gov, FDA.gov, SEC.gov / 17 CFR 275.206(4)-1, FINRA Rule 2210, CFPB / 12 CFR
 > 1026.24, 21 CFR 202.1, HUD / 42 U.S.C. § 3604, EEOC / 29 U.S.C. § 623,
-> 12 CFR 1002.4, FEC / 11 CFR 110.11 / 52 U.S.C. 30120, FTC COPPA / 16 CFR Part 312). Some pages are JS-heavy and were captured via official-source
+> 12 CFR 1002.4, FEC / 11 CFR 110.11 / 52 U.S.C. 30120, FTC COPPA / 16 CFR Part 312,
+> CCPA/CPRA / Cal. Civ. Code §§ 1798.120 & 1798.135). Some pages are JS-heavy and were captured via official-source
 > search snippets; **verify verbatim text and effective dates against the cited
 > URLs before using metrics or decisions externally.** Run
 > `python ontology/validate.py` after any change.

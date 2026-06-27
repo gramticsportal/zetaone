@@ -3,7 +3,7 @@
 # reproducible and benchmarkable alongside the evaluation dataset. Bump the
 # version and add a release entry whenever a category is completed/changed.
 
-current_version: "Ad Corpus v0.6"
+current_version: "Ad Corpus v0.7"
 
 releases:
   - version: "Ad Corpus v0.1"
@@ -158,3 +158,28 @@ releases:
       track policy version / effective / last-updated / deprecated-superseded
       status / officially published change history — without changing the frozen
       schema.
+
+  - version: "Ad Corpus v0.7"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca]
+    canonical_rules_added:
+      - privacy.sensitive_attribute_targeting_prohibited
+      - privacy.data_collection_disclosure_required          # TikTok (single-source)
+      - privacy.opt_out_of_sale_or_sharing_for_targeted_ads  # CCPA/CPRA (single-source)
+      - privacy.minor_opt_in_for_sale_or_sharing             # CCPA/CPRA (single-source)
+    eval_examples: 390       # + 60 privacy
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Privacy & Personal Data vertical (category `privacy`) from official
+      Meta (Privacy Violations and Personal Attributes), Google (Restricted
+      targeting in Personalized advertising — sensitive interest categories),
+      LinkedIn (sensitive-data targeting prohibition), TikTok (Data Collection
+      Standards), and CCPA/CPRA (Cal. Civ. Code §§ 1798.120 & 1798.135 — opt out
+      of sale/sharing for cross-context behavioral advertising; under-16 opt-in).
+      New source ccpa_ca. One cross-source canonical (sensitive-attribute
+      targeting: Meta, Google, LinkedIn) plus three single-source canonicals
+      (TikTok data-collection disclosure; CCPA opt-out; CCPA minor opt-in) kept
+      honestly unmapped. Every clause carries an `evidence` block +
+      `last_reviewed_by: ai`.

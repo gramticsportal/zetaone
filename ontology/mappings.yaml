@@ -447,3 +447,30 @@ mappings:
       shocking content restricted for under-18), TikTok (e.g. alcohol not to
       audiences under the legal drinking age). Category lists differ; the
       protect-minors-from-age-inappropriate-ads intent is genuinely equivalent.
+
+  # =========================================================================
+  # Privacy & Personal Data vertical canonical rules:
+  #   privacy.sensitive_attribute_targeting_prohibited       (Meta, Google, LinkedIn)
+  #   privacy.data_collection_disclosure_required            (TikTok — single-source)
+  #   privacy.opt_out_of_sale_or_sharing_for_targeted_ads    (CCPA/CPRA — single-source)
+  #   privacy.minor_opt_in_for_sale_or_sharing               (CCPA/CPRA — single-source)
+  # Only the sensitive-attribute-targeting rule is genuinely cross-source. The
+  # TikTok data-collection-disclosure and the two CCPA rights have no equivalent
+  # clause on another source yet, so they carry NO mapping entry.
+  # =========================================================================
+  - canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    category_id: privacy
+    clause_ids:
+      - meta.privacy.personal_attributes
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    relation: related
+    confidence: high
+    note: >
+      Ads must not target on — or assert/imply — sensitive personal attributes:
+      Meta (no asserting/implying race, health, sexual orientation, financial
+      status, etc. in copy or targeting), Google (advertiser-curated audiences
+      barred for sensitive interest categories), LinkedIn (no targeting on
+      sensitive data: health, race, religion, sexual orientation, political
+      opinion, income, etc.). Mechanisms differ (copy vs. audience tooling), but
+      the protect-sensitive-attributes intent is genuinely equivalent.

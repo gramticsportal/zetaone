@@ -228,6 +228,42 @@ clauses:
       section: "LinkedIn Advertising Policies > Political"
       retrieved_at: 2026-06-27
 
+  # ===================== Privacy & Personal Data =====================
+  - id: linkedin.privacy.sensitive_data_targeting
+    source_id: linkedin_ads_us
+    category_id: privacy
+    text: >
+      Ads must not target based on sensitive data or categories, including
+      political affiliation or opinions, racial or ethnic origin, data concerning
+      health (including medical information and consumer health data), genetic
+      data, biometric data, religious or philosophical affiliation or beliefs,
+      data relating to a criminal record or alleged or actual commission of a
+      crime, sexual behavior or orientation, trade union membership, or income,
+      or as otherwise defined by applicable law.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-ads-policy-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Ads must not target based on sensitive data or categories, including
+        political affiliation or opinions, racial or ethnic origin, data
+        concerning health (including medical information and consumer health
+        data), genetic data, biometric data, religious or philosophical
+        affiliation or beliefs, data relating to a criminal record or alleged or
+        actual commission of a crime, sexual behavior or orientation, trade union
+        membership, or income, or as otherwise defined by applicable law.
+      source_url: https://www.linkedin.com/legal/ads-policy
+      section: "LinkedIn Advertising Policies > Targeting / Sensitive data"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: linkedin_finance_misleading
     canonical_id: finance.misleading_or_unbalanced_claims
@@ -326,5 +362,20 @@ rules:
       Political ads advocating for/against candidates, parties, ballot
       propositions, laws or regulations; political fundraising; or ads exploiting
       a sensitive political issue.
+    exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: linkedin_privacy_sensitive_targeting
+    canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    clause_ids: [linkedin.privacy.sensitive_data_targeting]
+    category_id: privacy
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Targeting based on sensitive data/categories: political opinion, race/
+      ethnicity, health, genetic/biometric data, religion, criminal record,
+      sexual orientation, trade union membership, or income.
     exceptions: []
     status: active

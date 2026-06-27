@@ -929,6 +929,42 @@ clauses:
       section: "Ad protections for children and teens > Ads & made for kids content"
       retrieved_at: 2026-06-27
 
+  # ===================== Privacy & Personal Data =====================
+  - id: google.privacy.sensitive_interest_categories
+    source_id: google_ads_us
+    category_id: privacy
+    text: >
+      Advertisers promoting products and services that fall within sensitive
+      interest categories are unable to use advertiser-curated audiences
+      (Customer Match, data segments/remarketing, audience expansion, lookalike,
+      and custom segments). Sensitive interest categories include health, sexual
+      orientation, race and ethnicity, religious beliefs, negative financial
+      status, political affiliation, and relationship hardships, among others.
+      Predefined Google audiences may be used because sensitive user signals are
+      excluded from them.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "personalized-advertising-sensitive-categories"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Advertisers promoting products and services that fall within sensitive
+        interest categories are unable to use advertiser-curated audiences. This
+        helps ensure that sensitive interest categories aren't inadvertently used
+        for targeting audiences. Because predefined Google audiences are
+        expressly configured without sensitive user signals, all advertisers are
+        allowed to use them, even if they promote sensitive interest categories.
+      source_url: https://support.google.com/adspolicy/answer/143465
+      section: "Restricted targeting in Personalized advertising > Sensitive interest categories"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: google_unreliable_claims
     canonical_id: misleading.exaggerated_results
@@ -1224,4 +1260,20 @@ rules:
       On made-for-kids content: personalized ads, third-party trackers, ads
       inciting children to purchase, or misleading/deceptive claims.
     exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: google_privacy_sensitive_categories
+    canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    clause_ids: [google.privacy.sensitive_interest_categories]
+    category_id: privacy
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Use of advertiser-curated audiences (Customer Match, remarketing,
+      lookalike, custom segments) to target sensitive interest categories
+      (health, sexual orientation, race, religion, financial hardship, etc.).
+    exceptions:
+      - "Predefined Google audiences (sensitive signals excluded)."
     status: active

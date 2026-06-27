@@ -79,6 +79,15 @@ sources:
     retrieved_at: 2026-06-27
     last_verified_at: 2026-06-27
 
+  - id: ccpa_ca
+    type: regulator
+    name: California Consumer Privacy Act / CPRA (Cal. Civ. Code § 1798.100 et seq.)
+    jurisdiction: [US]
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
 clauses:
   # ===================== FTC: Misleading backbone =====================
   - id: ftc.misleading.reasonable_basis
@@ -901,6 +910,76 @@ clauses:
       section: "16 CFR 312.2, 312.5 — Children's Online Privacy Protection Rule (COPPA)"
       retrieved_at: 2026-06-27
 
+  # ===================== CCPA/CPRA: Privacy & Personal Data =====================
+  - id: ccpa.privacy.opt_out_sale_sharing
+    source_id: ccpa_ca
+    category_id: privacy
+    text: >
+      A consumer has the right, at any time, to direct a business that sells or
+      shares personal information to third parties not to sell or share it (the
+      "right to opt out of sale or sharing"). "Sharing" includes disclosing
+      personal information for cross-context behavioral advertising. A business
+      that sells/shares must provide a clear and conspicuous "Do Not Sell or
+      Share My Personal Information" homepage link, and must honor opt-out
+      preference signals (e.g. Global Privacy Control).
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-01-01
+    version: "cpra-civ-1798.120-135"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        A consumer shall have the right, at any time, to direct a business that
+        sells or shares personal information about the consumer to third parties
+        not to sell or share the consumer's personal information. This right may
+        be referred to as the right to opt out of sale or sharing. ... [§1798.135]
+        Provide a clear and conspicuous link on the business' internet homepages,
+        titled "Do Not Sell or Share My Personal Information," to an internet web
+        page that enables a consumer ... to opt out of the sale or sharing of the
+        consumer's personal information.
+      source_url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+      section: "Cal. Civ. Code §§ 1798.120, 1798.135 (CCPA/CPRA) — opt out of sale/sharing"
+      retrieved_at: 2026-06-27
+
+  - id: ccpa.privacy.minor_opt_in_sale_sharing
+    source_id: ccpa_ca
+    category_id: privacy
+    text: >
+      A business shall not sell or share the personal information of a consumer
+      if it has actual knowledge the consumer is under 16, unless the consumer
+      (ages 13–15) or the parent/guardian (under 13) has affirmatively authorized
+      the sale or sharing. A business that willfully disregards the consumer's age
+      is deemed to have actual knowledge of it.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-01-01
+    version: "cpra-civ-1798.120c"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Notwithstanding subdivision (a), a business shall not sell or share the
+        personal information of consumers if the business has actual knowledge
+        that the consumer is less than 16 years of age, unless the consumer, in
+        the case of consumers at least 13 years of age and less than 16 years of
+        age, or the consumer's parent or guardian, in the case of consumers who
+        are less than 13 years of age, has affirmatively authorized the sale or
+        sharing of the consumer's personal information.
+      source_url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+      section: "Cal. Civ. Code § 1798.120(c) (CCPA/CPRA) — minors' opt-in to sale/sharing"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: ftc_unsubstantiated_objective_claims
@@ -1161,4 +1240,34 @@ rules:
     exceptions:
       - "Support for internal operations not used for behavioral advertising or profiling."
       - "Other limited 312.5(c) exceptions (one-time response, safety, etc.)."
+    status: active
+
+  # --- Privacy & Personal Data (CCPA/CPRA) ---
+  - id: ccpa_privacy_opt_out
+    canonical_id: privacy.opt_out_of_sale_or_sharing_for_targeted_ads
+    clause_ids: [ccpa.privacy.opt_out_sale_sharing]
+    category_id: privacy
+    severity: high
+    modalities: [landing_page]
+    priority: 95
+    detection: >
+      Selling/sharing personal information for cross-context behavioral
+      advertising without a "Do Not Sell or Share" link, without honoring opt-out
+      preference signals (GPC), or after a consumer has opted out.
+    exceptions:
+      - "Businesses honoring opt-out preference signals in a frictionless manner."
+    status: active
+
+  - id: ccpa_privacy_minor_opt_in
+    canonical_id: privacy.minor_opt_in_for_sale_or_sharing
+    clause_ids: [ccpa.privacy.minor_opt_in_sale_sharing]
+    category_id: privacy
+    severity: high
+    modalities: [landing_page]
+    priority: 95
+    detection: >
+      Selling/sharing personal information of a consumer known to be under 16
+      without the required affirmative opt-in (consumer 13–15, or parent for
+      under 13).
+    exceptions: []
     status: active

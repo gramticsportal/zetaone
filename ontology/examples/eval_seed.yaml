@@ -1,12 +1,13 @@
 # Evaluation dataset — Misleading + Health + Financial + Housing/Employment +
-# Political/Social-Issues + Children/Minors verticals.
-# 330 examples total:
+# Political/Social-Issues + Children/Minors + Privacy verticals.
+# 390 examples total:
 #   Misleading:           30 (10 non_compliant, 10 compliant, 10 borderline)
 #   Health:               60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Financial:            60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Housing/Employment:   60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Political:            60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Children/Minors:      60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Privacy:              60 (20 non_compliant, 20 compliant, 20 borderline)
 # Labeled examples linked to clauses/categories. Compute precision/recall PER
 # category_id and PER canonical_id from these. Conforms to entities.example.
 # labeled_by: expert here = seed authoring; replace with reviewed labels as the
@@ -3770,3 +3771,656 @@ examples:
     jurisdiction: US
     labeled_by: expert
     split: dev
+
+  # =========================================================================
+  # PRIVACY & PERSONAL DATA (60)
+  # non_compliant = asserting/implying sensitive attributes, targeting sensitive
+  # categories with curated audiences, selling/sharing data without opt-out or
+  # under-16 opt-in, or undisclosed data collection. compliant = benefit-focused
+  # copy, predefined audiences, opt-out link/GPC honored, privacy policy present,
+  # consent obtained. borderline = rhetorical "you", contextual targeting on
+  # sensitive topics, or data-driven targeting of non-sensitive products.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: prv_nc_001
+    content: "Are you struggling with depression? Get help now."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Implies the viewer has a mental-health condition."
+
+  - id: prv_nc_002
+    content: "Meet other LGBTQ singles near you."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Implies the viewer's sexual orientation."
+
+  - id: prv_nc_003
+    content: "[Customer Match list of diabetes-site visitors used to target ads]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_004
+    content: "Find other Christians in your area."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_005
+    content: "Struggling with debt? We know exactly how you feel."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_006
+    content: "[Ad targeting users by inferred race / ethnicity]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_007
+    content: "[Business sells site visitors' data for cross-context behavioral ads with no 'Do Not Sell or Share' link]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_008
+    content: "[Business ignores Global Privacy Control signals and keeps sharing data for ads]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_009
+    content: "[App sells personal info of known 14-year-olds for targeted ads without opt-in]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.minor_opt_in_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_010
+    content: "[Landing page collects emails and shares them with ad networks, no privacy policy disclosed]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - tiktok.privacy.data_collection_disclosure
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_011
+    content: "As someone living with anxiety, you need our app."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_012
+    content: "[Targeting users by trade-union membership]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_013
+    content: "If you've been diagnosed with diabetes, click here for your discount."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_014
+    content: "[Custom segment built from STD-clinic visitors used for ad targeting]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_015
+    content: "[Targeting LinkedIn members by income bracket]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_016
+    content: "We see you're a single mom — this offer is just for you."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_017
+    content: "[Business continues selling personal data after the consumer opted out]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_018
+    content: "[Landing page installs undisclosed tracking software that transmits user info]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - tiktok.privacy.data_collection_disclosure
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_019
+    content: "[Lookalike audience seeded from a mental-health app's user list]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_020
+    content: "Are you a veteran with PTSD? Join our treatment program."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: prv_c_001
+    content: "Explore tools for smarter financial planning."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Benefit-focused; no assertion of the viewer's financial status."
+
+  - id: prv_c_002
+    content: "Join our new faith-based community group."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Targets an interest/community, not an implied religious attribute of the viewer."
+
+  - id: prv_c_003
+    content: "[Health product using predefined Google audiences only, no advertiser-curated lists]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_004
+    content: "[Landing page with a clear privacy policy disclosing data collection and use]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_005
+    content: "[Homepage displays a 'Do Not Sell or Share My Personal Information' link]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_c_006
+    content: "[Business honors Global Privacy Control opt-out signals frictionlessly]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_007
+    content: "Meet new people on our dating app."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "No implied orientation/relationship status of the viewer."
+
+  - id: prv_c_008
+    content: "Support for individuals and families navigating recovery."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_009
+    content: "[Fitness brand targeting the broad 'fitness' interest via a predefined audience]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_010
+    content: "[App obtains affirmative opt-in before sharing a 15-year-old's data]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_c_011
+    content: "Discover budgeting tips for everyone."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_012
+    content: "[Contextual ad on a wellness article, no behavioral targeting]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_013
+    content: "New mental-health resources are available in your city."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "PSA-style; does not assert the viewer or their family has a condition."
+
+  - id: prv_c_014
+    content: "[Business stops sharing personal data immediately after an opt-out request]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_015
+    content: "Our app helps people build healthy daily habits."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_016
+    content: "[Landing page with a privacy-policy link and clear data-use disclosure]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_017
+    content: "Faith-based events this weekend — all are welcome."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_018
+    content: "[Predefined Google audience used to promote a sensitive-category product]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Allowed — predefined audiences exclude sensitive signals."
+
+  - id: prv_c_019
+    content: "Financial-planning webinar — open to all."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_020
+    content: "[Advertiser uses only first-party contextual signals; no sale/sharing of personal info]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: prv_b_001
+    content: "You deserve a vacation — book your getaway now."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'You' is allowed when no sensitive attribute is implied."
+
+  - id: prv_b_002
+    content: "[Wellness brand targeting the 'yoga' interest]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Wellness adjacency; sensitive only if it crosses into health conditions."
+
+  - id: prv_b_003
+    content: "[Contextual ad placed on a diabetes news site]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Contextual placement on a sensitive topic; not behavioral targeting."
+
+  - id: prv_b_004
+    content: "Tired after a long day? Try our energy drink."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_005
+    content: "[Retargeting general site visitors for a non-sensitive product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_006
+    content: "For busy parents on the go."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "References parental status generally, not an assertion about the viewer."
+
+  - id: prv_b_007
+    content: "[Lookalike audience for a generic e-commerce product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_008
+    content: "Single? Discover local events this weekend."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Relationship-status adjacency; borderline depending on implication."
+
+  - id: prv_b_009
+    content: "[Ad uses ZIP-level targeting for a non-HEC retail product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_010
+    content: "Proud to support our local community."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_011
+    content: "[Customer Match list used for a non-sensitive retail promotion]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Customer Match is allowed when not promoting a sensitive interest category."
+
+  - id: prv_b_012
+    content: "Feeling stressed? Our meditation app can help."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Could be read as implying a mental state; depends on enforcement."
+
+  - id: prv_b_013
+    content: "[App collects an email for a newsletter with a privacy-policy link]"
+    modality: landing_page
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_014
+    content: "Gifts for the woman in your life."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "References a third party, not an assertion about the viewer."
+
+  - id: prv_b_015
+    content: "[Behavioral ad based on shopping-cart abandonment]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_016
+    content: "Wellness tips for a healthier you."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_017
+    content: "[Data segment of past purchasers for a non-sensitive product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_018
+    content: "Are you ready for summer?"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_019
+    content: "[Ad on a parenting site using contextual signals]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_020
+    content: "Local deals picked for you."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Personalization wording; borderline depending on data used."

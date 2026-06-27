@@ -617,6 +617,40 @@ clauses:
       section: "Protecting minors on TikTok: advertising initiatives"
       retrieved_at: 2026-06-27
 
+  # ===================== Privacy & Personal Data =====================
+  - id: tiktok.privacy.data_collection_disclosure
+    source_id: tiktok_ads_us
+    category_id: privacy
+    text: >
+      Advertisers must clearly disclose any data collection, sharing, and usage
+      that takes place on their landing page through the use of a privacy policy.
+      Advertisers may not distribute malicious software, or undisclosed/unwanted
+      software, including software that collects or transmits user information
+      without the user's knowledge or that is difficult to remove.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-02-01
+    version: "2025-02-data-collection-standards"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Advertisers must clearly disclose any data collection, sharing, and usage
+        that takes place on their Landing Page through the use of a privacy
+        policy. Advertisers are not allowed to distribute malicious software that
+        may harm or gain unauthorized access to a computer, device, or network.
+        ... Advertisers are not allowed to distribute unwanted or undisclosed
+        software that collects or transmits user information without user
+        knowledge.
+      source_url: https://ads.tiktok.com/help/article/data-collection-standards
+      section: "Data Collection Standards"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: tiktok_absolute_terms
     canonical_id: misleading.guaranteed_outcomes
@@ -829,5 +863,19 @@ rules:
     detection: >
       Age-restricted categories (e.g. alcohol) targeted to minors / users below
       the legal age.
+    exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: tiktok_privacy_data_collection
+    canonical_id: privacy.data_collection_disclosure_required
+    clause_ids: [tiktok.privacy.data_collection_disclosure]
+    category_id: privacy
+    severity: medium
+    modalities: [landing_page]
+    priority: 58
+    detection: >
+      Landing pages that collect/share/use data without a clear privacy-policy
+      disclosure, or distribute malicious/undisclosed/unwanted software.
     exceptions: []
     status: active

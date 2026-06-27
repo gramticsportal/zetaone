@@ -100,7 +100,45 @@ policies:
         version: "Branded Content Policy update"
         summary: "Branded Content Policy revised: new Prohibited Industries sub-sections and a Restricted Industries & Products section with age restrictions."
         url: https://www.tiktok.com/legal/page/global/bc-policy/en
+      - date: 2025-02
+        version: "Data Collection Standards"
+        summary: "Data Collection Standards article last updated (privacy-policy disclosure; no malicious/undisclosed software)."
+        url: https://ads.tiktok.com/help/article/data-collection-standards
       - date: 2025-08
         version: "Advertising Policies refresh"
         summary: "TikTok Advertising Policies index last updated (August 2025)."
         url: https://ads.tiktok.com/help/article/tiktok-advertising-policies
+
+  - source_id: linkedin_ads_us
+    policy_title: "LinkedIn Advertising Policies"
+    url: https://www.linkedin.com/legal/ads-policy
+    policy_version: "linkedin-ads-policy-2024"
+    effective_date: 2024-05-28
+    last_updated: 2024-05-28
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2018-01-01
+        version: "political-ads prohibition"
+        summary: "LinkedIn has prohibited political advertising since 2018."
+        url: https://www.linkedin.com/legal/ads-policy
+
+  - source_id: ccpa_ca
+    policy_title: "California Consumer Privacy Act (CCPA), as amended by CPRA"
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+    policy_version: "CPRA (Prop 24) amendments"
+    effective_date: 2023-01-01        # CPRA operative date
+    last_updated: 2023-03-29          # CPPA first regulations approved
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2020-01-01
+        version: "CCPA (AB 375)"
+        summary: "Original CCPA took effect: right to opt out of sale of personal information."
+        url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+      - date: 2023-01-01
+        version: "CPRA (Prop 24)"
+        summary: "CPRA operative: added right to opt out of 'sharing' for cross-context behavioral advertising; sensitive personal information limits; under-16 opt-in."
+        url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.135

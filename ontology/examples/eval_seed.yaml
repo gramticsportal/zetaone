@@ -1,9 +1,11 @@
-# Evaluation dataset — Misleading + Health + Financial + Housing/Employment verticals.
-# 210 examples total:
+# Evaluation dataset — Misleading + Health + Financial + Housing/Employment +
+# Political/Social-Issues verticals.
+# 270 examples total:
 #   Misleading:           30 (10 non_compliant, 10 compliant, 10 borderline)
 #   Health:               60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Financial:            60 (20 non_compliant, 20 compliant, 20 borderline)
 #   Housing/Employment:   60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Political:            60 (20 non_compliant, 20 compliant, 20 borderline)
 # Labeled examples linked to clauses/categories. Compute precision/recall PER
 # category_id and PER canonical_id from these. Conforms to entities.example.
 # labeled_by: expert here = seed authoring; replace with reviewed labels as the
@@ -2400,3 +2402,711 @@ examples:
     labeled_by: expert
     split: dev
     note: "Radius >=1 km is allowed; borderline only if it functions as ZIP/demographic proxy."
+
+  # =========================================================================
+  # POLITICAL & SOCIAL ISSUES (60)
+  # NOTE: two regimes — Meta/Google ALLOW political ads with authorization +
+  # "Paid for by"; TikTok/LinkedIn BAN them. "compliant" below means a properly
+  # disclaimed/authorized political ad (lawful on Meta/Google/FEC) OR
+  # non-political civic/government content; such ads would still be rejected on
+  # TikTok/LinkedIn. "non_compliant" = missing disclaimer/authorization and/or
+  # banned outright. Evaluate per platform when scoring platform-specific models.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: pol_nc_001
+    content: "Vote for Jane Smith for U.S. Senate this November!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Express advocacy with no 'Paid for by' disclaimer; banned outright on TikTok/LinkedIn."
+
+  - id: pol_nc_002
+    content: "Defeat Proposition 12 — say NO on election day."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_003
+    content: "Donate now to the Smith for Congress campaign!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Political fundraising; LinkedIn/TikTok ban; FEC solicitation disclaimer missing."
+
+  - id: pol_nc_004
+    content: "Re-elect Mayor Johnson — paid political message."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "'Paid political message' is not a valid disclaimer — must name who paid."
+
+  - id: pol_nc_005
+    content: "[Ad by sitting Senator Davis promoting his policy agenda]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "TikTok bans ads by political figures entirely; Meta requires authorization+disclaimer."
+
+  - id: pol_nc_006
+    content: "Support the Patriot PAC — help us flip the Senate this fall."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_007
+    content: "Call your representative and tell them to vote NO on HB 200!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Legislative advocacy (issue ad); SIEP disclaimer needed on Meta; banned on TikTok/LinkedIn."
+
+  - id: pol_nc_008
+    content: "Join our campaign to defeat the incumbent governor."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_009
+    content: "Elect conservative judges this election — protect our values."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_010
+    content: "Our candidate will lower your taxes — vote Row A this November."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_011
+    content: "[Election ad with AI-generated video of a candidate saying something they never said, no synthetic-content disclosure]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - google.political.synthetic_content
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Undisclosed synthetic depiction of a real person — Google synthetic-content disclosure required."
+
+  - id: pol_nc_012
+    content: "Stop the radical agenda — chip in $25 to fight back today."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Issue-exploiting fundraising; LinkedIn 'sensitive political issue' ban applies."
+
+  - id: pol_nc_013
+    content: "[Paid TikTok ad promoting Party X for the upcoming election]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_014
+    content: "Vote YES on the school bond measure this November."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_015
+    content: "Sign the petition to recall Senator Brown — add your name now."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_016
+    content: "Our movement needs your vote — register and vote for change!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - meta.political.authorization_disclaimer
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "GOTV by a non-election-authority advertiser; TikTok limits this to official election bodies."
+
+  - id: pol_nc_017
+    content: "[Ad attacking the President's record on the economy, urging a vote against his party]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_018
+    content: "Elect Sarah Lee — together we win."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_019
+    content: "Political fundraiser dinner — contribute to the party tonight."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_020
+    content: "Vote to protect our rights this election. Paid for by 'A Concerned Citizen.'"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Disclaimer is incomplete — a non-authorized payer must give full name and permanent address."
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  # Properly authorized/disclaimed political ads (lawful on Meta/Google/FEC) or
+  # non-political civic/government content. (Still rejected on TikTok/LinkedIn.)
+  - id: pol_c_001
+    content: "Re-elect Jane Smith for Senate. Paid for by Smith for Senate, Inc., 123 Main St, Springfield, IL."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Complete authorized-committee 'Paid for by' disclaimer."
+
+  - id: pol_c_002
+    content: "Vote YES on Prop 12. Paid for by Yes on 12 Committee; not authorized by any candidate."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_c_003
+    content: "[Official county elections office ad]: Election Day is Nov 5. Find your polling place at vote.gov."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Official election-authority voter information — allowed even on TikTok."
+
+  - id: pol_c_004
+    content: "Support clean energy policy. Paid for by Clean Future PAC, 50 Oak Ave, Denver, CO."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_005
+    content: "Candidate town hall livestream this Thursday. Paid for by Friends of Davis."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_006
+    content: "[Secretary of State PSA]: Register to vote by Oct 20 at your County Board of Elections."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_007
+    content: "Donate to Smith for Congress. Paid for by Smith for Congress."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Fundraising with proper committee disclaimer — lawful on Meta/Google with authorization."
+
+  - id: pol_c_008
+    content: "Our candidate's plan for jobs. Paid for by Lee Victory Fund; authorized by Lee for Mayor."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_009
+    content: "Get out and vote this November! Paid for by the State Democratic Party."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_010
+    content: "Learn about the propositions on your ballot. Paid for by League of Voters Education Fund."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_011
+    content: "[State election commission]: How to request a mail-in ballot — step-by-step guide."
+    modality: video
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Official election-process information from an election authority."
+
+  - id: pol_c_012
+    content: "Paid for by Citizens for Better Schools — Vote Yes on Measure A."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_013
+    content: "City council meeting agenda for this week — open to the public."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Routine government information, not an electoral/issue ad."
+
+  - id: pol_c_014
+    content: "Re-elect Governor Johnson. Paid for by the Johnson for Governor Committee."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_015
+    content: "Veterans for Reform endorses Candidate X. Paid for by Veterans for Reform, 9 Elm St, Austin, TX."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_016
+    content: "[County clerk reminder]: Early voting begins Monday at all branch locations."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_017
+    content: "Support our ballot initiative. Paid for by Initiative 5 Campaign; not authorized by any candidate, 12 Pine Rd, Reno, NV."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_c_018
+    content: "Paid for by the Green Party of the United States. Join our movement."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_019
+    content: "Candidate meet-and-greet Saturday at the library. Paid for by Friends of Sarah Lee."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_020
+    content: "[State election commission]: Official voter guide available at sos.state.gov."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  # Social-issue / advocacy / brand-values content that may or may not be "about
+  # social issues, elections or politics" depending on intent, framing, and
+  # platform — and may be a "sensitive political issue" on LinkedIn.
+  - id: pol_b_001
+    content: "Climate change is real — support renewable energy for our future."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Social-issue ad; may need SIEP disclaimer on Meta; 'sensitive issue' risk on LinkedIn."
+
+  - id: pol_b_002
+    content: "Support our troops and the veterans who served."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_003
+    content: "Protect access to women's healthcare."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Sensitive political issue depending on framing/platform."
+
+  - id: pol_b_004
+    content: "Join the conversation about immigration reform."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_005
+    content: "Buy our 'Make America Read Again' literacy T-shirts."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Commercial merch with a political-style slogan; intent ambiguous."
+
+  - id: pol_b_006
+    content: "[Nonprofit ad raising awareness about gun safety in homes]"
+    modality: video
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_007
+    content: "Watch our documentary about the upcoming election."
+    modality: video
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "May qualify for a news/editorial context or may be an issue ad."
+
+  - id: pol_b_008
+    content: "Attend a rally for criminal justice reform this weekend."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_009
+    content: "Our company proudly supports marriage equality."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Brand-values statement on a sensitive issue; not candidate/election advocacy."
+
+  - id: pol_b_010
+    content: "Petition: tell Congress to fully fund public schools."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Legislative advocacy edge case; closer to non_compliant if calling for specific legislative action."
+
+  - id: pol_b_011
+    content: "Learn why voting matters in your community."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_012
+    content: "[Op-ed-style ad: the case for lower taxes]"
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_013
+    content: "Support local journalism — subscribe to our newsroom."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "News-publisher context may be exempt on Meta; depends on identification."
+
+  - id: pol_b_014
+    content: "Free webinar: understanding the new state labor law."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_015
+    content: "[Charity drive ad for refugee families]"
+    modality: video
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Charitable, but can touch immigration politics depending on copy."
+
+  - id: pol_b_016
+    content: "Awareness campaign: what to know about voter ID laws."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_017
+    content: "Help us protect the environment — volunteer this Earth Day."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_018
+    content: "Town hall on local housing policy this Wednesday evening."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_019
+    content: "Support free speech on campus."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_020
+    content: "Our brand stands against discrimination of any kind."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Corporate-values statement; generally allowed but can edge into social-issue territory."

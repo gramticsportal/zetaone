@@ -503,6 +503,49 @@ clauses:
       section: "Housing, Employment, and Credit (HEC) Ad Policy > Special Ad Category Toggle"
       retrieved_at: 2026-06-27
 
+  # ===================== Political & Social Issues =====================
+  - id: tiktok.political.prohibited
+    source_id: tiktok_ads_us
+    category_id: political
+    text: >
+      TikTok does not allow paid political advertising, including ads that
+      promote or oppose a candidate, current leader, political party or group, or
+      issue at the federal, state, or local level (including election-related,
+      advocacy, or issue ads). It also prohibits advertising of any kind by
+      political figures and entities, and bans paid political promotion across
+      all monetization features, including creators being compensated for branded
+      political content and tools such as Promote. Only official entities
+      responsible for overseeing elections may advertise about elections or
+      referendums.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-politics"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        We do not allow paid political advertising because the nature of
+        political ads is not something we believe fits the TikTok experience. In
+        addition to our paid political advertising policy, we prohibit
+        advertising of any kind by political figures and entities. ... Only
+        official entities responsible for overseeing elections are eligible to
+        advertise about elections or referendums. References to an upcoming or
+        current election or referenda, including appeals for votes, voter
+        registration, and promoting participation, are prohibited for all other
+        advertisers. ... We do not allow paid political advertising across any of
+        our monetization features, including paid ads, creators being compensated
+        for making branded political content, and the use of other promotional
+        tools on the platform, such as Promote.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-politics-government-and-elections
+      section: "Advertising Policies > Politics, Governments, and Elections"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: tiktok_absolute_terms
     canonical_id: misleading.guaranteed_outcomes
@@ -672,4 +715,20 @@ rules:
       characteristics.
     exceptions:
       - "HEC ads run via the Special Ad Category Toggle with allowed targeting."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: tiktok_political_prohibited
+    canonical_id: political.paid_political_ads_prohibited
+    clause_ids: [tiktok.political.prohibited]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 65
+    detection: >
+      Any paid political advertising — promoting/opposing candidates, parties, or
+      issues; ads by political figures/entities; election appeals — outside the
+      narrow official-election-authority exception.
+    exceptions:
+      - "Official entities overseeing elections (election-process information)."
     status: active

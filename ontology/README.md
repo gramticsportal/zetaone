@@ -11,14 +11,14 @@ mappings + a labeled evaluation dataset with measured precision/recall.
 |------|---------|
 | `schema.yaml` | **Canonical schema v0** — entities, fields, allowed values, graph |
 | `categories.yaml` | Universal advertising-risk categories (the foundation axis) |
-| `corpus/meta_ads_us.yaml` | Meta Ads (US) — Misleading + Health + Financial clauses + rules |
-| `corpus/google_ads_us.yaml` | Google Ads (US) — Misrepresentation + Healthcare/Medicines + Financial clauses + rules |
-| `corpus/tiktok_ads_us.yaml` | TikTok Ads (US) — Misleading & false content + Healthcare/Pharmaceuticals + Financial |
-| `corpus/linkedin_ads_us.yaml` | LinkedIn Ads (US) — Financial services clauses + rules |
-| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC (US) clauses + rules (Misleading + Health + Financial + Housing/Employment) |
+| `corpus/meta_ads_us.yaml` | Meta Ads (US) — Misleading + Health + Financial + Discrimination + Political clauses + rules |
+| `corpus/google_ads_us.yaml` | Google Ads (US) — Misrepresentation + Healthcare/Medicines + Financial + Discrimination + Political clauses + rules |
+| `corpus/tiktok_ads_us.yaml` | TikTok Ads (US) — Misleading & false content + Healthcare/Pharmaceuticals + Financial + Discrimination + Political |
+| `corpus/linkedin_ads_us.yaml` | LinkedIn Ads (US) — Financial + Discrimination + Political clauses + rules |
+| `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political) |
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
-| `examples/eval_seed.yaml` | Labeled evaluation dataset (210 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment) |
-| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.4) |
+| `examples/eval_seed.yaml` | Labeled evaluation dataset (270 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political) |
+| `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.5) |
 | `validate.py` | Validator: parse + referential integrity + evidence/applicability completeness |
 
 ## Entities
@@ -50,10 +50,10 @@ category ─< clause >── source
 
 ## Scope so far
 
-- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep)
-- **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC
+- **Categories:** `misleading` (deep), `health` (deep), `financial` (deep), `discrimination` (Housing/Employment, deep), `political` (deep)
+- **Sources:** Meta Ads, Google Ads, TikTok Ads, LinkedIn Ads, FTC, FDA, SEC, FINRA, CFPB, HUD, EEOC, FEC
 - **Jurisdiction:** US
-- **Current corpus version:** `Ad Corpus v0.4` (see `corpus_version.yaml`)
+- **Current corpus version:** `Ad Corpus v0.5` (see `corpus_version.yaml`)
 
 ### Misleading / Deceptive — canonical rules (vertical 1)
 
@@ -135,6 +135,28 @@ Advertising Policies (Discrimination) + LinkedIn Ads-and-discrimination, HUD Fai
 Housing Act (42 U.S.C. § 3604(c)), EEOC Prohibited Practices + ADEA (29 U.S.C.
 § 623(e)), FTC ECOA / Regulation B (12 CFR 1002.4(b)). Jurisdiction: US only.
 
+### Political & Social Issues — canonical rules (vertical 5, category `political`)
+
+| `canonical_id` | Sources mapped |
+|----------------|----------------|
+| `political.authorization_and_disclaimer_required` | Meta (authorization + "Paid for by"), Google (verification + "Paid for by" + silence periods), FEC (11 CFR 110.11) |
+| `political.paid_political_ads_prohibited` | TikTok, LinkedIn |
+| `political.synthetic_content_disclosure` | Google only (single-source — no `mapping` entry) |
+
+Two genuinely different regimes are kept **separate, not forced into one
+canonical**: Meta and Google **allow** political/issue ads provided the
+advertiser is authorized/verified and carries a clear "Paid for by" disclaimer
+(mapped with the FEC disclaimer regime, FEC at higher `priority` 95), whereas
+TikTok and LinkedIn **prohibit** paid political advertising outright. Google's
+synthetic/digitally-altered-content disclosure has no equivalent on another
+official source yet, so it stays single-source and unmapped — honest by design.
+
+Political sources: Meta Ads about Social Issues, Elections or Politics (SIEP),
+Google Political content (election-ads verification, "Paid for by", silence
+periods, synthetic-content disclosure), TikTok Politics, Governments, and
+Elections, LinkedIn Advertising Policies (Political), FEC 11 CFR 110.11 / 52
+U.S.C. 30120 (communications disclaimers). Jurisdiction: US only.
+
 > **TikTok US note:** TikTok's healthcare policy is per-market. In the *United
 > States*, prescription/OTC meds, pharmacies, fillers, and microdermabrasion
 > *may be allowed* with FDA / NABP / LegitScript certification and 18+ targeting
@@ -154,7 +176,8 @@ the eval dataset:
 - **Ad Corpus v0.1** — Misleading / Deceptive (frozen)
 - **Ad Corpus v0.2** — adds Health / Medical (frozen)
 - **Ad Corpus v0.3** — adds Financial services & investments (frozen)
-- **Ad Corpus v0.4** — adds Housing & Employment (frozen, current)
+- **Ad Corpus v0.4** — adds Housing & Employment (frozen)
+- **Ad Corpus v0.5** — adds Political & Social Issues (frozen, current)
 
 ## Build order
 
@@ -163,15 +186,16 @@ the eval dataset:
 3. ✅ Health / Medical vertical: Meta + Google + TikTok + FTC + FDA, mapped → **Ad Corpus v0.2** (60 eval examples).
 4. ✅ Financial vertical: Meta + Google + TikTok + LinkedIn + FTC + SEC + FINRA + CFPB, mapped → **Ad Corpus v0.3** (60 eval examples).
 5. ✅ Housing & Employment vertical: Meta + Google + TikTok + LinkedIn + HUD + EEOC + FTC, mapped → **Ad Corpus v0.4** (60 eval examples).
-6. Next domains: Political & Social Issues → Alcohol/Tobacco/Cannabis → Gambling & Gaming → Children/Minors → Privacy & Personal Data → IP/Counterfeit.
-7. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
-8. Add the `ontology/precedents/` layer (enforcement cases linking policy → canonical → precedent → verdict → evidence). Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
+6. ✅ Political & Social Issues vertical: Meta + Google + TikTok + LinkedIn + FEC, mapped → **Ad Corpus v0.5** (60 eval examples).
+7. Next domains (by business impact): Children / Minors → Privacy & Personal Data → Alcohol / Tobacco / Cannabis → Gambling & Gaming → Intellectual Property / Counterfeit.
+8. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
+9. Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
 
 > Clause text is sourced from official policy pages (Meta Transparency Center,
 > Google Ads Help, TikTok Business Help Center, LinkedIn Advertising Policies,
 > FTC.gov, FDA.gov, SEC.gov / 17 CFR 275.206(4)-1, FINRA Rule 2210, CFPB / 12 CFR
 > 1026.24, 21 CFR 202.1, HUD / 42 U.S.C. § 3604, EEOC / 29 U.S.C. § 623,
-> 12 CFR 1002.4). Some pages are JS-heavy and were captured via official-source
+> 12 CFR 1002.4, FEC / 11 CFR 110.11 / 52 U.S.C. 30120). Some pages are JS-heavy and were captured via official-source
 > search snippets; **verify verbatim text and effective dates against the cited
 > URLs before using metrics or decisions externally.** Run
 > `python ontology/validate.py` after any change.

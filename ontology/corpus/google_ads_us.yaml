@@ -737,6 +737,109 @@ clauses:
       section: "Restricted targeting in Personalized advertising > Categories with targeting restrictions"
       retrieved_at: 2026-06-27
 
+  # ===================== Political & Social Issues =====================
+  - id: google.political.compliance_verification
+    source_id: google_ads_us
+    category_id: political
+    text: >
+      Political ads and destinations must comply with legal requirements,
+      including campaign and election laws and mandated election "silence
+      periods" for any geographic areas they target. In regions where election
+      ads verification is required, election ads may run only if the advertiser
+      is verified by Google, and are subject to disclosure requirements and
+      targeting restrictions.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-political-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        We support responsible political advertising, and expect all political
+        ads and destinations to comply with legal requirements. This includes
+        campaign and election laws and mandated election "silence periods" for
+        any geographic areas they target. ... In some regions, election ads may
+        run only if the advertiser is verified by Google. In these regions,
+        election ads are subject to disclosure requirements and targeting
+        restrictions.
+      source_url: https://support.google.com/adspolicy/answer/6014595
+      section: "Political content > Overview"
+      retrieved_at: 2026-06-27
+
+  - id: google.political.paid_for_by
+    source_id: google_ads_us
+    category_id: political
+    text: >
+      All election ads run by verified election advertisers in regions where
+      election ads verification is required must contain a disclosure that
+      identifies who paid for the ad. For most ad formats Google automatically
+      generates a "Paid for by" disclosure; for some formats the advertiser is
+      responsible for including a "Paid for by" disclosure that is visible at all
+      times and legible to an average viewer.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-political-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        All election ads run by verified election advertisers in regions where
+        election ads verification is required must contain a disclosure that
+        identifies who paid for the ad. For most ad formats, Google will
+        automatically generate a "Paid for by" disclosure, using the information
+        provided during the verification process. ... For visual formats, the
+        disclosure must be visible at all times and be of a sufficient size to be
+        legible to an average viewer.
+      source_url: https://support.google.com/adspolicy/answer/6014595
+      section: "Political content > Disclosure requirements for election advertising"
+      retrieved_at: 2026-06-27
+
+  - id: google.political.synthetic_content
+    source_id: google_ads_us
+    category_id: political
+    text: >
+      Advertisers must disclose all election ads that contain synthetic or
+      digitally altered content — specifically images, video, or audio that
+      inauthentically depict real or realistic-looking people or events — by
+      selecting the "Altered or synthetic content" checkbox in their campaign
+      settings. Inconsequential edits (e.g. resizing, cropping, color correction)
+      are out of scope.
+    modalities: [image, video, audio]
+    jurisdiction: [US]
+    effective_date: 2024-07-01
+    version: "2024-synthetic-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        Google believes that users should have information to make informed
+        decisions when viewing election ads that contain synthetic or digitally
+        altered content, specifically images, video, or audio that inauthentically
+        depict real or realistic-looking people or events. ... Advertisers must
+        disclose all election ads that contain synthetic or digitally altered
+        content by selecting the checkbox in the "Altered or synthetic content"
+        section in their campaign settings.
+      source_url: https://support.google.com/adspolicy/answer/6014595
+      section: "Political content > Disclosure requirements for synthetic or digitally altered content"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: google_unreliable_claims
     canonical_id: misleading.exaggerated_results
@@ -962,4 +1065,34 @@ rules:
       demographics (age, gender, marital/parental status) or ZIP code.
     exceptions:
       - "Geographic targeting by radius (>=1 km), city, or country."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: google_political_authorization
+    canonical_id: political.authorization_and_disclaimer_required
+    clause_ids: [google.political.compliance_verification, google.political.paid_for_by]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 63
+    detection: >
+      Election ads run by unverified advertisers, missing a "Paid for by"
+      disclosure, or not complying with election laws / silence periods.
+    exceptions:
+      - "Verified election advertisers with a 'Paid for by' disclosure."
+    status: active
+
+  - id: google_political_synthetic
+    canonical_id: political.synthetic_content_disclosure
+    clause_ids: [google.political.synthetic_content]
+    category_id: political
+    severity: high
+    modalities: [image, video, audio]
+    priority: 60
+    detection: >
+      Election ads with synthetic/digitally altered images, video, or audio that
+      inauthentically depict real or realistic people/events, without the
+      required altered/synthetic-content disclosure.
+    exceptions:
+      - "Inconsequential edits (resizing, cropping, color correction)."
     status: active

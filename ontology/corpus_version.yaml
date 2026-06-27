@@ -3,7 +3,7 @@
 # reproducible and benchmarkable alongside the evaluation dataset. Bump the
 # version and add a release entry whenever a category is completed/changed.
 
-current_version: "Ad Corpus v0.4"
+current_version: "Ad Corpus v0.5"
 
 releases:
   - version: "Ad Corpus v0.1"
@@ -100,3 +100,29 @@ releases:
       (Meta, TikTok, LinkedIn, HUD, EEOC, FTC) and restricted protected-class
       targeting (Meta, Google, TikTok, LinkedIn). Every clause carries an
       `evidence` block + `last_reviewed_by: ai`; nothing invented.
+
+  - version: "Ad Corpus v0.5"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us]
+    canonical_rules_added:
+      - political.authorization_and_disclaimer_required
+      - political.paid_political_ads_prohibited
+      - political.synthetic_content_disclosure          # Google-only (single-source)
+    eval_examples: 270       # 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Political & Social Issues vertical (US only, category `political`).
+      Two distinct regimes are captured honestly rather than forced into one
+      canonical: Meta (authorization + verified "Paid for by" disclaimer) and
+      Google (election-ads verification + "Paid for by" disclosure + election-law
+      / silence-period compliance) ALLOW political ads with disclosure, mapped
+      with FEC (11 CFR 110.11 / 52 U.S.C. 30120 disclaimer regime) under
+      political.authorization_and_disclaimer_required; whereas TikTok (Politics,
+      Governments, and Elections) and LinkedIn (Political) BAN paid political
+      advertising outright, mapped under political.paid_political_ads_prohibited.
+      Google's synthetic/digitally-altered-content disclosure is a single-source
+      canonical with no `mapping` entry until a second official source matches.
+      New source fec_us. Every clause carries an `evidence` block (verbatim
+      quote, deep link, section, retrieved_at) + `last_reviewed_by: ai`.

@@ -496,6 +496,43 @@ clauses:
       section: "Unacceptable Content > Discriminatory Practices (Special Ad Category)"
       retrieved_at: 2026-06-27
 
+  # ===================== Political & Social Issues =====================
+  - id: meta.political.authorization_disclaimer
+    source_id: meta_ads_us
+    category_id: political
+    text: >
+      Advertisers can run ads about social issues, elections or politics only if
+      they complete the authorization process required by Meta and include a
+      verified "Paid for by" disclaimer showing the entity or person responsible
+      for the ad. If an ad does not include a disclaimer and Meta determines the
+      content is about social issues, elections or politics, it will be
+      disapproved. Authorized political ads are stored in the Ad Library for
+      seven years.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-siep"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        Advertisers can run ads about social issues, elections or politics,
+        provided the advertiser complies with all applicable laws and the
+        authorization process required by Meta. ... Advertisers must include a
+        verified "Paid for by" disclaimer on these ads to show the entity or
+        person responsible for running the ad across Meta technologies. ... If
+        ads do not include a disclaimer and we determine the ad content includes
+        content about social issues, elections or politics, it will be
+        disapproved during ad review.
+      source_url: https://transparency.meta.com/policies/ad-standards/SIEP-advertising/SIEP
+      section: "Ads about Social Issues, Elections or Politics"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: meta_misleading_deceptive_practices
@@ -668,4 +705,20 @@ rules:
       restricted audience options (age, gender, ZIP, exclusion, lookalike).
     exceptions:
       - "Ads run under Special Ad Category with approved targeting options."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: meta_political_authorization
+    canonical_id: political.authorization_and_disclaimer_required
+    clause_ids: [meta.political.authorization_disclaimer]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Social-issue/electoral/political ads run without Meta authorization or
+      without a verified "Paid for by" disclaimer.
+    exceptions:
+      - "Authorized advertisers with a verified 'Paid for by' disclaimer."
+      - "News publishers identified by Meta."
     status: active

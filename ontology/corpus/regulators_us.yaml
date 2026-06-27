@@ -70,6 +70,15 @@ sources:
     retrieved_at: 2026-06-27
     last_verified_at: 2026-06-27
 
+  - id: fec_us
+    type: regulator
+    name: US Federal Election Commission
+    jurisdiction: [US]
+    url: https://www.law.cornell.edu/cfr/text/11/110.11
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
 clauses:
   # ===================== FTC: Misleading backbone =====================
   - id: ftc.misleading.reasonable_basis
@@ -807,6 +816,51 @@ clauses:
       section: "ADEA § 4(e), 29 U.S.C. § 623(e) — Printing or publication of notice or advertisement"
       retrieved_at: 2026-06-27
 
+  # ===================== FEC: Political (disclaimers) =====================
+  - id: fec.political.disclaimer
+    source_id: fec_us
+    category_id: political
+    text: >
+      Public communications by a political committee, public communications by
+      any person that expressly advocate the election or defeat of a clearly
+      identified candidate or that solicit a contribution, and all
+      electioneering communications must include a disclaimer. The disclaimer
+      must be clear and conspicuous and identify who paid for (and, where
+      required, who authorized) the communication; a communication not authorized
+      by a candidate must state the full name and permanent street address,
+      telephone number, or website of the person who paid for it and that it is
+      not authorized by any candidate. Internet public communications placed or
+      promoted for a fee must include such a disclaimer.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2002-12-13
+    version: "11cfr110.11"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        (b) General content requirements. A disclaimer required by paragraph (a)
+        of this section must contain the following information: (1) If the
+        communication ... is paid for and authorized by a candidate ... the
+        disclaimer must clearly state that the communication has been paid for by
+        the authorized political committee; ... (3) If the communication ... is
+        not authorized by a candidate ... the disclaimer must clearly state the
+        full name and permanent street address, telephone number, or website
+        address of the person who paid for the communication, and that the
+        communication is not authorized by any candidate or candidate's
+        committee. (c)(1) ... A disclaimer ... must be presented in a clear and
+        conspicuous manner ... (c)(5)(ii) An internet public communication must
+        include a disclaimer that complies with the requirements of paragraphs
+        (b) and (c)(1) of this section.
+      source_url: https://www.law.cornell.edu/cfr/text/11/110.11
+      section: "11 CFR 110.11(a)-(c) — Communications; advertising; disclaimers (52 U.S.C. 30120)"
+      retrieved_at: 2026-06-27
+
 rules:
   # --- Misleading ---
   - id: ftc_unsubstantiated_objective_claims
@@ -1034,4 +1088,20 @@ rules:
       color, religion, national origin, sex, marital status, age), a reasonable
       person from applying.
     exceptions: []
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: fec_political_disclaimer
+    canonical_id: political.authorization_and_disclaimer_required
+    clause_ids: [fec.political.disclaimer]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 95
+    detection: >
+      Political/express-advocacy/solicitation/electioneering communications
+      (including paid internet ads) lacking a clear and conspicuous disclaimer
+      stating who paid for and, where required, authorized the communication.
+    exceptions:
+      - "Small items (bumper stickers, pins) where a disclaimer is impracticable (11 CFR 110.11(f))."
     status: active

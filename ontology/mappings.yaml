@@ -364,3 +364,44 @@ mappings:
       Google (no age/gender/marital/parental/ZIP targeting in US/Canada), TikTok
       (HEC Special Ad Category Toggle), LinkedIn (gender/age certification; age
       targeting disabled for recruitment). Same intent; mechanics differ.
+
+  # =========================================================================
+  # Political & Social Issues vertical canonical rules:
+  #   political.authorization_and_disclaimer_required (Meta, Google, FEC)
+  #   political.paid_political_ads_prohibited          (TikTok, LinkedIn)
+  #   political.synthetic_content_disclosure           (Google-only — no map yet)
+  # US jurisdiction only. NOTE: platforms split into two regimes — Meta/Google
+  # ALLOW political ads with authorization + "Paid for by"; TikTok/LinkedIn BAN
+  # them outright. These are deliberately kept as two separate canonicals (not
+  # forced into one) because the obligations are genuinely different. FEC is the
+  # higher-precedence regulatory backbone for the disclaimer regime.
+  # =========================================================================
+  - canonical_id: political.authorization_and_disclaimer_required
+    category_id: political
+    clause_ids:
+      - meta.political.authorization_disclaimer
+      - google.political.compliance_verification
+      - google.political.paid_for_by
+      - fec.political.disclaimer
+    relation: stricter
+    confidence: high
+    note: >
+      Political/election/issue ads require advertiser authorization or
+      verification and a clear "Paid for by" disclaimer identifying who paid:
+      Meta (authorization + verified "Paid for by"), Google (election-ads
+      verification + "Paid for by" disclosure + election-law/silence-period
+      compliance), FEC (11 CFR 110.11 disclaimer regime). FEC is the
+      higher-precedence regulatory backbone.
+
+  - canonical_id: political.paid_political_ads_prohibited
+    category_id: political
+    clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    relation: equivalent
+    confidence: high
+    note: >
+      Outright platform bans on paid political advertising: TikTok (no paid
+      political ads; no ads by political figures/entities; election info limited
+      to official election authorities) and LinkedIn (political ads prohibited,
+      including candidate/party/ballot/issue advocacy and fundraising).

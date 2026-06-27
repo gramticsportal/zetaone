@@ -193,6 +193,41 @@ clauses:
       section: "LinkedIn Ads and discrimination"
       retrieved_at: 2026-06-27
 
+  # ===================== Political & Social Issues =====================
+  - id: linkedin.political.prohibited
+    source_id: linkedin_ads_us
+    category_id: political
+    text: >
+      Political ads are prohibited, including ads advocating for or against a
+      particular candidate, party, ballot proposition, law, regulation, or
+      otherwise intended to influence an election outcome; ads fundraising for or
+      by political candidates, parties, political action committees or similar
+      organizations, or ballot propositions; and ads exploiting a sensitive
+      political issue even if the advertiser has no explicit political agenda.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2018-01-01
+    version: "linkedin-ads-policy-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        Political. Political ads are prohibited, including ads advocating for or
+        against a particular candidate, party, ballot proposition, law,
+        regulation, or otherwise intended to influence an election outcome; ads
+        fundraising for or by political candidates, parties, political action
+        committees or similar organizations, or ballot propositions; and ads
+        exploiting a sensitive political issue even if the advertiser has no
+        explicit political agenda.
+      source_url: https://www.linkedin.com/legal/ads-policy
+      section: "LinkedIn Advertising Policies > Political"
+      retrieved_at: 2026-06-27
+
 rules:
   - id: linkedin_finance_misleading
     canonical_id: finance.misleading_or_unbalanced_claims
@@ -277,4 +312,19 @@ rules:
       certification, or recruitment campaigns attempting age-group targeting.
     exceptions:
       - "Certified non-discriminatory targeting; age targeting disabled for recruitment."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: linkedin_political_prohibited
+    canonical_id: political.paid_political_ads_prohibited
+    clause_ids: [linkedin.political.prohibited]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Political ads advocating for/against candidates, parties, ballot
+      propositions, laws or regulations; political fundraising; or ads exploiting
+      a sensitive political issue.
+    exceptions: []
     status: active

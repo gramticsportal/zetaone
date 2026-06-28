@@ -1,0 +1,73 @@
+# State Attorney General enforcement precedents.
+
+precedents:
+  - precedent_id: prec.nyag.juul_youth_marketing_2023
+    source: "New York State Attorney General"
+    source_url: "https://ag.ny.gov/press-release/2023/attorney-general-james-secures-462-million-juul-its-role-youth-vaping-epidemic"
+    date: 2023-04-12
+    title: "NY AG multistate settlement — JUUL youth-targeted marketing"
+    summary: >
+      JUUL agreed to pay $462 million to six states and D.C., with New York
+      receiving $112.7 million, for deceptive youth-oriented marketing including
+      colorful ads and youth-appealing flavors.
+    why_this_matters: >
+      Largest multistate nicotine marketing settlement; models youth-appeal
+      restrictions in tobacco/nicotine ads.
+    retrieval_keywords: ['JUUL', 'youth vaping', 'nicotine marketing', 'New York AG', 'flavors', 'e-cigarette']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'minors', 'misleading']
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+      - meta.atc.tobacco
+    canonical_ids:
+      - atc.tobacco_advertising_format_restrictions
+      - minors.age_restricted_products_not_shown_to_minors
+    outcome: settlement
+    monetary_relief: "$462,000,000 (multistate); $112,700,000 (NY share)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In November 2019, Attorney General James sued JUUL for its deceptive and
+          misleading marketing that glamorized vaping with colorful ads featuring
+          young models using fruity, sweet, and minty flavors that appealed to
+          youth.
+        source_url: https://ag.ny.gov/press-release/2023/attorney-general-james-secures-462-million-juul-its-role-youth-vaping-epidemic
+        section: "NY AG Press Release, April 12, 2023"
+
+  - precedent_id: prec.nyag.draftkings_fanduel_2016
+    source: "New York State Attorney General"
+    source_url: "https://ag.ny.gov/press-release/2016/ag-schneiderman-announces-12-million-settlement-draftkings-and-fanduel"
+    date: 2016-10-25
+    title: "NY AG v. DraftKings and FanDuel — deceptive daily fantasy advertising"
+    summary: >
+      DraftKings and FanDuel each paid $6 million to settle NY AG allegations of
+      false advertising about odds of winning, deposit matches, and failure to
+      disclose that top 1% of players won most prizes.
+    why_this_matters: >
+      Landmark gambling-adjacent deception case on odds disclosure and responsible
+      gambling messaging.
+    retrieval_keywords: ['DraftKings', 'FanDuel', 'daily fantasy', 'gambling advertising', 'odds disclosure', 'New York AG']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling', 'misleading', 'financial']
+    violated_clause_ids:
+      - google.gambling.responsible
+      - ftc.misleading.reasonable_basis
+    canonical_ids:
+      - gambling.responsible_gambling_required
+      - misleading.missing_or_inconsistent_material_info
+    outcome: settlement
+    monetary_relief: "$12,000,000 ($6M each)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Each Company Agrees To Pay $6 Million For Repeated False Advertising
+          Violations In New York; Year-Long Investigation Found That Both Companies
+          Had Consistently Misled Consumers In Advertisements.
+        source_url: https://ag.ny.gov/press-release/2016/ag-schneiderman-announces-12-million-settlement-draftkings-and-fanduel
+        section: "NY AG Press Release, Oct 25, 2016"

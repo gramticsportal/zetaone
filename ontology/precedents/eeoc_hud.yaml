@@ -1,62 +1,70 @@
-# EEOC / DOJ employment & housing precedents (beyond Meta FHA settlement in precedents.yaml).
-
 precedents:
-  - precedent_id: prec.eeoc_meta_age_discrimination_2023
-    source: "U.S. Equal Employment Opportunity Commission"
-    source_url: https://www.eeoc.gov/newsroom/eeoc-meta-platforms-pay-22-million-settle-discrimination-charges
-    date: 2023-05-05
-    title: "EEOC v. Meta — age discrimination in job advertising (Settlement)"
-    summary: >
-      The EEOC resolved charges that Meta violated the Age Discrimination in
-      Employment Act by denying older workers job opportunities through its
-      employment advertising and recruitment practices. Meta agreed to pay
-      $22 million into a settlement fund for eligible class members.
-    category_ids: [discrimination]
-    violated_clause_ids:
-      - eeoc.employment.age_ad_adea
-      - meta.discrimination.no_discrimination
-    canonical_ids:
-      - discrimination.discriminatory_ad_content_prohibited
-    outcome: settlement
-    monetary_relief: "$22,000,000 settlement fund"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Meta will pay $22 million into a settlement fund that will be distributed
-          to eligible class members who were denied employment opportunities because
-          of their age.
-        source_url: https://www.eeoc.gov/newsroom/eeoc-meta-platforms-pay-22-million-settle-discrimination-charges
-        section: "EEOC Newsroom, May 5, 2023"
+- precedent_id: prec.eeoc_meta_age_discrimination_2023
+  source: U.S. Equal Employment Opportunity Commission
+  source_url: https://www.eeoc.gov/newsroom/eeoc-meta-platforms-pay-22-million-settle-discrimination-charges
+  date: 2023-05-05
+  title: EEOC v. Meta — age discrimination in job advertising (Settlement)
+  summary: 'The EEOC resolved charges that Meta violated the Age Discrimination in Employment Act by denying older workers job opportunities through its employment advertising and recruitment practices. Meta agreed to pay $22 million into a settlement fund for eligible class members.
 
-  - precedent_id: prec.hud.facebook_housing_charge_2019
-    source: "U.S. Department of Housing and Urban Development"
+    '
+  category_ids:
+  - discrimination
+  violated_clause_ids:
+  - eeoc.employment.age_ad_adea
+  - meta.discrimination.no_discrimination
+  canonical_ids:
+  - discrimination.discriminatory_ad_content_prohibited
+  outcome: settlement
+  monetary_relief: $22,000,000 settlement fund
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Meta will pay $22 million into a settlement fund that will be distributed to eligible class members who were denied employment opportunities because of their age.
+    source_url: https://www.eeoc.gov/newsroom/eeoc-meta-platforms-pay-22-million-settle-discrimination-charges
+    section: EEOC Newsroom, May 5, 2023
+  why_this_matters: Seed enforcement precedent linking corpus rules to the eeoc resolved charges that meta violated the age discrimination in employment act by denying older workers job opportunities through its employment advertising and recruitment practices.
+  retrieval_keywords:
+  - EEOC
+  - Meta
+  - age
+  - discrimination
+  - job
+  - advertising
+  - Settlement
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.hud.facebook_housing_charge_2019
+  source: U.S. Department of Housing and Urban Development
+  source_url: https://www.hud.gov/press/press_releases_media_advisories/HUD_No_19_035
+  date: 2019-03-28
+  title: HUD Charge of Discrimination — Meta housing ad delivery system
+  summary: 'HUD charged Facebook (Meta) with housing discrimination under the Fair Housing Act, alleging its ad platform enabled advertisers to exclude people from housing ads based on race, color, religion, sex, familial status, national origin, and disability — and that Facebook''s ad delivery system further discriminated by showing ads based on those characteristics.
+
+    '
+  category_ids:
+  - discrimination
+  violated_clause_ids:
+  - hud.housing.discriminatory_ad
+  - meta.discrimination.special_ad_category
+  canonical_ids:
+  - discrimination.discriminatory_ad_content_prohibited
+  - discrimination.restricted_targeting_protected_class
+  outcome: consent_order
+  monetary_relief: HUD Charge of Discrimination (precursor to DOJ 2022 settlement)
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: HUD charged Facebook with violating the Fair Housing Act by encouraging, enabling, and causing housing discrimination through the company's advertising platform.
     source_url: https://www.hud.gov/press/press_releases_media_advisories/HUD_No_19_035
-    date: 2019-03-28
-    title: "HUD Charge of Discrimination — Meta housing ad delivery system"
-    summary: >
-      HUD charged Facebook (Meta) with housing discrimination under the Fair
-      Housing Act, alleging its ad platform enabled advertisers to exclude people
-      from housing ads based on race, color, religion, sex, familial status,
-      national origin, and disability — and that Facebook's ad delivery system
-      further discriminated by showing ads based on those characteristics.
-    category_ids: [discrimination]
-    violated_clause_ids:
-      - hud.housing.discriminatory_ad
-      - meta.discrimination.special_ad_category
-    canonical_ids:
-      - discrimination.discriminatory_ad_content_prohibited
-      - discrimination.restricted_targeting_protected_class
-    outcome: consent_order
-    monetary_relief: "HUD Charge of Discrimination (precursor to DOJ 2022 settlement)"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          HUD charged Facebook with violating the Fair Housing Act by encouraging,
-          enabling, and causing housing discrimination through the company's
-          advertising platform.
-        source_url: https://www.hud.gov/press/press_releases_media_advisories/HUD_No_19_035
-        section: "HUD Press Release No. 19-035, March 28, 2019"
+    section: HUD Press Release No. 19-035, March 28, 2019
+  why_this_matters: HUD FHA charge on Facebook housing ad targeting (precursor to DOJ settlement).
+  retrieval_keywords:
+  - HUD
+  - Facebook
+  - Fair Housing Act
+  - housing ads
+  - targeting
+  confidence: verified
+  last_verified_at: '2026-06-27'

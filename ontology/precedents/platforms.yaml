@@ -1,0 +1,67 @@
+# Platform policy enforcement precedents (official transparency/policy pages).
+
+precedents:
+  - precedent_id: prec.meta.siep_disclaimer_enforcement_2024
+    source: "Meta Transparency Center"
+    source_url: "https://transparency.meta.com/sr/european-parliament-report-2024"
+    date: 2024-06-23
+    title: "Meta SIEP policy — mass removal of non-compliant political ads (EU 2024)"
+    summary: >
+      Meta reported removing over 130,000 social-issue/election/political ads in
+      the EU for SIEP policy non-compliance during the 2024 European Parliament
+      election period while labeling 400,000+ compliant ads.
+    why_this_matters: >
+      Documents platform-scale enforcement of paid-for-by and authorization
+      requirements on political ads.
+    retrieval_keywords: ['Meta', 'SIEP', 'political ads', 'Paid for by', 'Ad Library', 'EU elections', 'disclaimer']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - meta.political.authorization_disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: suspension
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          As a result of the above policies and measures, around the EP elections,
+          we labelled over 400,000 SIEP ads in the EU, and we removed over 130,000
+          SIEP ads in the EU for non-compliance with Meta's SIEP policy.
+        source_url: https://transparency.meta.com/sr/european-parliament-report-2024
+        section: "Meta EP Post-Elections Report 2024"
+
+  - precedent_id: prec.google.election_ads_disclosure_2024
+    source: "Google Ads Policy"
+    source_url: "https://support.google.com/adspolicy/answer/6014595?hl=en"
+    date: 2024-01-01
+    title: "Google election ads — mandatory Paid for by disclosure and verification"
+    summary: >
+      Google requires verified election advertisers in covered regions to include
+      a Paid for by disclosure, auto-generated for most formats, with advertiser
+      verification and transparency reporting.
+    why_this_matters: >
+      Primary platform rule cited when rejecting or verifying U.S. election and
+      issue ads lacking disclaimers.
+    retrieval_keywords: ['Google Ads', 'election ads', 'Paid for by', 'verification', 'political content', 'disclosure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - google.political.paid_for_by
+      - google.political.compliance_verification
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          All election ads run by verified election advertisers in regions where
+          election ads verification is required must contain a disclosure that
+          identifies who paid for the ad.
+        source_url: https://support.google.com/adspolicy/answer/6014595?hl=en
+        section: "Google Ads Policy — Political content"

@@ -1,0 +1,72 @@
+# DOJ enforcement precedents (non-HUD seed cases).
+
+precedents:
+  - precedent_id: prec.doj.counterfeit_phones_amazon_2023
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/usao-id/pr/five-family-members-sentenced-prison-and-ordered-forfeit-combined-519-million-dollars"
+    date: 2023-03-23
+    title: "DOJ — counterfeit Apple/Samsung phones sold on Amazon and eBay"
+    summary: >
+      Five family members were sentenced and ordered to forfeit over $51.9 million
+      for wire fraud and trafficking counterfeit phones misrepresented as new
+      genuine products on Amazon.com and eBay.com.
+    why_this_matters: >
+      Criminal enforcement against counterfeit goods sold via major ecommerce
+      ad/marketplace channels.
+    retrieval_keywords: ['counterfeit', 'Amazon', 'eBay', 'Apple', 'Samsung', 'trademark', 'wire fraud']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$51,900,000+ forfeiture"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          They sold counterfeit cellphones and cellphone accessories on Amazon.com
+          and eBay.com that the defendants misrepresented as new and genuine Apple
+          and Samsung products.
+        source_url: https://www.justice.gov/usao-id/pr/five-family-members-sentenced-prison-and-ordered-forfeit-combined-519-million-dollars
+        section: "DOJ USAO Idaho, March 2023"
+
+  - precedent_id: prec.doj_hud.trident_redlining_2022
+    source: "U.S. Department of Justice / Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_fall-2022-semi-annual-report_2023-06.pdf"
+    date: 2022-09-14
+    title: "DOJ/CFPB v. Trident Mortgage — discriminatory lending marketing (redlining)"
+    summary: >
+      Trident Mortgage agreed to a consent order requiring $18.4 million in a loan
+      subsidy fund and a $4 million penalty for redlining and discouraging
+      applications in majority-minority Philadelphia neighborhoods.
+    why_this_matters: >
+      Fair lending marketing precedent for discriminatory outreach and housing
+      credit advertising.
+    retrieval_keywords: ['Trident Mortgage', 'redlining', 'ECOA', 'FHA', 'discriminatory marketing', 'Philadelphia']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['discrimination', 'financial']
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+      - ftc.credit.ecoa_discouragement
+    canonical_ids:
+      - discrimination.discriminatory_ad_content_prohibited
+      - discrimination.restricted_targeting_protected_class
+    outcome: consent_order
+    monetary_relief: "$4,000,000 penalty; $18,400,000 loan subsidy fund"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The CFPB's and DOJ's joint complaint alleged that Trident engaged in
+          unlawful discrimination on the basis of race, color, or national origin
+          against applicants and prospective applicants, including by redlining
+          majority minority neighborhoods.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_fall-2022-semi-annual-report_2023-06.pdf
+        section: "CFPB Semi-Annual Report, Fall 2022"

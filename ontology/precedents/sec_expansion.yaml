@@ -1,0 +1,168 @@
+# SEC enforcement precedents — Phase 1 expansion.
+
+precedents:
+  - precedent_id: prec.sec.paul_pierce_crypto_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/newsroom/press-releases/2023-34"
+    date: 2023-02-17
+    title: "SEC v. Paul Pierce — undisclosed crypto touting and misleading tweets"
+    summary: >
+      Paul Pierce settled SEC charges for promoting EMAX tokens without disclosing
+      $244,000+ in compensation and for misleading tweets about his holdings,
+      paying $1.409 million total.
+    why_this_matters: >
+      High-profile influencer/crypto ad disclosure case under securities anti-
+      touting rules.
+    retrieval_keywords: ['Paul Pierce', 'crypto', 'EMAX', 'influencer', 'undisclosed payment', 'touting', 'Twitter']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.testimonials
+      - sec.finance.untrue_or_unbalanced
+    canonical_ids:
+      - finance.testimonials_endorsements_disclosure
+      - finance.misleading_or_unbalanced_claims
+    outcome: settlement
+    monetary_relief: "$1,409,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The SEC's order finds that Pierce failed to disclose that he was paid more
+          than $244,000 worth of EMAX tokens to promote the tokens on Twitter.
+        source_url: https://www.sec.gov/newsroom/press-releases/2023-34
+        section: "SEC Press Release 2023-34"
+
+  - precedent_id: prec.sec.lindsay_lohan_crypto_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/files/litigation/admin/2023/33-11173.pdf"
+    date: 2023-03-22
+    title: "SEC v. Lindsay Lohan — undisclosed TRX crypto promotion"
+    summary: >
+      Lindsay Lohan settled SEC charges for promoting Tronix (TRX) on Twitter
+      without disclosing $10,000 compensation from the issuer.
+    why_this_matters: >
+      Celebrity paid-promotion disclosure template for crypto and fintech social
+      ads.
+    retrieval_keywords: ['Lindsay Lohan', 'TRX', 'Tron', 'crypto touting', 'Section 17(b)', 'influencer disclosure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.testimonials_endorsements_disclosure
+    outcome: settlement
+    monetary_relief: "$40,670 (disgorgement, interest, penalty)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Lohan did not disclose that she was being paid to give publicity to such
+          security by the entity offering and selling it to the public.
+        source_url: https://www.sec.gov/files/litigation/admin/2023/33-11173.pdf
+        section: "SEC Admin Proceeding 33-11173"
+
+  - precedent_id: prec.sec.jake_paul_crypto_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/files/litigation/admin/2023/33-11171.pdf"
+    date: 2023-03-22
+    title: "SEC v. Jake Paul — undisclosed TRX crypto promotion"
+    summary: >
+      Jake Paul settled SEC charges for touting TRX on Twitter without disclosing
+      approximately $25,019 in crypto compensation from Tron.
+    why_this_matters: >
+      Demonstrates SEC enforcement against social-media promoters paid in tokens
+      rather than cash.
+    retrieval_keywords: ['Jake Paul', 'TRX', 'crypto influencer', 'paid promotion', 'undisclosed compensation']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.testimonials_endorsements_disclosure
+    outcome: settlement
+    monetary_relief: "$103,000 (approx. disgorgement, interest, penalty)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Paul did not disclose that he was being paid to give publicity to such
+          security by the entity offering and selling it to the public.
+        source_url: https://www.sec.gov/files/litigation/admin/2023/33-11171.pdf
+        section: "SEC Admin Proceeding 33-11171"
+
+  - precedent_id: prec.sec.justin_sun_celebrity_touting_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/newsroom/press-releases/2023-59"
+    date: 2023-03-22
+    title: "SEC v. Justin Sun et al. — paid celebrity crypto touting scheme"
+    summary: >
+      The SEC charged Justin Sun and companies with fraud and unregistered TRX/BTT
+      offerings, alleging an orchestrated scheme to pay celebrities to tout tokens
+      without disclosure; eight celebrities settled related charges.
+    why_this_matters: >
+      Landmark case connecting issuer marketing programs to influencer ad
+      disclosure failures at scale.
+    retrieval_keywords: ['Justin Sun', 'TRX', 'BTT', 'celebrity crypto ads', 'paid touting', 'wash trading']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.testimonials
+      - sec.finance.untrue_or_unbalanced
+    canonical_ids:
+      - finance.testimonials_endorsements_disclosure
+      - finance.crypto_restricted
+    outcome: court_order
+    monetary_relief: ">$400,000 (celebrity settlements aggregate)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The SEC also charged Sun and his companies with fraudulently manipulating
+          the secondary market for TRX through extensive wash trading, and for
+          orchestrating a scheme to pay celebrities to tout TRX and BTT without
+          disclosing their compensation.
+        source_url: https://www.sec.gov/newsroom/press-releases/2023-59
+        section: "SEC Press Release 2023-59"
+
+  - precedent_id: prec.sec.austin_mahone_touting_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25803"
+    date: 2023-08-04
+    title: "SEC v. Austin Mahone — illegal crypto touting settlement"
+    summary: >
+      The SEC obtained a consent judgment against Austin Mahone for illegally
+      touting TRX and BTT without disclosing compensation, including a three-year
+      bar on paid crypto touting.
+    why_this_matters: >
+      Shows post-settlement conduct restrictions applied to celebrity crypto
+      promoters.
+    retrieval_keywords: ['Austin Mahone', 'crypto touting', 'TRX', 'BTT', 'celebrity endorsement', 'disclosure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.testimonials_endorsements_disclosure
+    outcome: settlement
+    monetary_relief: "$45,724 (disgorgement, interest, penalty)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The SEC obtained a final judgment resolving the SEC's action against
+          defendant Austin Mahone, who the SEC previously charged with illegally
+          touting crypto asset securities Tronix (TRX) and BitTorrent (BTT) without
+          disclosing his compensation.
+        source_url: https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25803
+        section: "SEC Litigation Release 25803"

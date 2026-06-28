@@ -26,6 +26,7 @@ PRECEDENT_OUTCOME = {
     "no_action", "guidance",
 }
 PRECEDENT_STATUS = {"final", "proposed", "on_appeal", "rescinded", "vacated"}
+PRECEDENT_CONFIDENCE = {"verified", "unverified"}
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -197,9 +198,26 @@ def main() -> int:
                 seen_prec.add(pid)
 
                 # required descriptive fields
-                for key in ("source", "source_url", "date", "title", "summary", "outcome"):
+                for key in (
+                    "source",
+                    "source_url",
+                    "date",
+                    "title",
+                    "summary",
+                    "outcome",
+                    "why_this_matters",
+                    "confidence",
+                    "last_verified_at",
+                ):
                     if not p.get(key):
                         err(f"{name}: precedent {pid} missing {key}")
+
+                kws = p.get("retrieval_keywords") or []
+                if not kws:
+                    err(f"{name}: precedent {pid} missing retrieval_keywords")
+                conf = p.get("confidence")
+                if conf not in PRECEDENT_CONFIDENCE:
+                    err(f"{name}: precedent {pid} bad confidence {conf!r}")
 
                 out = p.get("outcome")
                 if out is not None and out not in PRECEDENT_OUTCOME:

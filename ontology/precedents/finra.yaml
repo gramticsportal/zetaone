@@ -1,0 +1,37 @@
+# FINRA enforcement precedents.
+
+precedents:
+  - precedent_id: prec.finra.m1_finance_influencers_2024
+    source: "Financial Industry Regulatory Authority (FINRA)"
+    source_url: "https://www.finra.org/media-center/newsreleases/2024/finra-fines-m1-finance-850000-violations-regarding-use-social-media"
+    date: 2024-06-12
+    title: "FINRA v. M1 Finance — unsupervised social media influencer posts"
+    summary: >
+      FINRA fined M1 Finance $850,000 for influencer posts that were not fair or
+      balanced and lacked principal approval and books-and-records compliance.
+    why_this_matters: >
+      First formal FINRA discipline for firm supervision of paid social-media
+      influencer financial promotions.
+    retrieval_keywords: ['M1 Finance', 'FINRA', 'influencer marketing', 'social media', 'Rule 2210', 'fair and balanced']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - finra.finance.fair_balanced
+      - finra.finance.no_performance_projection
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.testimonials_endorsements_disclosure
+    outcome: fine
+    monetary_relief: "$850,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          M1 Finance influencers made social media posts promoting the firm that
+          were not fair and balanced, in violation of FINRA Rules 2210
+          (Communications with the Public) and 2010 (Standards of Commercial Honor
+          and Principles of Trade).
+        source_url: https://www.finra.org/media-center/newsreleases/2024/finra-fines-m1-finance-850000-violations-regarding-use-social-media
+        section: "FINRA News Release, June 2024"

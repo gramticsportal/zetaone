@@ -1,0 +1,70 @@
+# FEC political advertising precedents.
+
+precedents:
+  - precedent_id: prec.fec.vitter_disclaimer_2009
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/fec-completes-action-in-12-enforcement-cases-civil-penalties-in-two-matters-total-30000/"
+    date: 2009-03-05
+    title: "FEC MUR 5587R — David Vitter committee inadequate phone-bank disclaimers"
+    summary: >
+      The David Vitter for U.S. Senate committee paid a $25,000 civil penalty for
+      phone-bank calls that failed to clearly state the committee paid for the
+      communication.
+    why_this_matters: >
+      Canonical paid-for-by disclaimer enforcement for telemarketing-style
+      political outreach.
+    retrieval_keywords: ['FEC', 'disclaimer', 'phone bank', 'David Vitter', 'paid for by', 'MUR 5587']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: civil_penalty
+    monetary_relief: "$25,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The David Vitter for U.S. Senate committee agreed to pay a $25,000 civil
+          penalty for failing to include adequate disclaimers on telephone bank
+          calls placed before the 2004 general election.
+        source_url: https://www.fec.gov/updates/fec-completes-action-in-12-enforcement-cases-civil-penalties-in-two-matters-total-30000/
+        section: "FEC Update, MUR 5587R"
+
+  - precedent_id: prec.fec.google_text_ad_disclaimers_2010
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/ao-2010-19-disclaimers-on-internet-text-ads/"
+    date: 2010-08-05
+    title: "FEC AO 2010-19 — Google text ads and political disclaimers"
+    summary: >
+      The FEC concluded Google's proposed AdWords text ads for political
+      committees, with full disclaimers on landing pages rather than in the ad
+      unit, did not violate the Act under the described circumstances.
+    why_this_matters: >
+      Foundational platform-policy precedent for short-form political ad
+      disclaimer placement online.
+    retrieval_keywords: ['FEC', 'Google AdWords', 'text ads', 'disclaimer', 'landing page', 'AO 2010-19']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - google.political.paid_for_by
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Candidates, their authorized committees and other political committees
+          need not display disclaimers on text ads they sponsor that are generated
+          through Google, Inc.'s AdWords program. The full disclaimer would instead
+          appear on a 'landing page' that appears when a user clicks through a text
+          ad.
+        source_url: https://www.fec.gov/updates/ao-2010-19-disclaimers-on-internet-text-ads/
+        section: "FEC Advisory Opinion 2010-19"

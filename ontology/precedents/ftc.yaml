@@ -1,288 +1,333 @@
-# FTC enforcement precedents — official press releases / orders only.
-# Linked to corpus clause_ids + canonical_ids. See precedents/README.md.
-
 precedents:
-  - precedent_id: prec.ftc.lumosity_brain_training_2016
-    source: "U.S. Federal Trade Commission"
+- precedent_id: prec.ftc.lumosity_brain_training_2016
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2016/01/lumosity-pay-2-million-settle-ftc-deceptive-advertising-charges
+  date: 2016-01-05
+  title: FTC v. Lumos Labs (Lumosity) — deceptive brain-training claims
+  summary: 'The FTC charged Lumos Labs with deceiving consumers with unfounded claims that Lumosity games could help users perform better at work and school and reduce cognitive impairment. Lumosity agreed to pay $2 million and to stop making deceptive brain-performance claims without competent and reliable scientific evidence.
+
+    '
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  - ftc.misleading.reasonable_basis
+  canonical_ids:
+  - health.unsubstantiated_health_claims
+  - misleading.unsubstantiated_objective_claims
+  outcome: settlement
+  monetary_relief: $2,000,000
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Lumosity preyed on consumers' fears about age-related cognitive decline, suggesting their games could stave off memory loss, dementia, and even Alzheimer's disease. But Lumosity simply did not have the science to back up its ads.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2016/01/lumosity-pay-2-million-settle-ftc-deceptive-advertising-charges
-    date: 2016-01-05
-    title: "FTC v. Lumos Labs (Lumosity) — deceptive brain-training claims"
-    summary: >
-      The FTC charged Lumos Labs with deceiving consumers with unfounded claims
-      that Lumosity games could help users perform better at work and school and
-      reduce cognitive impairment. Lumosity agreed to pay $2 million and to stop
-      making deceptive brain-performance claims without competent and reliable
-      scientific evidence.
-    category_ids: [health, misleading]
-    violated_clause_ids:
-      - ftc.health.truthful_substantiated
-      - ftc.misleading.reasonable_basis
-    canonical_ids:
-      - health.unsubstantiated_health_claims
-      - misleading.unsubstantiated_objective_claims
-    outcome: settlement
-    monetary_relief: "$2,000,000"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Lumosity preyed on consumers' fears about age-related cognitive decline,
-          suggesting their games could stave off memory loss, dementia, and even
-          Alzheimer's disease. But Lumosity simply did not have the science to back
-          up its ads.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2016/01/lumosity-pay-2-million-settle-ftc-deceptive-advertising-charges
-        section: "FTC Press Release, Jan 5, 2016"
+    section: FTC Press Release, Jan 5, 2016
+  why_this_matters: Landmark brain-training health-claim case requiring competent scientific evidence.
+  retrieval_keywords:
+  - Lumosity
+  - brain training
+  - health claims
+  - cognitive
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.volkswagen_clean_diesel_2016
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2016/03/volkswagen-agree-pay-more-14-billion-settle-ftc-allegations-it-deceived
+  date: 2016-03-29
+  title: FTC v. Volkswagen — 'clean diesel' deceptive environmental claims
+  summary: 'The FTC alleged Volkswagen deceived consumers with ads promoting "clean" diesel vehicles equipped with illegal defeat devices that masked high emissions. VW agreed to provide more than $14 billion in restitution and buyback/lease-termination relief under the settlement framework announced with federal and state authorities.
 
-  - precedent_id: prec.ftc.volkswagen_clean_diesel_2016
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  canonical_ids:
+  - misleading.unsubstantiated_objective_claims
+  outcome: settlement
+  monetary_relief: '>$14,000,000,000 consumer redress framework (multi-agency)'
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: For years Volkswagen's ads touted the company's 'Clean Diesel' cars even though it now appears Volkswagen engineered the cars with defeat devices that purposely masked the cars' high emissions during government tests.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2016/03/volkswagen-agree-pay-more-14-billion-settle-ftc-allegations-it-deceived
-    date: 2016-03-29
-    title: "FTC v. Volkswagen — 'clean diesel' deceptive environmental claims"
-    summary: >
-      The FTC alleged Volkswagen deceived consumers with ads promoting "clean"
-      diesel vehicles equipped with illegal defeat devices that masked high
-      emissions. VW agreed to provide more than $14 billion in restitution and
-      buyback/lease-termination relief under the settlement framework announced
-      with federal and state authorities.
-    category_ids: [misleading]
-    violated_clause_ids:
-      - ftc.misleading.reasonable_basis
-      - ftc.misleading.express_implied
-    canonical_ids:
-      - misleading.unsubstantiated_objective_claims
-    outcome: settlement
-    monetary_relief: ">$14,000,000,000 consumer redress framework (multi-agency)"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          For years Volkswagen's ads touted the company's 'Clean Diesel' cars even
-          though it now appears Volkswagen engineered the cars with defeat devices
-          that purposely masked the cars' high emissions during government tests.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2016/03/volkswagen-agree-pay-more-14-billion-settle-ftc-allegations-it-deceived
-        section: "FTC Press Release, March 29, 2016"
+    section: FTC Press Release, March 29, 2016
+  why_this_matters: Massive environmental deception precedent for objective product performance claims.
+  retrieval_keywords:
+  - Volkswagen
+  - clean diesel
+  - deceptive advertising
+  - emissions
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.credit_karma_preapproved_2023
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2023/09/ftc-takes-action-against-credit-karma-tricking-consumers-allegedly-pre-approved-credit-offers
+  date: 2023-09-01
+  title: FTC v. Credit Karma — deceptive 'pre-approved' credit offers
+  summary: 'The FTC charged Credit Karma with deploying dark patterns to falsely tell consumers they were "pre-approved" for credit cards when they were not, wasting time and harming credit scores with unnecessary hard inquiries. Credit Karma agreed to pay $3 million to the FTC.
 
-  - precedent_id: prec.ftc.credit_karma_preapproved_2023
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  canonical_ids:
+  - finance.misleading_or_unbalanced_claims
+  - misleading.unsubstantiated_objective_claims
+  outcome: settlement
+  monetary_relief: $3,000,000
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Credit Karma knew that its 'pre-approved' offers were false or had a high likelihood of being false, but continued to use them anyway.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2023/09/ftc-takes-action-against-credit-karma-tricking-consumers-allegedly-pre-approved-credit-offers
-    date: 2023-09-01
-    title: "FTC v. Credit Karma — deceptive 'pre-approved' credit offers"
-    summary: >
-      The FTC charged Credit Karma with deploying dark patterns to falsely tell
-      consumers they were "pre-approved" for credit cards when they were not,
-      wasting time and harming credit scores with unnecessary hard inquiries.
-      Credit Karma agreed to pay $3 million to the FTC.
-    category_ids: [financial, misleading]
-    violated_clause_ids:
-      - ftc.misleading.reasonable_basis
-    canonical_ids:
-      - finance.misleading_or_unbalanced_claims
-      - misleading.unsubstantiated_objective_claims
-    outcome: settlement
-    monetary_relief: "$3,000,000"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Credit Karma knew that its 'pre-approved' offers were false or had a
-          high likelihood of being false, but continued to use them anyway.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/09/ftc-takes-action-against-credit-karma-tricking-consumers-allegedly-pre-approved-credit-offers
-        section: "FTC Press Release, Sept 1, 2023"
+    section: FTC Press Release, Sept 1, 2023
+  why_this_matters: Dark-pattern finance ad case on false 'pre-approved' credit offers.
+  retrieval_keywords:
+  - Credit Karma
+  - pre-approved
+  - dark patterns
+  - credit cards
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.walmart_made_in_usa_2022
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2022/06/ftc-takes-action-against-walmart-and-sam-club-deceiving-shoppers-over-made-usa-claims
+  date: 2022-06-28
+  title: FTC v. Walmart — deceptive Made in USA claims
+  summary: 'The FTC charged Walmart with misleading consumers by marketing certain products as "Made in USA" when they were wholly imported or contained negligible U.S. content. Walmart agreed to pay $3 million and to stop making unqualified U.S.-origin claims without substantiation.
 
-  - precedent_id: prec.ftc.walmart_made_in_usa_2022
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  canonical_ids:
+  - misleading.unsubstantiated_objective_claims
+  outcome: settlement
+  monetary_relief: $3,000,000
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Walmart violated the FTC Act by falsely marketing dozens of products as Made in USA when they were wholly imported or contained only negligible U.S. content.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2022/06/ftc-takes-action-against-walmart-and-sam-club-deceiving-shoppers-over-made-usa-claims
-    date: 2022-06-28
-    title: "FTC v. Walmart — deceptive Made in USA claims"
-    summary: >
-      The FTC charged Walmart with misleading consumers by marketing certain
-      products as "Made in USA" when they were wholly imported or contained
-      negligible U.S. content. Walmart agreed to pay $3 million and to stop
-      making unqualified U.S.-origin claims without substantiation.
-    category_ids: [misleading]
-    violated_clause_ids:
-      - ftc.misleading.reasonable_basis
-    canonical_ids:
-      - misleading.unsubstantiated_objective_claims
-    outcome: settlement
-    monetary_relief: "$3,000,000"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Walmart violated the FTC Act by falsely marketing dozens of products as
-          Made in USA when they were wholly imported or contained only negligible
-          U.S. content.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2022/06/ftc-takes-action-against-walmart-and-sam-club-deceiving-shoppers-over-made-usa-claims
-        section: "FTC Press Release, June 28, 2022"
+    section: FTC Press Release, June 28, 2022
+  why_this_matters: Made in USA origin-claim enforcement applicable to product marketing ads.
+  retrieval_keywords:
+  - Walmart
+  - Made in USA
+  - origin claims
+  - deceptive advertising
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.devry_education_claims_2016
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2016/12/devry-university-pay-100-million-settle-ftc-charges
+  date: 2016-12-15
+  title: FTC v. DeVry University — deceptive graduate employment claims
+  summary: 'The FTC charged DeVry with misrepresenting the likelihood that graduates would find jobs in their field and earn more than graduates of other colleges. DeVry agreed to a $100 million settlement including $49.4 million in consumer refunds.
 
-  - precedent_id: prec.ftc.devry_education_claims_2016
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - misleading
+  - financial
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  canonical_ids:
+  - misleading.exaggerated_results
+  - misleading.unsubstantiated_objective_claims
+  outcome: settlement
+  monetary_relief: $100,000,000 ($49.4M refunds)
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: DeVry misled prospective students with ads that touted the likelihood that its graduates would find jobs in their field and would earn more than graduates of other colleges or universities.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2016/12/devry-university-pay-100-million-settle-ftc-charges
-    date: 2016-12-15
-    title: "FTC v. DeVry University — deceptive graduate employment claims"
-    summary: >
-      The FTC charged DeVry with misrepresenting the likelihood that graduates
-      would find jobs in their field and earn more than graduates of other
-      colleges. DeVry agreed to a $100 million settlement including $49.4 million
-      in consumer refunds.
-    category_ids: [misleading, financial]
-    violated_clause_ids:
-      - ftc.misleading.reasonable_basis
-      - ftc.misleading.express_implied
-    canonical_ids:
-      - misleading.exaggerated_results
-      - misleading.unsubstantiated_objective_claims
-    outcome: settlement
-    monetary_relief: "$100,000,000 ($49.4M refunds)"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          DeVry misled prospective students with ads that touted the likelihood
-          that its graduates would find jobs in their field and would earn more
-          than graduates of other colleges or universities.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2016/12/devry-university-pay-100-million-settle-ftc-charges
-        section: "FTC Press Release, Dec 15, 2016"
+    section: FTC Press Release, Dec 15, 2016
+  why_this_matters: Education earnings-outcome advertising case for employment statistics in ads.
+  retrieval_keywords:
+  - DeVry
+  - education
+  - earnings claims
+  - employment outcomes
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.reebok_easetone_2011
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2011/09/reebok-settles-ftc-charges-advertising-toning-shoes-can-make-you-fitter
+  date: 2011-09-28
+  title: FTC v. Reebok — unsubstantiated EasyTone toning-shoe claims
+  summary: 'The FTC charged Reebok with making unsupported claims that walking in EasyTone shoes would strengthen and tone leg and buttock muscles more than ordinary shoes. Reebok agreed to pay $25 million in consumer refunds.
 
-  - precedent_id: prec.ftc.reebok_easetone_2011
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  canonical_ids:
+  - health.unsubstantiated_health_claims
+  outcome: settlement
+  monetary_relief: $25,000,000 consumer refunds
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Reebok made unsupported claims in advertisements that walking in its EasyTone shoes and running in its RunTone running shoes strengthen and tone key leg and buttock muscles more than regular shoes.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2011/09/reebok-settles-ftc-charges-advertising-toning-shoes-can-make-you-fitter
-    date: 2011-09-28
-    title: "FTC v. Reebok — unsubstantiated EasyTone toning-shoe claims"
-    summary: >
-      The FTC charged Reebok with making unsupported claims that walking in
-      EasyTone shoes would strengthen and tone leg and buttock muscles more than
-      ordinary shoes. Reebok agreed to pay $25 million in consumer refunds.
-    category_ids: [health, misleading]
-    violated_clause_ids:
-      - ftc.health.truthful_substantiated
-    canonical_ids:
-      - health.unsubstantiated_health_claims
-    outcome: settlement
-    monetary_relief: "$25,000,000 consumer refunds"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Reebok made unsupported claims in advertisements that walking in its
-          EasyTone shoes and running in its RunTone running shoes strengthen and
-          tone key leg and buttock muscles more than regular shoes.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2011/09/reebok-settles-ftc-charges-advertising-toning-shoes-can-make-you-fitter
-        section: "FTC Press Release, Sept 28, 2011"
+    section: FTC Press Release, Sept 28, 2011
+  why_this_matters: Classic toning-shoe unsubstantiated performance claim precedent.
+  retrieval_keywords:
+  - Reebok
+  - EasyTone
+  - performance claims
+  - substantiation
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.skechers_shapeups_2012
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2012/05/skechers-agrees-settle-ftcs-charges-it-deceived-consumers-unsubstantiated
+  date: 2012-05-16
+  title: FTC v. Skechers — deceptive Shape-ups toning-shoe claims
+  summary: 'The FTC charged Skechers with making unfounded claims that Shape-ups would help people lose weight, tone muscles, and combat heart disease. Skechers agreed to pay $40 million in consumer refunds.
 
-  - precedent_id: prec.ftc.skechers_shapeups_2012
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  canonical_ids:
+  - health.unsubstantiated_health_claims
+  outcome: settlement
+  monetary_relief: $40,000,000 consumer refunds
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Skechers put its foot in its mouth by making unfounded claims that its Shape-ups would help people lose weight, and strengthen and tone their buttocks, legs, and abdominal muscles.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2012/05/skechers-agrees-settle-ftcs-charges-it-deceived-consumers-unsubstantiated
-    date: 2012-05-16
-    title: "FTC v. Skechers — deceptive Shape-ups toning-shoe claims"
-    summary: >
-      The FTC charged Skechers with making unfounded claims that Shape-ups would
-      help people lose weight, tone muscles, and combat heart disease. Skechers
-      agreed to pay $40 million in consumer refunds.
-    category_ids: [health, misleading]
-    violated_clause_ids:
-      - ftc.health.truthful_substantiated
-    canonical_ids:
-      - health.unsubstantiated_health_claims
-    outcome: settlement
-    monetary_relief: "$40,000,000 consumer refunds"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Skechers put its foot in its mouth by making unfounded claims that its
-          Shape-ups would help people lose weight, and strengthen and tone their
-          buttocks, legs, and abdominal muscles.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2012/05/skechers-agrees-settle-ftcs-charges-it-deceived-consumers-unsubstantiated
-        section: "FTC Press Release, May 16, 2012"
+    section: FTC Press Release, May 16, 2012
+  why_this_matters: Companion toning-footwear case reinforcing exercise benefit substantiation.
+  retrieval_keywords:
+  - Skechers
+  - Shape-ups
+  - performance claims
+  - FTC
+  - footwear
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.omics_deceptive_publishing_2019
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2019/04/ftc-charges-academic-journal-publisher-omics-group-deceived-researchers
+  date: 2019-04-02
+  title: FTC v. OMICS Group — deceptive academic publishing marketing
+  summary: 'The FTC charged OMICS Group with deceiving researchers about the nature of its conferences and publications, hiding publication fees until after accepting articles, and falsely claiming peer review. A federal court ordered OMICS to pay more than $50.1 million.
 
-  - precedent_id: prec.ftc.omics_deceptive_publishing_2019
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.express_implied
+  canonical_ids:
+  - misleading.missing_or_inconsistent_material_info
+  outcome: court_order
+  monetary_relief: $50,100,000+ (court judgment)
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: OMICS made false claims about the nature of its conferences and publications, hid steep publication fees until after it accepted articles, and falsely claimed that its journals provided rigorous peer review.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2019/04/ftc-charges-academic-journal-publisher-omics-group-deceived-researchers
-    date: 2019-04-02
-    title: "FTC v. OMICS Group — deceptive academic publishing marketing"
-    summary: >
-      The FTC charged OMICS Group with deceiving researchers about the nature of
-      its conferences and publications, hiding publication fees until after
-      accepting articles, and falsely claiming peer review. A federal court ordered
-      OMICS to pay more than $50.1 million.
-    category_ids: [misleading]
-    violated_clause_ids:
-      - ftc.misleading.express_implied
-    canonical_ids:
-      - misleading.missing_or_inconsistent_material_info
-    outcome: court_order
-    monetary_relief: "$50,100,000+ (court judgment)"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          OMICS made false claims about the nature of its conferences and
-          publications, hid steep publication fees until after it accepted articles,
-          and falsely claimed that its journals provided rigorous peer review.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2019/04/ftc-charges-academic-journal-publisher-omics-group-deceived-researchers
-        section: "FTC Press Release, April 2, 2019"
+    section: FTC Press Release, April 2, 2019
+  why_this_matters: Deceptive academic/publishing claims case relevant to B2B and health-adjacent marketing.
+  retrieval_keywords:
+  - OMICS
+  - deceptive publishing
+  - conferences
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.flo_health_data_sharing_2021
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2021/01/developer-popular-womens-fertility-app-settles-ftc-allegations-it-misled
+  date: 2021-01-13
+  title: FTC v. Flo Health — misled users about sharing sensitive health data
+  summary: 'The FTC charged Flo Health with sharing users'' sensitive fertility and health data with third parties including Facebook and Google after promising the information would be kept private. Flo agreed to notify affected users and obtain independent audits of its privacy practices.
 
-  - precedent_id: prec.ftc.flo_health_data_sharing_2021
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - privacy
+  - health
+  violated_clause_ids:
+  - tiktok.privacy.data_collection_disclosure
+  canonical_ids:
+  - privacy.data_collection_disclosure_required
+  outcome: settlement
+  monetary_relief: Injunctive relief + third-party privacy audits (no civil penalty)
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Flo Health shared the sensitive health data of users with third parties after promising such information would be kept private.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2021/01/developer-popular-womens-fertility-app-settles-ftc-allegations-it-misled
-    date: 2021-01-13
-    title: "FTC v. Flo Health — misled users about sharing sensitive health data"
-    summary: >
-      The FTC charged Flo Health with sharing users' sensitive fertility and health
-      data with third parties including Facebook and Google after promising the
-      information would be kept private. Flo agreed to notify affected users and
-      obtain independent audits of its privacy practices.
-    category_ids: [privacy, health]
-    violated_clause_ids:
-      - tiktok.privacy.data_collection_disclosure
-    canonical_ids:
-      - privacy.data_collection_disclosure_required
-    outcome: settlement
-    monetary_relief: "Injunctive relief + third-party privacy audits (no civil penalty)"
-    status: final
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Flo Health shared the sensitive health data of users with third parties
-          after promising such information would be kept private.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2021/01/developer-popular-womens-fertility-app-settles-ftc-allegations-it-misled
-        section: "FTC Press Release, Jan 13, 2021"
+    section: FTC Press Release, Jan 13, 2021
+  why_this_matters: Health-app data sharing case linking fertility data to ad-tech disclosures.
+  retrieval_keywords:
+  - Flo
+  - health app
+  - data sharing
+  - privacy
+  - period tracker
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.ftc.amazon_prime_dark_patterns_2023
+  source: U.S. Federal Trade Commission
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-takes-action-against-amazon-deceiving-millions-consumers-enrolling-amazon
+  date: 2023-06-21
+  title: FTC v. Amazon — Prime enrollment dark patterns (June 2023 action)
+  summary: 'The FTC sued Amazon alleging it used manipulative "dark pattern" designs to enroll consumers into Amazon Prime without consent and made it difficult to cancel. (Separate from review-manipulation cases; maps to misleading material-information omission in subscription marketing.)
 
-  - precedent_id: prec.ftc.amazon_prime_dark_patterns_2023
-    source: "U.S. Federal Trade Commission"
+    '
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.express_implied
+  canonical_ids:
+  - misleading.missing_or_inconsistent_material_info
+  outcome: court_order
+  monetary_relief: Pending litigation (FTC complaint filed 2023)
+  status: on_appeal
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Amazon tricked and trapped people into recurring subscriptions without their consent, complicated the cancellation process, and used dark patterns to thwart consumers trying to cancel.
     source_url: https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-takes-action-against-amazon-deceiving-millions-consumers-enrolling-amazon
-    date: 2023-06-21
-    title: "FTC v. Amazon — Prime enrollment dark patterns (June 2023 action)"
-    summary: >
-      The FTC sued Amazon alleging it used manipulative "dark pattern" designs to
-      enroll consumers into Amazon Prime without consent and made it difficult to
-      cancel. (Separate from review-manipulation cases; maps to misleading
-      material-information omission in subscription marketing.)
-    category_ids: [misleading]
-    violated_clause_ids:
-      - ftc.misleading.express_implied
-    canonical_ids:
-      - misleading.missing_or_inconsistent_material_info
-    outcome: court_order
-    monetary_relief: "Pending litigation (FTC complaint filed 2023)"
-    status: on_appeal
-    jurisdiction: US
-    retrieved_at: 2026-06-27
-    evidence:
-      - quote: >-
-          Amazon tricked and trapped people into recurring subscriptions without
-          their consent, complicated the cancellation process, and used dark
-          patterns to thwart consumers trying to cancel.
-        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-takes-action-against-amazon-deceiving-millions-consumers-enrolling-amazon
-        section: "FTC Press Release, June 21, 2023"
+    section: FTC Press Release, June 21, 2023
+  why_this_matters: Dark-pattern subscription enrollment case with broad ecommerce ad UX implications.
+  retrieval_keywords:
+  - Amazon Prime
+  - dark patterns
+  - subscription
+  - enrollment
+  - FTC
+  confidence: verified
+  last_verified_at: '2026-06-27'

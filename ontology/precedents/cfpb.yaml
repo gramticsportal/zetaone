@@ -1,0 +1,106 @@
+# CFPB enforcement precedents.
+
+precedents:
+  - precedent_id: prec.cfpb.navy_federal_overdraft_2024
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-orders-navy-federal-credit-union-to-pay-more-than-95-million-for-illegal-surprise-overdraft-fees/"
+    date: 2024-11-07
+    title: "CFPB v. Navy Federal — surprise overdraft fee practices"
+    summary: >
+      The CFPB ordered Navy Federal to pay more than $95 million for unfair
+      overdraft fees on authorized-positive transactions and delayed posting of
+      person-to-person credits.
+    why_this_matters: >
+      Major 'junk fee' precedent for misleading financial product terms in
+      marketing and servicing.
+    retrieval_keywords: ['Navy Federal', 'overdraft fees', 'surprise fees', 'CFPB', 'unfair practices', 'banking']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+    outcome: consent_order
+    monetary_relief: ">$95,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Respondent committed unfair acts and practices when it collected overdraft
+          fees from consumers on transactions that had a sufficient balance at the
+          time Respondent authorized the transaction but then later settled with an
+          insufficient balance.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_navy-federal-credit-union-consent-order_2024-11.pdf
+        section: "CFPB Consent Order 2024-CFPB-0014"
+
+  - precedent_id: prec.cfpb.edfinancial_pslf_2022
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-sanctions-edfinancial-for-lying-about-student-loan-cancellation/"
+    date: 2022-03-30
+    title: "CFPB v. Edfinancial — deceptive student loan forgiveness guidance"
+    summary: >
+      Edfinancial paid a $1 million penalty for deceptive statements to FFELP
+      borrowers about Public Service Loan Forgiveness eligibility and
+      consolidation options.
+    why_this_matters: >
+      Servicer misrepresentation precedent applicable to education-finance
+      advertising and customer communications.
+    retrieval_keywords: ['Edfinancial', 'PSLF', 'student loans', 'loan forgiveness', 'deceptive statements', 'FFELP']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$1,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          When FFELP borrowers asked about forgiveness options available to them,
+          Edfinancial representatives often described forgiveness options available
+          only for FFELP loans and failed to mention PSLF.
+        source_url: https://www.consumerfinance.gov/about-us/newsroom/cfpb-sanctions-edfinancial-for-lying-about-student-loan-cancellation/
+        section: "CFPB Press Release, March 30, 2022"
+
+  - precedent_id: prec.cfpb.rmk_mortgage_ads_2023
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_spring-semi-annual-report_2023-11.pdf"
+    date: 2023-02-27
+    title: "CFPB v. RMK Financial — repeat deceptive mortgage advertisements"
+    summary: >
+      The CFPB permanently banned RMK Financial from mortgage lending after
+      finding it sent millions of deceptive mortgage ads violating a 2015 consent
+      order, including false VA/FHA affiliation implications.
+    why_this_matters: >
+      Repeat-offender mortgage ad case illustrating Reg N / TILA trigger-term and
+      affiliation deception.
+    retrieval_keywords: ['RMK Financial', 'mortgage ads', 'VA FHA', 'deceptive advertising', 'Reg N', 'Majestic Home Loans']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading', 'discrimination']
+    violated_clause_ids:
+      - cfpb.finance.mortgage_prohibited_acts
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.mortgage_advertising_prohibited_acts
+      - misleading.false_affiliation_or_endorsement
+    outcome: consent_order
+    monetary_relief: "$1,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The CFPB found that, after the 2015 Consent Order went into effect, RMK
+          disseminated millions of mortgage advertisements that violated the CFPB's
+          findings in the 2015 Order and expressly prohibited by the 2015 Order.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_spring-semi-annual-report_2023-11.pdf
+        section: "CFPB Semi-Annual Report, Spring 2023"

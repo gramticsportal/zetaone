@@ -1,0 +1,69 @@
+# FDA tobacco/ENDS enforcement — Phase 1 expansion.
+
+precedents:
+  - precedent_id: prec.fda.puff_bar_warning_2020
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/cool-clouds-distribution-inc-dba-puff-bar-608526-07202020"
+    date: 2020-07-20
+    title: "FDA warning — Puff Bar unauthorized ENDS marketing"
+    summary: >
+      FDA warned Cool Clouds Distribution (Puff Bar) that flavored disposable ENDS
+      products on puffbar.com were new tobacco products sold without required
+      marketing authorization.
+    why_this_matters: >
+      Early FDA enforcement anchor for youth-appealing disposable nicotine
+      products promoted online.
+    retrieval_keywords: ['Puff Bar', 'FDA warning letter', 'ENDS', 'youth vaping', 'unauthorized tobacco', 'flavors']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'minors']
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+    canonical_ids:
+      - atc.tobacco_advertising_format_restrictions
+      - atc.tobacco_and_nicotine_ads_prohibited
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          These products do not have FDA marketing authorization orders in effect
+          under section 910(c)(1)(A)(i) of the FD&C Act and are not otherwise exempt
+          from the marketing authorization requirement.
+        source_url: https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/cool-clouds-distribution-inc-dba-puff-bar-608526-07202020
+        section: "FDA Warning Letter 608526"
+
+  - precedent_id: prec.fda.puff_bar_retailer_blitz_2022
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/news-events/press-announcements/fda-conducts-retailer-inspection-blitz-cracks-down-illegal-sales-popular-disposable-e-cigarettes"
+    date: 2022-10-12
+    title: "FDA retailer blitz — illegal Puff/Hyde disposable e-cigarette sales"
+    summary: >
+      FDA issued warning letters to 30 retailers and one distributor for illegally
+      selling unauthorized Puff and Hyde disposable e-cigarettes, among the most
+      popular brands with youth in 2022 NYTS data.
+    why_this_matters: >
+      Supply-chain enforcement tying youth-popular brands to illegal retail
+      promotion channels.
+    retrieval_keywords: ['Puff Bar', 'Hyde', 'FDA retailer blitz', 'youth e-cigarettes', 'disposable vapes', 'warning letters']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'minors']
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+      - tiktok.atc.tobacco
+    canonical_ids:
+      - atc.tobacco_and_nicotine_ads_prohibited
+      - minors.age_restricted_products_not_shown_to_minors
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The unauthorized products were various types of Puff and Hyde brand
+          disposable e-cigarettes, which were two of the most commonly reported
+          brands used by youth e-cigarette users in 2022.
+        source_url: https://www.fda.gov/news-events/press-announcements/fda-conducts-retailer-inspection-blitz-cracks-down-illegal-sales-popular-disposable-e-cigarettes
+        section: "FDA Press Announcement, Oct 12, 2022"

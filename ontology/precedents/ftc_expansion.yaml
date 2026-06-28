@@ -1,0 +1,495 @@
+# FTC enforcement precedents — Phase 1 expansion (official sources only).
+
+precedents:
+  - precedent_id: prec.ftc.facebook_privacy_2019
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2019/07/ftc-imposes-5-billion-penalty-sweeping-new-privacy-restrictions-facebook"
+    date: 2019-07-24
+    title: "FTC v. Facebook — record $5B privacy penalty and conduct relief"
+    summary: >
+      Facebook agreed to pay a record $5 billion civil penalty and accept sweeping
+      privacy restrictions after the FTC found it deceived users about control
+      over personal information in violation of a 2012 order.
+    why_this_matters: >
+      Landmark privacy enforcement setting the penalty baseline for targeted-ad
+      and data-sharing violations at platform scale.
+    retrieval_keywords: ['Facebook', 'Meta', 'privacy', '5 billion', 'COPPA-adjacent data', 'targeted advertising', 'consent order']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['privacy', 'misleading']
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    canonical_ids:
+      - privacy.opt_out_of_sale_or_sharing_for_targeted_ads
+    outcome: civil_penalty
+    monetary_relief: "$5,000,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Despite repeated promises to its billions of users worldwide that they
+          could control how their personal information is shared, Facebook
+          undermined consumers' choices.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2019/07/ftc-imposes-5-billion-penalty-sweeping-new-privacy-restrictions-facebook
+        section: "FTC Press Release, July 24, 2019"
+
+  - precedent_id: prec.ftc.goodrx_health_data_2023
+    source: "U.S. Federal Trade Commission / U.S. Department of Justice"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-enforcement-action-bar-goodrx-sharing-consumers-sensitive-health-info-advertising"
+    date: 2023-02-01
+    title: "FTC/DOJ v. GoodRx — health data shared with ad platforms"
+    summary: >
+      GoodRx agreed to pay $1.5 million and is permanently barred from sharing
+      user health data with third parties for advertising after the FTC alleged it
+      deceptively promised privacy while sharing prescription and condition data
+      with Facebook, Google, and others.
+    why_this_matters: >
+      First FTC Health Breach Notification Rule case; models health-adjacent
+      retargeting and sensitive-attribute misuse in ads.
+    retrieval_keywords: ['GoodRx', 'health data', 'Facebook ads', 'Google ads', 'prescription', 'retargeting', 'HIPAA-adjacent']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['health', 'privacy', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - ftc.health.material_safety_disclosure
+    canonical_ids:
+      - health.health_privacy_sensitive_attributes
+      - privacy.sensitive_attribute_targeting_prohibited
+    outcome: civil_penalty
+    monetary_relief: "$1,500,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          GoodRx repeatedly violated this promise by sharing sensitive personal
+          health information—including its users' prescription medications and
+          personal health conditions—with third party advertising companies and
+          advertising platforms like Facebook, Google, and Criteo.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-enforcement-action-bar-goodrx-sharing-consumers-sensitive-health-info-advertising
+        section: "FTC Press Release, Feb 1, 2023"
+
+  - precedent_id: prec.ftc.microsoft_xbox_coppa_2023
+    source: "U.S. Federal Trade Commission / U.S. Department of Justice"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-will-require-microsoft-pay-20-million-over-charges-it-illegally-collected-personal-information"
+    date: 2023-06-05
+    title: "FTC/DOJ v. Microsoft (Xbox) — COPPA children's data collection"
+    summary: >
+      Microsoft agreed to pay $20 million to settle FTC charges that Xbox
+      collected and retained children's personal information without parental
+      notice or consent, violating COPPA.
+    why_this_matters: >
+      Clarifies COPPA coverage of gaming avatars/biometrics and third-party
+      publisher data sharing in youth-facing products.
+    retrieval_keywords: ['Microsoft', 'Xbox', 'COPPA', 'children', 'gaming', 'parental consent', 'avatars']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['minors', 'privacy']
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    canonical_ids:
+      - minors.parental_consent_for_childrens_data
+    outcome: civil_penalty
+    monetary_relief: "$20,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Microsoft will pay $20 million to settle Federal Trade Commission charges
+          that it violated the Children's Online Privacy Protection Act (COPPA) by
+          collecting personal information from children who signed up to its Xbox
+          gaming system without notifying their parents or obtaining their parents'
+          consent.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-will-require-microsoft-pay-20-million-over-charges-it-illegally-collected-personal-information
+        section: "FTC Press Release, June 5, 2023"
+
+  - precedent_id: prec.ftc.chegg_data_security_2023
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2023/01/ftc-finalizes-order-ed-tech-provider-chegg-lax-security-exposed-student-data"
+    date: 2023-01-26
+    title: "FTC v. Chegg — student data breaches and retention failures"
+    summary: >
+      The FTC finalized an order against Chegg for lax security that exposed
+      sensitive data of about 40 million users and employees across four breaches,
+      requiring data minimization and user deletion rights.
+    why_this_matters: >
+      Ed-tech precedent for data minimization and deletion obligations relevant to
+      ad-tech data pipelines targeting students.
+    retrieval_keywords: ['Chegg', 'student data', 'data breach', 'edtech', 'privacy', 'scholarship data', 'retention']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['privacy', 'minors']
+    violated_clause_ids:
+      - tiktok.privacy.data_collection_disclosure
+    canonical_ids:
+      - privacy.data_collection_disclosure_required
+    outcome: consent_order
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Chegg failed to protect the personal information it collected from users
+          and employees. For example, the company stored users' personal data on its
+          cloud storage databases in plain text and, until at least 2018, employed
+          outdated and weak encryption to protect user passwords.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/01/ftc-finalizes-order-ed-tech-provider-chegg-lax-security-exposed-student-data
+        section: "FTC Press Release, Jan 26, 2023"
+
+  - precedent_id: prec.ftc.intuit_turbotax_free_2022
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/system/files/ftc_gov/pdf/intuit_initial_decision_public_redacted_1.pdf"
+    date: 2022-05-04
+    title: "FTC v. Intuit — deceptive TurboTax 'free' filing campaign"
+    summary: >
+      The FTC found Intuit deceptively marketed TurboTax as free for all consumers
+      when only some filers qualified, following a parallel $141 million
+      multistate settlement restricting 'Free, Free, Free' ads.
+    why_this_matters: >
+      Canonical 'free' offer deception case for financial and lead-gen ads with
+      hidden eligibility gates.
+    retrieval_keywords: ['Intuit', 'TurboTax', 'free filing', 'deceptive advertising', 'dark patterns', 'tax prep']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - cfpb.finance.actually_available_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - misleading.unsubstantiated_objective_claims
+    outcome: consent_order
+    monetary_relief: "$141,000,000 (multistate consumer redress, parallel)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Complaint alleges that Respondent repeatedly claimed through various
+          advertising channels that consumers could file their taxes for free using
+          TurboTax, when in fact, TurboTax is free for only some consumers, based on
+          the tax filing forms used.
+        source_url: https://www.ftc.gov/system/files/ftc_gov/pdf/intuit_initial_decision_public_redacted_1.pdf
+        section: "FTC Initial Decision, D09408 (public redacted)"
+
+  - precedent_id: prec.ftc.herbalife_mlm_2016
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2016/07/herbalife-will-restructure-its-multi-level-marketing-operations-pay-200-million-consumer-redress"
+    date: 2016-07-15
+    title: "FTC v. Herbalife — deceptive earnings claims in MLM marketing"
+    summary: >
+      Herbalife agreed to pay $200 million and restructure its U.S. business after
+      the FTC charged it deceived distributors with unfounded income promises and
+      an unfair compensation structure rewarding recruitment over retail sales.
+    why_this_matters: >
+      Major earnings-claim and income-opportunity advertising precedent for
+      finance and influencer marketing.
+    retrieval_keywords: ['Herbalife', 'MLM', 'earnings claims', 'income opportunity', 'deceptive advertising', '200 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - ftc.finance.earnings_claims
+      - ftc.misleading.reasonable_basis
+    canonical_ids:
+      - finance.performance_claims_substantiation
+      - misleading.unsubstantiated_objective_claims
+    outcome: settlement
+    monetary_relief: "$200,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The settlement also prohibits Herbalife from misrepresenting distributors'
+          potential or likely earnings. The order specifically prohibits Herbalife
+          from claiming that members can 'quit their job' or otherwise enjoy a
+          lavish lifestyle.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2016/07/herbalife-will-restructure-its-multi-level-marketing-operations-pay-200-million-consumer-redress
+        section: "FTC Press Release, July 15, 2016"
+
+  - precedent_id: prec.ftc.weight_watchers_kurbo_coppa_2022
+    source: "U.S. Federal Trade Commission / U.S. Department of Justice"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2022/03/ftc-takes-action-against-company-formerly-known-weight-watchers-illegally-collecting-kids-sensitive"
+    date: 2022-03-04
+    title: "FTC/DOJ v. WW/Kurbo — COPPA violations in kids' weight-loss app"
+    summary: >
+      WW International and Kurbo agreed to pay $1.5 million, delete illegally
+      collected children's data, and destroy algorithms trained on that data after
+      marketing a weight-loss app to children as young as eight without parental
+      consent.
+    why_this_matters: >
+      Links minors' health apps, body-image marketing, and COPPA consent
+      failures—highly relevant to youth-targeted wellness ads.
+    retrieval_keywords: ['Weight Watchers', 'Kurbo', 'COPPA', 'children', 'weight loss app', 'health data', 'minors']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['minors', 'health', 'privacy']
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    canonical_ids:
+      - minors.parental_consent_for_childrens_data
+      - health.negative_self_perception_body_image
+    outcome: civil_penalty
+    monetary_relief: "$1,500,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          WW International, Inc., formerly known as Weight Watchers, and a
+          subsidiary called Kurbo, Inc., marketed a weight loss app for use by
+          children as young as eight and then collected their personal information
+          without parental permission.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2022/03/ftc-takes-action-against-company-formerly-known-weight-watchers-illegally-collecting-kids-sensitive
+        section: "FTC Press Release, March 4, 2022"
+
+  - precedent_id: prec.ftc.att_unlimited_data_2019
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2019/11/att-pay-60-million-resolve-ftc-allegations-it-misled-consumers-unlimited-data-promises"
+    date: 2019-11-05
+    title: "FTC v. AT&T — deceptive 'unlimited' data advertising"
+    summary: >
+      AT&T agreed to pay $60 million to settle FTC allegations it charged millions
+      of customers for unlimited data plans while secretly throttling speeds after
+      modest usage thresholds.
+    why_this_matters: >
+      Classic material-omission case for telecom and subscription ads promising
+      unlimited service.
+    retrieval_keywords: ['AT&T', 'unlimited data', 'throttling', 'deceptive advertising', 'material omission', 'wireless']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - ftc.misleading.express_implied
+      - ftc.misleading.reasonable_basis
+    canonical_ids:
+      - misleading.missing_or_inconsistent_material_info
+      - misleading.unsubstantiated_objective_claims
+    outcome: settlement
+    monetary_relief: "$60,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          AT&T Mobility, LLC, will pay $60 million to settle litigation with the
+          Federal Trade Commission over allegations that the wireless provider
+          misled millions of its smartphone customers by charging them for
+          'unlimited' data plans while reducing their data speeds.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2019/11/att-pay-60-million-resolve-ftc-allegations-it-misled-consumers-unlimited-data-promises
+        section: "FTC Press Release, Nov 5, 2019"
+
+  - precedent_id: prec.ftc.mediaalpha_insurance_leads_2025
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2025/08/assurance-iq-mediaalpha-pay-total-145-million-settle-ftc-charges-they-misled-consumers-seeking"
+    date: 2025-08-07
+    title: "FTC v. MediaAlpha — deceptive health-insurance lead generation"
+    summary: >
+      MediaAlpha agreed to a $45 million judgment for operating misleading lead-
+      gen sites like ObamacarePlans.com that implied government affiliation and
+      sold consumer data to telemarketers pushing non-ACA plans.
+    why_this_matters: >
+      Major lead-gen and impersonation precedent for insurance and financial
+      comparison ads.
+    retrieval_keywords: ['MediaAlpha', 'ObamacarePlans', 'health insurance leads', 'lead generation', 'government impersonation', 'robocalls']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'health', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - ftc.misleading.express_implied
+    canonical_ids:
+      - misleading.false_affiliation_or_endorsement
+      - finance.misleading_or_unbalanced_claims
+    outcome: settlement
+    monetary_relief: "$45,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          MediaAlpha has attracted consumers to their healthcare-related lead
+          generation websites using misleading domains such as 'ObamacarePlans.com'
+          that imply they are associated with the government and claim that
+          consumers will be able to buy low-cost, comprehensive health insurance
+          that complies with the ACA.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2025/08/assurance-iq-mediaalpha-pay-total-145-million-settle-ftc-charges-they-misled-consumers-seeking
+        section: "FTC Press Release, Aug 7, 2025"
+
+  - precedent_id: prec.ftc.assurance_iq_insurance_2025
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/system/files/ftc_gov/pdf/Assurance-Complaint.pdf"
+    date: 2025-08-07
+    title: "FTC v. Assurance IQ — misrepresented ACA-compliant health coverage"
+    summary: >
+      Assurance IQ faced a $100 million judgment in a parallel FTC action for
+      misleading consumers into buying short-term and limited-benefit plans while
+      representing them as comprehensive ACA-compliant insurance.
+    why_this_matters: >
+      Pairs with MediaAlpha to show full-funnel deception from lead ads through
+      telemarketing close.
+    retrieval_keywords: ['Assurance IQ', 'STM plans', 'ACA compliance', 'health insurance advertising', 'telemarketing', 'limited benefit']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'health', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - ftc.health.disease_implication
+    canonical_ids:
+      - health.unsubstantiated_health_claims
+      - misleading.unsubstantiated_objective_claims
+    outcome: settlement
+    monetary_relief: "$100,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The above representations are deceptive because: (a) many of the STM and
+          LBI plans sold by Assurance were not ACA-compliant, comprehensive health
+          insurance or the equivalent of such health insurance.
+        source_url: https://www.ftc.gov/system/files/ftc_gov/pdf/Assurance-Complaint.pdf
+        section: "FTC Complaint, Assurance IQ (Aug 2025)"
+
+  - precedent_id: prec.ftc.bountiful_review_hijacking_2023
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-charges-supplement-marketer-hijacking-ratings-reviews-amazoncom-using-them-deceive-consumers"
+    date: 2023-02-16
+    title: "FTC v. Bountiful Company — Amazon review hijacking"
+    summary: >
+      The Bountiful Company agreed to pay $600,000 in the FTC's first case
+      challenging review hijacking—merging new Amazon listings with established
+      products to steal ratings, reviews, and badges.
+    why_this_matters: >
+      First enforcement against manipulated social proof used in ecommerce and
+      marketplace ads.
+    retrieval_keywords: ['Bountiful', 'Amazon reviews', 'review hijacking', 'fake social proof', 'Best Seller badge', 'supplements']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'ip_trademark']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - amazon.misleading.truthful_substantiated_claims
+    canonical_ids:
+      - misleading.false_affiliation_or_endorsement
+      - misleading.unsubstantiated_objective_claims
+    outcome: settlement
+    monetary_relief: "$600,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The case against Bountiful marks the FTC's first law enforcement
+          challenging 'review hijacking,' in which a marketer steals or repurposes
+          reviews of another product.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/02/ftc-charges-supplement-marketer-hijacking-ratings-reviews-amazoncom-using-them-deceive-consumers
+        section: "FTC Press Release, Feb 16, 2023"
+
+  - precedent_id: prec.ftc.evoke_wellness_google_ads_2025
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-sues-evoke-wellness-top-executives-misleading-consumers-seeking-substance-use-disorder-treatment"
+    date: 2025-01-16
+    title: "FTC v. Evoke Wellness — deceptive Google search ads impersonating clinics"
+    summary: >
+      The FTC sued Evoke Wellness for using deceptive Google search ads and
+      telemarketing to impersonate other substance-use treatment providers,
+      funneling at least 3,500 misled callers to its call center.
+    why_this_matters: >
+      Shows paid-search ad impersonation enforcement in a regulated health
+      vertical.
+    retrieval_keywords: ['Evoke Wellness', 'Google search ads', 'healthcare impersonation', 'treatment clinic', 'paid search', 'telemarketing']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['health', 'misleading']
+    violated_clause_ids:
+      - google.misrep.unacceptable_business_practices
+      - ftc.health.disease_implication
+    canonical_ids:
+      - misleading.false_affiliation_or_endorsement
+      - health.unsubstantiated_health_claims
+    outcome: court_order
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Evoke tricked consumers into contacting Evoke's call center by using
+          deceptive Google search ads that appeared to be from the specific
+          substance use disorder treatment clinics searched for by consumers.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-sues-evoke-wellness-top-executives-misleading-consumers-seeking-substance-use-disorder-treatment
+        section: "FTC Press Release, Jan 16, 2025"
+
+  - precedent_id: prec.ftc.nextmed_weight_loss_2025
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2025/07/ftc-takes-action-against-telemedicine-firm-nextmed-over-charges-it-used-misleading-prices-fake"
+    date: 2025-07-14
+    title: "FTC v. NextMed — deceptive GLP-1 weight-loss program advertising"
+    summary: >
+      NextMed agreed to pay $150,000 to settle FTC charges that it used deceptive
+      pricing, unsubstantiated weight-loss claims, fake reviews, and hidden drug
+      costs to sell telehealth GLP-1 programs.
+    why_this_matters: >
+      Telehealth weight-loss ad precedent combining before/after claims, hidden
+      fees, and fake social proof.
+    retrieval_keywords: ['NextMed', 'GLP-1', 'Wegovy', 'Ozempic', 'weight loss ads', 'fake reviews', 'telehealth']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['health', 'misleading']
+    violated_clause_ids:
+      - ftc.health.truthful_substantiated
+      - ftc.misleading.reasonable_basis
+    canonical_ids:
+      - health.unsubstantiated_health_claims
+      - misleading.before_after_distortion
+    outcome: settlement
+    monetary_relief: "$150,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          NextMed sold its membership programs at an advertised monthly price,
+          typically at $138 or $188, without adequately disclosing that the price
+          did not include the cost of the actual GLP-1 drug.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2025/07/ftc-takes-action-against-telemedicine-firm-nextmed-over-charges-it-used-misleading-prices-fake
+        section: "FTC Press Release, July 14, 2025"
+
+  - precedent_id: prec.fec.healthcare_leadgen_warning_2024
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2024/12/ftc-staff-sends-warning-letters-healthcare-plan-marketers-lead-generators"
+    date: 2024-12-03
+    title: "FTC staff warning letters — healthcare plan marketers and lead generators"
+    summary: >
+      FTC staff sent warning letters to 21 healthcare plan marketers and lead
+      generators about deceptive ACA and comprehensive-coverage claims during open
+      enrollment.
+    why_this_matters: >
+      Official staff guidance citing prior lead-gen enforcement; useful for
+      political-adjacent health plan ad compliance patterns.
+    retrieval_keywords: ['FTC warning letter', 'health insurance leads', 'ACA', 'open enrollment', 'lead generators', 'deceptive health plans']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['health', 'financial', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - ftc.misleading.express_implied
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+      - finance.misleading_or_unbalanced_claims
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Based on information collected by FTC staff and the agency's enforcement
+          experience in this area, the types of claims FTC staff warns the companies
+          about include those that may misrepresent the benefits included in a
+          healthcare plan, including any insurance benefits.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2024/12/ftc-staff-sends-warning-letters-healthcare-plan-marketers-lead-generators
+        section: "FTC Press Release, Dec 3, 2024"

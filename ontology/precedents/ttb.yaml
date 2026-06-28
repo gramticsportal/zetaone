@@ -1,0 +1,35 @@
+# TTB alcohol advertising enforcement.
+
+precedents:
+  - precedent_id: prec.ttb.mckenzie_energy_alcohol_2007
+    source: "Alcohol and Tobacco Tax and Trade Bureau (TTB)"
+    source_url: "https://www.ttb.gov/media/70996/download?inline="
+    date: 2007-07-16
+    title: "TTB v. McKenzie River — misleading energy/stimulating alcohol ads"
+    summary: >
+      McKenzie River Corporation served a 7-day basic permit suspension and paid a
+      $200,000 offer in compromise after TTB found print ads implying its alcohol
+      beverages had stimulating or energizing effects.
+    why_this_matters: >
+      TTB enforcement template for prohibited health/energy claims in alcohol
+      advertising.
+    retrieval_keywords: ['TTB', 'alcohol advertising', 'energy claims', 'misleading health', 'McKenzie River', 'Sparks']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['alcohol', 'health', 'misleading']
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+    canonical_ids:
+      - atc.alcohol_mandatory_and_prohibited_statements
+    outcome: consent_order
+    monetary_relief: "$200,000 offer in compromise; 7-day permit suspension"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          A TTB investigation revealed that McKenzie River Corporation had published
+          print advertisements implying that its alcohol beverage product had a
+          stimulating or an energizing effect on the consumer.
+        source_url: https://www.ttb.gov/media/70996/download?inline=
+        section: "TTB Industry Circular (McKenzie enforcement)"

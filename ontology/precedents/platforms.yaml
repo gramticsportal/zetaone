@@ -496,3 +496,137 @@ precedents:
           information about responsible gambling and never target minors.
         source_url: https://support.google.com/adspolicy/answer/15132179
         section: "Advertising Policies > Gambling and games > Requirements"
+
+  - precedent_id: prec.meta.ads_takedown_metrics_q1_2024
+    source: "Meta Transparency Center"
+    source_url: "https://transparency.meta.com/reports/integrity-reports-q1-2024/"
+    date: 2024-04-01
+    title: "Meta Q1 2024 — ads takedown metrics broken out separately"
+    summary: >
+      Meta's Q1 2024 integrity reporting for the first time separately reports ads
+      takedowns from proactive enforcement and from user reports, previously
+      bundled in overall Facebook/Instagram volumes.
+    why_this_matters: >
+      Platform transparency milestone for ad-specific enforcement metrics —
+      baseline for ad rejection benchmarking.
+    retrieval_keywords: ['Meta', 'ads takedowns', 'integrity report', 'Q1 2024', 'proactive enforcement', 'transparency']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - meta.misleading.deceptive_practices
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          We've also improved our transparency reporting by adding more metrics like
+          ads takedowns based on reports we received, as well as proactive actions —
+          the former of which was previously included in the overall Facebook and
+          Instagram enforcement volumes but is now broken out separately for the
+          first time.
+        source_url: https://transparency.meta.com/reports/integrity-reports-q1-2024/
+        section: "Meta Integrity Reports Q1 2024"
+
+  - precedent_id: prec.meta.ai_political_ad_disclosure_2024
+    source: "Meta Transparency Center"
+    source_url: "https://transparency.meta.com/reports/integrity-reports-q1-2024/"
+    date: 2024-04-01
+    title: "Meta Q1 2024 — GenAI disclosure requirements for political ads"
+    summary: >
+      Meta reported requiring advertisers to disclose when political or social-
+      issue ads use third-party generative AI to digitally create or alter
+      content.
+    why_this_matters: >
+      First platform policy requiring GenAI disclosure on political/social-issue
+      ads — synthetic media compliance.
+    retrieval_keywords: ['Meta', 'generative AI', 'political ads', 'Made with AI', 'synthetic media', 'disclosure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political', 'misleading']
+    violated_clause_ids:
+      - meta.political.authorization_disclaimer
+      - google.political.synthetic_content
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In certain cases, we also require advertisers to disclose when they
+          digitally create or alter a political or social issue ad using third-party
+          GenAI tools.
+        source_url: https://transparency.meta.com/reports/integrity-reports-q1-2024/
+        section: "Meta Integrity Reports Q1 2024"
+
+  - precedent_id: prec.tiktok.deceptive_behavior_enforcement_2024
+    source: "TikTok Newsroom"
+    source_url: "https://newsroom.tiktok.com/how-tiktok-counters-deceptive-behaviour?from_seo_redirect=1&lang=en-150"
+    date: 2024-08-01
+    title: "TikTok Q2 2024 — proactive fake-engagement enforcement"
+    summary: >
+      TikTok reported removing over 99% of fake-engagement violating videos
+      proactively in Q2 2024 and labeling state-affiliated media accounts
+      restricted from foreign election influence ads.
+    why_this_matters: >
+      Platform enforcement metrics on deceptive engagement and covert influence —
+      relevant to ad and organic promotion integrity.
+    retrieval_keywords: ['TikTok', 'fake engagement', 'deceptive behavior', 'covert influence', 'proactive removal', '2024']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'political']
+    violated_clause_ids:
+      - tiktok.misleading.unsubstantiated_claims
+      - tiktok.political.prohibited
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+      - political.paid_political_ads_prohibited
+    outcome: suspension
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In Q2 2024, over 99% of the videos that violate our fake engagement policy
+          were removed proactively.
+        source_url: https://newsroom.tiktok.com/how-tiktok-counters-deceptive-behaviour?from_seo_redirect=1&lang=en-150
+        section: "TikTok Newsroom, How TikTok counters deceptive behaviour"
+
+  - precedent_id: prec.google.synthetic_election_ads_2024
+    source: "Google Ads Policy"
+    source_url: "https://support.google.com/adspolicy/answer/6014595?hl=en"
+    date: 2024-01-01
+    title: "Google election ads — synthetic and digitally altered content disclosure"
+    summary: >
+      Google requires election advertisers in covered regions to disclose
+      synthetic or digitally altered content in election ads and maintains
+      verification and Paid for by requirements.
+    why_this_matters: >
+      Google election-ad synthetic media disclosure rule — pairs with Meta GenAI
+      political ad requirements.
+    retrieval_keywords: ['Google Ads', 'election ads', 'synthetic content', 'AI disclosure', 'Paid for by', 'political verification']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political', 'misleading']
+    violated_clause_ids:
+      - google.political.synthetic_content
+      - google.political.paid_for_by
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Google believes that users should have information to make informed
+          decisions when viewing election ads that contain synthetic or digitally
+          altered content, specifically images, video, or audio that inauthentically
+          depict real or realistic-looking people or events.
+        source_url: https://support.google.com/adspolicy/answer/6014595?hl=en
+        section: "Google Ads Policy — Political content (synthetic content)"

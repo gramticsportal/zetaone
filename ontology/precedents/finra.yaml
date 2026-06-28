@@ -71,3 +71,110 @@ precedents:
           promissory or not fair and balanced, and thus misleading to investors.
         source_url: https://www.finra.org/media-center/newsreleases/2025/finra-orders-robinhood-financial-pay-375-million-restitution
         section: "FINRA News Release, March 7, 2025"
+
+  - precedent_id: prec.finra.tradezero_influencers_2024
+    source: "Financial Industry Regulatory Authority"
+    source_url: "https://www.finra.org/sites/default/files/2024-08/Disciplinary_Actions_August_2024.pdf"
+    date: 2024-06-10
+    title: "FINRA v. TradeZero America — unsupervised finfluencer program"
+    summary: >
+      TradeZero America was censured and fined $250,000 after FINRA found
+      influencer posts were not fair and balanced, contained promissory claims,
+      failed to disclose fees, and lacked principal review and recordkeeping.
+    why_this_matters: >
+      Second major finfluencer AWC after M1 — promissory 'free trading' claims
+      without fee disclosure.
+    retrieval_keywords: ['TradeZero', 'finfluencer', 'FINRA 2210', 'influencer', 'free trading platform', '$250000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - finra.finance.fair_balanced
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.testimonials_endorsements_disclosure
+    outcome: fine
+    monetary_relief: "$250,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Without admitting or denying the findings, the firm consented to the
+          sanctions and to the entry of findings that its influencer communications
+          were not fair and balanced and included exaggerated and promissory
+          statements.
+        source_url: https://www.finra.org/sites/default/files/2024-08/Disciplinary_Actions_August_2024.pdf
+        section: "FINRA Disciplinary Actions August 2024, TradeZero America"
+
+  - precedent_id: prec.finra.moomoo_influencers_2024
+    source: "Financial Industry Regulatory Authority"
+    source_url: "https://files.brokercheck.finra.org/firm/firm_283078.pdf"
+    date: 2024-11-26
+    title: "FINRA v. Moomoo Financial — finfluencer supervision failures"
+    summary: >
+      Moomoo Financial was censured and fined $750,000 after FINRA found more than
+      29,000 accounts opened via influencers whose posts included promissory zero-
+      commission claims without fee disclosure and failed to identify paid ads.
+    why_this_matters: >
+      Large-scale finfluencer referral program with misleading commission-free
+      claims and missing ad identification.
+    retrieval_keywords: ['Moomoo', 'finfluencer', 'zero commission', 'referral links', 'FINRA 2210', '$750000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - finra.finance.fair_balanced
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.testimonials_endorsements_disclosure
+    outcome: fine
+    monetary_relief: "$750,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The firm's influencers also posted communications that claimed that the
+          firm charged zero commission but did not disclose that other fees may
+          apply or provide a prominent link to the firm's fee schedule.
+        source_url: https://files.brokercheck.finra.org/firm/firm_283078.pdf
+        section: "FINRA BrokerCheck, Moomoo Financial AWC"
+
+  - precedent_id: prec.finra.webull_influencers_2025
+    source: "Financial Industry Regulatory Authority"
+    source_url: "https://www.finra.org/sites/default/files/2025-07/disciplinary-actions-july-2025.pdf"
+    date: 2025-05-08
+    title: "FINRA v. Webull Financial — unsupervised influencer communications"
+    summary: >
+      Webull Financial was censured and fined $1.6 million after FINRA found it
+      failed to reasonably supervise or retain influencer social media posts that
+      were not fair and balanced and included exaggerated and promissory
+      statements.
+    why_this_matters: >
+      Largest finfluencer fine to date — scale supervision failure across hundreds
+      of paid influencers.
+    retrieval_keywords: ['Webull', 'finfluencer', 'social media', 'FINRA 2210', 'promissory statements', '$1.6 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - finra.finance.fair_balanced
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.testimonials_endorsements_disclosure
+    outcome: fine
+    monetary_relief: "$1,600,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Without admitting or denying the findings, the firm consented to the
+          sanctions and to the entry of findings that it failed to reasonably
+          supervise or retain social media communications promoting the firm.
+        source_url: https://www.finra.org/sites/default/files/2025-07/disciplinary-actions-july-2025.pdf
+        section: "FINRA Disciplinary Actions July 2025, Webull Financial"

@@ -66,3 +66,38 @@ precedents:
           alcohol consumption will be mitigated.
         source_url: https://www.ttb.gov/public-information/news/use-of-the-word-clean-in-alcohol-beverage-labeling-and-advertising
         section: "TTB Market Compliance Office, April 8, 2022"
+
+  - precedent_id: prec.ttb.fifth_generation_sponsorship_2022
+    source: "Alcohol and Tobacco Tax and Trade Bureau"
+    source_url: "https://www.ttb.gov/public-information/press/press-release-fy-22-3"
+    date: 2022-01-24
+    title: "TTB v. Fifth Generation — unlawful spirits sponsorship trade practices"
+    summary: >
+      TTB accepted a $305,000 offer in compromise from Fifth Generation (Tito's)
+      for sponsorship agreements that allegedly excluded competitors' products at
+      venue concessions.
+    why_this_matters: >
+      Alcohol trade-practice enforcement on sponsorship-driven exclusivity in
+      venue marketing.
+    retrieval_keywords: ['TTB', 'Fifth Generation', "Tito's", 'sponsorship', 'trade practices', 'FAA Act', '$305000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['alcohol', 'misleading']
+    violated_clause_ids:
+      - google.atc.alcohol
+      - meta.atc.alcohol
+    canonical_ids:
+      - atc.alcohol_mandatory_and_prohibited_statements
+    outcome: settlement
+    monetary_relief: "$305,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          As a result of an investigation into sponsorship agreements that allegedly
+          resulted in the unlawful exclusion of their competitors' products, TTB has
+          accepted a $305,000 Offer in Compromise (OIC) from Fifth Generation, Inc.
+          of Austin, Texas.
+        source_url: https://www.ttb.gov/public-information/press/press-release-fy-22-3
+        section: "TTB Press Release FY-22-3"

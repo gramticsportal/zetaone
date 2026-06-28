@@ -1,0 +1,255 @@
+# FTC enforcement precedents — Phase 3 (final US expansion).
+
+precedents:
+  - precedent_id: prec.ftc.hrblock_free_filing_2024
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2024/11/ftc-action-stops-hr-blocks-unfair-downgrading-practices-deceptive-promises-free-filing"
+    date: 2024-11-21
+    title: "FTC v. H&R Block — deceptive 'free' filing and unfair downgrading"
+    summary: >
+      H&R Block agreed to pay $7 million and stop unfair downgrading practices and
+      deceptive 'free' tax filing claims after the FTC sued over dark-pattern
+      downgrade flows and data deletion.
+    why_this_matters: >
+      Follow-on to Intuit/TurboTax 'free filing' deception — tax-prep ads with
+      hidden eligibility and downgrade friction.
+    retrieval_keywords: ['H&R Block', 'free filing', 'tax prep', 'downgrade', 'dark patterns', 'TurboTax', '$7 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - cfpb.finance.actually_available_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - misleading.unsubstantiated_objective_claims
+    outcome: settlement
+    monetary_relief: "$7,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          A proposed FTC settlement would stop H&R Block from unfairly requiring
+          consumers seeking to downgrade to a cheaper H&R Block product to contact
+          customer service, from unfairly deleting users' previously entered data
+          and from making deceptive claims about "free" tax filing.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2024/11/ftc-action-stops-hr-blocks-unfair-downgrading-practices-deceptive-promises-free-filing
+        section: "FTC Press Release, November 2024"
+
+  - precedent_id: prec.ftc.instacart_deceptive_2025
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2025/12/instacart-pay-60-million-consumer-refunds-settle-ftc-lawsuit-over-allegations-it-engaged-deceptive"
+    date: 2025-12-18
+    title: "FTC v. Instacart — deceptive delivery fees and subscription enrollment"
+    summary: >
+      Instacart agreed to pay $60 million in consumer refunds to settle FTC
+      charges of false 'free delivery' ads, hidden satisfaction-guarantee refund
+      options, and Instacart+ enrollments without express informed consent.
+    why_this_matters: >
+      Major grocery-delivery case on subscription dark patterns, hidden fees, and
+      satisfaction-guarantee ad claims.
+    retrieval_keywords: ['Instacart', 'free delivery', 'Instacart+', 'subscription', 'ROSCA', 'dark patterns', '$60 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'financial']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - google.misrep.dishonest_pricing
+    canonical_ids:
+      - misleading.missing_or_inconsistent_material_info
+      - misleading.unsubstantiated_objective_claims
+    outcome: settlement
+    monetary_relief: "$60,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Today, the Federal Trade Commission announced that grocery delivery
+          provider Instacart will pay $60 million in refunds to consumers to settle
+          allegations that the company engaged in numerous unlawful tactics that
+          harmed shoppers and raised the cost of grocery shopping for Americans.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2025/12/instacart-pay-60-million-consumer-refunds-settle-ftc-lawsuit-over-allegations-it-engaged-deceptive
+        section: "FTC Press Release, December 18, 2025"
+
+  - precedent_id: prec.ftc.opendoor_ibuying_2022
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2022/08/ftc-takes-action-stop-online-home-buying-firm-opendoor-labs-inc-cheating-potential-sellers"
+    date: 2022-08-01
+    title: "FTC v. Opendoor — deceptive iBuyer savings claims"
+    summary: >
+      Opendoor agreed to pay $62 million after the FTC found it misled home
+      sellers with charts falsely showing they would net more money selling to
+      Opendoor than on the open market.
+    why_this_matters: >
+      Landmark real-estate iBuyer ad case on unsubstantiated savings comparisons
+      and net-proceeds charts.
+    retrieval_keywords: ['Opendoor', 'iBuyer', 'home sellers', 'deceptive marketing', 'net proceeds', '$62 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'financial']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - google.misrep.unreliable_claims
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+      - finance.misleading_or_unbalanced_claims
+    outcome: consent_order
+    monetary_relief: "$62,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The FTC alleged that Opendoor pitched potential sellers using misleading
+          and deceptive information, and in reality, most people who sold to
+          Opendoor made thousands of dollars less than they would have made selling
+          their homes using the traditional process.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2022/08/ftc-takes-action-stop-online-home-buying-firm-opendoor-labs-inc-cheating-potential-sellers
+        section: "FTC Press Release, August 1, 2022"
+
+  - precedent_id: prec.ftc.fake_reviews_rule_2024
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/system/files/ftc_gov/pdf/r311003consumerreviewstestimonialsfinalrulefrn.pdf"
+    date: 2024-08-14
+    title: "FTC Final Rule on Consumer Reviews and Testimonials"
+    summary: >
+      The FTC issued a final rule prohibiting fake reviews, insider testimonials
+      without disclosure, review suppression, and sale of fake social-media
+      influence indicators, with civil penalty authority for knowing violations.
+    why_this_matters: >
+      Foundational 2024 rule for fake reviews, astroturfing, and influencer
+      metrics fraud in ads and listings.
+    retrieval_keywords: ['fake reviews', 'testimonials rule', 'FTC Part 465', 'review suppression', 'social media influence', '2024 rule']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - google.misrep.unreliable_claims
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+      - misleading.false_affiliation_or_endorsement
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          This final rule, among other things, prohibits selling or purchasing fake
+          consumer reviews or testimonials, buying positive or negative consumer
+          reviews, certain insiders creating consumer reviews or testimonials
+          without clearly disclosing their relationships, creating a company-
+          controlled review website that falsely purports to provide independent
+          reviews, certain review suppression practices, and selling or purchasing
+          fake indicators of social media influence.
+        source_url: https://www.ftc.gov/system/files/ftc_gov/pdf/r311003consumerreviewstestimonialsfinalrulefrn.pdf
+        section: "16 CFR Part 465 Final Rule SUMMARY"
+
+  - precedent_id: prec.ftc.vonage_dark_patterns_2022
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2022/11/ftc-action-against-vonage-results-100-million-customers-trapped-illegal-dark-patterns-junk-fees-when-trying-cancel-service"
+    date: 2022-11-03
+    title: "FTC v. Vonage — dark-pattern cancellation and junk fees"
+    summary: >
+      Vonage agreed to pay $100 million in refunds after the FTC charged it used
+      dark patterns to trap customers in subscriptions and charged unexpected
+      early-termination fees when they tried to cancel.
+    why_this_matters: >
+      Canonical dark-pattern and junk-fee precedent for negative-option and
+      subscription ads.
+    retrieval_keywords: ['Vonage', 'dark patterns', 'cancellation', 'junk fees', 'subscription trap', '$100 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'financial']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - cfpb.finance.actually_available_terms
+    canonical_ids:
+      - misleading.missing_or_inconsistent_material_info
+    outcome: settlement
+    monetary_relief: "$100,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The FTC alleges that the company used dark patterns to make it difficult
+          for consumers to cancel and often continued to illegally charge them even
+          after they spoke to an agent directly and requested cancellation.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2022/11/ftc-action-against-vonage-results-100-million-customers-trapped-illegal-dark-patterns-junk-fees-when-trying-cancel-service
+        section: "FTC Press Release, November 3, 2022"
+
+  - precedent_id: prec.ftc.rite_aid_facial_recognition_2023
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2023/12/rite-aid-banned-using-ai-facial-recognition-after-ftc-says-retailer-deployed-technology-without"
+    date: 2023-12-19
+    title: "FTC v. Rite Aid — AI facial recognition without safeguards"
+    summary: >
+      Rite Aid agreed to a five-year ban on using facial recognition for
+      surveillance after the FTC found it falsely flagged customers, especially
+      women and people of color, as shoplifters without reasonable procedures.
+    why_this_matters: >
+      First major FTC biometric/AI surveillance order — relevant to automated ad
+      targeting and sensitive-attribute harm.
+    retrieval_keywords: ['Rite Aid', 'facial recognition', 'AI', 'biometrics', 'retail surveillance', 'discrimination']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['privacy', 'discrimination', 'misleading']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - google.privacy.sensitive_interest_categories
+    canonical_ids:
+      - privacy.sensitive_attribute_targeting_prohibited
+      - discrimination.discriminatory_ad_content_prohibited
+    outcome: consent_order
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Rite Aid will be prohibited from using facial recognition technology for
+          surveillance purposes for five years to settle Federal Trade Commission
+          charges that the retailer failed to implement reasonable procedures and
+          prevent harm to consumers in its use of facial recognition technology in
+          hundreds of stores.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/12/rite-aid-banned-using-ai-facial-recognition-after-ftc-says-retailer-deployed-technology-without
+        section: "FTC Press Release, December 19, 2023"
+
+  - precedent_id: prec.ftc.publishers_clearing_house_2023
+    source: "U.S. Federal Trade Commission"
+    source_url: "https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-takes-action-against-publishers-clearing-house-misleading-consumers-about-sweepstakes-entries"
+    date: 2023-06-26
+    title: "FTC v. Publishers Clearing House — sweepstakes dark patterns"
+    summary: >
+      Publishers Clearing House agreed to pay $18.5 million and overhaul its
+      online sweepstakes and sales flows after the FTC charged dark-pattern
+      deception that a purchase was required or improved odds of winning.
+    why_this_matters: >
+      Sweepstakes and lead-gen ad precedent on purchase-to-enter deception and
+      surprise fees targeting older consumers.
+    retrieval_keywords: ['Publishers Clearing House', 'PCH', 'sweepstakes', 'dark patterns', 'purchase to enter', '$18.5 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'gambling']
+    violated_clause_ids:
+      - ftc.misleading.reasonable_basis
+      - google.misrep.misleading_ad_design
+    canonical_ids:
+      - misleading.missing_or_inconsistent_material_info
+      - gambling.realmoney_requires_license_and_authorization
+    outcome: settlement
+    monetary_relief: "$18,500,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In a complaint against PCH, the FTC charges that the company uses "dark
+          patterns" to mislead consumers about how to enter the company's well-known
+          sweepstakes drawings and made them believe that a purchase is necessary to
+          win or would increase their chances of winning, and that their sweepstakes
+          entries are incomplete even when they are not.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2023/06/ftc-takes-action-against-publishers-clearing-house-misleading-consumers-about-sweepstakes-entries
+        section: "FTC Press Release, June 26, 2023"

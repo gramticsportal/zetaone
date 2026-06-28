@@ -175,3 +175,107 @@ precedents:
           websites and monetary seizures of over $3 million.
         source_url: https://www.justice.gov/criminal/criminal-ccips/file/938316/dl?inline
         section: "2013 Joint Strategic Plan on Intellectual Property Enforcement"
+
+  - precedent_id: prec.doj.liao_apple_counterfeit_2022
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/usao-sdca/pr/leaders-international-organization-trafficked-counterfeit-apple-products-plead-guilty"
+    date: 2022-05-19
+    title: "DOJ v. Liao brothers — counterfeit Apple warranty fraud scheme"
+    summary: >
+      Three Liao brothers pleaded guilty to leading an international conspiracy
+      that exchanged more than 10,000 counterfeit iPhones and iPads at Apple
+      Stores, causing about $6.1 million in losses.
+    why_this_matters: >
+      Criminal counterfeit-goods precedent distinct from marketplace listing cases
+      — warranty-return fraud ring.
+    retrieval_keywords: ['Liao', 'counterfeit iPhone', 'Apple', 'trademark', 'warranty fraud', '$6.1 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$6,100,000 (estimated infringement)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          At the direction of the Liao brothers, co-conspirators traveled to
+          hundreds of Apple Stores across the United States and Canada and attempted
+          to exchange more than 10,000 counterfeit iPhones and iPads for genuine
+          iPhones and iPads.
+        source_url: https://www.justice.gov/usao-sdca/pr/leaders-international-organization-trafficked-counterfeit-apple-products-plead-guilty
+        section: "DOJ USAO Southern District of California"
+
+  - precedent_id: prec.doj.bugaboo_boutique_counterfeit_2025
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/usao-ne/pr/columbus-woman-convicted-trafficking-counterfeit-goods"
+    date: 2025-01-16
+    title: "DOJ v. Bugaboo Boutique — online counterfeit goods trafficking"
+    summary: >
+      Christine Parry was sentenced for trafficking counterfeit trademarked
+      clothing, footwear, and accessories sold through the Bugaboo Boutique online
+      store on Facebook.
+    why_this_matters: >
+      Social-commerce counterfeit enforcement — Facebook storefront selling
+      'inspired by' knockoffs with identical marks.
+    retrieval_keywords: ['Bugaboo Boutique', 'counterfeit', 'Facebook store', 'trademark', 'online trafficking', 'Nebraska']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$12,000 fine + restitution"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The records revealed that Parry knowingly sold counterfeit goods through
+          their online store. The counterfeit goods were described using words such
+          as "inspired by" name brand goods.
+        source_url: https://www.justice.gov/usao-ne/pr/columbus-woman-convicted-trafficking-counterfeit-goods
+        section: "DOJ USAO District of Nebraska, January 2025"
+
+  - precedent_id: prec.doj.apple_sony_counterfeit_import_2016
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/opa/pr/four-individuals-charged-importing-and-trafficking-counterfeit-apple-and-sony-technology"
+    date: 2016-03-01
+    title: "DOJ — smuggling counterfeit Apple and Sony electronics"
+    summary: >
+      Four individuals were charged with importing and trafficking more than
+      40,000 counterfeit Apple and Sony devices and accessories with an MSRP
+      exceeding $15 million.
+    why_this_matters: >
+      Import/smuggling ring precedent complementing ecommerce listing enforcement
+      — bulk counterfeit ad supply chain.
+    retrieval_keywords: ['counterfeit Apple', 'Sony', 'smuggling', 'import', 'trademark trafficking', '$15 million MSRP']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - amazon.misleading.truthful_substantiated_claims
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$15,000,000+ (MSRP equivalent)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          From July 2009 through February 2014, the defendants conspired to smuggle
+          into the United States from China over 40,000 electronic devices and
+          accessories, including fake iPads, iPhones and iPods, along with labels
+          and packaging, most bearing counterfeit Apple trademarks.
+        source_url: https://www.justice.gov/opa/pr/four-individuals-charged-importing-and-trafficking-counterfeit-apple-and-sony-technology
+        section: "DOJ Office of Public Affairs, March 2016"

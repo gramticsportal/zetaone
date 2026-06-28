@@ -231,3 +231,71 @@ precedents:
           addressed in this matter.
         source_url: https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/
         section: "FEC Update, MUR 6266"
+
+  - precedent_id: prec.fec.moderate_pac_disclosure_2024
+    source: "Federal Election Commission"
+    source_url: "https://www.fec.gov/files/legal/murs/8196/8196_12.pdf"
+    date: 2024-05-08
+    title: "FEC v. Moderate PAC — late independent expenditure reporting"
+    summary: >
+      The Moderate PAC agreed to pay a $58,000 civil penalty for failing to timely
+      file five 24-hour reports covering $582,652 in pre-election independent
+      expenditures.
+    why_this_matters: >
+      Recent PAC independent-expenditure disclosure enforcement for late 24-hour
+      IE reports in federal elections.
+    retrieval_keywords: ['Moderate PAC', '24-hour report', 'independent expenditure', 'FEC', 'disclosure', '$58000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - google.political.paid_for_by
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: fine
+    monetary_relief: "$58,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Respondent will pay a civil penalty to the Federal Election Commission in
+          the amount of Fifty-Eight Thousand Dollars ($58,000) pursuant to 52 U.S.C.
+          § 30109(a)(5)(A).
+        source_url: https://www.fec.gov/files/legal/murs/8196/8196_12.pdf
+        section: "MUR 8196 Conciliation Agreement, Section VI"
+
+  - precedent_id: prec.fec.black_voters_matter_24hour_2024
+    source: "Federal Election Commission"
+    source_url: "https://www.fec.gov/files/legal/murs/8353/8353_09.pdf"
+    date: 2024-03-15
+    title: "FEC v. Black Voters Matter PAC — late IE 24-hour reports (2022 Georgia)"
+    summary: >
+      Black Voters Matter Action PAC agreed to pay a $16,000 penalty for failing
+      to timely file 24-hour reports for $158,018 in pre-election independent
+      expenditures supporting Raphael Warnock.
+    why_this_matters: >
+      State-targeted IE ad disclosure enforcement — late 24-hour reporting in
+      high-spend Senate races.
+    retrieval_keywords: ['Black Voters Matter', '24-hour report', 'independent expenditure', 'Warnock', 'FEC', 'Georgia']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: fine
+    monetary_relief: "$16,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Respondent violated 52 U.S.C. § 30104(g)(1) and 11 C.F.R. § 104.4(c) by
+          failing to file the required 24-hour reports for independent expenditures
+          totaling $158,018.
+        source_url: https://www.fec.gov/files/legal/murs/8353/8353_09.pdf
+        section: "MUR 8353 Conciliation Agreement, Section V"

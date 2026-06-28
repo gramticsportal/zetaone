@@ -19,6 +19,7 @@ mappings + a labeled evaluation dataset with measured precision/recall.
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
 | `examples/eval_seed.yaml` | Labeled evaluation dataset (570 examples: 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political + 60 children/minors + 60 privacy + 60 alcohol/tobacco/cannabis + 60 gambling + 60 ip/counterfeit) |
 | `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.10) |
+| `precedents/` | Phase 2 enforcement-precedent layer (Policy → Canonical Rule → Precedent → Evidence → Verdict) |
 | `policy_versions.yaml` | Sidecar policy-metadata registry: per-source version / effective / last-updated / deprecated-superseded status / officially published change history (not part of the frozen schema) |
 | `validate.py` | Validator: parse + referential integrity + evidence/applicability completeness |
 
@@ -286,6 +287,18 @@ later. Fields are populated only when officially published — omitted, never
 invented, when a source does not state them. `validate.py` checks referential
 integrity (every entry's `source_id` exists) and the `status` enum.
 
+### Enforcement-precedent layer (`precedents/`, Phase 2)
+
+A **sidecar** (not part of the frozen schema) that links the policy corpus to
+real-world enforcement, forming the regulatory knowledge graph
+**Policy → Canonical Rule → Precedent → Evidence → Verdict**. Each precedent records
+the enforcing `source`, official `source_url`, `date`, `title`, factual `summary`,
+`outcome`, and verbatim `evidence`, and references existing corpus
+`violated_clause_ids` + `canonical_ids` so a verdict traces back to exact policy
+text. `validate.py` enforces referential integrity on those references. The seed
+(**Precedents v0.1**) holds six landmark US actions; see `precedents/README.md` for
+the entry shape and roadmap.
+
 > **TikTok US note:** TikTok's healthcare policy is per-market. In the *United
 > States*, prescription/OTC meds, pharmacies, fillers, and microdermabrasion
 > *may be allowed* with FDA / NABP / LegitScript certification and 18+ targeting
@@ -327,7 +340,7 @@ the eval dataset:
 10. ✅ Gambling & Gaming vertical: Meta + Google + TikTok, mapped → **Ad Corpus v0.9** (60 eval examples).
 11. ✅ Intellectual Property / Counterfeit vertical: Meta + Google + TikTok, mapped → **Ad Corpus v0.10** (60 eval examples). **Domain expansion complete — 10 verticals frozen.**
 12. Build the 1,000+ labeled evaluation dataset across frozen verticals; measure precision/recall per `category_id` and per `canonical_id`.
-13. **Phase 2 (now unblocked)** — Add the `ontology/precedents/` layer (enforcement actions, warning letters, consent orders, settlements, court cases, policy updates) linking policy → canonical rule → precedent → evidence → verdict. All ten corpus domains are complete + validated. Then add jurisdictions (EU/UK) and platforms (X, Amazon Ads).
+13. ✅ **Phase 2 started** — `ontology/precedents/` layer seeded (**Precedents v0.1**, 6 landmark actions: FTC v. Google/YouTube, Musical.ly/TikTok, Epic Games (COPPA); DOJ/HUD v. Meta (Fair Housing); SEC v. Kardashian (anti-touting); FTC v. Teami (health/influencer)). Each links to corpus `clause_id`s + `canonical_id`s with verbatim official citations; validator extended for referential integrity. See `precedents/README.md` for the roadmap (alcohol/tobacco, gambling, IP/counterfeit, political; then EU/UK and X/Amazon Ads).
 
 > Clause text is sourced from official policy pages (Meta Transparency Center,
 > Google Ads Help, TikTok Business Help Center, LinkedIn Advertising Policies,

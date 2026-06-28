@@ -19,6 +19,12 @@ AUDIENCE = {"all", "under_13", "minors", "13+", "16+", "18+", "21+", "25+"}
 REVIEW_ACTOR = {"human", "ai"}
 EXAMPLE_LABEL = {"compliant", "non_compliant", "borderline"}
 POLICY_STATUS = {"active", "deprecated", "superseded"}
+PRECEDENT_OUTCOME = {
+    "warning_letter", "consent_order", "settlement", "civil_penalty", "fine",
+    "suspension", "court_order", "injunction", "marketing_denial", "refund",
+    "no_action", "guidance",
+}
+PRECEDENT_STATUS = {"final", "proposed", "on_appeal", "rescinded", "vacated"}
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -44,6 +50,7 @@ def main() -> int:
     clause_ids: set[str] = set()
     clause_category: dict[str, str] = {}
     source_ids: set[str] = set()
+    canonical_ids: set[str] = set()
     canonical_clause_refs: list[tuple[str, str, str]] = []  # (file, canonical, clause)
 
     corpus_files = sorted(glob.glob(os.path.join(ROOT, "corpus", "*.yaml")))
@@ -103,6 +110,8 @@ def main() -> int:
         name = os.path.basename(path)
         doc = load(path)
         for r in doc.get("rules", []):
+            if r.get("canonical_id"):
+                canonical_ids.add(r["canonical_id"])
             for cid in r.get("clause_ids", []):
                 if cid not in clause_ids:
                     err(f"{name}: rule {r.get('id')} references unknown clause {cid}")
@@ -110,6 +119,7 @@ def main() -> int:
     # ---- mappings ------------------------------------------------------
     mp = load(os.path.join(ROOT, "mappings.yaml"))
     for m in mp.get("mappings", []):
+        canonical_ids.add(m["canonical_id"])
         cids = m.get("clause_ids", [])
         for cid in cids:
             if cid not in clause_ids:
@@ -165,9 +175,63 @@ def main() -> int:
                 if not ch.get("date"):
                     err(f"policy_versions.yaml: {sid} change_history entry missing date")
 
+    # ---- precedents layer (Phase 2 sidecar; NOT part of frozen schema) -
+    # Links enforcement actions to the policy corpus:
+    #   Policy -> Canonical Rule -> Precedent -> Evidence -> Verdict.
+    prec_dir = os.path.join(ROOT, "precedents")
+    prec_count = 0
+    if os.path.isdir(prec_dir):
+        seen_prec: set[str] = set()
+        for path in sorted(glob.glob(os.path.join(prec_dir, "*.yaml"))):
+            name = os.path.basename(path)
+            doc = load(path) or {}
+            for p in doc.get("precedents", []) or []:
+                prec_count += 1
+                pid = p.get("precedent_id")
+                if not pid:
+                    err(f"{name}: precedent missing precedent_id")
+                    continue
+                if pid in seen_prec:
+                    err(f"{name}: duplicate precedent_id {pid}")
+                seen_prec.add(pid)
+
+                # required descriptive fields
+                for key in ("source", "source_url", "date", "title", "summary", "outcome"):
+                    if not p.get(key):
+                        err(f"{name}: precedent {pid} missing {key}")
+
+                out = p.get("outcome")
+                if out is not None and out not in PRECEDENT_OUTCOME:
+                    err(f"{name}: precedent {pid} bad outcome {out!r}")
+                st = p.get("status")
+                if st is not None and st not in PRECEDENT_STATUS:
+                    err(f"{name}: precedent {pid} bad status {st!r}")
+
+                # referential integrity into the policy corpus
+                for cid in p.get("violated_clause_ids", []) or []:
+                    if cid not in clause_ids:
+                        err(f"{name}: precedent {pid} unknown violated clause {cid}")
+                for can in p.get("canonical_ids", []) or []:
+                    if can not in canonical_ids:
+                        err(f"{name}: precedent {pid} unknown canonical_id {can}")
+                for cat in p.get("category_ids", []) or []:
+                    if cat not in categories:
+                        err(f"{name}: precedent {pid} unknown category {cat}")
+                if not (p.get("violated_clause_ids") or p.get("canonical_ids")):
+                    warn(f"{name}: precedent {pid} links to no clause or canonical")
+
+                # evidence/citations: at least one quote+source_url pair
+                ev = p.get("evidence", []) or []
+                if not ev:
+                    err(f"{name}: precedent {pid} missing evidence/citations")
+                for i, e in enumerate(ev):
+                    if not e.get("quote") or not e.get("source_url"):
+                        err(f"{name}: precedent {pid} evidence[{i}] needs quote + source_url")
+
     # ---- report --------------------------------------------------------
     print(f"clauses: {len(clause_ids)}  sources: {len(source_ids)}  "
-          f"examples: {len(seen_ids)} {counts}  policy_versions: {pv_count}")
+          f"canonicals: {len(canonical_ids)}  examples: {len(seen_ids)} {counts}  "
+          f"policy_versions: {pv_count}  precedents: {prec_count}")
     for w in warnings:
         print(f"WARN  {w}")
     if errors:

@@ -1,0 +1,259 @@
+# Precedent layer (Phase 2) — official enforcement actions linked to the policy
+# corpus. SIDECAR, not part of the frozen schema (v1.0.0). Builds the regulatory
+# knowledge graph:  Policy -> Canonical Rule -> Precedent -> Evidence -> Verdict.
+#
+# Each precedent entry:
+#   precedent_id        unique id (prec.<org>.<slug>_<year>)
+#   source              enforcing organization(s)
+#   source_url          official case/press-release/order URL
+#   date                ISO date of the action/announcement
+#   title               human-readable case title
+#   summary             short factual summary (what happened)
+#   category_ids        ontology categories implicated
+#   violated_clause_ids corpus clause ids the conduct maps to (referential)
+#   canonical_ids       canonical rule ids the conduct maps to (referential)
+#   outcome             warning_letter | consent_order | settlement | civil_penalty
+#                       | fine | suspension | court_order | injunction
+#                       | marketing_denial | refund | no_action | guidance
+#   monetary_relief     (optional) headline $ figure, as published
+#   status              final | proposed | on_appeal | rescinded | vacated
+#   jurisdiction        e.g. US
+#   retrieved_at        when we last read the cited source
+#   evidence            list of { quote (verbatim), source_url, section? }
+#
+# Sourcing rule (same standard as the corpus): only official sources; verbatim
+# quotes; deep links; never invent facts. Verify before quoting externally.
+
+precedents:
+  # ===================== Children / Minors + Privacy (COPPA) =====================
+  - precedent_id: prec.ftc.google_youtube_coppa_2019
+    source: "U.S. Federal Trade Commission + New York Attorney General"
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2019/09/google-youtube-will-pay-record-170-million-alleged-violations-childrens-privacy
+    date: 2019-09-04
+    title: "United States v. Google LLC and YouTube, LLC (record $170M COPPA settlement)"
+    summary: >
+      The FTC and the New York AG alleged YouTube illegally collected personal
+      information (persistent identifiers) from children under 13 to serve
+      targeted advertising on child-directed channels, without notifying parents
+      or obtaining verifiable parental consent, in violation of the COPPA Rule.
+      Google/YouTube agreed to pay $170 million ($136M to the FTC, $34M to New
+      York) and to build a system letting channel owners designate child-directed
+      content.
+    category_ids: [minors, privacy]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+      - google.minors.made_for_kids
+    canonical_ids:
+      - minors.parental_consent_for_childrens_data
+      - minors.child_directed_content_ad_restrictions
+    outcome: settlement
+    monetary_relief: "$170,000,000 ($136M FTC + $34M NY) civil penalty"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Google LLC and its subsidiary YouTube, LLC will pay a record $170
+          million to settle allegations by the Federal Trade Commission and the
+          New York Attorney General that the YouTube video sharing service
+          illegally collected personal information from children without their
+          parents' consent.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2019/09/google-youtube-will-pay-record-170-million-alleged-violations-childrens-privacy
+        section: "FTC Press Release, Sept 4, 2019"
+      - quote: >-
+          The settlement requires Google and YouTube to pay $136 million to the
+          FTC and $34 million to New York for allegedly violating the Children's
+          Online Privacy Protection Act (COPPA) Rule. The $136 million penalty is
+          by far the largest amount the FTC has ever obtained in a COPPA case
+          since Congress enacted the law in 1998.
+        source_url: https://www.ftc.gov/legal-library/browse/cases-proceedings/172-3083-google-llc-youtube-llc
+        section: "Case page 172-3083"
+
+  - precedent_id: prec.ftc.musically_tiktok_coppa_2019
+    source: "U.S. Federal Trade Commission (complaint filed by DOJ)"
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2019/02/video-social-networking-app-musically-agrees-settle-ftc-allegations-it-violated-childrens-privacy
+    date: 2019-02-27
+    title: "United States v. Musical.ly (now TikTok) ($5.7M COPPA settlement)"
+    summary: >
+      The FTC alleged the operators of Musical.ly (now TikTok) violated the COPPA
+      Rule by failing to notify parents about, and obtain consent for, the
+      collection and use of personal information from users under 13, and by
+      failing to delete that information on parental request. The company agreed
+      to pay $5.7 million — then the largest COPPA penalty — and to take offline
+      all videos made by children under 13.
+    category_ids: [minors, privacy]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    canonical_ids:
+      - minors.parental_consent_for_childrens_data
+    outcome: settlement
+    monetary_relief: "$5,700,000 civil penalty"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The operators of the video social networking app Musical.ly, now known
+          as TikTok, have agreed to pay $5.7 million to settle Federal Trade
+          Commission allegations that the company illegally collected personal
+          information from children. This is the largest civil penalty ever
+          obtained by the Commission in a children's privacy case.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2019/02/video-social-networking-app-musically-agrees-settle-ftc-allegations-it-violated-childrens-privacy
+        section: "FTC Press Release, Feb 27, 2019"
+
+  - precedent_id: prec.ftc.epic_games_coppa_2022
+    source: "U.S. Federal Trade Commission (COPPA order filed by DOJ)"
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2022/12/fortnite-video-game-maker-epic-games-pay-more-half-billion-dollars-over-ftc-allegations
+    date: 2022-12-19
+    title: "United States v. Epic Games, Inc. ($275M COPPA penalty; $245M refunds)"
+    summary: >
+      The FTC alleged Epic Games, maker of Fortnite, collected personal
+      information from children under 13 without verifiable parental consent and
+      used default settings that exposed children/teens to harm, violating COPPA.
+      In a separate order the FTC alleged dark-pattern billing practices. Epic
+      agreed to a $275 million civil penalty (largest ever for an FTC rule
+      violation), $245 million in consumer refunds, and strong default privacy
+      settings for children and teens.
+    category_ids: [minors, privacy]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    canonical_ids:
+      - minors.parental_consent_for_childrens_data
+    outcome: settlement
+    monetary_relief: "$275,000,000 COPPA civil penalty + $245,000,000 refunds ($520M total)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Epic will pay a $275 million penalty for violating children's privacy
+          law, change default privacy settings, and pay $245 million in refunds
+          for tricking users into making unwanted charges.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2022/12/fortnite-video-game-maker-epic-games-pay-more-half-billion-dollars-over-ftc-allegations
+        section: "FTC Press Release, Dec 19, 2022 (subhead)"
+      - quote: >-
+          Judgment in the amount of two hundred seventy five million dollars
+          ($275,000,000) is entered in favor of Plaintiff against Defendant as a
+          civil penalty.
+        source_url: https://search.ftc.gov/system/files/ftc_gov/pdf/2223087EpicGamesSettlement.pdf
+        section: "Stipulated Order, Civil Penalty Judgment"
+
+  # ===================== Housing / Employment (discrimination) =====================
+  - precedent_id: prec.doj_hud.meta_fair_housing_2022
+    source: "U.S. Department of Justice (Civil Rights Division) + HUD"
+    source_url: https://www.justice.gov/crt/case-document/settlement-agreement-united-states-v-meta-platforms-inc-fka-facebook-inc-sdny
+    date: 2022-06-21
+    title: "United States v. Meta Platforms, Inc. (Fair Housing Act ad-delivery settlement)"
+    summary: >
+      Stemming from a 2018 HUD administrative complaint and 2019 Charge of
+      Discrimination, the DOJ alleged Meta enabled and encouraged advertisers to
+      target housing ads using protected characteristics, and that its ad-delivery
+      machine-learning system relied in part on those characteristics, violating
+      the Fair Housing Act. Meta agreed to stop using the "Special Ad Audience"
+      tool, build a Variance Reduction System subject to court oversight, and pay
+      the maximum FHA civil penalty.
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - meta.discrimination.special_ad_category
+      - hud.housing.discriminatory_ad
+    canonical_ids:
+      - discrimination.restricted_targeting_protected_class
+      - discrimination.discriminatory_ad_content_prohibited
+    outcome: settlement
+    monetary_relief: "$115,054 civil penalty (maximum under the FHA) + injunctive relief (VRS)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Complaint alleges that Meta has violated the Fair Housing Act ...
+          the Settlement Agreement requires Meta to pay the maximum civil penalty
+          under the Fair Housing Act, in the amount of $115,054.
+        source_url: https://storage.courtlistener.com/recap/gov.uscourts.nysd.581840/gov.uscourts.nysd.581840.5.0_1.pdf
+        section: "Memorandum of law ISO joint motion for settlement approval"
+      - quote: >-
+          Meta agreed to stop using the ad targeting tool known as "Special Ad
+          Audience" for housing, employment, and credit advertisements that used a
+          machine-learning algorithm that considered Protected Characteristics.
+        source_url: https://www.justice.gov/crt/case-document/settlement-agreement-united-states-v-meta-platforms-inc-fka-facebook-inc-sdny
+        section: "DOJ settlement summary"
+
+  # ===================== Financial / Misleading (anti-touting) =====================
+  - precedent_id: prec.sec.kardashian_ethereummax_2022
+    source: "U.S. Securities and Exchange Commission"
+    source_url: https://www.sec.gov/newsroom/press-releases/2022-183
+    date: 2022-10-03
+    title: "In re Kim Kardashian — unlawful touting of a crypto asset security (EthereumMax)"
+    summary: >
+      The SEC found that Kardashian touted EMAX tokens on Instagram (June 2021)
+      without disclosing she was paid $250,000 for the promotion, violating the
+      anti-touting provision (Section 17(b) of the Securities Act). She settled
+      without admitting/denying findings, paying $1.26 million ($1M penalty +
+      ~$260K disgorgement/interest) and agreeing not to promote crypto asset
+      securities for three years.
+    category_ids: [financial, misleading]
+    violated_clause_ids:
+      - sec.finance.testimonials
+    canonical_ids:
+      - finance.testimonials_endorsements_disclosure
+    outcome: settlement
+    monetary_relief: "$1,260,000 ($1,000,000 penalty + ~$260,000 disgorgement & interest); 3-year crypto-promotion ban"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The SEC's order finds that Kardashian failed to disclose that she was
+          paid $250,000 to publish a post on her Instagram account about EMAX
+          tokens, the crypto asset security being offered by EthereumMax.
+        source_url: https://www.sec.gov/newsroom/press-releases/2022-183
+        section: "SEC Press Release 2022-183"
+      - quote: >-
+          Kardashian's failure to disclose this compensation violated Section
+          17(b) of the Securities Act, which makes it unlawful for any person to
+          promote a security without fully disclosing the receipt and amount of
+          such consideration from an issuer.
+        source_url: https://www.sec.gov/files/litigation/admin/2022/33-11116.pdf
+        section: "SEC Order 33-11116, ¶1"
+
+  # ===================== Health / Misleading (influencer claims) =====================
+  - precedent_id: prec.ftc.teami_health_influencers_2020
+    source: "U.S. Federal Trade Commission"
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2020/03/tea-marketer-misled-consumers-didnt-adequately-disclose-payments-well-known-influencers-ftc-alleges
+    date: 2020-03-06
+    title: "FTC v. Teami, LLC — deceptive health claims & undisclosed influencer endorsements"
+    summary: >
+      The FTC alleged Teami marketed detox teas with unsupported weight-loss and
+      health claims (e.g., that its teas fight cancer, clear clogged arteries,
+      decrease migraines) without reliable scientific evidence, and paid celebrity
+      influencers who did not adequately disclose they were paid. The order
+      prohibits unsupported claims, requires substantiation and clear disclosures,
+      and imposes a $15.2 million judgment (suspended on payment of $1 million).
+      The FTC also sent warning letters to ten influencers.
+    category_ids: [health, misleading]
+    violated_clause_ids:
+      - ftc.health.truthful_substantiated
+      - ftc.misleading.reasonable_basis
+    canonical_ids:
+      - health.unsubstantiated_health_claims
+      - misleading.unsubstantiated_objective_claims
+    outcome: court_order
+    monetary_relief: "$15.2M judgment (suspended on payment of $1,000,000); >$930,000 later returned to consumers"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The FTC's complaint alleges that Teami, LLC, and its owners ... claimed
+          without reliable scientific evidence that their Teami 30 Day Detox Pack
+          would help consumers lose weight, and that its other teas fight cancer,
+          clear clogged arteries, decrease migraines, treat and prevent flus, and
+          treat colds.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2020/03/tea-marketer-misled-consumers-didnt-adequately-disclose-payments-well-known-influencers-ftc-alleges
+        section: "FTC Press Release, March 6, 2020"
+      - quote: >-
+          Finally, the order imposes a $15.2 million judgment ... which will be
+          suspended upon payment of $1 million, based on the defendants' inability
+          to pay the full judgment.
+        source_url: https://www.ftc.gov/news-events/news/press-releases/2020/03/tea-marketer-misled-consumers-didnt-adequately-disclose-payments-well-known-influencers-ftc-alleges
+        section: "FTC Press Release, March 6, 2020"

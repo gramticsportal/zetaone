@@ -35,18 +35,19 @@ Official, verifiable enforcement records and policy events:
 | `eeoc_hud.yaml` | 2 | Meta age discrimination, HUD FHA charge (seed) |
 | `ftc_expansion.yaml` | 14 | Phase 1 FTC cases (privacy, COPPA, lead-gen, reviews) |
 | `sec_expansion.yaml` | 5 | Phase 1 SEC crypto/influencer touting |
-| `cfpb.yaml` | 3 | Overdraft, student loans, mortgage ads |
-| `finra.yaml` | 1 | Social-media influencer supervision |
-| `fec.yaml` | 2 | Disclaimer enforcement + Google AO 2010-19 |
-| `state_ag.yaml` | 2 | NY AG JUUL, DraftKings/FanDuel |
-| `doj.yaml` | 2 | Counterfeit goods, Trident redlining |
-| `platforms.yaml` | 2 | Meta SIEP removals, Google election disclosures |
-| `ttb.yaml` | 1 | TTB alcohol energy-claim enforcement |
-| `fda_expansion.yaml` | 2 | Puff Bar warning letters / retailer blitz |
+| `cfpb.yaml` | 5 | Overdraft, student loans, mortgage ads, debt relief |
+| `finra.yaml` | 2 | M1 + Robinhood finfluencer supervision |
+| `fec.yaml` | 7 | Disclaimer enforcement, electioneering, reporting |
+| `state_ag.yaml` | 3 | NY AG JUUL, DraftKings/FanDuel, sports-betting alert |
+| `doj.yaml` | 5 | Counterfeit goods, Operation In Our Sites, Project Copycat |
+| `platforms.yaml` | 15 | Meta/Google/TikTok/LinkedIn/Amazon/X policy enforcement |
+| `ttb.yaml` | 2 | TTB alcohol energy-claim + clean-beer guidance |
+| `fda_expansion.yaml` | 5 | Puff Bar, Curaleaf CBD, delta-8 batch warnings |
+| `gambling.yaml` | 5 | NJ DGE self-exclusion and promotion penalties |
 | `hud_expansion.yaml` | 1 | HUD Facebook housing charge |
 | `README.md` | — | This file |
 
-**Total: 59 verified precedents** (24 seed + 35 Phase 1). Target: 120–150 over multiple phases.
+**Total: 93 verified precedents** (24 seed + 35 Phase 1 + 34 Phase 2). Target: 120–150 over multiple phases.
 
 ## Entry shape
 
@@ -84,34 +85,34 @@ Each precedent should link to **at least one** `violated_clause_id` or
 - `python ontology/validate.py` must pass (referential integrity on
   `violated_clause_ids`, `canonical_ids`, and `category_ids`).
 
-## Phase 1 coverage snapshot (35 added)
+## Phase 2 coverage snapshot (34 added)
 
-| Vertical | Precedents |
-|----------|------------|
-| Misleading | 38 |
-| Financial | 23 |
-| Health | 14 |
-| Minors / COPPA | 9 |
+| Vertical | Precedents (live) |
+|----------|-------------------|
+| Misleading | 55 |
+| Financial | 28 |
+| Gambling | 11 |
+| Health | 18 |
+| Political | 10 |
+| Drugs / tobacco / cannabis | 9 |
+| IP / counterfeit | 7 |
+| Minors / COPPA | 11 |
 | Privacy | 9 |
+| Alcohol | 2 |
 | Discrimination | 6 |
-| Drugs / tobacco | 4 |
-| Political | 4 |
-| IP / counterfeit | 2 |
-| Alcohol | 1 |
-| Gambling | 1 |
 
 Run `python ontology/benchmark/coverage.py` for live stats.
 
-## Roadmap — Phase 2 (not started)
+## Roadmap — Phase 3 (not started)
 
-Prioritize remaining gaps and depth:
+Remaining depth and breadth:
 
-- **Gambling / alcohol** — more state-AG and TTB/FDA actions (currently 1 each).
-- **IP / counterfeit** — Lanham Act judgments, platform brand enforcement programs.
-- **Political** — additional FEC MURs with penalties; state election ad cases.
-- **Platform enforcement** — TikTok/LinkedIn transparency reports; Amazon Ads enforcement.
-- **Non-US** — EU/UK/CA/AU regulator actions mapped to jurisdiction starters.
-- **FINRA / CFPB depth** — additional social-media and mortgage/debt-relief cases.
+- **International** — EU/UK/CA/AU regulator actions (only after US corpus gaps are filled).
+- **State AG depth** — additional gambling, alcohol, and IP actions beyond NY/NJ.
+- **Platform transparency** — newer quarterly enforcement metrics (Meta/Google/TikTok reports).
+- **FINRA / CFPB** — mortgage-ad repeat offenders, credit-repair cloud cases, additional finfluencer discipline.
+- **Political** — state election-ad enforcement; synthetic-media disclosure cases at scale.
+- **Gambling** — additional state DGE/AG actions (PA, MI, IL regulators).
 
 Add new files by agency (`ttb.yaml`, `fec.yaml`, …) or domain — never invent facts;
 always link to corpus clauses/canonicals.

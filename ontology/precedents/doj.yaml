@@ -70,3 +70,108 @@ precedents:
           majority minority neighborhoods.
         source_url: https://files.consumerfinance.gov/f/documents/cfpb_fall-2022-semi-annual-report_2023-06.pdf
         section: "CFPB Semi-Annual Report, Fall 2022"
+
+  - precedent_id: prec.doj.operation_in_our_sites_2010
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/opa/speech/attorney-general-eric-holder-speaks-operation-our-sites-ii-press-conference"
+    date: 2010-11-29
+    title: "DOJ Operation In Our Sites II — 82 counterfeit domain seizures"
+    summary: >
+      DOJ and DHS executed seizure orders against 82 domain names of websites
+      selling counterfeit goods and illegal copyrighted works on Cyber Monday
+      2010.
+    why_this_matters: >
+      Foundational federal IP enforcement program seizing domains used to
+      advertise and sell counterfeits online.
+    retrieval_keywords: ['Operation In Our Sites', 'DOJ', 'domain seizure', 'counterfeit', 'Cyber Monday', 'trademark']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+      - ip.third_party_ip_infringement_prohibited
+    outcome: injunction
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Over the past few days, the Justice Department's Criminal Division, the
+          Department of Homeland Security and nine U.S. Attorneys' Offices from
+          across the country obtained and executed seizure orders against 82 domain
+          names of websites engaged in the sale and distribution of counterfeit
+          goods and illegal copyrighted works.
+        source_url: https://www.justice.gov/opa/speech/attorney-general-eric-holder-speaks-operation-our-sites-ii-press-conference
+        section: "AG Holder remarks, Operation In Our Sites II"
+
+  - precedent_id: prec.doj.project_copycat_2012
+    source: "U.S. Department of Justice / ICE HSI"
+    source_url: "https://www.justice.gov/archive/usao/co/news/2012/july/7-12-12.html"
+    date: 2012-07-12
+    title: "DOJ Project Copycat — 22 look-alike counterfeit retail sites seized"
+    summary: >
+      ICE HSI seized 22 websites that closely mimicked legitimate retailers to
+      sell counterfeit merchandise as part of Project Copycat under Operation In
+      Our Sites.
+    why_this_matters: >
+      Look-alike ecommerce ad/landing-page enforcement against sites designed to
+      deceive consumers about brand authenticity.
+    retrieval_keywords: ['Project Copycat', 'Operation In Our Sites', 'counterfeit websites', 'look-alike sites', 'ICE', 'domain seizure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.third_party_infringement
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+      - misleading.false_affiliation_or_endorsement
+    outcome: injunction
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Many of the websites so closely resembled legitimate ones that it would be
+          difficult for even discerning consumers to tell the difference.
+        source_url: https://www.justice.gov/archive/usao/co/news/2012/july/7-12-12.html
+        section: "DOJ USAO Colorado, Project Copycat"
+
+  - precedent_id: prec.doj.ip_domain_seizures_program
+    source: "U.S. Department of Justice / IPR Center"
+    source_url: "https://www.justice.gov/criminal/criminal-ccips/file/938316/dl?inline"
+    date: 2013-06-01
+    title: "DOJ Operation In Our Sites — sustained counterfeit domain seizure program"
+    summary: >
+      Since June 2010, federal Operation In Our Sites actions have seized more
+      than 1,700 infringing website domain names and millions of dollars in
+      associated proceeds.
+    why_this_matters: >
+      Program-level IP enforcement context for ads and listings driving traffic to
+      seized counterfeit storefronts.
+    retrieval_keywords: ['Operation In Our Sites', 'domain seizure', 'counterfeit', 'IPR Center', '1700 domains', 'DOJ']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: injunction
+    monetary_relief: ">$3,000,000 seized proceeds (program total cited)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Since the operation's inception, Federal law enforcement agencies, in
+          conjunction with DOJ, have conducted 13 operations targeting sites focused
+          on particular subject matter such as sports apparel or luxury goods and
+          resulting in the seizure of more than 1,700 domain names of infringing
+          websites and monetary seizures of over $3 million.
+        source_url: https://www.justice.gov/criminal/criminal-ccips/file/938316/dl?inline
+        section: "2013 Joint Strategic Plan on Intellectual Property Enforcement"

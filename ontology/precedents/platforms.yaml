@@ -65,3 +65,434 @@ precedents:
           identifies who paid for the ad.
         source_url: https://support.google.com/adspolicy/answer/6014595?hl=en
         section: "Google Ads Policy — Political content"
+
+  - precedent_id: prec.meta.ip_counterfeit_enforcement_2024
+    source: "Meta Transparency Center"
+    source_url: "https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/third-party-infringement"
+    date: 2024-08-26
+    title: "Meta ad policy — counterfeit goods rejection and proactive IP enforcement"
+    summary: >
+      Meta prohibits ads promoting counterfeit goods and may reject or remove ads
+      reported by rights holders or flagged for potential third-party IP
+      infringement.
+    why_this_matters: >
+      Platform IP enforcement standard for ad rejection of counterfeit and
+      infringing listings.
+    retrieval_keywords: ['Meta', 'counterfeit', 'intellectual property', 'ad rejection', 'trademark', 'Facebook ads']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark']
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - meta.ip.third_party_infringement
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+      - ip.third_party_ip_infringement_prohibited
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Ads may not contain content that violates the intellectual property rights
+          of any third party, including copyright, trademark or other legal rights.
+          This includes, but is not limited to, the promotion or sale of counterfeit
+          goods.
+        source_url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/third-party-infringement
+        section: "Third-Party Intellectual Property Infringement policy"
+
+  - precedent_id: prec.meta.gambling_authorization_2024
+    source: "Meta Advertising Standards"
+    source_url: "https://transparency.meta.com/policies/ad-standards/restricted-goods-services/gambling-games/"
+    date: 2024-01-01
+    title: "Meta online gambling ads — authorization and licensing required"
+    summary: >
+      Meta requires written authorization before running real-money online
+      gambling ads and proof that activities are licensed or lawful in targeted
+      territories.
+    why_this_matters: >
+      Core Meta gate for sportsbook and casino ad accounts in permitted US states.
+    retrieval_keywords: ['Meta', 'online gambling', 'sports betting', 'ad authorization', 'license', 'Facebook ads']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling']
+    violated_clause_ids:
+      - meta.gambling.authorization_and_license
+      - meta.gambling.no_minors
+    canonical_ids:
+      - gambling.realmoney_requires_license_and_authorization
+      - gambling.no_minors_targeting
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Ads that promote online gambling and gaming are only allowed once an ad
+          account has obtained authorization. Advertisers will need to request
+          authorization from Meta through the Authorizations and Verifications tab
+          in Meta Business Suite and provide evidence that the gambling activities
+          are appropriately licensed by a regulator or otherwise established as
+          lawful in the territory they want to target.
+        source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/gambling-games/
+        section: "Restricted Goods and Services > Online Gambling and Games"
+
+  - precedent_id: prec.google.repeat_violation_strikes_2024
+    source: "Google Ads Policy"
+    source_url: "https://support.google.com/adspolicy/answer/10922738"
+    date: 2024-01-01
+    title: "Google Ads — strike system for repeat policy violations"
+    summary: >
+      Google issues up to three strikes for repeat violations of certain policies,
+      with 3- and 7-day account holds followed by suspension on the third strike.
+    why_this_matters: >
+      Official Google escalation path for repeat misleading, counterfeit, or
+      restricted-category ad violations.
+    retrieval_keywords: ['Google Ads', 'strikes', 'repeat violations', 'account suspension', 'policy enforcement']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - google.misrep.unacceptable_business_practices
+      - google.ip.counterfeit_goods
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+      - ip.counterfeit_goods_prohibited
+    outcome: suspension
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          We take repeat violations of our policies seriously and take action
+          against advertisers for non-compliance, including disapproving violating
+          ads so they don't serve, as well as suspending accounts for repeat or
+          egregious violations.
+        source_url: https://support.google.com/adspolicy/answer/10922738
+        section: "About enforcement procedures for repeat violations"
+
+  - precedent_id: prec.google.counterfeit_goods_policy_2024
+    source: "Google Ads Policy"
+    source_url: "https://support.google.com/adspolicy/answer/176017"
+    date: 2024-01-01
+    title: "Google Ads — counterfeit goods prohibition"
+    summary: >
+      Google Ads prohibits the sale or promotion of counterfeit goods that mimic
+      brand trademarks or product features to pass as genuine.
+    why_this_matters: >
+      Primary Google ad policy cited when disapproving counterfeit product
+      listings and landing pages.
+    retrieval_keywords: ['Google Ads', 'counterfeit goods', 'trademark', 'ad disapproval', 'knockoff']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Google Ads and Display & Video 360 prohibit the sale or promotion for sale
+          of counterfeit goods.
+        source_url: https://support.google.com/adspolicy/answer/176017
+        section: "Counterfeit goods policy"
+
+  - precedent_id: prec.tiktok.h2_2020_ad_rejections
+    source: "TikTok Newsroom"
+    source_url: "https://newsroom.tiktok.com/en-us/tiktoks-h-2-2020-transparency-report"
+    date: 2021-02-24
+    title: "TikTok H2 2020 transparency — 3.5M ads rejected for policy violations"
+    summary: >
+      TikTok rejected 3,501,477 ads in H2 2020 for violating advertising policies
+      and guidelines, including restricted categories such as tobacco and
+      gambling.
+    why_this_matters: >
+      Scale benchmark for TikTok proactive ad moderation across prohibited
+      verticals.
+    retrieval_keywords: ['TikTok', 'transparency report', 'ads rejected', 'advertising policy', '3501477']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'gambling', 'drugs']
+    violated_clause_ids:
+      - tiktok.gambling.certification_license
+      - tiktok.atc.tobacco
+    canonical_ids:
+      - gambling.realmoney_requires_license_and_authorization
+      - atc.tobacco_and_nicotine_ads_prohibited
+    outcome: suspension
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          3,501,477 ads were rejected for violating advertising policies and
+          guidelines.
+        source_url: https://newsroom.tiktok.com/en-us/tiktoks-h-2-2020-transparency-report
+        section: "TikTok H2 2020 Transparency Report"
+
+  - precedent_id: prec.tiktok.gambling_certification_policy
+    source: "TikTok Ads Policy"
+    source_url: "https://ads.tiktok.com/help/article/tiktok-ads-policy-gambling-and-games"
+    date: 2025-08-01
+    title: "TikTok gambling ads — certification and legal-market requirements"
+    summary: >
+      TikTok requires advertisers to complete certification before running
+      gambling ads and prohibits unlicensed or illegal gambling services.
+    why_this_matters: >
+      TikTok gate parallel to Meta/Google for licensed sportsbook and casino
+      promotions.
+    retrieval_keywords: ['TikTok', 'gambling ads', 'certification', 'sports betting', 'license', 'unlicensed gambling']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling']
+    violated_clause_ids:
+      - tiktok.gambling.certification_license
+      - tiktok.gambling.responsible
+    canonical_ids:
+      - gambling.realmoney_requires_license_and_authorization
+      - gambling.responsible_gambling_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          To advertise gambling services, you must go through our certification
+          process. Gambling ads are only allowed in specified markets where gambling
+          is legal and when all local certifications and requirements are met.
+          Gambling ads that promote unlicensed or illegal gambling services are not
+          allowed.
+        source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-gambling-and-games
+        section: "Advertising Policies > Gambling and Games > Certification requirements"
+
+  - precedent_id: prec.linkedin.political_ads_prohibited
+    source: "LinkedIn Advertising Policies"
+    source_url: "https://www.linkedin.com/legal/ads-policy"
+    date: 2024-05-28
+    title: "LinkedIn — paid political advertising prohibited globally"
+    summary: >
+      LinkedIn prohibits political ads including those advocating for or against
+      candidates, parties, ballot propositions, or fundraising by political
+      committees.
+    why_this_matters: >
+      Global political ad ban enforced through LinkedIn ad review and rejection
+      workflow.
+    retrieval_keywords: ['LinkedIn', 'political ads prohibited', 'election ads', 'PAC', 'ballot proposition']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - linkedin.political.prohibited
+    canonical_ids:
+      - political.paid_political_ads_prohibited
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Political ads are prohibited, including ads advocating for or against a
+          particular candidate, party, ballot proposition, law, regulation, or
+          otherwise intended to influence an election outcome.
+        source_url: https://www.linkedin.com/legal/ads-policy
+        section: "LinkedIn Advertising Policies > Political"
+
+  - precedent_id: prec.linkedin.ad_rejection_review
+    source: "LinkedIn Marketing Solutions Help"
+    source_url: "https://www.linkedin.com/help/lms/answer/a416939"
+    date: 2024-05-28
+    title: "LinkedIn ad review — rejection notices and appeals"
+    summary: >
+      LinkedIn automatically reviews ads at launch; rejected ads display policy
+      violation reasons in Campaign Manager with edit and appeal options.
+    why_this_matters: >
+      Documents LinkedIn enforcement workflow for prohibited categories including
+      political, tobacco, and counterfeit content.
+    retrieval_keywords: ['LinkedIn', 'ad rejected', 'Campaign Manager', 'appeal', 'ad review', 'Advertising Policies']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - linkedin.finance.requirements
+      - linkedin.political.prohibited
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - political.paid_political_ads_prohibited
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          If an ad or Lead Gen Form's status is listed as Rejected in Campaign
+          Manager, it means that our team reviewed your ad and found the content,
+          landing page, or form to be in violation of our Advertising Policies.
+        source_url: https://www.linkedin.com/help/lms/answer/a416939
+        section: "Ad or Lead Gen Form rejected in review"
+
+  - precedent_id: prec.amazon.misleading_claims_moderation
+    source: "Amazon Ads"
+    source_url: "https://advertising.amazon.com/library/guides/sponsored-brands-sponsored-display-moderation"
+    date: 2024-01-01
+    title: "Amazon Sponsored Brands/Display — misleading claims moderation"
+    summary: >
+      Amazon rejects ads with unsubstantiated superiority claims and requires ad
+      copy to match landing-page products and offers.
+    why_this_matters: >
+      Amazon ad moderation standard for misleading superiority and landing-page
+      mismatch claims.
+    retrieval_keywords: ['Amazon Ads', 'Sponsored Brands', 'misleading claims', 'substantiation', 'ad rejection', 'moderation']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - amazon.misleading.truthful_substantiated_claims
+      - amazon.misleading.landing_page_match
+    canonical_ids:
+      - misleading.unsubstantiated_objective_claims
+      - misleading.missing_or_inconsistent_material_info
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Your ads must be truthful and accurate, and that goes especially for any
+          claims you make.
+        source_url: https://advertising.amazon.com/library/guides/sponsored-brands-sponsored-display-moderation
+        section: "Claims and substantiations"
+
+  - precedent_id: prec.amazon.malvertising_suspension
+    source: "Amazon Ads Policy"
+    source_url: "https://advertising.amazon.com/resources/ad-policy/adsp-account-suspension-for-malvertising-policy"
+    date: 2024-01-01
+    title: "Amazon DSP — account suspension for malvertising violations"
+    summary: >
+      Amazon DSP may block creatives and suspend advertiser accounts for
+      malvertising policy violations, requiring remediation before reinstatement.
+    why_this_matters: >
+      Severe Amazon Ads enforcement path for deceptive or harmful ad destinations.
+    retrieval_keywords: ['Amazon DSP', 'malvertising', 'account suspension', 'ad policy', 'remediation']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading', 'safety']
+    violated_clause_ids:
+      - amazon.misleading.no_fake_functionality
+    canonical_ids:
+      - misleading.missing_or_inconsistent_material_info
+    outcome: suspension
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Ads, assets, destinations, and other content that violate Amazon Ads
+          policies can be blocked by ADSP, and may result in account suspension.
+        source_url: https://advertising.amazon.com/resources/ad-policy/adsp-account-suspension-for-malvertising-policy
+        section: "ADSP Account Suspension for Malvertising Policy"
+
+  - precedent_id: prec.x.deceptive_marketing_policy
+    source: "X Advertising Policies"
+    source_url: "https://business.x.com/en/help/ads-policies/ads-content-policies/deceptive-and-fraudulent-content"
+    date: 2024-01-01
+    title: "X Ads — deceptive marketing and pricing omission rules"
+    summary: >
+      X prohibits ads using deceptive marketing, clickbait, unjustified outcome
+      promises, and offers that omit vital pricing or payment terms.
+    why_this_matters: >
+      Official X ad policy for misleading financial, gambling-adjacent, and
+      subscription promotions.
+    retrieval_keywords: ['X ads', 'Twitter ads', 'deceptive marketing', 'clickbait', 'pricing omission', 'misleading']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['misleading']
+    violated_clause_ids:
+      - x.misleading.deceptive_marketing
+      - x.misleading.pricing_omission
+    canonical_ids:
+      - misleading.exaggerated_results
+      - misleading.missing_or_inconsistent_material_info
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Ads must not promote products or services using deceptive marketing or
+          misrepresentative business practices. Examples include: Use of clickbait
+          tactics, where the primary purpose is to drive users to a landing page
+          through exaggerated, sensationalized, inaccurate language or calls-to-
+          action.
+        source_url: https://business.x.com/en/help/ads-policies/ads-content-policies/deceptive-and-fraudulent-content
+        section: "Ads Content Policies > Deceptive & Fraudulent Content > Deceptive marketing"
+
+  - precedent_id: prec.meta.atc_tobacco_prohibited
+    source: "Meta Advertising Standards"
+    source_url: "https://transparency.meta.com/policies/ad-standards/restricted-goods-services/tobacco-related-products/"
+    date: 2024-01-01
+    title: "Meta — tobacco and nicotine product ads prohibited"
+    summary: >
+      Meta prohibits ads promoting the sale or use of tobacco, nicotine,
+      e-cigarettes, and vapes except for WHO/FDA-approved cessation products
+      targeted to adults.
+    why_this_matters: >
+      Platform ATC enforcement baseline rejecting nicotine and vape ads including
+      ENDS marketed on social channels.
+    retrieval_keywords: ['Meta', 'tobacco ads', 'nicotine', 'vape', 'e-cigarette', 'ENDS prohibited']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs']
+    violated_clause_ids:
+      - meta.atc.tobacco
+    canonical_ids:
+      - atc.tobacco_and_nicotine_ads_prohibited
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Ads must not promote the sale or use of tobacco or nicotine products and
+          related paraphernalia. Ads must not promote Electronic Nicotine delivery
+          devices, such as electronic cigarettes, vaporizers, or any other products
+          that simulate smoking or are otherwise designed for use with tobacco or
+          nicotine products.
+        source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/tobacco-related-products/
+        section: "Restricted Goods and Services > Tobacco and Related Products"
+
+  - precedent_id: prec.google.gambling_minors_policy
+    source: "Google Ads Policy"
+    source_url: "https://support.google.com/adspolicy/answer/15132179"
+    date: 2024-01-01
+    title: "Google gambling ads — no targeting of minors"
+    summary: >
+      Google requires gambling advertisers to never target minors and to include
+      responsible-gambling information on landing pages.
+    why_this_matters: >
+      Google gambling ad gate complementing state-licensing requirements for
+      sportsbook campaigns.
+    retrieval_keywords: ['Google Ads', 'gambling', 'minors', 'responsible gambling', 'sports betting targeting']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling', 'minors']
+    violated_clause_ids:
+      - google.gambling.minors
+      - google.gambling.responsible
+    canonical_ids:
+      - gambling.no_minors_targeting
+      - gambling.responsible_gambling_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Gambling and online gambling-promoting content ads and destinations must
+          also: only target approved countries, have a landing page that displays
+          information about responsible gambling and never target minors.
+        source_url: https://support.google.com/adspolicy/answer/15132179
+        section: "Advertising Policies > Gambling and games > Requirements"

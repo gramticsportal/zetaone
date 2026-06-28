@@ -104,3 +104,75 @@ precedents:
           findings in the 2015 Order and expressly prohibited by the 2015 Order.
         source_url: https://files.consumerfinance.gov/f/documents/cfpb_spring-semi-annual-report_2023-11.pdf
         section: "CFPB Semi-Annual Report, Spring 2023"
+
+  - precedent_id: prec.cfpb.freedom_debt_relief_2019
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_freedom-debt-relief_stipulated-final-judgment-order_2019-07.pdf"
+    date: 2019-07-01
+    title: "CFPB v. Freedom Debt Relief — deceptive debt-relief marketing"
+    summary: >
+      Freedom Debt Relief agreed to a $5 million civil penalty and $20 million
+      restitution order prohibiting misrepresentations about creditor negotiations
+      and fee charges in debt-relief advertising and sales.
+    why_this_matters: >
+      Landmark debt-relief ad enforcement on misrepresentation and advance-fee
+      practices.
+    retrieval_keywords: ['Freedom Debt Relief', 'CFPB', 'debt relief', 'deceptive marketing', 'Telemarketing Sales Rule', 'advance fees']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$5,000,000 penalty; $20,000,000 restitution"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Company Defendant and its officers, agents, servants, employees, and
+          attorneys, in connection with the advertising, marketing, promotion,
+          offering for sale, sale, or provision of Debt-Relief Services, may not
+          misrepresent, or assist others in misrepresenting, expressly or impliedly.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_freedom-debt-relief_stipulated-final-judgment-order_2019-07.pdf
+        section: "Stipulated Final Judgment, Section I"
+
+  - precedent_id: prec.cfpb.western_benefits_2024
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-takes-action-against-western-benefits-for-swindling-student-loan-borrowers/"
+    date: 2024-05-20
+    title: "CFPB v. Western Benefits Group — deceptive student-loan debt-relief ads"
+    summary: >
+      CFPB ordered Western Benefits to cease operations and pay a $400,000 penalty
+      for charging illegal advance fees and falsely claiming Department of
+      Education affiliation in debt-relief marketing.
+    why_this_matters: >
+      Recent CFPB penalty for false government-affiliation claims in student-loan
+      relief advertising.
+    retrieval_keywords: ['Western Benefits', 'CFPB', 'student loans', 'debt relief', 'advance fees', 'Department of Education affiliation']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - linkedin.finance.prohibited
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - misleading.false_affiliation_or_endorsement
+    outcome: consent_order
+    monetary_relief: "$400,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The CFPB found Western Benefits also misrepresented that it was affiliated
+          with and endorsed by the Department of Education, and that the company
+          would help consumers consolidate student loans, lower consumers' monthly
+          student loan payments, or obtain loan cancellation.
+        source_url: https://www.consumerfinance.gov/about-us/newsroom/cfpb-takes-action-against-western-benefits-for-swindling-student-loan-borrowers/
+        section: "CFPB Press Release, May 20, 2024"

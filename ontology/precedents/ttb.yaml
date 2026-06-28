@@ -33,3 +33,36 @@ precedents:
           stimulating or an energizing effect on the consumer.
         source_url: https://www.ttb.gov/media/70996/download?inline=
         section: "TTB Industry Circular (McKenzie enforcement)"
+
+  - precedent_id: prec.ttb.clean_beer_guidance_2022
+    source: "U.S. Alcohol and Tobacco Tax and Trade Bureau"
+    source_url: "https://www.ttb.gov/public-information/news/use-of-the-word-clean-in-alcohol-beverage-labeling-and-advertising"
+    date: 2022-04-08
+    title: "TTB guidance — misleading 'clean' claims in alcohol advertising"
+    summary: >
+      TTB clarified that using 'clean' with health-benefit implications in alcohol
+      ads — such as 'clean and healthy' or 'no headaches' — constitutes misleading
+      health-related statements.
+    why_this_matters: >
+      Official TTB line on wellness-coded alcohol ad copy beyond McKenzie energy-
+      claim enforcement.
+    retrieval_keywords: ['TTB', 'clean beer', 'alcohol advertising', 'misleading health claims', 'wellness marketing']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['alcohol', 'health', 'misleading']
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+    canonical_ids:
+      - atc.alcohol_mandatory_and_prohibited_statements
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In other cases, the term is used together with other language to create
+          the misleading impression that consumption of the alcohol beverage will
+          have health benefits, or that the health risks otherwise associated with
+          alcohol consumption will be mitigated.
+        source_url: https://www.ttb.gov/public-information/news/use-of-the-word-clean-in-alcohol-beverage-labeling-and-advertising
+        section: "TTB Market Compliance Office, April 8, 2022"

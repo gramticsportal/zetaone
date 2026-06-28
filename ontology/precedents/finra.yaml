@@ -35,3 +35,39 @@ precedents:
           and Principles of Trade).
         source_url: https://www.finra.org/media-center/newsreleases/2024/finra-fines-m1-finance-850000-violations-regarding-use-social-media
         section: "FINRA News Release, June 2024"
+
+  - precedent_id: prec.finra.robinhood_finfluencer_2025
+    source: "Financial Industry Regulatory Authority (FINRA)"
+    source_url: "https://www.finra.org/media-center/newsreleases/2025/finra-orders-robinhood-financial-pay-375-million-restitution"
+    date: 2025-03-07
+    title: "FINRA v. Robinhood — unsupervised paid finfluencer communications"
+    summary: >
+      FINRA fined Robinhood entities $26 million and ordered $3.75 million
+      restitution, finding Robinhood failed to reasonably supervise paid social
+      media influencer posts that were promissory or not fair and balanced.
+    why_this_matters: >
+      Major finfluencer supervision penalty extending M1 Finance precedent to
+      promissory social-media financial ads.
+    retrieval_keywords: ['Robinhood', 'FINRA', 'finfluencer', 'social media', 'fair and balanced', 'Rule 2210']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - finra.finance.fair_balanced
+      - finra.finance.no_performance_projection
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.testimonials_endorsements_disclosure
+    outcome: fine
+    monetary_relief: "$26,000,000 fines; $3,750,000 restitution"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Robinhood Financial failed to reasonably supervise and retain social media
+          communications promoting the firm that were posted by paid social media
+          influencers. Some of these communications included statements that were
+          promissory or not fair and balanced, and thus misleading to investors.
+        source_url: https://www.finra.org/media-center/newsreleases/2025/finra-orders-robinhood-financial-pay-375-million-restitution
+        section: "FINRA News Release, March 7, 2025"

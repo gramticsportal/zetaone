@@ -71,3 +71,39 @@ precedents:
           Had Consistently Misled Consumers In Advertisements.
         source_url: https://ag.ny.gov/press-release/2016/ag-schneiderman-announces-12-million-settlement-draftkings-and-fanduel
         section: "NY AG Press Release, Oct 25, 2016"
+
+  - precedent_id: prec.nyag.sports_betting_superbowl_2022
+    source: "New York State Attorney General"
+    source_url: "https://ag.ny.gov/press-release/2022/consumer-alert-attorney-general-james-warns-new-yorkers-deceptive-online-sports"
+    date: 2022-02-10
+    title: "NY AG consumer alert — deceptive online sports betting Super Bowl ads"
+    summary: >
+      Attorney General James warned New Yorkers about misleading sports-betting
+      ads touting risk-free bets and $1,000 welcome offers that often carry hidden
+      wagering requirements and restrictions.
+    why_this_matters: >
+      Official AG guidance flagging risk-free and bonus-deposit ad patterns as
+      deceptive in newly legal NY online sports betting.
+    retrieval_keywords: ['New York AG', 'sports betting', 'Super Bowl', 'risk-free bets', 'welcome bonus', 'deceptive ads']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling', 'misleading', 'financial']
+    violated_clause_ids:
+      - ftc.misleading.express_implied
+      - google.gambling.responsible
+    canonical_ids:
+      - misleading.missing_or_inconsistent_material_info
+      - gambling.responsible_gambling_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Since online sports gambling became legal in New York last month, New
+          Yorkers have been bombarded with misleading ads on social media and
+          streaming sites that claim "risk-free" bets and "$1,000 welcome offers,"
+          which sound like free money, but often come with strings attached without
+          consumers' awareness.
+        source_url: https://ag.ny.gov/press-release/2022/consumer-alert-attorney-general-james-warns-new-yorkers-deceptive-online-sports
+        section: "NY AG Consumer Alert, Feb 10, 2022"

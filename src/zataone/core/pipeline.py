@@ -260,14 +260,18 @@ class CompliancePipeline:
             os.path.basename(policy_path), self._domain, self._jurisdiction,
         )
 
-        with open(policy_path, "r") as f:
-            data = yaml.safe_load(f) or {}
+        with open(policy_path, "rb") as f:
+            raw = f.read()
+        data = yaml.safe_load(raw) or {}
 
         self._policy_pack = load_policy_pack_from_dict(
             data,
             source_path=policy_path,
             jurisdiction=self._jurisdiction,
         )
+        import hashlib
+
+        self._policy_pack.content_hash = hashlib.sha256(raw).hexdigest()
         rules = self._policy_pack.rules
 
         vision_support_map = {}
@@ -357,7 +361,9 @@ class CompliancePipeline:
             self._domain_config,
             run_pipeline_mode=run_pipeline_mode,
         )
-        signals, counts = extract_signals_parallel(extractors, asset, asset_id=asset_id)
+        signals, counts, failed_extractors = extract_signals_parallel(
+            extractors, asset, asset_id=asset_id
+        )
 
         producers = sorted(eid for eid, n in counts.items() if n > 0)
         logger.info(
@@ -408,7 +414,21 @@ class CompliancePipeline:
             verdict["status"] = "PENDING_ADVISORY"
             verdict["verdict"] = "pending_advisory"
 
+        # Fail to review, never to approve: a crashed extractor means coverage
+        # is incomplete, so a clean result cannot be trusted as COMPLIANT.
+        if failed_extractors:
+            logger.warning(
+                "Extraction degraded (%s); capping verdict at REVIEW_REQUIRED",
+                sorted(failed_extractors),
+            )
+            if verdict.get("status") == "COMPLIANT":
+                verdict["status"] = "REVIEW_REQUIRED"
+            if verdict.get("verdict") == "likely_approved":
+                verdict["verdict"] = "borderline"
+
         verdict_metadata = dict(verdict.get("metadata") or {})
+        if failed_extractors:
+            verdict_metadata["degraded_extractors"] = failed_extractors
         verdict_metadata["document"] = document.to_dict()
         verdict_metadata["document_centric_enabled"] = document_centric_enabled()
         if self._policy_pack is not None:
@@ -690,6 +710,11 @@ class CompliancePipeline:
                 tenant_id=tenant_id,
                 policy_pack_id=policy_pack_id,
             )
+
+            # Queue borderline / flagged / degraded outcomes for human review.
+            from zataone.services.review_service import review_state_for_verdict
+
+            asset_record.review_state = review_state_for_verdict(verdict)
 
             self._audit_service.persist_audit_event(
                 session,

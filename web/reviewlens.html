@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!-- Zataone ReviewLens — human review queue & decision recording -->
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ReviewLens: human review queue for borderline compliance verdicts" />
+    <title>Zataone ReviewLens</title>
+    <style>
+        :root {
+            --pl-primary: #5b6ee8;
+            --pl-primary-dark: #4a57c4;
+            --pl-bg: #f0f2f8;
+            --pl-card: #ffffff;
+            --pl-border: #e4e7ef;
+            --pl-text: #1a1d26;
+            --pl-muted: #5c6370;
+            --pl-green: #1e7e34;
+            --pl-green-bg: #e8f5ec;
+            --pl-yellow: #9a6700;
+            --pl-yellow-bg: #fff8e6;
+            --pl-red: #b02a37;
+            --pl-red-bg: #fdecef;
+            --pl-radius: 12px;
+            --pl-shadow: 0 2px 12px rgba(26, 29, 38, 0.08);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            max-width: 1280px; margin: 0 auto; padding: 16px 20px 40px;
+            background: var(--pl-bg); color: var(--pl-text); line-height: 1.5;
+        }
+        .container { background: var(--pl-card); padding: 28px 32px; border-radius: var(--pl-radius); box-shadow: var(--pl-shadow); }
+        h1 { color: var(--pl-primary); text-align: center; margin-bottom: 4px; font-size: 1.65rem; font-weight: 700; letter-spacing: -0.02em; }
+        .subtitle { text-align: center; color: var(--pl-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        .topbar { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; margin-bottom: 18px; }
+        .topbar .field { flex: 1 1 260px; }
+        label { display: block; font-weight: 600; color: #333; font-size: 12px; margin-bottom: 3px; }
+        input[type="text"], textarea, select {
+            width: 100%; box-sizing: border-box; padding: 9px 10px;
+            border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #fff;
+        }
+        textarea { min-height: 64px; resize: vertical; }
+        button {
+            padding: 10px 16px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
+            cursor: pointer; background: var(--pl-primary); color: #fff; transition: background .18s ease;
+        }
+        button:hover { background: var(--pl-primary-dark); }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .grid { display: grid; grid-template-columns: 340px 1fr; gap: 18px; align-items: start; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        .panel { background: #fff; border: 1px solid var(--pl-border); border-radius: 10px; padding: 14px; }
+        .panel h2 { margin: 0 0 10px 0; font-size: 15px; color: #222; }
+        .queue-item {
+            border: 1px solid var(--pl-border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;
+            cursor: pointer; transition: border-color .15s ease, background .15s ease;
+        }
+        .queue-item:hover { border-color: var(--pl-primary); background: #f7f8ff; }
+        .queue-item.active { border-color: var(--pl-primary); background: #eef0ff; }
+        .queue-item .qid { font-family: ui-monospace, Consolas, monospace; font-size: 11px; color: var(--pl-muted); }
+        .queue-item .qmeta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+        .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+        .pill.red { color: var(--pl-red); background: var(--pl-red-bg); }
+        .pill.yellow { color: var(--pl-yellow); background: var(--pl-yellow-bg); }
+        .pill.green { color: var(--pl-green); background: var(--pl-green-bg); }
+        .pill.gray { color: var(--pl-muted); background: #eef0f4; }
+        .media-stage { border: 1px solid var(--pl-border); border-radius: 10px; overflow: hidden; background: #fafafa; text-align: center; }
+        .media-stage img { max-width: 100%; max-height: 420px; display: block; margin: 0 auto; }
+        .media-stage audio { width: 100%; padding: 16px; }
+        .media-stage pre { text-align: left; padding: 14px; margin: 0; white-space: pre-wrap; font-size: 13px; max-height: 320px; overflow: auto; }
+        .violation {
+            border: 1px solid var(--pl-border); border-left: 4px solid var(--pl-red); border-radius: 6px;
+            padding: 8px 10px; margin-bottom: 8px; font-size: 13px;
+        }
+        .violation .vrule { font-weight: 700; }
+        .violation .vfp { margin-top: 6px; font-size: 12px; color: var(--pl-muted); display: flex; align-items: center; gap: 6px; }
+        .violation .vfp input { width: auto; }
+        .decisions { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
+        .decisions button { flex: 1 1 120px; }
+        .btn-approve { background: var(--pl-green); }
+        .btn-approve:hover { background: #17632a; }
+        .btn-reject { background: var(--pl-red); }
+        .btn-reject:hover { background: #8f202b; }
+        .btn-changes { background: var(--pl-yellow); }
+        .btn-changes:hover { background: #7c5300; }
+        .advisory { background: #f7f8ff; border: 1px solid #dfe3ff; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin-top: 10px; }
+        .muted { color: var(--pl-muted); font-size: 12.5px; }
+        .msg { padding: 10px 12px; border-radius: 8px; margin-top: 10px; font-size: 13.5px; display: none; }
+        .msg.ok { display: block; color: var(--pl-green); background: var(--pl-green-bg); }
+        .msg.err { display: block; color: var(--pl-red); background: var(--pl-red-bg); }
+        .kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13px; margin-top: 8px; }
+        .kv dt { color: var(--pl-muted); }
+        .kv dd { margin: 0; word-break: break-all; }
+        .history-item { border-top: 1px solid var(--pl-border); padding: 8px 0; font-size: 13px; }
+        .footer-link { text-align: center; margin-top: 16px; font-size: 13px; }
+        .footer-link a { color: var(--pl-primary); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>ReviewLens</h1>
+    <p class="subtitle">Human review queue — decisions recorded here are authoritative and become label data.</p>
+
+    <div class="topbar">
+        <div class="field">
+            <label for="apiBase">API base URL</label>
+            <input type="text" id="apiBase" placeholder="http://127.0.0.1:8000" />
+        </div>
+        <div class="field">
+            <label for="reviewer">Reviewer (name or email)</label>
+            <input type="text" id="reviewer" placeholder="you@company.com" />
+        </div>
+        <div>
+            <button id="refreshBtn" type="button">Refresh queue</button>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="panel">
+            <h2>Queue <span id="queueCount" class="pill gray"></span></h2>
+            <div id="queueList"><p class="muted">Set the API base URL and refresh.</p></div>
+        </div>
+
+        <div class="panel" id="casePanel" style="display:none">
+            <h2>Case <span id="caseId" class="qid"></span></h2>
+
+            <div class="media-stage" id="mediaStage"><p class="muted" style="padding:20px">No media</p></div>
+
+            <dl class="kv" id="caseMeta"></dl>
+
+            <div id="advisoryBox" class="advisory" style="display:none"></div>
+
+            <h2 style="margin-top:16px">Violations <span class="muted">(mark false positives — this trains the rules)</span></h2>
+            <div id="violationList"><p class="muted">None recorded.</p></div>
+
+            <label for="reason" style="margin-top:12px">Reason / notes</label>
+            <textarea id="reason" placeholder="Why this decision? Required context for audit and appeals."></textarea>
+
+            <div class="decisions">
+                <button class="btn-approve" type="button" onclick="submitDecision('approved')">Approve</button>
+                <button class="btn-changes" type="button" onclick="submitDecision('needs_changes')">Needs changes</button>
+                <button class="btn-reject" type="button" onclick="submitDecision('rejected')">Reject</button>
+            </div>
+            <div id="msg" class="msg"></div>
+
+            <div id="historyBox" style="display:none">
+                <h2 style="margin-top:14px">Previous decisions</h2>
+                <div id="historyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer-link">Submit new creatives in <a href="policylens.html">PolicyLens</a></p>
+</div>
+
+<script>
+(function () {
+    var saved = localStorage.getItem("zataone_api_base") || "http://127.0.0.1:8000";
+    document.getElementById("apiBase").value = saved;
+    var savedRev = localStorage.getItem("zataone_reviewer") || "";
+    document.getElementById("reviewer").value = savedRev;
+})();
+
+var currentAsset = null;   // full GET /assets/{id} payload
+var currentQueueItem = null;
+
+function apiBase() {
+    var v = document.getElementById("apiBase").value.trim().replace(/\/+$/, "");
+    localStorage.setItem("zataone_api_base", v);
+    return v;
+}
+function reviewerName() {
+    var v = document.getElementById("reviewer").value.trim();
+    localStorage.setItem("zataone_reviewer", v);
+    return v;
+}
+function el(id) { return document.getElementById(id); }
+function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+}
+function verdictPill(v) {
+    if (!v) return '<span class="pill gray">no verdict</span>';
+    var cls = v === "likely_rejected" ? "red" : (v === "likely_approved" ? "green" : "yellow");
+    return '<span class="pill ' + cls + '">' + esc(v) + "</span>";
+}
+
+async function loadQueue() {
+    var list = el("queueList");
+    list.innerHTML = '<p class="muted">Loading…</p>';
+    try {
+        var r = await fetch(apiBase() + "/review-queue?limit=100");
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        var data = await r.json();
+        el("queueCount").textContent = data.count;
+        if (!data.items.length) {
+            list.innerHTML = '<p class="muted">Queue is empty — nothing needs review.</p>';
+            return;
+        }
+        list.innerHTML = "";
+        data.items.forEach(function (item) {
+            var div = document.createElement("div");
+            div.className = "queue-item";
+            div.id = "q-" + item.asset_id;
+            var degraded = item.degraded_extractors && Object.keys(item.degraded_extractors).length
+                ? '<span class="pill red">degraded</span>' : "";
+            var rules = (item.rule_ids || []).slice(0, 3).map(function (rid) {
+                return '<span class="pill gray">' + esc(rid) + "</span>";
+            }).join("");
+            div.innerHTML =
+                '<div class="qid">' + esc(item.asset_id.slice(0, 8)) + "… · " + esc(item.type) +
+                (item.external_ref ? " · " + esc(item.external_ref) : "") + "</div>" +
+                '<div class="qmeta">' + verdictPill(item.verdict) +
+                '<span class="pill gray">risk ' + esc(item.risk_score == null ? "?" : item.risk_score) + "</span>" +
+                degraded + rules + "</div>";
+            div.onclick = function () { openCase(item); };
+            list.appendChild(div);
+        });
+    } catch (e) {
+        list.innerHTML = '<p class="muted">Failed to load queue: ' + esc(e.message) + "</p>";
+    }
+}
+
+async function openCase(item) {
+    currentQueueItem = item;
+    document.querySelectorAll(".queue-item").forEach(function (n) { n.classList.remove("active"); });
+    var node = el("q-" + item.asset_id);
+    if (node) node.classList.add("active");
+
+    el("casePanel").style.display = "";
+    el("caseId").textContent = item.asset_id;
+    el("msg").className = "msg";
+    el("reason").value = "";
+    el("violationList").innerHTML = '<p class="muted">Loading…</p>';
+    el("advisoryBox").style.display = "none";
+    el("historyBox").style.display = "none";
+
+    renderMedia(item);
+
+    try {
+        var r = await fetch(apiBase() + "/assets/" + item.asset_id);
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        currentAsset = await r.json();
+    } catch (e) {
+        currentAsset = null;
+        el("violationList").innerHTML = '<p class="muted">Failed to load asset: ' + esc(e.message) + "</p>";
+        return;
+    }
+
+    var meta = currentAsset.metadata || {};
+    var kv = [
+        ["Verdict", currentAsset.display_verdict || currentAsset.verdict || "—"],
+        ["Compliance", currentAsset.compliance_status || "—"],
+        ["Risk score", currentAsset.risk_score != null ? currentAsset.risk_score : "—"],
+        ["Authority", currentAsset.verdict_authority || "—"],
+        ["Pipeline", currentAsset.pipeline_mode || "—"],
+        ["Policy pack", (meta.policy_pack && meta.policy_pack.id) || "—"],
+        ["Pack hash", (meta.policy_pack && meta.policy_pack.content_hash)
+            ? meta.policy_pack.content_hash.slice(0, 12) + "…" : "—"],
+    ];
+    if (currentAsset.parent_asset_id) kv.push(["Revision of", currentAsset.parent_asset_id]);
+    if (meta.degraded_extractors && Object.keys(meta.degraded_extractors).length) {
+        kv.push(["Degraded", Object.keys(meta.degraded_extractors).join(", ")]);
+    }
+    el("caseMeta").innerHTML = kv.map(function (pair) {
+        return "<dt>" + esc(pair[0]) + "</dt><dd>" + esc(pair[1]) + "</dd>";
+    }).join("");
+
+    var review = currentAsset.llm_final_review || {};
+    var rv = review.review || review;
+    if (rv && (rv.summary || rv.rationale)) {
+        el("advisoryBox").style.display = "";
+        el("advisoryBox").innerHTML =
+            "<strong>LLM advisory (context only — not authoritative):</strong><br>" +
+            esc(rv.summary || "") + (rv.rationale ? "<br><span class='muted'>" + esc(rv.rationale) + "</span>" : "");
+    }
+
+    renderViolations(currentAsset.violations || []);
+    loadHistory(item.asset_id);
+}
+
+function renderMedia(item) {
+    var stage = el("mediaStage");
+    var url = apiBase() + "/assets/" + item.asset_id + "/media";
+    if (!item.has_media && !(currentAsset && currentAsset.media_url)) {
+        stage.innerHTML = '<p class="muted" style="padding:20px">No stored media for this asset.</p>';
+        return;
+    }
+    if (item.type === "image") {
+        stage.innerHTML = '<img alt="creative under review" src="' + url + '" onerror="this.parentNode.innerHTML=\'<p class=muted style=padding:20px>Media unavailable.</p>\'">';
+    } else if (item.type === "audio") {
+        stage.innerHTML = '<audio controls src="' + url + '"></audio>';
+    } else {
+        stage.innerHTML = '<pre id="textMedia">Loading…</pre>';
+        fetch(url).then(function (r) { return r.ok ? r.text() : Promise.reject(new Error("HTTP " + r.status)); })
+            .then(function (t) { el("textMedia").textContent = t; })
+            .catch(function () { stage.innerHTML = '<p class="muted" style="padding:20px">Media unavailable.</p>'; });
+    }
+}
+
+function renderViolations(violations) {
+    var box = el("violationList");
+    if (!violations.length) {
+        box.innerHTML = '<p class="muted">No violations recorded — queued by risk band, advisory authority, or degraded extraction.</p>';
+        return;
+    }
+    box.innerHTML = "";
+    violations.forEach(function (v, i) {
+        var rule = v.rule_id || (v.evidence_data && v.evidence_data.rule_id) || "unknown_rule";
+        var sev = v.severity || (v.evidence_data && v.evidence_data.severity) || "";
+        var desc = v.description || (v.evidence_data && (v.evidence_data.matched_term || v.evidence_data.description)) || "";
+        var div = document.createElement("div");
+        div.className = "violation";
+        div.innerHTML =
+            '<span class="vrule">' + esc(rule) + "</span> " +
+            (sev ? '<span class="pill yellow">' + esc(sev) + "</span>" : "") +
+            (desc ? '<div class="muted">' + esc(typeof desc === "string" ? desc : JSON.stringify(desc)) + "</div>" : "") +
+            '<div class="vfp"><input type="checkbox" id="fp-' + i + '" data-rule="' + esc(rule) +
+            '" data-vid="' + esc(v.violation_id || v.id || "") + '"><label for="fp-' + i +
+            '" style="display:inline;font-weight:400">False positive — rule fired incorrectly</label></div>';
+        box.appendChild(div);
+    });
+}
+
+async function loadHistory(assetId) {
+    try {
+        var r = await fetch(apiBase() + "/assets/" + assetId + "/reviews");
+        if (!r.ok) return;
+        var data = await r.json();
+        if (!data.items.length) return;
+        el("historyBox").style.display = "";
+        el("historyList").innerHTML = data.items.map(function (d) {
+            return '<div class="history-item"><strong>' + esc(d.decision) + "</strong> by " +
+                esc(d.reviewer) + " · " + esc((d.created_at || "").slice(0, 19)) +
+                (d.reason ? '<div class="muted">' + esc(d.reason) + "</div>" : "") + "</div>";
+        }).join("");
+    } catch (e) { /* history is optional */ }
+}
+
+async function submitDecision(decision) {
+    var msg = el("msg");
+    msg.className = "msg";
+    if (!currentQueueItem) return;
+    var reviewer = reviewerName();
+    if (!reviewer) {
+        msg.className = "msg err";
+        msg.textContent = "Enter your reviewer name/email first.";
+        return;
+    }
+    var feedback = [];
+    document.querySelectorAll('#violationList input[type="checkbox"]').forEach(function (cb) {
+        feedback.push({
+            violation_id: cb.getAttribute("data-vid") || null,
+            rule_id: cb.getAttribute("data-rule"),
+            assessment: cb.checked ? "false_positive" : "true_positive",
+        });
+    });
+    var body = {
+        decision: decision,
+        reviewer: reviewer,
+        reason: el("reason").value.trim() || null,
+        violation_feedback: feedback,
+        source: "human_review",
+    };
+    try {
+        var r = await fetch(apiBase() + "/assets/" + currentQueueItem.asset_id + "/review", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+        var data = await r.json();
+        if (!r.ok) throw new Error(data.detail || ("HTTP " + r.status));
+        msg.className = "msg ok";
+        msg.textContent = "Recorded: " + decision + " → " + (data.review_state || "final");
+        loadQueue();
+    } catch (e) {
+        msg.className = "msg err";
+        msg.textContent = "Failed: " + e.message;
+    }
+}
+
+document.getElementById("refreshBtn").onclick = loadQueue;
+if (apiBase()) loadQueue();
+</script>
+</body>
+</html>

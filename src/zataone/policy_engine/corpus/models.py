@@ -39,6 +39,9 @@ class PolicyPack:
     clauses: list[PolicyClause] = field(default_factory=list)
     rules: dict[str, dict[str, Any]] = field(default_factory=dict)
     source_path: str | None = None
+    # sha256 of the source YAML bytes — makes any verdict reproducible against
+    # the exact rule text that produced it, even after the YAML is edited.
+    content_hash: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -50,4 +53,5 @@ class PolicyPack:
             "clauses": [c.to_dict() for c in self.clauses],
             "rule_count": len(self.rules),
             "source_path": self.source_path,
+            "content_hash": self.content_hash,
         }

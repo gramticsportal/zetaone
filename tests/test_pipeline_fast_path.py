@@ -59,7 +59,7 @@ def test_pipeline_run_includes_metadata_flags(monkeypatch):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
             with patch(
                 "zataone.core.pipeline.extract_signals_parallel",
-                return_value=([fake_signal], {"text": 1}),
+                return_value=([fake_signal], {"text": 1}, {}),
             ):
                 pipeline = CompliancePipeline(domain="ad_compliance")
                 asset = {"content": "guaranteed instant cure", "type": "text"}

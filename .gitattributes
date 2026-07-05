@@ -1,0 +1,15 @@
+# Binary formats — never apply line-ending conversion or text diffs
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.ogg binary
+*.zip binary
+*.woff binary
+*.woff2 binary

@@ -27,40 +27,51 @@ def extract_signals_parallel(
     asset: Any,
     *,
     asset_id: str | None = None,
-) -> tuple[list[Any], dict[str, int]]:
-    """Run extractors; parallel when enabled."""
+) -> tuple[list[Any], dict[str, int], dict[str, str]]:
+    """
+    Run extractors; parallel when enabled.
+
+    Returns (signals, counts, failed) — failed maps extractor_id → error string
+    for extractors that raised, so the pipeline can degrade the verdict instead
+    of silently approving with missing coverage.
+    """
     if asset_id:
         progress_update(asset_id, extraction="running")
 
     if not extractors:
         if asset_id:
             progress_update(asset_id, extraction="completed", signal_count=0)
-        return [], {}
+        return [], {}, {}
 
     signals: list[Any] = []
     counts: dict[str, int] = {}
+    failed: dict[str, str] = {}
 
-    def _run_one(ext: BaseExtractor) -> tuple[str, list[Any]]:
+    def _run_one(ext: BaseExtractor) -> tuple[str, list[Any], str | None]:
         eid = getattr(ext, "extractor_id", None) or type(ext).__name__
         try:
-            return eid, list(ext.extract(asset) or [])
-        except Exception:
+            return eid, list(ext.extract(asset) or []), None
+        except Exception as e:
             logger.exception("Extractor failed: id=%s", eid)
-            return eid, []
+            return eid, [], f"{type(e).__name__}: {e}"[:500]
 
     if pipeline_parallel_extractors_enabled() and len(extractors) > 1:
         max_workers = min(len(extractors), 4)
         with ThreadPoolExecutor(max_workers=max_workers) as pool:
             futures = {pool.submit(_run_one, ext): ext for ext in extractors}
             for fut in as_completed(futures):
-                eid, extracted = fut.result()
+                eid, extracted, err = fut.result()
                 counts[eid] = len(extracted)
+                if err:
+                    failed[eid] = err
                 if extracted:
                     signals.extend(extracted)
     else:
         for ext in extractors:
-            eid, extracted = _run_one(ext)
+            eid, extracted, err = _run_one(ext)
             counts[eid] = len(extracted)
+            if err:
+                failed[eid] = err
             if extracted:
                 signals.extend(extracted)
 
@@ -70,8 +81,9 @@ def extract_signals_parallel(
             extraction="completed",
             signal_count=len(signals),
             extractor_counts=counts,
+            extractor_failures=sorted(failed) or None,
         )
-    return signals, counts
+    return signals, counts, failed
 
 
 def run_parallel_vlm_and_deterministic(

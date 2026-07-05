@@ -65,6 +65,10 @@ class IngestionService:
         asset_id: uuid.UUID,
         tenant_id: uuid.UUID | str | None = None,
         idempotency_key: str | None = None,
+        storage_uri: str | None = None,
+        external_ref: str | None = None,
+        parent_asset_id: uuid.UUID | str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> AssetModel:
         """Create a minimal asset record with status=processing for async execution."""
         tid = self._resolve_tenant_id(session, tenant_id)
@@ -73,6 +77,12 @@ class IngestionService:
         if isinstance(asset_type, bytes):
             asset_type = "image"
         asset_type = str(asset_type)
+        pid: uuid.UUID | None = None
+        if parent_asset_id:
+            try:
+                pid = uuid.UUID(str(parent_asset_id))
+            except ValueError:
+                pid = None
         model = AssetModel(
             id=asset_id,
             tenant_id=tid,
@@ -80,6 +90,10 @@ class IngestionService:
             type=asset_type,
             status="processing",
             idempotency_key=idempotency_key,
+            storage_uri=storage_uri,
+            external_ref=external_ref,
+            parent_asset_id=pid,
+            meta=metadata or None,
         )
         session.add(model)
         session.flush()

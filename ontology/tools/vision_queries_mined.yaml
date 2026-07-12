@@ -1,0 +1,208 @@
+category_vision_queries:
+  misleading:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  - must
+  - deceptive
+  - product
+  - with
+  health:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  - that
+  - allowed
+  - disease
+  - product
+  financial:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  - with
+  - credit
+  - must
+  - misleading
+  gambling:
+  - casino
+  - dice
+  - poker chips
+  - roulette
+  - slot machine
+  - betting
+  - gambling
+  - online
+  - must
+  - certification
+  - target
+  - money
+  drugs:
+  - cigarette
+  - cigar
+  - vape
+  - tobacco
+  - nicotine
+  - e-cigarette
+  - promote
+  - drugs
+  - that
+  - recreational
+  - only
+  - paraphernalia
+  alcohol:
+  - beer
+  - wine
+  - alcohol
+  - liquor
+  - cocktail
+  - targeting
+  - local
+  - must
+  - that
+  - prohibited
+  - laws
+  - health
+  ip_trademark:
+  - counterfeit
+  - fake logo
+  - replica handbag
+  - luxury handbag
+  - trademark
+  - that
+  - goods
+  - rights
+  - video
+  - google
+  - logo
+  minors:
+  - child
+  - teenager
+  - young model
+  - under
+  - users
+  - audiences
+  - from
+  - children
+  - information
+  - alcohol
+  - people
+  political:
+  - campaign poster
+  - election badge
+  - political
+  - election
+  - paid
+  - that
+  - must
+  - disclaimer
+  - disclosure
+  - candidate
+  weapons:
+  - weapon
+  - gun
+  - knife
+  - ammunition
+  - explosive
+object_queries:
+- money
+- cash
+- banknote
+- before after
+- fake button
+- claims
+- that
+- misleading
+- must
+- deceptive
+- product
+- with
+- pill
+- medicine
+- syringe
+- supplement
+- health
+- allowed
+- disease
+- cryptocurrency
+- credit card
+- financial
+- loans
+- credit
+- casino
+- dice
+- poker chips
+- roulette
+- slot machine
+- betting
+- gambling
+- online
+- certification
+- target
+- cigarette
+- cigar
+- vape
+- tobacco
+- nicotine
+- e-cigarette
+- promote
+- drugs
+- recreational
+- only
+- paraphernalia
+- beer
+- wine
+- alcohol
+- liquor
+- cocktail
+- targeting
+- local
+- prohibited
+- laws
+- counterfeit
+- fake logo
+- replica handbag
+- luxury handbag
+- trademark
+- goods
+- rights
+- video
+- google
+- logo
+- child
+- teenager
+- young model
+- under
+- users
+- audiences
+- from
+- children
+- information
+- people
+- campaign poster
+- election badge
+- political
+- election
+- paid
+- disclaimer
+- disclosure
+- candidate
+- weapon
+- gun
+- knife
+- ammunition
+- explosive

@@ -403,8 +403,9 @@
                     '<code>policy_context</code> clauses. Rule engine is off; the <strong>Results</strong> card shows the LLM assessment when <code>GEMINI_API_KEY</code> is set.';
             } else {
                 hint.innerHTML =
-                    '<strong>Full:</strong> extractors build signals; VLM runs in parallel on images; then <strong>text LLM</strong> compares signals + VLM to policy. ' +
-                    'YAML rule engine is <strong>off by default</strong> (<code>ZATAONE_POLICY_ENGINE_ENABLED=true</code> on the API to enable).';
+                    '<strong>Full:</strong> extractors + rule engine produce <strong>audit evidence</strong> (violations, risk). ' +
+                    'VLM runs in parallel; <strong>LLM is the final judge</strong> synthesizing signals + VLM + rule hits. ' +
+                    'Set <code>ZATAONE_VERDICT_AUTHORITY=deterministic</code> on the API to show rule-engine verdict instead.';
             }
         }
         document.querySelectorAll('input[name="pipelineMode"]').forEach((r) => {
@@ -966,7 +967,8 @@
                     ? 'Quick: one Gemini pass (vision + policy)'
                     : 'Quick: VLM → LLM vs policy (rule engine off)';
             }
-            else if (authority === 'advisory') runLine = 'Full: extractors + VLM → LLM vs policy (rule engine off)';
+            else if (authority === 'advisory' && engineRan) runLine = 'Full: extractors + rule engine (audit) + VLM → LLM final verdict';
+            else if (authority === 'advisory') runLine = 'Full: extractors + VLM → LLM vs policy';
             else runLine = 'Full: extractors + rule engine + LLM second read';
             let html = '<p class="muted" style="margin:0 0 8px;font-size:12px;"><strong>Included in this run</strong> — ' + escapeHtml(runLine) + '</p>';
             if (vlm) html += formatAdvisoryVlmBlock(vlm);
@@ -1115,29 +1117,40 @@
             const engineRan = !!data.policy_engine_ran;
 
             let html = '';
-            if (pipeMode === 'fast' || verdictAuthority === 'advisory') {
-                html += '<div class="verdict-override-banner"><strong>LLM vs policy corpus</strong> — rule engine ';
-                html += engineRan ? 'ran (unusual for Quick).' : 'off; outcome from VLM + LLM advisory.';
+            if (verdictAuthority === 'advisory') {
+                html += '<div class="verdict-override-banner"><strong>Final verdict: LLM synthesis</strong>';
+                if (engineRan) {
+                    html += ' — rule engine hits shown below for audit/explainability.';
+                } else {
+                    html += ' — rule engine off; outcome from VLM + LLM advisory.';
+                }
                 html += '</div>';
             } else if (elevated) {
                 html += '<div class="verdict-override-banner"><strong>Human review recommended</strong> — ';
                 html += escapeHtml((data.override_reason || 'advisory_escalation').replace(/_/g, ' '));
                 html += '. Rule-engine outcome preserved for audit.</div>';
             }
-            if (sigCount === 0 && pipeMode === 'full' && engineRan) {
+            if (sigCount === 0 && pipeMode === 'full' && engineRan && verdictAuthority !== 'advisory') {
                 html += '<div class="verdict-override-banner"><strong>No extractor signals</strong> — OCR/vision may have missed content; treat rule-engine COMPLIANT with caution.</div>';
             }
             html += '<p class="muted" style="margin:0 0 10px;font-size:11px;">Pipeline: <strong>' + escapeHtml(pipeMode) + '</strong>';
             html += ' · authority: <strong>' + escapeHtml(verdictAuthority) + '</strong></p>';
             if (verdictAuthority === 'advisory') {
-                html += '<p class="muted" style="margin:0 0 10px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Assessment (LLM + policy)</p>';
+                html += '<p class="muted" style="margin:0 0 10px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Final assessment (LLM)</p>';
                 html += '<div class="verdict-hero"><div class="verdict-hero-main">';
                 html += '<div class="verdict-label">Compliance status</div>';
                 html += '<p class="verdict-value"><span class="status-dot ' + dot + '"></span>' + escapeHtml(status.replace(/_/g, ' ')) + '</p>';
                 html += '<div class="verdict-label" style="margin-top:12px;">Platform verdict</div>';
                 html += '<p class="verdict-value" style="font-size:1.1rem;">' + escapeHtml(verdictDisplayLabel(verdict)) + '</p></div>';
-                html += '<div class="metric-grid" style="min-width:180px;"><div class="metric-box"><span class="val">' + (riskScore === null ? '—' : riskScore.toFixed(2)) + '</span><span class="lbl">Risk</span></div>';
+                html += '<div class="metric-grid" style="min-width:180px;"><div class="metric-box"><span class="val">' + (riskScore === null ? '—' : riskScore.toFixed(2)) + '</span><span class="lbl">Rule risk</span></div>';
                 html += '<div class="metric-box"><span class="val">' + sigCount + '</span><span class="lbl">Signals</span></div></div></div>';
+                if (engineRan && (detStatus !== status || detVerdict !== verdict)) {
+                    html += '<div class="verdict-dual-grid" style="margin-top:12px;">';
+                    html += '<div class="verdict-subcard"><p class="muted" style="margin:0 0 6px;font-size:11px;text-transform:uppercase;">Rule engine (audit)</p>';
+                    html += '<p class="verdict-value" style="font-size:1rem;margin:0;"><span class="status-dot ' + detDot + '"></span>' + escapeHtml(detStatus.replace(/_/g, ' ')) + '</p>';
+                    html += '<p class="muted" style="margin:6px 0 0;">' + escapeHtml(verdictDisplayLabel(detVerdict)) + '</p>';
+                    html += '<p class="muted" style="margin:6px 0 0;font-size:11px;">' + violations.length + ' violation(s) for explainability</p></div></div>';
+                }
             } else if (elevated || detStatus !== status) {
                 html += '<div class="verdict-dual-grid">';
                 html += '<div class="verdict-subcard"><p class="muted" style="margin:0 0 6px;font-size:11px;text-transform:uppercase;">Deterministic (audit)</p>';
@@ -1539,8 +1552,8 @@
             const a = review.agreement_with_deterministic || '';
             const recStatus = review.recommended_compliance_status || '';
             const recVerdict = review.recommended_verdict || '';
-            let h4 = 'Policy assessment (LLM vs corpus)';
-            let agreementLabel = 'Policy alignment (agreement field)';
+            let h4 = 'Final policy assessment (LLM)';
+            let agreementLabel = 'Rule engine alignment';
             if (mode === 'full' && authority === 'deterministic') {
                 h4 = 'Advisory vs rule engine';
                 agreementLabel = 'Agreement with rule engine';

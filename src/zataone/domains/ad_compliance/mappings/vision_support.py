@@ -12,4 +12,7 @@ VISION_SUPPORT_MAP = {
     "fraud_scams_deceptive": {"money", "cash", "banknote"},
     "financial_products_and_guarantees": {"money", "cash", "banknote"},
     "cryptocurrency_services": {"money", "cash", "banknote"},
+    "weapons_ammunition_explosives": {"weapon", "gun", "knife", "ammunition", "explosive"},
+    "tobacco_nicotine": {"cigarette", "cigar", "vape", "tobacco"},
+    "gambling": {"casino", "dice", "poker chips"},
 }

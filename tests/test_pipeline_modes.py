@@ -57,6 +57,7 @@ def test_resolve_pipeline_mode_header_overrides_env(monkeypatch):
 
 def test_full_mode_runs_extractors(monkeypatch):
     monkeypatch.setenv("ZATAONE_PIPELINE_ADVISORY", "0")
+    monkeypatch.setenv("ZATAONE_POLICY_ENGINE_ENABLED", "0")
     from zataone.core.pipeline import CompliancePipeline
 
     fake_signal = SimpleNamespace(

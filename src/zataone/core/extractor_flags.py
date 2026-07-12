@@ -41,8 +41,18 @@ def pipeline_mode() -> str:
 
 
 def policy_engine_enabled() -> bool:
-    """YAML rule-engine evaluation on signals (off by default; LLM-primary demos). Set =1 for audit path."""
-    return _env_bool("ZATAONE_POLICY_ENGINE_ENABLED", default=False)
+    """YAML rule-engine evaluation on signals. Default ON with ontology pack."""
+    return _env_bool("ZATAONE_POLICY_ENGINE_ENABLED", default=True)
+
+
+def display_verdict_from_llm() -> bool:
+    """
+    When True (default), Full pipeline uses LLM synthesis as user-visible verdict.
+    Rule engine outcomes remain in metadata for explainability/audit.
+    Set ZATAONE_VERDICT_AUTHORITY=deterministic to restore rule-engine display.
+    """
+    v = (os.environ.get("ZATAONE_VERDICT_AUTHORITY") or "advisory").strip().lower()
+    return v not in ("deterministic", "rules", "engine")
 
 
 def fast_combined_review_enabled() -> bool:

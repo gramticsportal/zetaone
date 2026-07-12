@@ -264,6 +264,7 @@ Recent work extends the deterministic core without changing the verdict contract
 | `ZATAONE_POLICY_RETRIEVAL` | Enable BM25 rule shortlist | `false` |
 | `ZATAONE_RETRIEVAL_TOP_K` | Max rules retrieved | `8` |
 | `ZATAONE_RETRIEVAL_FALLBACK_ALL` | If retrieval returns nothing, evaluate all rules | `true` |
+| `ZATAONE_ONTOLOGY_CLAUSES` | Merge `ontology/corpus/*.yaml` clauses into policy pack (BM25 + LLM context) | `false` |
 
 Verdict and graph metadata may include `document`, `policy_pack`, `retrieval`, and the flag states above for UI explainability.
 

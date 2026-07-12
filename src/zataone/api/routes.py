@@ -175,6 +175,19 @@ def _pipeline_mode_header(x_pipeline_mode: str | None) -> str | None:
     return None
 
 
+def _merge_platform_metadata(
+    metadata: dict[str, Any] | None,
+    x_platform: str | None,
+) -> dict[str, Any]:
+    """Default platform=all; override via X-Platform or metadata.platform."""
+    from zataone.policy_engine.corpus.ontology_platform import normalize_platform
+
+    meta = dict(metadata or {})
+    raw = meta.get("platform") or x_platform or "all"
+    meta["platform"] = normalize_platform(str(raw))
+    return meta
+
+
 def _format_verdict_response(result: dict[str, Any]) -> dict[str, Any]:
     """Format pipeline verdict as API response."""
     formatted = {
@@ -232,6 +245,7 @@ def post_assets(
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
     x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
+    x_platform: str | None = Header(None, alias="X-Platform"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -266,7 +280,7 @@ def post_assets(
         asset_id=body.asset_id,
         content=body.content,
         type=body.type,
-        metadata=body.metadata or {},
+        metadata=_merge_platform_metadata(body.metadata, x_platform),
     )
 
     asset_id = uuid.uuid4()
@@ -335,6 +349,7 @@ async def post_assets_image(
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
     x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
+    x_platform: str | None = Header(None, alias="X-Platform"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -375,6 +390,7 @@ async def post_assets_image(
         content=None,
         image_data=image_bytes,
         type="image",
+        metadata=_merge_platform_metadata(None, x_platform),
     )
 
     asset_id = uuid.uuid4()
@@ -447,6 +463,7 @@ async def post_assets_audio(
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
     x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
+    x_platform: str | None = Header(None, alias="X-Platform"),
     idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     """
@@ -484,6 +501,7 @@ async def post_assets_audio(
         audio_data=audio_bytes,
         audio_filename=file.filename or "audio.wav",
         type="audio",
+        metadata=_merge_platform_metadata(None, x_platform),
     )
 
     asset_id = uuid.uuid4()

@@ -73,7 +73,7 @@ def test_full_mode_runs_extractors(monkeypatch):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
             with patch(
                 "zataone.core.pipeline.extract_signals_parallel",
-                return_value=([fake_signal], {"text": 1}),
+                return_value=([fake_signal], {"text": 1}, {}),
             ):
                 pipeline = CompliancePipeline(domain="ad_compliance")
                 asset = {"content": "test ad copy", "type": "text"}
@@ -103,7 +103,7 @@ def test_full_mode_policy_engine_when_enabled(monkeypatch):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
             with patch(
                 "zataone.core.pipeline.extract_signals_parallel",
-                return_value=([fake_signal], {"text": 1}),
+                return_value=([fake_signal], {"text": 1}, {}),
             ):
                 pipeline = CompliancePipeline(domain="ad_compliance")
                 asset = {"content": "guaranteed instant cure 100%", "type": "text"}

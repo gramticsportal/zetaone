@@ -28,9 +28,10 @@ def test_parallel_extractors_collects_signals():
         return m
 
     with patch("zataone.core.pipeline_run.pipeline_parallel_extractors_enabled", return_value=True):
-        signals, counts = extract_signals_parallel([_slow_ext(), _fast_ext()], SimpleNamespace(type="text"))
+        signals, counts, failed = extract_signals_parallel([_slow_ext(), _fast_ext()], SimpleNamespace(type="text"))
     assert len(signals) == 1
     assert counts.get("a") == 1
+    assert failed == {}
 
 
 def test_pipeline_run_includes_metadata_flags(monkeypatch):
@@ -58,7 +59,7 @@ def test_pipeline_run_includes_metadata_flags(monkeypatch):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
             with patch(
                 "zataone.core.pipeline.extract_signals_parallel",
-                return_value=([fake_signal], {"text": 1}),
+                return_value=([fake_signal], {"text": 1}, {}),
             ):
                 pipeline = CompliancePipeline(domain="ad_compliance")
                 asset = {"content": "guaranteed instant cure", "type": "text"}

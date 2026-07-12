@@ -3,14 +3,28 @@
 from __future__ import annotations
 import asyncio
 import json
+import logging
 import os
 import re
 import threading
 import uuid
+from datetime import datetime
 from types import SimpleNamespace
 from typing import Any, Literal
 
-from fastapi import APIRouter, BackgroundTasks, Depends, File, Header, HTTPException, Path, UploadFile
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    Form,
+    Header,
+    HTTPException,
+    Path,
+    Query,
+    Response,
+    UploadFile,
+)
 from pydantic import BaseModel, Field
 
 from zataone.api.auth import AuthContext, get_auth_context
@@ -31,7 +45,11 @@ from zataone.services.llm_final_review_service import (
     merge_verdict_with_llm_review,
     run_llm_final_review,
 )
+from zataone.services.review_service import ReviewService, decision_to_dict
 from zataone.storage.database import get_session_factory
+from zataone.storage.object_store import ObjectStore
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -98,11 +116,24 @@ def _use_sync_pipeline() -> bool:
     return bool(os.environ.get("K_SERVICE"))
 
 
+def _asset_common_fields(asset: Any) -> dict[str, Any]:
+    """Lineage / review / media fields shared by status and list payloads."""
+    return {
+        "review_state": asset.review_state,
+        "external_ref": asset.external_ref,
+        "parent_asset_id": str(asset.parent_asset_id) if asset.parent_asset_id else None,
+        "media_url": f"/assets/{asset.id}/media" if asset.storage_uri else None,
+        "created_at": asset.created_at.isoformat() if asset.created_at else None,
+    }
+
+
 def _asset_status_dict(session: Any, asset_id: uuid.UUID) -> dict[str, Any] | None:
     """Build GET /assets/{id} payload, or None if asset missing."""
     asset = session.query(AssetModel).filter(AssetModel.id == asset_id).first()
     if asset is None:
         return None
+
+    common = _asset_common_fields(asset)
 
     if asset.status == "processing":
         from zataone.core.pipeline_progress import get as pipeline_progress_get
@@ -111,6 +142,7 @@ def _asset_status_dict(session: Any, asset_id: uuid.UUID) -> dict[str, Any] | No
             "status": "processing",
             "asset_id": str(asset_id),
             "pipeline_progress": pipeline_progress_get(str(asset_id)) or {},
+            **common,
         }
 
     if asset.status == "failed":
@@ -118,6 +150,7 @@ def _asset_status_dict(session: Any, asset_id: uuid.UUID) -> dict[str, Any] | No
             "status": "failed",
             "asset_id": str(asset_id),
             "detail": "Compliance pipeline did not complete; see Cloud Run logs.",
+            **common,
         }
 
     verdict = (
@@ -127,7 +160,7 @@ def _asset_status_dict(session: Any, asset_id: uuid.UUID) -> dict[str, Any] | No
         .first()
     )
     if verdict is None:
-        return {"status": asset.status, "asset_id": str(asset_id)}
+        return {"status": asset.status, "asset_id": str(asset_id), **common}
 
     result = dict(verdict.result)
     verdict_formatted = _format_verdict_response(result)
@@ -137,6 +170,7 @@ def _asset_status_dict(session: Any, asset_id: uuid.UUID) -> dict[str, Any] | No
         "status": "completed",
         "asset_id": str(asset_id),
         "compliance_status": compliance_status,
+        **common,
         **verdict_formatted,
     }
     if result.get("llm_final_review"):
@@ -146,6 +180,17 @@ def _asset_status_dict(session: Any, asset_id: uuid.UUID) -> dict[str, Any] | No
     if meta.get("pipeline_progress"):
         out["pipeline_progress"] = meta["pipeline_progress"]
     return out
+
+
+def _store_media(data: bytes | None, content_type: str) -> str | None:
+    """Persist original bytes; never block ingestion on storage failure."""
+    if not data:
+        return None
+    try:
+        return ObjectStore().put(data, content_type)
+    except Exception:
+        logger.exception("ObjectStore put failed; continuing without stored media")
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -162,6 +207,28 @@ class AssetCreateRequest(BaseModel):
     )
     asset_id: str | None = Field(None, description="Optional asset identifier")
     metadata: dict[str, Any] | None = Field(None, description="Optional metadata")
+    external_ref: str | None = Field(
+        None, max_length=255, description="Client-side reference (campaign/creative id)"
+    )
+    parent_asset_id: str | None = Field(
+        None, description="Asset id of the previous revision (resubmission chain)"
+    )
+
+
+class ReviewDecisionRequest(BaseModel):
+    """Request body for POST /assets/{id}/review."""
+
+    decision: Literal["approved", "rejected", "needs_changes"]
+    reviewer: str | None = Field(None, max_length=255)
+    reason: str | None = Field(None, max_length=4000)
+    violation_feedback: list[dict[str, Any]] | None = Field(
+        None,
+        description=(
+            "Per-violation labels: [{violation_id, rule_id, "
+            "assessment: true_positive|false_positive, note}]"
+        ),
+    )
+    source: Literal["human_review", "appeal", "platform_feedback"] = "human_review"
 
 
 # ---------------------------------------------------------------------------
@@ -283,6 +350,10 @@ def post_assets(
         metadata=_merge_platform_metadata(body.metadata, x_platform),
     )
 
+    storage_uri = _store_media(
+        (body.content or "").encode("utf-8"), "text/plain; charset=utf-8"
+    )
+
     asset_id = uuid.uuid4()
     session = get_session_factory()()
     try:
@@ -293,6 +364,10 @@ def post_assets(
             asset_id=asset_id,
             tenant_id=x_tenant_id,
             idempotency_key=idempotency_key,
+            storage_uri=storage_uri,
+            external_ref=body.external_ref,
+            parent_asset_id=body.parent_asset_id,
+            metadata=body.metadata,
         )
         session.commit()
     except Exception as e:
@@ -345,6 +420,8 @@ def post_assets(
 async def post_assets_image(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
+    external_ref: str | None = Form(None),
+    parent_asset_id: str | None = Form(None),
     auth: AuthContext = Depends(get_auth_context),
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
@@ -393,6 +470,8 @@ async def post_assets_image(
         metadata=_merge_platform_metadata(None, x_platform),
     )
 
+    storage_uri = _store_media(image_bytes, file.content_type or "image/png")
+
     asset_id = uuid.uuid4()
     session = get_session_factory()()
     try:
@@ -403,6 +482,9 @@ async def post_assets_image(
             asset_id=asset_id,
             tenant_id=x_tenant_id,
             idempotency_key=idempotency_key,
+            storage_uri=storage_uri,
+            external_ref=external_ref,
+            parent_asset_id=parent_asset_id,
         )
         session.commit()
     except Exception as e:
@@ -459,6 +541,8 @@ async def post_assets_image(
 async def post_assets_audio(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
+    external_ref: str | None = Form(None),
+    parent_asset_id: str | None = Form(None),
     auth: AuthContext = Depends(get_auth_context),
     x_domain: str | None = Header(None, alias="X-Domain"),
     x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
@@ -504,6 +588,8 @@ async def post_assets_audio(
         metadata=_merge_platform_metadata(None, x_platform),
     )
 
+    storage_uri = _store_media(audio_bytes, file.content_type or "audio/wav")
+
     asset_id = uuid.uuid4()
     session = get_session_factory()()
     try:
@@ -514,6 +600,9 @@ async def post_assets_audio(
             asset_id=asset_id,
             tenant_id=x_tenant_id,
             idempotency_key=idempotency_key,
+            storage_uri=storage_uri,
+            external_ref=external_ref,
+            parent_asset_id=parent_asset_id,
         )
         session.commit()
     except Exception as e:
@@ -582,6 +671,243 @@ def get_asset(
         if out is None:
             raise HTTPException(status_code=404, detail="Asset not found")
         return out
+    finally:
+        session.close()
+
+
+@router.get("/assets/{asset_id}/media")
+def get_asset_media(
+    asset_id: uuid.UUID = Path(..., description="Asset ID"),
+) -> Response:
+    """Serve the original uploaded media (image/audio/text) for review UIs."""
+    session = get_session_factory()()
+    try:
+        asset = session.query(AssetModel).filter(AssetModel.id == asset_id).first()
+        if asset is None:
+            raise HTTPException(status_code=404, detail="Asset not found")
+        if not asset.storage_uri:
+            raise HTTPException(status_code=404, detail="No media stored for this asset")
+        storage_uri = asset.storage_uri
+    finally:
+        session.close()
+
+    try:
+        data, content_type = ObjectStore().get(storage_uri)
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail="Stored media missing") from e
+    return Response(content=data, media_type=content_type)
+
+
+def _verdict_summary_rows(session: Any, asset_ids: list[uuid.UUID]) -> dict[uuid.UUID, dict]:
+    """Latest verdict result per asset (ascending scan, last write wins)."""
+    if not asset_ids:
+        return {}
+    rows = (
+        session.query(VerdictModel)
+        .filter(VerdictModel.asset_id.in_(asset_ids))
+        .order_by(VerdictModel.created_at.asc())
+        .all()
+    )
+    out: dict[uuid.UUID, dict] = {}
+    for v in rows:
+        out[v.asset_id] = dict(v.result) if v.result else {}
+    return out
+
+
+@router.get("/assets")
+def list_assets(
+    auth: AuthContext = Depends(get_auth_context),
+    status: str | None = Query(None, description="processing | completed | failed"),
+    review_state: str | None = Query(
+        None,
+        description="pending_review | final_approved | final_rejected | final_needs_changes | none",
+    ),
+    compliance_status: str | None = Query(
+        None, description="COMPLIANT | REVIEW_REQUIRED | NON_COMPLIANT | LIKELY_REJECTED"
+    ),
+    rule_id: str | None = Query(None, description="Only assets where this rule fired"),
+    external_ref: str | None = Query(None),
+    parent_asset_id: uuid.UUID | None = Query(None),
+    created_from: datetime | None = Query(None),
+    created_to: datetime | None = Query(None),
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+) -> dict[str, Any]:
+    """List/filter assets with latest-verdict summaries (queue + dataset pulls)."""
+    session = get_session_factory()()
+    try:
+        q = session.query(AssetModel)
+        if auth.tenant_id is not None:
+            q = q.filter(AssetModel.tenant_id == auth.tenant_id)
+        if status:
+            q = q.filter(AssetModel.status == status.strip().lower())
+        if review_state:
+            rs = review_state.strip().lower()
+            if rs == "none":
+                q = q.filter(AssetModel.review_state.is_(None))
+            else:
+                q = q.filter(AssetModel.review_state == rs)
+        if external_ref:
+            q = q.filter(AssetModel.external_ref == external_ref)
+        if parent_asset_id:
+            q = q.filter(AssetModel.parent_asset_id == parent_asset_id)
+        if created_from:
+            q = q.filter(AssetModel.created_at >= created_from)
+        if created_to:
+            q = q.filter(AssetModel.created_at <= created_to)
+        if compliance_status:
+            q = q.filter(
+                session.query(VerdictModel.id)
+                .filter(
+                    VerdictModel.asset_id == AssetModel.id,
+                    VerdictModel.status == compliance_status.strip().upper(),
+                )
+                .exists()
+            )
+        if rule_id:
+            q = q.filter(
+                session.query(ViolationModel.id)
+                .filter(
+                    ViolationModel.asset_id == AssetModel.id,
+                    ViolationModel.rule_id == rule_id.strip(),
+                )
+                .exists()
+            )
+
+        total = q.count()
+        assets = (
+            q.order_by(AssetModel.created_at.desc()).offset(offset).limit(limit).all()
+        )
+        verdicts = _verdict_summary_rows(session, [a.id for a in assets])
+
+        items = []
+        for a in assets:
+            result = verdicts.get(a.id) or {}
+            items.append(
+                {
+                    "asset_id": str(a.id),
+                    "type": a.type,
+                    "status": a.status,
+                    **_asset_common_fields(a),
+                    "verdict": result.get("verdict"),
+                    "compliance_status": result.get("status"),
+                    "risk_score": result.get("risk_score"),
+                    "rule_ids": sorted(
+                        {
+                            str(vi.get("rule_id"))
+                            for vi in (result.get("violations") or [])
+                            if isinstance(vi, dict) and vi.get("rule_id")
+                        }
+                    ),
+                }
+            )
+        return {"items": items, "total": total, "limit": limit, "offset": offset}
+    finally:
+        session.close()
+
+
+@router.get("/review-queue")
+def get_review_queue(
+    auth: AuthContext = Depends(get_auth_context),
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+) -> dict[str, Any]:
+    """Assets awaiting human review, oldest first."""
+    session = get_session_factory()()
+    try:
+        items = ReviewService().queue(
+            session,
+            tenant_id=auth.tenant_id,
+            limit=limit,
+            offset=offset,
+        )
+        return {"items": items, "count": len(items)}
+    finally:
+        session.close()
+
+
+@router.post("/assets/{asset_id}/review", status_code=201)
+def post_asset_review(
+    body: ReviewDecisionRequest,
+    asset_id: uuid.UUID = Path(..., description="Asset ID"),
+    auth: AuthContext = Depends(get_auth_context),
+    x_reviewer: str | None = Header(None, alias="X-Reviewer"),
+) -> dict[str, Any]:
+    """
+    Record a human review decision; becomes the authoritative final state.
+
+    Reviewer identity comes from the body, the X-Reviewer header, or the API key id.
+    """
+    reviewer = (body.reviewer or x_reviewer or "").strip()
+    if not reviewer and auth.api_key_id:
+        reviewer = f"api-key:{auth.api_key_id}"
+    if not reviewer:
+        raise HTTPException(
+            status_code=400, detail="Provide reviewer in body or X-Reviewer header"
+        )
+
+    session = get_session_factory()()
+    try:
+        try:
+            record = ReviewService().submit_decision(
+                session,
+                asset_id,
+                reviewer=reviewer,
+                decision=body.decision,
+                reason=body.reason,
+                violation_feedback=body.violation_feedback,
+                source=body.source,
+                tenant_id=auth.tenant_id,
+            )
+        except LookupError as e:
+            raise HTTPException(status_code=404, detail=str(e)) from e
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e)) from e
+        session.commit()
+        out = decision_to_dict(record)
+        review_state = (
+            session.query(AssetModel.review_state)
+            .filter(AssetModel.id == asset_id)
+            .scalar()
+        )
+        out["review_state"] = review_state
+    except HTTPException:
+        session.rollback()
+        raise
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=str(e)) from e
+    finally:
+        session.close()
+
+    try:
+        from zataone.services.webhook_service import WebhookService
+
+        WebhookService().fire_event_async(
+            "review.completed",
+            {
+                "asset_id": str(asset_id),
+                "decision": out["decision"],
+                "review_state": out["review_state"],
+                "reviewer": out["reviewer"],
+            },
+            tenant_id=auth.tenant_id,
+        )
+    except Exception:
+        logger.exception("review.completed webhook dispatch failed")
+
+    return out
+
+
+@router.get("/assets/{asset_id}/reviews")
+def get_asset_reviews(
+    asset_id: uuid.UUID = Path(..., description="Asset ID"),
+) -> dict[str, Any]:
+    """All recorded review decisions for an asset (audit/history view)."""
+    session = get_session_factory()()
+    try:
+        items = ReviewService().decisions_for_asset(session, asset_id)
+        return {"items": items, "count": len(items)}
     finally:
         session.close()
 

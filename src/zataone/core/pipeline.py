@@ -20,6 +20,7 @@ from zataone.core.extractor_flags import (
     pipeline_mode as default_pipeline_mode,
     pipeline_parallel_vlm_enabled,
     pipeline_vlm_extractor_enabled,
+    semantic_text_enabled,
     policy_engine_enabled,
 )
 from zataone.core.verdict_display import apply_display_verdict
@@ -211,6 +212,10 @@ class CompliancePipeline:
 
             self._extractor_registry.register(TextExtractor())
             self._extractor_registry.register(VideoExtractor())
+            if semantic_text_enabled():
+                from zataone.extractors.semantic_text_extractor import SemanticTextExtractor
+
+                self._extractor_registry.register(SemanticTextExtractor())
             if _core_stub_extractors_disabled():
                 logger.info(
                     "Core stub extractors disabled (ZATAONE_DISABLE_CORE_STUB_EXTRACTORS); "

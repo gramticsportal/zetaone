@@ -19,6 +19,11 @@ def embedding_enabled() -> bool:
     return _env_bool("ZATAONE_ENABLE_EMBEDDING", default=False)
 
 
+def semantic_text_enabled() -> bool:
+    """Sentence-embedding semantic text extractor (off by default; loads a transformer model)."""
+    return _env_bool("ZATAONE_ENABLE_SEMANTIC_TEXT", default=False)
+
+
 def pipeline_vlm_extractor_enabled() -> bool:
     """GPT/OpenAI VLM during extraction (off; use Gemini advisory VLM instead)."""
     return _env_bool("ZATAONE_ENABLE_PIPELINE_VLM", default=False)

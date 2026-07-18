@@ -13,6 +13,12 @@ EVAL_FILES = (
     "eval_precedents.yaml",
 )
 
+# Denoised seed (no borderline / stubs) + precedents. Set ZATAONE_EVAL_PROFILE=clean
+EVAL_FILES_CLEAN = (
+    "eval_seed_clean.yaml",
+    "eval_precedents.yaml",
+)
+
 
 def load_yaml(path: str) -> dict:
     with open(path) as f:
@@ -25,13 +31,20 @@ def load_eval_examples(root: str | None = None) -> list[dict]:
     return examples
 
 
+def _eval_files() -> tuple[str, ...]:
+    profile = (os.environ.get("ZATAONE_EVAL_PROFILE") or "full").strip().lower()
+    if profile in ("clean", "denoised"):
+        return EVAL_FILES_CLEAN
+    return EVAL_FILES
+
+
 def load_eval_with_sources(root: str | None = None) -> tuple[list[dict], dict[str, str]]:
     """Return (examples, example_id -> source filename)."""
     base = root or ROOT
     examples_dir = os.path.join(base, "examples")
     out: list[dict] = []
     sources: dict[str, str] = {}
-    for fname in EVAL_FILES:
+    for fname in _eval_files():
         path = os.path.join(examples_dir, fname)
         if os.path.isfile(path):
             for e in load_yaml(path).get("examples", []) or []:

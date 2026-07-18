@@ -2,7 +2,8 @@
 """Phase C: local hybrid-only eval over ontology seed + precedent examples.
 
 Usage (repo root):
-  PYTHONPATH=src ZATAONE_HYBRID_NLP_BACKEND=bow python scripts/eval_hybrid_local.py
+  PYTHONPATH=src python scripts/eval_hybrid_local.py
+  ZATAONE_EVAL_PROFILE=clean PYTHONPATH=src python scripts/eval_hybrid_local.py
 """
 
 from __future__ import annotations

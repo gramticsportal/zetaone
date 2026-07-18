@@ -1,0 +1,193 @@
+kind,id,label,category_ids,pred_cats,matchers,matched,content
+FN,mis_nc_003,non_compliant,misleading,,,,As recommended by Elon Musk — he made millions with this app!
+FN,mis_nc_004,non_compliant,misleading,,,,Official notice from the IRS: claim your tax refund now (sponsored).
+FP,mis_c_004,compliant,misleading,misleading,phrase,official partner,Official partner of the National Coffee Association (membership verified).
+FP,mis_c_006,compliant,misleading,misleading,term,brand | brand,Brand ambassador Jane Doe shares why she loves our tea (paid partnership).
+FP,mis_c_007,compliant,misleading,"financial,misleading",term,limited | time | terms | offer | page,Limited-time 20% off — offer and full terms shown on the linked page.
+FP,mis_c_008,compliant,,"health,misleading",term,product | product | accurate | product,[Image] Product photo of the actual item with accurate color and size.
+FP,mis_c_009,compliant,misleading,"financial,health",term,clearly | clearly,Ad clearly labeled 'Sponsored' with a standard call-to-action button.
+FP,mis_c_010,compliant,misleading,"financial,misleading",term,financial | guarantee | outcomes | financial | financial,Financial coaching course. Outcomes depend on effort; no income is guaranteed.
+FN,hlt_nc_003,non_compliant,health,,,,Our herbal drops heal Alzheimer's and prevent dementia for good.
+FN,hlt_nc_006,non_compliant,health,,,,This detox tea melts belly fat fast — burn pounds while you sleep!
+FP,hlt_c_001,compliant,health,misleading,term,support | support,A daily multivitamin to help support your overall wellness.
+FP,hlt_c_002,compliant,health,"health,misleading",term,diet | support | support,Our protein shake supports your fitness routine. Results vary with diet and exercise.
+FP,hlt_c_003,compliant,health,"financial,health",term,require | prescription | licensed | online | prescription,Certified online pharmacy — licensed and accredited. Valid prescription required.
+FP,hlt_c_004,compliant,health,health,term,licensed | online,Talk to a licensed therapist online. Schedule a confidential session today.
+FP,hlt_c_007,compliant,health,health,term,direct,Over-the-counter pain reliever for temporary relief of minor aches. Use as directed.
+FP,hlt_c_008,compliant,health,political,phrase,elect,Stay hydrated with our electrolyte drink during your workouts.
+FP,hlt_c_009,compliant,health,"health,misleading","regex,term",FDA-approved | FDA-approved | right,Ask your doctor if this FDA-approved medication is right for you. See important safety information.
+FP,hlt_c_010,compliant,health,"health,misleading",term,offering | offer,Fitness studio offering beginner-friendly Pilates classes for all levels.
+FP,hlt_c_015,compliant,health,health,term,balance | balanced,A balanced meal-kit service to help you cook nutritious dinners at home.
+FN,fin_nc_003,non_compliant,financial,,,,"Payday loans approved in minutes — get cash today, repay next paycheck!"
+FN,fin_nc_017,non_compliant,financial,,,,These penny stocks are about to explode — buy before everyone else!
+FN,fin_nc_018,non_compliant,financial,,,,"Bail bonds — fast release, available 24/7, call now."
+FN,fin_nc_019,non_compliant,financial,,,,"Reverse mortgage — get free money from your home, no strings attached!"
+FP,fin_c_001,compliant,financial,misleading,term,terms,Open a checking account with no monthly fee. Member FDIC. Terms apply.
+FP,fin_c_002,compliant,financial,financial,regex,9% APR | 9% APR | 9% APR | 9% APR | 9% APR,"Auto loan from 6.9% APR. Representative example: $20,000 over 60 months at 6.9% APR = $395/mo."
+FP,fin_c_003,compliant,financial,"financial,misleading",term,adviser | loss | possible,"Work with a registered investment adviser. Investing involves risk, including possible loss of principal."
+FP,fin_c_005,compliant,financial,"discrimination,financial,misleading","regex,term",personal | 99% APR | 99% APR | 99% APR | 99% APR,"Personal loan: 8.99% APR, 24–60 month terms, no prepayment penalty. Repayment period 24–60 months."
+FP,fin_c_006,compliant,financial,"financial,health",term,crypto | cryptocurrency | crypto | crypto | licensed,Licensed crypto exchange (registered MSB). Cryptocurrency is volatile; you may lose money. 18+.
+FP,fin_c_007,compliant,financial,"discrimination,financial","regex,term",housing | housing | 1% APR | 1% APR | 1% APR,Mortgage refinance. 7.1% APR. NMLS #123456. Equal Housing Lender.
+FP,fin_c_008,compliant,financial,financial,term,guarantee | guarantee | guarantee | performance,Past performance does not guarantee future results. Please read the prospectus before investing.
+FP,fin_c_011,compliant,financial,"financial,health,misleading","regex,term",99% APR | 99% APR | 99% APR | 99% APR | 99% APR,Credit card with 19.99% APR (variable). See terms for fees and conditions.
+FP,fin_c_012,compliant,financial,financial,term,fees | fees,Brokerage account with commission-free stock trades. Other fees may apply; see fee schedule.
+FP,fin_c_014,compliant,financial,health,term,health,Term life insurance from $20/month. Premiums depend on age and health; subject to eligibility.
+FP,fin_c_015,compliant,financial,"financial,misleading",term,business | business,Business line of credit for qualified applicants. Subject to credit approval.
+FP,fin_c_016,compliant,financial,financial,term,financial | financial | financial | financial | educational,"Free financial literacy webinar — educational content, not investment advice."
+FP,fin_c_017,compliant,financial,financial,regex,5% APR | 5% APR | 5% APR | 5% APR | 5% APR,30-year fixed-rate mortgage at 6.5% APR. The rate is fixed for the full term.
+FP,fin_c_018,compliant,financial,financial,term,guarantee,Money market fund. Not FDIC insured. May lose value. No bank guarantee.
+FP,fin_c_019,compliant,financial,"financial,misleading",term,advisor | loss,"Robo-advisor portfolios. Advisory fee 0.25%/year. Investing involves risk, including loss of principal."
+FP,fin_c_020,compliant,financial,financial,regex,9% APR | 9% APR | 9% APR | 9% APR | 9% APR,Student loan refinancing. Rates 5–9% APR; actual rate and term vary by creditworthiness.
+FN,hue_nc_002,non_compliant,discrimination,,,,Cozy home for rent — Christian tenants strongly preferred.
+FN,hue_nc_003,non_compliant,discrimination,,,,House for sale — perfect for a young white family.
+FN,hue_nc_004,non_compliant,discrimination,,,,"Renting to males only — no women, please."
+FN,hue_nc_005,non_compliant,discrimination,,,,"Upstairs unit, no elevator — not suitable for handicapped or disabled people."
+FN,hue_nc_006,non_compliant,discrimination,,,,"Now hiring young, energetic recent college grads — digital natives only!"
+FN,hue_nc_007,non_compliant,discrimination,,,,Seeking female receptionists only.
+FN,hue_nc_008,non_compliant,discrimination,,,,"Hiring — US-born native English speakers only, no immigrants."
+FN,hue_nc_011,non_compliant,discrimination,,,,Auto loans for married couples only — singles need not apply.
+FN,hue_nc_012,non_compliant,discrimination,,,,"Credit cards built for men — sorry ladies, this one's not for you."
+FN,hue_nc_017,non_compliant,discrimination,,,,"Hiring — must be a US citizen, no foreigners or visa holders."
+FN,hue_nc_018,non_compliant,discrimination,,,,"Senior apartments — must be able-bodied, no disabilities or wheelchairs."
+FN,hue_nc_020,non_compliant,discrimination,,,,Salesman wanted — must be under 35 and single.
+FP,hue_c_001,compliant,discrimination,"discrimination,financial",term,housing | housing | opportunity,"Apartment for rent, 2BR, $1,500/mo. Equal Housing Opportunity."
+FP,hue_c_002,compliant,discrimination,financial,term,opportunity,We are an Equal Opportunity Employer. All qualified applicants are welcome.
+FP,hue_c_004,compliant,discrimination,"discrimination,health",term,fair | housing | housing | fair,"Home for sale, 3BR/2BA. We honor the Fair Housing Act."
+FP,hue_c_006,compliant,discrimination,"financial,health",term,opportunity | application,Credit card application open to all qualified applicants. Equal Credit Opportunity Lender.
+FP,hue_c_007,compliant,discrimination,discrimination,term,housing | housing,Senior living community for residents 55 and older (Housing for Older Persons Act compliant).
+FP,hue_c_008,compliant,discrimination,political,term,candidates,Job opening: Registered Nurse. EEO employer; all qualified candidates encouraged to apply.
+FP,hue_c_014,compliant,discrimination,political,term,candidates,Both entry-level and experienced candidates are welcome to apply.
+FP,hue_c_015,compliant,discrimination,discrimination,term,housing | housing,Affordable housing program for income-qualified applicants.
+FP,hue_c_017,compliant,discrimination,"discrimination,financial,misleading",term,personal | personal | rates | opportunity | personal,Personal loan offer; rates vary by creditworthiness. Equal Credit Opportunity Lender.
+FP,hue_c_020,compliant,discrimination,minors,term,children | children | children,Family-friendly apartment community — families with children welcome.
+FN,pol_nc_003,non_compliant,political,,,,Donate now to the Smith for Congress campaign!
+FN,pol_nc_005,non_compliant,political,,,,[Ad by sitting Senator Davis promoting his policy agenda]
+FN,pol_nc_008,non_compliant,political,,,,Join our campaign to defeat the incumbent governor.
+FN,pol_nc_010,non_compliant,political,,,,Our candidate will lower your taxes — vote Row A this November.
+FN,pol_nc_012,non_compliant,political,,,,Stop the radical agenda — chip in $25 to fight back today.
+FN,pol_nc_014,non_compliant,political,,,,Vote YES on the school bond measure this November.
+FN,pol_nc_015,non_compliant,political,,,,Sign the petition to recall Senator Brown — add your name now.
+FN,pol_nc_019,non_compliant,political,,,,Political fundraiser dinner — contribute to the party tonight.
+FP,pol_c_001,compliant,political,political,"phrase,regex",paid for by | Paid for by | elect | paid for by | Paid for by,"Re-elect Jane Smith for Senate. Paid for by Smith for Senate, Inc., 123 Main St, Springfield, IL."
+FP,pol_c_002,compliant,political,political,"phrase,regex",paid for by | authorized by | not authorized by | Paid for by | authorized by,Vote YES on Prop 12. Paid for by Yes on 12 Committee; not authorized by any candidate.
+FP,pol_c_003,compliant,political,political,"phrase,term",election | elect | election,[Official county elections office ad]: Election Day is Nov 5. Find your polling place at vote.gov.
+FP,pol_c_004,compliant,political,"misleading,political","phrase,regex,term",support | support | paid for by | Paid for by | paid for by,"Support clean energy policy. Paid for by Clean Future PAC, 50 Oak Ave, Denver, CO."
+FP,pol_c_005,compliant,political,political,"phrase,regex",paid for by | Paid for by | paid for by | Paid for by | paid for by,Candidate town hall livestream this Thursday. Paid for by Friends of Davis.
+FP,pol_c_006,compliant,political,"financial,political","phrase,term",state | election | elect | election,[Secretary of State PSA]: Register to vote by Oct 20 at your County Board of Elections.
+FP,pol_c_007,compliant,political,political,"phrase,regex",paid for by | Paid for by | paid for by | Paid for by,Donate to Smith for Congress. Paid for by Smith for Congress.
+FP,pol_c_008,compliant,political,political,"phrase,regex",paid for by | authorized by | Paid for by | authorized by | paid for by,Our candidate's plan for jobs. Paid for by Lee Victory Fund; authorized by Lee for Mayor.
+FP,pol_c_009,compliant,political,"financial,political","phrase,regex,term",state | paid for by | Paid for by | paid for by | Paid for by,Get out and vote this November! Paid for by the State Democratic Party.
+FP,pol_c_010,compliant,political,political,"phrase,regex",paid for by | Paid for by | paid for by | Paid for by | paid for by,Learn about the propositions on your ballot. Paid for by League of Voters Education Fund.
+FP,pol_c_011,compliant,political,"financial,political","phrase,term",state | election | elect | election,[State election commission]: How to request a mail-in ballot — step-by-step guide.
+FP,pol_c_012,compliant,political,political,"phrase,regex",paid for by | Paid for by | paid for by | Paid for by | paid for by,Paid for by Citizens for Better Schools — Vote Yes on Measure A.
+FP,pol_c_014,compliant,political,political,"phrase,regex",paid for by | Paid for by | elect | paid for by | Paid for by,Re-elect Governor Johnson. Paid for by the Johnson for Governor Committee.
+FP,pol_c_015,compliant,political,political,"phrase,regex",paid for by | Paid for by | paid for by | Paid for by | paid for by,"Veterans for Reform endorses Candidate X. Paid for by Veterans for Reform, 9 Elm St, Austin, TX."
+FP,pol_c_016,compliant,political,health,term,locations,[County clerk reminder]: Early voting begins Monday at all branch locations.
+FP,pol_c_017,compliant,political,"misleading,political","phrase,regex,term",support | support | paid for by | authorized by | not authorized by,"Support our ballot initiative. Paid for by Initiative 5 Campaign; not authorized by any candidate, 12 Pine Rd, Reno, NV."
+FP,pol_c_018,compliant,political,"financial,political","phrase,regex,term",state | paid for by | Paid for by | paid for by | Paid for by,Paid for by the Green Party of the United States. Join our movement.
+FP,pol_c_019,compliant,political,political,"phrase,regex",paid for by | Paid for by | paid for by | Paid for by | paid for by,Candidate meet-and-greet Saturday at the library. Paid for by Friends of Sarah Lee.
+FP,pol_c_020,compliant,political,"financial,political","phrase,term",state | election | elect | election,[State election commission]: Official voter guide available at sos.state.gov.
+FN,min_nc_010,non_compliant,minors,,,,[Dating-app ad served to 16-year-old users]
+FN,min_nc_016,non_compliant,minors,,,,[Sales - TikTok Shop campaign targeting an under-18 audience]
+FP,min_c_001,compliant,minors,minors,term,kids,[Kids' cereal ad targeted only by age (13+) and city location]
+FP,min_c_002,compliant,minors,financial,term,personal | personal,"[Contextual board-game ad on a family content channel, no personalization, no trackers]"
+FP,min_c_003,compliant,minors,misleading,term,brand | brand,[Brand-awareness Reach campaign to a 13+ audience using age + location only]
+FP,min_c_004,compliant,minors,minors,term,made-for-kids | third-party | trackers,"[Educational-app contextual ad on made-for-kids content, no third-party trackers]"
+FP,min_c_005,compliant,minors,"alcohol,minors",term,alcohol | minors | alcohol | alcohol,"[Alcohol ad targeted to 21+ only, minors excluded]"
+FP,min_c_006,compliant,minors,financial,term,interest,[Toy ad to a 13+ audience with no interest/behavior targeting]
+FP,min_c_007,compliant,minors,"minors,misleading",term,kids | brand | brand,[Kids' clothing brand ad using age and location targeting only]
+FP,min_c_009,compliant,minors,minors,term,teens,"[Sneaker ad to a general audience including teens, age + location only]"
+FP,min_c_010,compliant,minors,minors,term,made-for-kids | purchase | kids,"[Made-for-kids contextual ad for an all-ages movie, no incitement to purchase]"
+FP,min_c_011,compliant,minors,financial,term,personal | personal,"[Family-restaurant promo to 13+ by city, no personalization]"
+FP,min_c_012,compliant,minors,"alcohol,discrimination,gambling,minors",term,minors | restricted | gambling | minors | restricted,[Gambling ad restricted to 21+ with minors excluded]
+FP,min_c_014,compliant,minors,misleading,term,page,[School-supplies ad served contextually on an education page]
+FP,min_c_016,compliant,minors,minors,term,children | made-for-kids | trackers | children | children,"[Children's-book contextual ad on made-for-kids content, no trackers, no purchase incitement]"
+FP,min_c_017,compliant,minors,minors,term,teens,[Bicycle ad to teens using only age and location]
+FP,min_c_018,compliant,minors,"discrimination,minors,privacy",term,parental | collecting | verifiable | parental | collect,[Operator obtains verifiable parental consent before collecting a child's data for ads]
+FN,prv_nc_002,non_compliant,privacy,,,,Meet other LGBTQ singles near you.
+FN,prv_nc_004,non_compliant,privacy,,,,Find other Christians in your area.
+FN,prv_nc_006,non_compliant,privacy,,,,[Ad targeting users by inferred race / ethnicity]
+FN,prv_nc_011,non_compliant,privacy,,,,"As someone living with anxiety, you need our app."
+FN,prv_nc_012,non_compliant,privacy,,,,[Targeting users by trade-union membership]
+FN,prv_nc_013,non_compliant,privacy,,,,"If you've been diagnosed with diabetes, click here for your discount."
+FN,prv_nc_014,non_compliant,privacy,,,,[Custom segment built from STD-clinic visitors used for ad targeting]
+FN,prv_nc_015,non_compliant,privacy,,,,[Targeting LinkedIn members by income bracket]
+FN,prv_nc_020,non_compliant,privacy,,,,Are you a veteran with PTSD? Join our treatment program.
+FP,prv_c_001,compliant,privacy,financial,term,financial | financial | financial | financial,Explore tools for smarter financial planning.
+FP,prv_c_003,compliant,privacy,"financial,health,misleading",term,advertise | health | product | health | product,"[Health product using predefined Google audiences only, no advertiser-curated lists]"
+FP,prv_c_004,compliant,privacy,"financial,misleading,privacy","phrase,term",privacy | landing | page | data collection | data collection,[Landing page with a clear privacy policy disclosing data collection and use]
+FP,prv_c_005,compliant,privacy,"financial,privacy","phrase,term",personal | personal | personal information | personal information | personal information,[Homepage displays a 'Do Not Sell or Share My Personal Information' link]
+FP,prv_c_006,compliant,privacy,"financial,misleading,privacy",term,privacy | business | business | opt-out | signals,[Business honors Global Privacy Control opt-out signals frictionlessly]
+FP,prv_c_008,compliant,privacy,misleading,term,support | support,Support for individuals and families navigating recovery.
+FP,prv_c_009,compliant,privacy,"financial,misleading",term,interest | brand | brand,[Fitness brand targeting the broad 'fitness' interest via a predefined audience]
+FP,prv_c_010,compliant,privacy,privacy,term,data | sharing | sharing | affirmative | opt-in,[App obtains affirmative opt-in before sharing a 15-year-old's data]
+FP,prv_c_013,compliant,privacy,health,term,mental | health,New mental-health resources are available in your city.
+FP,prv_c_014,compliant,privacy,"financial,misleading,privacy",term,personal | personal | media | business | data,[Business stops sharing personal data immediately after an opt-out request]
+FP,prv_c_015,compliant,privacy,health,term,health,Our app helps people build healthy daily habits.
+FP,prv_c_016,compliant,privacy,"financial,misleading,privacy",term,privacy | landing | page | landing | data,[Landing page with a privacy-policy link and clear data-use disclosure]
+FP,prv_c_018,compliant,privacy,"health,misleading",term,product | product | product,[Predefined Google audience used to promote a sensitive-category product]
+FP,prv_c_019,compliant,privacy,financial,term,financial | financial | financial | financial,Financial-planning webinar — open to all.
+FP,prv_c_020,compliant,privacy,"financial,misleading",term,personal | advertise | personal | info,[Advertiser uses only first-party contextual signals; no sale/sharing of personal info]
+FN,atc_nc_002,non_compliant,drugs,,,,Buy THC gummies — get high legally!
+FN,atc_nc_006,non_compliant,drugs,,,,[Ingestible CBD oil ad with no LegitScript certification]
+FN,atc_nc_007,non_compliant,drugs,,,,Magic mushrooms for sale — microdose your way to bliss.
+FN,atc_nc_008,non_compliant,alcohol,,,,Crush a 12-pack tonight — drink till you drop!
+FN,atc_nc_010,non_compliant,drugs,,,,[E-cigarette starter-kit promotion]
+FN,atc_nc_011,non_compliant,drugs,,,,Recreational weed delivered to your door — shop our dispensary.
+FN,atc_nc_013,non_compliant,alcohol,,,,Whiskey cures your stress and heals the soul.
+FN,atc_nc_015,non_compliant,drugs,,,,"Rolling papers, pipes, and bongs — shop our smoke shop."
+FN,atc_nc_017,non_compliant,drugs,,,,Order recreational highs and party powders online.
+FN,atc_nc_019,non_compliant,drugs,,,,[CBD gummies ad in the US targeting under-18 users]
+FP,atc_c_001,compliant,alcohol,"alcohol,health",term,wine | drinking | locations | responsible | locations,"[Wine ad targeting 21+ in permitted US locations, with a responsible-drinking message]"
+FP,atc_c_002,compliant,alcohol,"alcohol,political",term,beer | alcohol | consumption | alcohol | depict,[Non-alcoholic beer ad that doesn't depict consumption]
+FP,atc_c_003,compliant,drugs,drugs,term,nicotine,[FDA-approved nicotine patch ad targeted to people 18+]
+FP,atc_c_005,compliant,alcohol,financial,term,advertise | type,"[Distilled-spirits ad with responsible-advertiser name, class/type, and ABV]"
+FP,atc_c_008,compliant,alcohol,financial,term,state,[Craft-brewery ad targeting 21+ in allowed states]
+FP,atc_c_010,compliant,alcohol,alcohol,term,cocktail | alcohol | alcohol,[Non-alcoholic cocktail mixer ad]
+FP,atc_c_011,compliant,alcohol,"financial,health",term,state | health,[Whiskey ad with mandatory statements and no health claims]
+FP,atc_c_012,compliant,drugs,drugs,term,nicotine,[WHO-approved nicotine gum ad targeted to adults]
+FP,atc_c_014,compliant,alcohol,alcohol,term,wine | drinking | responsible,[Wine-club ad with age-gating and a responsible-drinking message]
+FP,atc_c_015,compliant,drugs,"drugs,financial,misleading,political",term,audio | tobacco | tobacco | limited | effects,"[Tobacco ad with audio limited to words only, no music or sound effects]"
+FP,atc_c_016,compliant,alcohol,"alcohol,political",term,wine | alcohol | alcohol | depict,[Wine-glass accessory ad with no alcohol depicted]
+FP,atc_c_017,compliant,alcohol,alcohol,term,alcohol | alcohol,[Educational documentary referencing the history of alcohol]
+FP,atc_c_019,compliant,alcohol,"alcohol,financial,political",term,beer | excessive | consumption | state | depict,"[Beer ad in an allowed state, 21+ targeting, no excessive-consumption depiction]"
+FP,atc_c_020,compliant,drugs,"drugs,political",term,smokeless-tobacco | format | video | tobacco | video,[FDA-format-compliant smokeless-tobacco static black-text video]
+FN,gmb_nc_006,non_compliant,gambling,,,,[Lottery ad shown to a teenage audience]
+FN,gmb_nc_016,non_compliant,gambling,,,,[Sportsbook ad with no legally mandated disclaimers or taglines]
+FP,gmb_c_001,compliant,gambling,"financial,health",term,state | licensed,"[Licensed, Google-certified sportsbook ad targeting 21+ in an approved state]"
+FP,gmb_c_002,compliant,gambling,"gambling,misleading",term,gambling | casino | gambling | gambling | landing,[Casino ad with responsible-gambling info and a hotline on the landing page]
+FP,gmb_c_003,compliant,gambling,gambling,term,casino | real-money | casino | casino,"[Social casino app ad with no real-money winnings, targeting 18+]"
+FP,gmb_c_004,compliant,gambling,gambling,term,gambling | online | casino | online | gambling,[Brick-and-mortar Las Vegas casino ad not promoting online gambling]
+FP,gmb_c_005,compliant,gambling,financial,term,state,[State-lottery ad targeting adults with a responsible-play message]
+FP,gmb_c_006,compliant,gambling,gambling,term,gambling | online | online | gambling | valid,"[Meta-authorized online gambling ad with a valid license, targeting 18+]"
+FP,gmb_c_007,compliant,gambling,gambling,term,gambling | gambling | gambling | sportsbook,[Sportsbook ad including 'Gambling problem? Call 1-800-GAMBLER']
+FP,gmb_c_009,compliant,gambling,gambling,term,gambling | gambling | gambling | warnings,[TikTok-certified gambling ad in a legal market with risk warnings]
+FP,gmb_c_010,compliant,gambling,gambling,term,gambling | gambling | gambling | responsible-gambling | responsible,[Poker-room ad targeting 21+ with a responsible-gambling link]
+FP,gmb_c_011,compliant,gambling,gambling,term,gambling | online | casino | online | gambling,[Casino-entertainment concert ad not promoting online gambling]
+FP,gmb_c_012,compliant,gambling,"financial,gambling,health,minors,misleading","phrase,term",unsupported | online casino | online casino | online casino | online casino,[Licensed online casino ad excluding minors and unsupported markets]
+FP,gmb_c_013,compliant,gambling,"gambling,misleading","phrase,term",real money | real money | real money | real money | making,[Social slots ad making clear that players cannot win real money]
+FP,gmb_c_014,compliant,gambling,gambling,term,sports-betting | legally | mandated | disclaimers,[Sports-betting ad with legally mandated disclaimers and 21+ targeting]
+FP,gmb_c_015,compliant,gambling,gambling,term,gambling | countries | approved | gambling | approved,[Certified gambling ad targeting only approved countries]
+FP,gmb_c_016,compliant,gambling,gambling,term,gambling | gambling | real-money | gambling,[Amusement-arcade ad with no real-money gambling]
+FP,gmb_c_017,compliant,gambling,"financial,gambling",term,state | gambling | gambling | gambling | responsible-gambling,[Responsible-gambling PSA from a state regulator]
+FP,gmb_c_018,compliant,gambling,health,term,licensed,"[Daily-fantasy ad where permitted, licensed, 21+, with disclaimers]"
+FP,gmb_c_019,compliant,gambling,gambling,phrase,online casino | online casino | online casino | online casino,[Online casino ad with valid license documentation on file]
+FP,gmb_c_020,compliant,gambling,"gambling,health",term,gambling | gambling | gambling | game | cosmetic,"[Free mobile game ad with optional cosmetic purchases, no gambling]"
+FN,ip_nc_007,non_compliant,ip_trademark,,,,"Stream every Marvel movie free — full HD pirated copies, no subscription."
+FN,ip_nc_013,non_compliant,ip_trademark,,,,Get Disney+ shows for free — full pirated library streaming here.
+FP,ip_c_001,compliant,ip_trademark,misleading,term,brand | brand,"Handmade leather watches by our own studio — original designs, our brand only."
+FP,ip_c_002,compliant,ip_trademark,ip_trademark,term,logo,Shop our independent sneaker label — fully original colorways and logo.
+FP,ip_c_003,compliant,ip_trademark,financial,term,include,Authorized reseller of genuine Bose headphones — official warranty included.
+FP,ip_c_004,compliant,ip_trademark,health,term,licensed,Stream our originally produced indie film — licensed and owned by our studio.
+FP,ip_c_005,compliant,ip_trademark,"health,political",term,licensed | video,[Video ad set to a track fully licensed through the platform's commercial music library]
+FP,ip_c_006,compliant,ip_trademark,misleading,term,brand | brand,"Generic phone case for 6.1-inch devices — universal fit, our own brand."
+FP,ip_c_007,compliant,ip_trademark,"health,misleading",term,licensed | brand | brand,Official merchandise store — licensed apparel with brand authorization on file.
+FP,ip_c_009,compliant,ip_trademark,"financial,health,misleading",term,clearly | clearly | brand | brand,"Compatible replacement bands for smartwatches — clearly marked 'not affiliated', our brand."
+FP,ip_c_010,compliant,ip_trademark,misleading,term,100% | 100% | right,Original artwork prints by our illustrators — 100% our own copyright.
+FP,ip_c_012,compliant,ip_trademark,health,term,licensed,Stream our podcast — all music and clips cleared and licensed.
+FP,ip_c_013,compliant,ip_trademark,"health,ip_trademark,misleading",term,cosmetic | trademark | trademark | brand | brand,"Our in-house cosmetics line — original brand name, trademark registered to us."
+FP,ip_c_014,compliant,ip_trademark,"financial,health",term,clearly | clearly,"Refurbished genuine iPhones, clearly described as refurbished — authorized program."
+FP,ip_c_016,compliant,ip_trademark,misleading,term,right,Custom T-shirts with your own uploaded designs — you confirm you own the rights.
+FP,ip_c_017,compliant,ip_trademark,"health,misleading",term,licensed | sold,Licensed Marvel apparel — sold under an official Disney license agreement.
+FP,ip_c_019,compliant,ip_trademark,"ip_trademark,misleading",term,trademark | trademark | brand | brand,"Original streetwear brand — our trademark, our designs, made in-house."
+FP,ip_c_020,compliant,ip_trademark,"health,political",term,licensed | video,Officially licensed video game soundtrack on vinyl — publisher-authorized release.

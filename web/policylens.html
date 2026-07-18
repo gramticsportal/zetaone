@@ -321,6 +321,17 @@
         <div id="textPanel" style="display:none;">
             <label for="textContent">Text content</label>
             <textarea id="textContent" placeholder="Paste ad copy…"></textarea>
+            <div id="docUploadRow" style="margin-top:8px;">
+                <span class="muted">…or upload a document:</span>
+                <button type="button" id="docChooseBtn">Choose file (.txt / .pdf / .docx)</button>
+                <input type="file" id="docInput" accept=".txt,.pdf,.docx" />
+                <span id="docName" class="muted"></span>
+                <button type="button" id="docClearBtn" style="display:none;">✕</button>
+                <label style="display:block;margin-top:6px;">
+                    <input type="checkbox" id="perPageCheck" />
+                    Per-page verdicts (one score per page; unchecked = single overall score. Max 2 pages for now.)
+                </label>
+            </div>
         </div>
 
         <div class="toggle-row">
@@ -902,9 +913,31 @@
 
         function syncButton() {
             const imgMode = document.querySelector('input[name="mode"]:checked').value === 'image';
-            analyzeBtn.disabled = imgMode ? !imageInput.files[0] : !document.getElementById('textContent').value.trim();
+            const hasDoc = docInput.files && docInput.files[0];
+            analyzeBtn.disabled = imgMode
+                ? !imageInput.files[0]
+                : !(document.getElementById('textContent').value.trim() || hasDoc);
         }
         document.getElementById('textContent').addEventListener('input', syncButton);
+
+        const docInput = document.getElementById('docInput');
+        const docChooseBtn = document.getElementById('docChooseBtn');
+        const docClearBtn = document.getElementById('docClearBtn');
+        const docNameEl = document.getElementById('docName');
+        const perPageCheck = document.getElementById('perPageCheck');
+        docChooseBtn.addEventListener('click', () => docInput.click());
+        docInput.addEventListener('change', () => {
+            const f = docInput.files[0];
+            docNameEl.textContent = f ? f.name : '';
+            docClearBtn.style.display = f ? 'inline-block' : 'none';
+            syncButton();
+        });
+        docClearBtn.addEventListener('click', () => {
+            docInput.value = '';
+            docNameEl.textContent = '';
+            docClearBtn.style.display = 'none';
+            syncButton();
+        });
 
         function pipelineProgressLabel(prog) {
             if (!prog || typeof prog !== 'object') return '';
@@ -1416,6 +1449,24 @@
                     postJson = await readJsonResponse(r);
                     if (!r.ok) throw new Error(formatApiDetail(postJson.detail) || r.statusText);
                     assetId = postJson.asset_id;
+                } else if (docInput.files[0]) {
+                    const fd = new FormData();
+                    fd.append('file', docInput.files[0]);
+                    fd.append('per_page', perPageCheck.checked ? 'true' : 'false');
+                    const r = await fetch(`${b}/assets/document`, {
+                        method: 'POST',
+                        headers: domainHeaders(),
+                        body: fd,
+                    });
+                    postJson = await readJsonResponse(r);
+                    if (!r.ok) throw new Error(formatApiDetail(postJson.detail) || r.statusText);
+                    if (postJson.mode === 'per_page') {
+                        setRunProgress(0);
+                        pollDetailEl.style.display = 'none';
+                        renderDocumentPagesResult(postJson);
+                        return;
+                    }
+                    assetId = postJson.asset_id;
                 } else {
                     const content = document.getElementById('textContent').value.trim();
                     if (!content) throw new Error('Enter text');
@@ -1490,6 +1541,36 @@
                 syncButton();
             }
         });
+
+        function renderDocumentPagesResult(json) {
+            const doc = json.document || {};
+            const pages = json.pages || [];
+            const flagged = (doc.flagged_pages || []).join(', ');
+            let html = '<div class="panel">';
+            html += '<h2>Document result — per-page</h2>';
+            html += '<p><strong>' + escapeHtml(doc.filename || 'document') + '</strong> (' + escapeHtml(doc.kind || '?') + ', ' + (doc.page_count || pages.length) + ' pages)</p>';
+            html += '<p>Overall: <strong>' + escapeHtml(doc.status || '?') + '</strong> — risk ' + Number(doc.risk_score || 0).toFixed(2);
+            html += flagged ? ' — flagged pages: ' + escapeHtml(flagged) : ' — no pages flagged';
+            html += '</p>';
+            html += '<table style="width:100%;border-collapse:collapse;">';
+            html += '<tr><th style="text-align:left;padding:4px;">Page</th><th style="text-align:left;padding:4px;">Status</th><th style="text-align:left;padding:4px;">Risk</th><th style="text-align:left;padding:4px;">Violations</th></tr>';
+            for (const p of pages) {
+                const rules = (p.violations || []).map((v) => v.rule_id).filter(Boolean);
+                const uniqueRules = [...new Set(rules)].join(', ');
+                html += '<tr>';
+                html += '<td style="padding:4px;border-top:1px solid #ccc;">' + p.page_number + '</td>';
+                html += '<td style="padding:4px;border-top:1px solid #ccc;">' + escapeHtml(p.status || '') + (p.error ? ' <span class="muted">(' + escapeHtml(p.error) + ')</span>' : '') + '</td>';
+                html += '<td style="padding:4px;border-top:1px solid #ccc;">' + Number(p.risk_score || 0).toFixed(2) + '</td>';
+                html += '<td style="padding:4px;border-top:1px solid #ccc;">' + (p.violation_count || 0) + (uniqueRules ? ' <span class="muted">(' + escapeHtml(uniqueRules) + ')</span>' : '') + '</td>';
+                html += '</tr>';
+            }
+            html += '</table>';
+            html += '<p class="muted" style="margin-top:6px;">Each page has its own asset_id in the API response; sentence-level evidence lives in each page’s violations.</p>';
+            html += '</div>';
+            resultDiv.className = '';
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = html;
+        }
 
         function escapeHtml(str) {
             return String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));

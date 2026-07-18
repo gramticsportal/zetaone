@@ -8,6 +8,7 @@ from zataone.core.extractor_flags import (
     embedding_enabled,
     pipeline_mode,
     pipeline_vlm_extractor_enabled,
+    semantic_text_enabled,
 )
 from zataone.extractors.base import BaseExtractor
 
@@ -19,12 +20,13 @@ _SHORT_TO_IDS: dict[str, frozenset[str]] = {
     "vlm": frozenset({"ad_compliance_vlm", "vlm_extractor"}),
     "asr": frozenset({"ad_compliance_asr"}),
     "text": frozenset({"text_extractor"}),
+    "semantic": frozenset({"semantic_text_extractor"}),
     "video": frozenset({"video_extractor"}),
 }
 
 # Default extractors by asset type when YAML list is absent
 _DEFAULT_BY_TYPE: dict[str, frozenset[str]] = {
-    "text": frozenset({"text_extractor"}),
+    "text": frozenset({"text_extractor", "semantic_text_extractor"}),
     "image": frozenset(
         {"text_extractor", "ad_compliance_ocr", "ocr_extractor", "ad_compliance_vision", "vision_extractor"}
     ),
@@ -66,6 +68,8 @@ def _allow_extractor_id(eid: str, asset_type: str, yaml_ids: set[str] | None) ->
 
     if eid in _SHORT_TO_IDS["embedding"] and not embedding_enabled():
         return False
+    if eid in _SHORT_TO_IDS["semantic"]:
+        return semantic_text_enabled() and at == "text"
     if eid in _SHORT_TO_IDS["vlm"] and not pipeline_vlm_extractor_enabled():
         return False
     if eid in _SHORT_TO_IDS["asr"] and at != "audio":
@@ -109,6 +113,8 @@ def allow_domain_short_name(short: str, config: dict | None = None) -> bool:
         return s in {x.strip().lower() for x in (config.get("extractors") or {}).get("enabled", [])}
     if s == "embedding":
         return embedding_enabled()
+    if s == "semantic":
+        return semantic_text_enabled()
     if s == "vlm":
         return pipeline_vlm_extractor_enabled()
     return s in ("ocr", "vision", "asr", "text")

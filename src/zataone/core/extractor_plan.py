@@ -6,8 +6,10 @@ from typing import Any
 
 from zataone.core.extractor_flags import (
     embedding_enabled,
+    ocr_enabled,
     pipeline_mode,
     pipeline_vlm_extractor_enabled,
+    vision_dino_enabled,
 )
 from zataone.extractors.base import BaseExtractor
 
@@ -68,6 +70,10 @@ def _allow_extractor_id(eid: str, asset_type: str, yaml_ids: set[str] | None) ->
         return False
     if eid in _SHORT_TO_IDS["vlm"] and not pipeline_vlm_extractor_enabled():
         return False
+    if eid in _SHORT_TO_IDS["ocr"] and not ocr_enabled():
+        return False
+    if eid in _SHORT_TO_IDS["vision"] and not vision_dino_enabled():
+        return False
     if eid in _SHORT_TO_IDS["asr"] and at != "audio":
         return False
     if eid in _SHORT_TO_IDS["ocr"] | _SHORT_TO_IDS["vision"] and at == "text":
@@ -106,9 +112,24 @@ def allow_domain_short_name(short: str, config: dict | None = None) -> bool:
     enabled = _yaml_enabled_ids(config)
     s = short.strip().lower()
     if enabled is not None:
-        return s in {x.strip().lower() for x in (config.get("extractors") or {}).get("enabled", [])}
+        in_yaml = s in {
+            x.strip().lower() for x in (config.get("extractors") or {}).get("enabled", [])
+        }
+        if not in_yaml:
+            return False
+    elif s == "embedding":
+        return embedding_enabled()
+    elif s == "vlm":
+        return pipeline_vlm_extractor_enabled()
+    elif s not in ("ocr", "vision", "asr", "text"):
+        return False
+    # Global off-switches win even when YAML lists the extractor
+    if s == "ocr":
+        return ocr_enabled()
+    if s == "vision":
+        return vision_dino_enabled()
     if s == "embedding":
         return embedding_enabled()
     if s == "vlm":
         return pipeline_vlm_extractor_enabled()
-    return s in ("ocr", "vision", "asr", "text")
+    return True

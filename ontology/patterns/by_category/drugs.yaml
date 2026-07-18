@@ -1,0 +1,412 @@
+schema_version: 1.0.0
+category_id: drugs
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 4
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: atc.cbd_restricted_with_certification
+  category_id: drugs
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - google_atc_cbd
+  - meta_atc_cbd
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  clause_ids:
+  - google.atc.cbd
+  - meta.atc.cbd
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - cbd ads outside ca/co/pr, without google certification, or for non-topical/ ingestible cbd (supplements,
+    food additives, inhalants), or thc >0.3%.
+  - cbd/cannabinoid ads without meta written authorization + active legitscript certification, outside
+    the us, to under-18, or making health/medical claims.
+  forbidden_terms:
+  - outside
+  - non-topical
+  - ingestible
+  - supplements
+  - food
+  - additives
+  - inhalants
+  - topical
+  - hemp-derived
+  - cannabidiol
+  - less
+  - applies
+  - advertise
+  - these
+  - targets
+  - cannabinoid
+  - written
+  - active
+  forbidden_phrases:
+  - e-cigarette
+  - smoke free
+  - nicotine free
+  forbidden_patterns:
+  - pattern: \b(e[\s-]?cig(?:arette)?s?|vape(?:s|ing)?)\b
+    confidence: 0.85
+    note: vape / e-cig
+  - pattern: \b(buy|order|smoke)\s+(weed|cannabis|marijuana|thc)\b
+    confidence: 0.9
+    note: cannabis purchase cue
+  requires_context:
+    terms:
+    - tobacco
+    - nicotine
+    - vape
+    - cannabis
+    - marijuana
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - topical hemp-derived cbd <=0.3% thc, certified, targeting only ca/co/pr.
+    - legitscript-certified + meta-authorized cbd, us-only, 18+, no health claims.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Topical hemp-derived CBD <=0.3% THC, certified, targeting only CA/CO/PR.
+    - LegitScript-certified + Meta-authorized CBD, US-only, 18+, no health claims.
+  vision_labels:
+  - cigarette
+  - cigar
+  - vape
+  - tobacco
+  - nicotine
+  - e-cigarette
+  - promote
+  - drugs
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - cbd ads outside ca/co/pr, without google certification, or for non-topical/ ingestible cbd (supplements,
+    food additives, inhalants), or thc >0.3%.
+  - cbd/cannabinoid ads without meta written authorization + active legitscript certification, outside
+    the us, to under-18, or making health/medical claims.
+  eval_non_compliant_hits: 4
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: atc.recreational_drugs_and_thc_prohibited
+  category_id: drugs
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_atc_recreational_drugs
+  - meta_atc_drugs_thc
+  - tiktok_atc_drugs
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.atc.recreational_drugs
+  - meta.atc.drugs_thc
+  - tiktok.atc.drugs
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - ads for recreational drugs / mind-altering "high"-inducing substances, drug-use facilitation, or instructional
+    drug content.
+  - ads promoting illicit/recreational drugs or thc/cannabis products with psychoactive components (>0.3%
+    thc).
+  - ads/landing pages promoting or providing access to illegal/controlled/ recreational drugs, prescription-drug
+    abuse, or drug paraphernalia.
+  forbidden_terms:
+  - cannabis
+  - marijuana
+  - weed
+  - thc
+  - recreational
+  - drugs
+  - mind-altering
+  - high
+  - inducing
+  - substances
+  - drug-use
+  - facilitation
+  - instructional
+  - drug
+  - alter
+  - mental
+  - state
+  - purpose
+  - recreation
+  - otherwise
+  forbidden_phrases:
+  - buy weed
+  - order cannabis
+  - thc gummies
+  - e-cigarette
+  - smoke free
+  - nicotine free
+  forbidden_patterns:
+  - pattern: \b(e[\s-]?cig(?:arette)?s?|vape(?:s|ing)?)\b
+    confidence: 0.85
+    note: vape / e-cig
+  - pattern: \b(buy|order|smoke)\s+(weed|cannabis|marijuana|thc)\b
+    confidence: 0.9
+    note: cannabis purchase cue
+  requires_context:
+    terms:
+    - tobacco
+    - nicotine
+    - vape
+    - cannabis
+    - marijuana
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - cigarette
+  - cigar
+  - vape
+  - tobacco
+  - nicotine
+  - e-cigarette
+  - promote
+  - drugs
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ads for recreational drugs / mind-altering "high"-inducing substances, drug-use facilitation, or instructional
+    drug content.
+  - ads promoting illicit/recreational drugs or thc/cannabis products with psychoactive components (>0.3%
+    thc).
+  - ads/landing pages promoting or providing access to illegal/controlled/ recreational drugs, prescription-drug
+    abuse, or drug paraphernalia.
+  eval_non_compliant_hits: 4
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: atc.tobacco_advertising_format_restrictions
+  category_id: drugs
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - fda_tobacco_format
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - fda.atc.tobacco_format
+  modalities:
+  - text
+  - image
+  - video
+  - audio
+  detection_summaries:
+  - cigarette/smokeless-tobacco advertising not in black-text-on-white format, or audio/video ads exceeding
+    the words-only / static-text limits.
+  forbidden_terms:
+  - cigarette
+  - smokeless-tobacco
+  - black-text-on-white
+  - format
+  - audio
+  - video
+  - exceeding
+  - words-only
+  - static-text
+  - limits
+  - manufacturer
+  - distributor
+  - retailer
+  - cigarettes
+  - smokeless
+  - tobacco
+  - black
+  - text
+  forbidden_phrases:
+  - e-cigarette
+  - smoke free
+  - nicotine free
+  forbidden_patterns:
+  - pattern: \b(e[\s-]?cig(?:arette)?s?|vape(?:s|ing)?)\b
+    confidence: 0.85
+    note: vape / e-cig
+  - pattern: \b(buy|order|smoke)\s+(weed|cannabis|marijuana|thc)\b
+    confidence: 0.9
+    note: cannabis purchase cue
+  requires_context:
+    terms:
+    - tobacco
+    - nicotine
+    - vape
+    - cannabis
+    - marijuana
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - adult publications and certain in-facility advertising (21 cfr 1140.32(b)).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Adult publications and certain in-facility advertising (21 CFR 1140.32(b)).
+  vision_labels:
+  - cigarette
+  - cigar
+  - vape
+  - tobacco
+  - nicotine
+  - e-cigarette
+  - promote
+  - drugs
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - cigarette/smokeless-tobacco advertising not in black-text-on-white format, or audio/video ads exceeding
+    the words-only / static-text limits.
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+  category_id: drugs
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_atc_tobacco
+  - meta_atc_tobacco
+  - tiktok_atc_tobacco
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.atc.tobacco
+  - meta.atc.tobacco
+  - tiktok.atc.tobacco
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - ads for tobacco, tobacco components/paraphernalia, or products that simulate smoking (e-cigarettes,
+    herbal cigarettes).
+  - ads promoting tobacco/nicotine products, e-cigarettes/vapes, or related paraphernalia.
+  - ads/landing pages showing, promoting, or selling tobacco, nicotine, e-cigarettes/vapes, paraphernalia,
+    or smoking venues.
+  forbidden_terms:
+  - cigarette
+  - vape
+  - tobacco
+  - nicotine
+  - cigar
+  - components
+  - paraphernalia
+  - simulate
+  - smoking
+  - e-cigarettes
+  - herbal
+  - cigarettes
+  - containing
+  - form
+  - component
+  - part
+  - product
+  - directly
+  - facilitate
+  - vapes
+  forbidden_phrases:
+  - e-cigarette
+  - buy vapes
+  - smoke cigarettes
+  - smoke free
+  - nicotine free
+  forbidden_patterns:
+  - pattern: \b(e[\s-]?cig(?:arette)?s?|vape(?:s|ing)?)\b
+    confidence: 0.85
+    note: vape / e-cig
+  - pattern: \b(buy|order|smoke)\s+(weed|cannabis|marijuana|thc)\b
+    confidence: 0.9
+    note: cannabis purchase cue
+  requires_context:
+    terms:
+    - tobacco
+    - nicotine
+    - vape
+    - cannabis
+    - marijuana
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - who/fda-approved cessation products targeted 18+.
+    - anti-smoking/vaping campaigns.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - WHO/FDA-approved cessation products targeted 18+.
+    - Anti-smoking/vaping campaigns.
+  vision_labels:
+  - cigarette
+  - cigar
+  - vape
+  - tobacco
+  - nicotine
+  - e-cigarette
+  - promote
+  - drugs
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ads for tobacco, tobacco components/paraphernalia, or products that simulate smoking (e-cigarettes,
+    herbal cigarettes).
+  - ads promoting tobacco/nicotine products, e-cigarettes/vapes, or related paraphernalia.
+  - ads/landing pages showing, promoting, or selling tobacco, nicotine, e-cigarettes/vapes, paraphernalia,
+    or smoking venues.
+  eval_non_compliant_hits: 7
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

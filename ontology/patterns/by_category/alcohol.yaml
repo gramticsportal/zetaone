@@ -1,0 +1,199 @@
+schema_version: 1.0.0
+category_id: alcohol
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 2
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: atc.alcohol_age_and_location_targeting_required
+  category_id: alcohol
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_atc_alcohol
+  - meta_atc_alcohol
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  clause_ids:
+  - google.atc.alcohol
+  - meta.atc.alcohol
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - alcohol ads targeting below the legal drinking age, targeting disallowed locations, or promoting harmful/illegal/excessive
+    consumption or health/ social benefits.
+  - alcohol ads targeting under-18 (or below local legal drinking age), or run in countries/regions where
+    alcohol promotion is prohibited.
+  forbidden_terms:
+  - beer
+  - wine
+  - liquor
+  - cocktail
+  - alcohol
+  - drinking
+  - disallowed
+  - locations
+  - harmful
+  - illegal
+  - excessive
+  - consumption
+  - health
+  - follows
+  - industry
+  - minors
+  - under-18
+  - countries
+  - reference
+  - codes
+  forbidden_phrases:
+  - buy beer
+  - drink now
+  - happy hour special
+  - hangover free
+  - happy hour
+  forbidden_patterns:
+  - pattern: \b(buy|order|drink)\s+(beer|wine|vodka|whiskey|liquor)\b
+    confidence: 0.8
+    note: alcohol CTA
+  requires_context:
+    terms:
+    - alcohol
+    - beer
+    - wine
+    - liquor
+    - 21+
+    - drink
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - news/documentary/educational/psa references to alcohol.
+    - non-alcoholic products that don't depict alcohol or consumption.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - News/documentary/educational/PSA references to alcohol.
+    - Non-alcoholic products that don't depict alcohol or consumption.
+  vision_labels:
+  - beer
+  - wine
+  - alcohol
+  - liquor
+  - cocktail
+  - targeting
+  - local
+  - must
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - alcohol ads targeting below the legal drinking age, targeting disallowed locations, or promoting harmful/illegal/excessive
+    consumption or health/ social benefits.
+  - alcohol ads targeting under-18 (or below local legal drinking age), or run in countries/regions where
+    alcohol promotion is prohibited.
+  eval_non_compliant_hits: 6
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: atc.alcohol_mandatory_and_prohibited_statements
+  category_id: alcohol
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ttb_alcohol_statements
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ttb.atc.alcohol_statements
+  modalities:
+  - text
+  - image
+  - video
+  - audio
+  - landing_page
+  detection_summaries:
+  - alcohol ads missing mandatory statements (responsible advertiser, class/ type, distilled-spirits alcohol
+    content) or containing prohibited false/ misleading/label-inconsistent/health claims.
+  forbidden_terms:
+  - alcohol
+  - mandatory
+  - responsible
+  - type
+  - distilled-spirits
+  - containing
+  - 'false'
+  - misleading
+  - label-inconsistent
+  - ttb's
+  - regulations
+  - parts
+  - apply
+  - advertisements
+  - media
+  - whiskey
+  - responsible-advertiser
+  - name
+  forbidden_phrases:
+  - hangover free
+  - drink now
+  - happy hour
+  forbidden_patterns:
+  - pattern: \b(buy|order|drink)\s+(beer|wine|vodka|whiskey|liquor)\b
+    confidence: 0.8
+    note: alcohol CTA
+  requires_context:
+    terms:
+    - alcohol
+    - beer
+    - wine
+    - liquor
+    - cocktail
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - consumer specialty items needing only company/brand name.
+    - space-constrained social posts linking to a compliant page.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Consumer specialty items needing only company/brand name.
+    - Space-constrained social posts linking to a compliant page.
+  vision_labels:
+  - beer
+  - wine
+  - alcohol
+  - liquor
+  - cocktail
+  - targeting
+  - local
+  - must
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - alcohol ads missing mandatory statements (responsible advertiser, class/ type, distilled-spirits alcohol
+    content) or containing prohibited false/ misleading/label-inconsistent/health claims.
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

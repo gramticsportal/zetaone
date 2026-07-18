@@ -16,11 +16,15 @@ from typing import Any
 from zataone.core.extractor_flags import (
     embedding_enabled,
     fast_combined_review_enabled,
+    hybrid_engine_enabled,
+    ocr_enabled,
     pipeline_auto_advisory_enabled,
     pipeline_mode as default_pipeline_mode,
     pipeline_parallel_vlm_enabled,
     pipeline_vlm_extractor_enabled,
     policy_engine_enabled,
+    vision_dino_enabled,
+    vlm_primary_image_path,
 )
 from zataone.core.verdict_display import apply_display_verdict
 from zataone.core.extractor_plan import allow_domain_short_name, select_extractors_for_asset
@@ -55,6 +59,7 @@ from zataone.policy_engine.corpus.ontology_platform import (
 )
 from zataone.policy_engine.jurisdiction.router import JurisdictionRouter
 from zataone.policy_engine.engine import PolicyEngine
+from zataone.policy_engine.hybrid import HybridEngine
 from zataone.policy_engine.retrieval.flags import policy_retrieval_enabled
 from zataone.policy_engine.retrieval.retriever import PolicyRetriever
 from zataone.storage.database import get_session_factory
@@ -121,6 +126,17 @@ class CompliancePipeline:
         self._jurisdiction = JurisdictionRouter().normalize(jurisdiction)
         self._extractor_registry = ExtractorRegistry()
         self._policy_engine = PolicyEngine()
+        self._hybrid_engine: HybridEngine | None = None
+        if hybrid_engine_enabled():
+            try:
+                self._hybrid_engine = HybridEngine()
+                logger.info(
+                    "Hybrid engine enabled (%d pattern packs)",
+                    self._hybrid_engine.pack_count,
+                )
+            except Exception:
+                logger.exception("Hybrid engine init failed; falling back to PolicyEngine")
+                self._hybrid_engine = None
         self._policy_pack = None
         self._policy_retriever: PolicyRetriever | None = None
         self._evidence_service = EvidenceService()
@@ -430,8 +446,13 @@ class CompliancePipeline:
         *,
         asset_id: str | None = None,
         run_pipeline_mode: str = "full",
+        pre_signals: list[Any] | None = None,
     ) -> dict[str, Any]:
-        """Extraction → document → policy → evidence → verdict (no advisory)."""
+        """Extraction → document → policy → evidence → verdict (no advisory).
+
+        ``pre_signals``: optional Gemini VLM matcher signals (OCR/claims/objects)
+        merged before document build when using the VLM-primary image path.
+        """
         t0 = time.perf_counter()
         extractors = select_extractors_for_asset(
             self._extractor_registry.list(),
@@ -442,6 +463,10 @@ class CompliancePipeline:
         signals, counts, failed_extractors = extract_signals_parallel(
             extractors, asset, asset_id=asset_id
         )
+        if pre_signals:
+            signals = list(pre_signals) + list(signals)
+            counts = dict(counts)
+            counts["gemini_vlm"] = len(pre_signals)
 
         producers = sorted(eid for eid, n in counts.items() if n > 0)
         logger.info(
@@ -495,7 +520,28 @@ class CompliancePipeline:
                 active_rule_ids = platform_rules
 
         engine_on = policy_engine_enabled()
-        if engine_on:
+        hybrid_on = bool(self._hybrid_engine is not None and hybrid_engine_enabled())
+        hybrid_meta: dict[str, Any] = {}
+        if engine_on and hybrid_on and self._hybrid_engine.pack_count > 0:
+            # Phase B: hybrid replaces legacy PolicyEngine (same pipeline slot).
+            # Always pass document text when available (hybrid is document-first).
+            hybrid_doc = document if document is not None else evaluate_document
+            hybrid_result = self._hybrid_engine.evaluate_full(
+                signals,
+                document=hybrid_doc,
+                active_rule_ids=active_rule_ids,
+            )
+            violations = hybrid_result.violations
+            if hybrid_result.signals:
+                signals = list(signals) + list(hybrid_result.signals)
+            hybrid_meta = {
+                "hybrid_engine": True,
+                "hybrid_packs_evaluated": hybrid_result.packs_evaluated,
+                "hybrid_shortlist_size": len(hybrid_result.shortlisted_canonical_ids),
+                "hybrid_nlp_backend": hybrid_result.nlp_backend,
+                "hybrid_signal_count": len(hybrid_result.signals),
+            }
+        elif engine_on:
             violations = self._policy_engine.evaluate(
                 signals, document=evaluate_document, active_rule_ids=active_rule_ids
             )
@@ -536,6 +582,9 @@ class CompliancePipeline:
         verdict_metadata["pipeline_mode"] = run_pipeline_mode
         verdict_metadata["policy_engine_ran"] = engine_on
         verdict_metadata["policy_engine_enabled"] = engine_on
+        verdict_metadata["hybrid_engine_enabled"] = hybrid_on
+        if hybrid_meta:
+            verdict_metadata.update(hybrid_meta)
         verdict_metadata["verdict_authority"] = "deterministic" if engine_on else "advisory"
         verdict["metadata"] = verdict_metadata
 
@@ -656,9 +705,12 @@ class CompliancePipeline:
                 progress_update(aid_str, deterministic="completed")
         else:
 
-            def _deterministic_core() -> dict[str, Any]:
+            def _deterministic_core(pre_signals: list[Any] | None = None) -> dict[str, Any]:
                 return self._run_deterministic_core(
-                    asset, asset_id=aid_str, run_pipeline_mode=mode
+                    asset,
+                    asset_id=aid_str,
+                    run_pipeline_mode=mode,
+                    pre_signals=pre_signals,
                 )
 
             det_bundle, vlm_status, parallel_timing = run_parallel_vlm_and_deterministic(
@@ -701,6 +753,9 @@ class CompliancePipeline:
         }
         verdict_metadata["extractor_counts"] = counts
         verdict_metadata["embedding_enabled"] = embedding_enabled()
+        verdict_metadata["ocr_enabled"] = ocr_enabled()
+        verdict_metadata["vision_dino_enabled"] = vision_dino_enabled()
+        verdict_metadata["vlm_primary_image_path"] = vlm_primary_image_path()
         verdict_metadata["pipeline_vlm_extractor_enabled"] = pipeline_vlm_extractor_enabled()
         if aid_str:
             verdict_metadata["pipeline_progress"] = progress_get(aid_str) or {}

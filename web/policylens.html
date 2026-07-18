@@ -960,6 +960,10 @@
             }
             const mode = poll.pipeline_mode || (poll.metadata && poll.metadata.pipeline_mode) || pipelineModeValue();
             const authority = poll.verdict_authority || poll.verdict_source || 'advisory';
+            const engineRan = !!(
+                poll.policy_engine_ran ||
+                (poll.metadata && poll.metadata.policy_engine_ran)
+            );
             let runLine = 'Full: extractors + VLM → LLM vs policy';
             if (mode === 'fast') {
                 const combined = poll.fast_combined_review || (poll.metadata && poll.metadata.fast_combined_review);

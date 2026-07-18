@@ -916,18 +916,24 @@ def _model_to_dict(obj: Any, exclude: set[str] | None = None) -> dict[str, Any]:
     """Convert SQLAlchemy model to JSON-serializable dict."""
     if obj is None:
         return {}
+    from sqlalchemy import inspect as sa_inspect
+
     exclude = exclude or set()
-    d = {}
-    for c in obj.__table__.columns:
-        if c.name in exclude:
+    d: dict[str, Any] = {}
+    # Iterate mapper column_attrs so Asset.meta (DB column "metadata") is
+    # read via the Python attr. getattr(obj, "metadata") returns Base.metadata
+    # (sqlalchemy MetaData) and breaks FastAPI JSON serialization.
+    for attr in sa_inspect(obj).mapper.column_attrs:
+        col = attr.columns[0]
+        if col.name in exclude or attr.key in exclude:
             continue
-        val = getattr(obj, c.name)
+        val = getattr(obj, attr.key)
         if hasattr(val, "hex"):
-            d[c.name] = str(val)
+            d[col.name] = str(val)
         elif hasattr(val, "isoformat"):
-            d[c.name] = val.isoformat()
+            d[col.name] = val.isoformat()
         else:
-            d[c.name] = val
+            d[col.name] = val
     return d
 
 

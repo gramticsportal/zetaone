@@ -1,0 +1,247 @@
+schema_version: 1.0.0
+category_id: discrimination
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 2
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: discrimination.discriminatory_ad_content_prohibited
+  category_id: discrimination
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - linkedin_discrimination_content
+  - meta_discrimination_content
+  - hud_housing_discriminatory_ad
+  - eeoc_employment_discriminatory_ad
+  - ftc_credit_ecoa
+  - tiktok_discrimination_content
+  source_files:
+  - linkedin_ads_us.yaml
+  - meta_ads_us.yaml
+  - regulators_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - linkedin.discrimination.no_discrimination
+  - meta.discrimination.no_discrimination
+  - hud.housing.discriminatory_ad
+  - eeoc.employment.discriminatory_ad
+  - eeoc.employment.age_ad_adea
+  - ftc.credit.ecoa_discouragement
+  - tiktok.discrimination.anti_discrimination
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - ads promoting discriminatory hiring or denial/restriction of fair access to education, housing, credit,
+    or career opportunities based on protected characteristics.
+  - ad content that discriminates or encourages discrimination based on protected personal attributes,
+    in housing/employment/financial contexts.
+  - housing ads/notices indicating a preference, limitation, or discrimination based on race, color, religion,
+    sex, handicap, familial status, or national origin (e.g. "no kids," "christians preferred," "adults
+    only").
+  - job ads showing preference for / discouraging applicants based on race, color, religion, sex, national
+    origin, age (40+), disability, or genetic information (e.g. "young," "recent grads only," "females
+    only").
+  - credit advertising statements that discourage, on a prohibited basis (race, color, religion, national
+    origin, sex, marital status, age), a reasonable person from applying.
+  - housing/employment/credit ad content that unlawfully discriminates or excludes people based on protected
+    characteristics.
+  forbidden_terms:
+  - discriminatory
+  - hiring
+  - denial
+  - restriction
+  - fair
+  - access
+  - education
+  - housing
+  - career
+  - opportunities
+  - tolerate
+  - discrimination
+  - personal
+  - attributes
+  - gender
+  - identity
+  - disability
+  - discriminates
+  forbidden_phrases:
+  - whites only
+  - no children
+  - christians only
+  - no immigrants
+  - adults only
+  forbidden_patterns:
+  - pattern: \b(no|only)\s+(children|kids|blacks?|whites?|muslims?|christians?|immigrants?)\b
+    confidence: 0.9
+    note: exclusionary targeting
+  requires_context:
+    terms:
+    - housing
+    - rent
+    - employment
+    - hire
+    - credit
+    - loan
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - lawful preferences for historically disadvantaged groups where permitted.
+    - lawful housing for older persons (55+/62+) communities under hopa.
+    - age/other limits that are a bona fide occupational qualification (bfoq).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Lawful preferences for historically disadvantaged groups where permitted.
+    - Lawful Housing for Older Persons (55+/62+) communities under HOPA.
+    - Age/other limits that are a bona fide occupational qualification (BFOQ).
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ads promoting discriminatory hiring or denial/restriction of fair access to education, housing, credit,
+    or career opportunities based on protected characteristics.
+  - ad content that discriminates or encourages discrimination based on protected personal attributes,
+    in housing/employment/financial contexts.
+  - housing ads/notices indicating a preference, limitation, or discrimination based on race, color, religion,
+    sex, handicap, familial status, or national origin (e.g. "no kids," "christians preferred," "adults
+    only").
+  - job ads showing preference for / discouraging applicants based on race, color, religion, sex, national
+    origin, age (40+), disability, or genetic information (e.g. "young," "recent grads only," "females
+    only").
+  - credit advertising statements that discourage, on a prohibited basis (race, color, religion, national
+    origin, sex, marital status, age), a reasonable person from applying.
+  eval_non_compliant_hits: 16
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: discrimination.restricted_targeting_protected_class
+  category_id: discrimination
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_discrimination_targeting
+  - linkedin_discrimination_targeting
+  - meta_discrimination_targeting
+  - tiktok_discrimination_targeting
+  source_files:
+  - google_ads_us.yaml
+  - linkedin_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.discrimination.restricted_targeting
+  - linkedin.discrimination.targeting_certification
+  - meta.discrimination.special_ad_category
+  - tiktok.discrimination.hec_targeting
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - housing/employment/consumer-finance ads (us/canada) targeting by restricted demographics (age, gender,
+    marital/parental status) or zip code.
+  - employment/housing/education/credit ads using gender/age targeting without certification, or recruitment
+    campaigns attempting age-group targeting.
+  - housing/employment/financial ads not run as a special ad category, or using restricted audience options
+    (age, gender, zip, exclusion, lookalike).
+  - hec ads (us/canada) not run via the special ad category toggle, or targeting by marital/parental status
+    or options correlated with protected characteristics.
+  forbidden_terms:
+  - housing
+  - employment
+  - consumer-finance
+  - canada
+  - restricted
+  - demographics
+  - gender
+  - marital
+  - parental
+  - code
+  - consumer
+  - education
+  - recruitment
+  - campaigns
+  - attempting
+  - age-group
+  - certify
+  - checkbox
+  forbidden_phrases:
+  - whites only
+  - no children
+  - christians only
+  - adults only
+  - no immigrants
+  forbidden_patterns:
+  - pattern: \b(no|only)\s+(children|kids|blacks?|whites?|muslims?|christians?|immigrants?)\b
+    confidence: 0.9
+    note: exclusionary targeting
+  requires_context:
+    terms:
+    - housing
+    - employment
+    - credit
+    - rent
+    - hire
+    - loan
+    - consumer-finance
+    - canada
+    - restricted
+    - demographics
+    - gender
+    - marital
+    - parental
+    - code
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - geographic targeting by radius (>=1 km), city, or country.
+    - certified non-discriminatory targeting; age targeting disabled for recruitment.
+    - ads run under special ad category with approved targeting options.
+    - hec ads run via the special ad category toggle with allowed targeting.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Geographic targeting by radius (>=1 km), city, or country.
+    - Certified non-discriminatory targeting; age targeting disabled for recruitment.
+    - Ads run under Special Ad Category with approved targeting options.
+    - HEC ads run via the Special Ad Category Toggle with allowed targeting.
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - housing/employment/consumer-finance ads (us/canada) targeting by restricted demographics (age, gender,
+    marital/parental status) or zip code.
+  - employment/housing/education/credit ads using gender/age targeting without certification, or recruitment
+    campaigns attempting age-group targeting.
+  - housing/employment/financial ads not run as a special ad category, or using restricted audience options
+    (age, gender, zip, exclusion, lookalike).
+  - hec ads (us/canada) not run via the special ad category toggle, or targeting by marital/parental status
+    or options correlated with protected characteristics.
+  eval_non_compliant_hits: 4
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

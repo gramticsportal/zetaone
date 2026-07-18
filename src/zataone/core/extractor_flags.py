@@ -19,14 +19,40 @@ def embedding_enabled() -> bool:
     return _env_bool("ZATAONE_ENABLE_EMBEDDING", default=False)
 
 
+def ocr_enabled() -> bool:
+    """
+    Local OCR (Tesseract). Default OFF — Gemini VLM supplies ocr_text for images.
+    Re-enable: ZATAONE_ENABLE_OCR=1.
+    """
+    return _env_bool("ZATAONE_ENABLE_OCR", default=False)
+
+
+def vision_dino_enabled() -> bool:
+    """
+    Grounding DINO local object detector. Default OFF — VLM supplies objects[].
+    Re-enable: ZATAONE_ENABLE_VISION=1.
+    """
+    return _env_bool("ZATAONE_ENABLE_VISION", default=False)
+
+
 def pipeline_vlm_extractor_enabled() -> bool:
     """GPT/OpenAI VLM during extraction (off; use Gemini advisory VLM instead)."""
     return _env_bool("ZATAONE_ENABLE_PIPELINE_VLM", default=False)
 
 
 def pipeline_parallel_vlm_enabled() -> bool:
-    """Run Gemini VLM inspection in parallel with deterministic extraction (images)."""
+    """
+    Legacy: run Gemini VLM in parallel with OCR/DINO extraction.
+    When OCR+DINO are off (default), Full image path runs VLM *before* hybrid
+    so structured VLM text can feed the deterministic matcher; this flag is
+    ignored in that VLM-primary mode.
+    """
     return _env_bool("ZATAONE_PARALLEL_VLM", default=True)
+
+
+def vlm_primary_image_path() -> bool:
+    """True when local OCR and DINO are both off — VLM owns image→text."""
+    return (not ocr_enabled()) and (not vision_dino_enabled())
 
 
 def pipeline_parallel_extractors_enabled() -> bool:
@@ -43,6 +69,16 @@ def pipeline_mode() -> str:
 def policy_engine_enabled() -> bool:
     """YAML rule-engine evaluation on signals. Default ON with ontology pack."""
     return _env_bool("ZATAONE_POLICY_ENGINE_ENABLED", default=True)
+
+
+def hybrid_engine_enabled() -> bool:
+    """
+    Phase B hybrid (pattern packs + NLP) replaces legacy PolicyEngine when ON.
+    Default ON. Rollback: ZATAONE_HYBRID_ENGINE=0.
+    """
+    from zataone.policy_engine.hybrid.flags import hybrid_engine_enabled as _h
+
+    return _h()
 
 
 def display_verdict_from_llm() -> bool:

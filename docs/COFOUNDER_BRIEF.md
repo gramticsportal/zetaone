@@ -28,9 +28,9 @@ Tagline in README (“deterministic, evidence-first”) describes the **design g
 flowchart LR
   UI["PolicyLens / API"] --> API["FastAPI Cloud Run"]
   API --> P["CompliancePipeline"]
-  P --> X["OCR + Grounding DINO"]
-  P --> G["Gemini VLM + LLM"]
-  P --> E["PolicyEngine optional"]
+  P --> X["Gemini VLM → text packet"]
+  P --> G["Gemini LLM final judge"]
+  P --> E["Lexical / hybrid rules"]
   P --> DB[("PostgreSQL graph")]
   YAML["ontology US pack"] --> E
   ONT["ontology/ corpus"] --> YAML
@@ -76,7 +76,7 @@ sequenceDiagram
 
 | | **Full** (default) | **Quick** (`X-Pipeline-Mode: fast`) |
 |--|-------------------|-------------------------------------|
-| Extractors | OCR + Grounding DINO (default config) | Skipped |
+| Extractors | Gemini VLM→text (OCR/DINO off by default) | Skipped |
 | Rule engine | **On** (ontology rules) unless `ZATAONE_POLICY_ENGINE_ENABLED=0` | Off |
 | Gemini | VLM ∥ extractors, then LLM vs policy | One combined vision+policy call |
 | Display verdict | **Gemini** (engine off) | **Gemini** |
@@ -141,13 +141,18 @@ ZATAONE_LEGACY_META_POLICY=1         # Force legacy meta_ads.yaml
 ZATAONE_VERDICT_AUTHORITY=advisory   # Default — LLM final judge on Full
 ZATAONE_VERDICT_AUTHORITY=deterministic  # Rule engine owns display again
 ZATAONE_POLICY_ENGINE_ENABLED=1      # Default ON — rule hits for audit
-ZATAONE_POLICY_RETRIEVAL=1           # Default ON — BM25 shortlist (top-K=8)
-ZATAONE_DOCUMENT_CENTRIC=1           # Match on unified document text
-ZATAONE_ENABLE_EMBEDDING=1           # SigLIP signals
+ZATAONE_HYBRID_ENGINE=1              # Default ON — pattern packs / lexical (Phase B)
+ZATAONE_HYBRID_NLP=0                 # Default OFF — embedding NLP demoted
+ZATAONE_HYBRID_ALL_PACKS=1           # Default ON — score all packs (no shortlist)
+ZATAONE_ENABLE_OCR=0                 # Default OFF — VLM supplies ocr_text
+ZATAONE_ENABLE_VISION=0              # Default OFF — VLM supplies objects[] (no DINO)
+ZATAONE_ENABLE_EMBEDDING=1           # SigLIP (still off unless set)
 ZATAONE_ENABLE_PIPELINE_VLM=1        # Legacy OpenAI extractor (not Gemini)
 # Platform: metadata.platform or X-Platform: meta|google|tiktok|all
 DATABASE_URL / CORS_ORIGINS
 ```
+
+**Image Full path (default):** Gemini VLM JSON (`ocr_text`, `ad_claims_text`, `objects`, `scene_description`) → lexical/hybrid on claims+OCR+objects → final LLM gets **full VLM packet + deterministic**. Local OCR/DINO off.
 
 ---
 

@@ -75,6 +75,9 @@ benchmarks. Full detail: [`ONTOLOGY_MAP.md`](ONTOLOGY_MAP.md).
 | `corpus/regulators_au.yaml` | ACCC / ACL (AU) — Misleading starter |
 | `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC + CCPA/CPRA + TTB (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA + Privacy + Alcohol/Tobacco) |
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
+| `patterns/` | **Phase A hybrid packs** — hierarchical regex/terms/exceptions by `canonical_id` (US corpus mined) |
+| `patterns/by_category/*.yaml` | Pattern packs per category (52 canonical → 11 files) |
+| `tools/mine_pattern_candidates.py` | Regenerate pattern packs from full US corpus + eval |
 | `examples/eval_seed.yaml` | Labeled evaluation dataset — **570 synthetic seed** examples (30 misleading + 60 per vertical × 9) |
 | `examples/eval_precedents.yaml` | **44 real-world** eval rows derived from verified enforcement precedents (all `non_compliant`, `test` split) |
 | `examples/load_eval.py` | Loader merging seed + precedent eval files for validate/coverage |

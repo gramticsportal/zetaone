@@ -62,6 +62,10 @@ def _is_vision_object(rd: dict[str, Any]) -> bool:
     return rd.get("type") == "vision_object"
 
 
+def _is_vlm_claims(rd: dict[str, Any]) -> bool:
+    return rd.get("type") == "vlm_claims_text"
+
+
 def _is_timeline_signal(rd: dict[str, Any]) -> bool:
     return rd.get("type") in ("timeline_text", "video_timeline")
 
@@ -203,6 +207,7 @@ class DocumentBuilder:
         asset_id = cls._asset_id(asset)
 
         ocr_pairs: list[tuple[Any, dict[str, Any]]] = []
+        claims_texts: list[tuple[str, str]] = []
         asr_texts: list[tuple[str, str]] = []
         vision_pairs: list[tuple[Any, dict[str, Any]]] = []
         timeline_pairs: list[tuple[Any, dict[str, Any]]] = []
@@ -213,7 +218,11 @@ class DocumentBuilder:
             sid = _signal_id(signal)
             if sid:
                 source_ids.append(sid)
-            if _is_ocr_signal(rd, signal):
+            if _is_vlm_claims(rd):
+                text = (rd.get("text") or "").strip()
+                if text:
+                    claims_texts.append((text, sid))
+            elif _is_ocr_signal(rd, signal):
                 ocr_pairs.append((signal, rd))
             elif _is_asr_signal(rd):
                 text = (rd.get("text") or "").strip()
@@ -268,6 +277,26 @@ class DocumentBuilder:
         if ocr_text:
             _append_section(ocr_text, ocr_spans)
 
+        # High-signal ad claims from Gemini VLM — preferred for lexical matching
+        if claims_texts:
+            claims_body = normalize_document_text(
+                "\n".join(t for t, _ in claims_texts)
+            )
+            if claims_body:
+                claims_block = f"Ad claims:\n{claims_body}"
+                sid0 = claims_texts[0][1]
+                claims_span = [
+                    DocumentSpan(
+                        start=0,
+                        end=len(claims_block),
+                        text=claims_block,
+                        source_signal_id=sid0,
+                        source_type="vlm_claims",
+                        bbox=None,
+                    )
+                ]
+                _append_section(claims_block, claims_span)
+
         if asr_texts:
             asr_texts.sort(key=lambda t: len(t[0]), reverse=True)
             transcript = normalize_document_text(asr_texts[0][0])
@@ -315,10 +344,11 @@ class DocumentBuilder:
             timeline=timeline,
             metadata={
                 "ocr_token_count": len(ocr_pairs),
+                "vlm_claims_count": len(claims_texts),
                 "vision_object_count": len(vision_pairs),
                 "asr_segment_count": len(asr_texts),
                 "document_centric_flag": False,
-                "builder_version": "1.0",
+                "builder_version": "1.1",
             },
         )
 

@@ -107,13 +107,14 @@ flowchart TB
     AUD["AuditService"]
   end
 
-  subgraph extractors["Domain extractors — ad_compliance"]
-    OCR["OCR"]
-    VIS["Vision<br/>Grounding DINO"]
-    EMB["Embedding<br/>SigLIP"]
+  subgraph extractors["Sensors — ad_compliance"]
+    GVLM["Gemini VLM<br/>structured JSON · default"]
+    OCR["Local OCR<br/>off by default"]
+    VIS["Grounding DINO<br/>off by default"]
+    EMB["Embedding<br/>SigLIP · off"]
     ASR["ASR<br/>faster-whisper"]
-    VLM["VLM"]
     TXT["Text"]
+    HYB["Hybrid lexical<br/>pattern packs"]
   end
 
   subgraph config["Configuration"]
@@ -141,11 +142,14 @@ flowchart TB
   ROUTES --> CORS
   CORS --> ING
   ING --> REG
-  REG --> OCR & VIS & EMB & ASR & VLM & TXT
-  OCR & VIS & EMB & ASR & VLM & TXT --> DOC
+  REG --> OCR & VIS & EMB & ASR & TXT
+  GVLM --> DOC
+  OCR & VIS & EMB & ASR & TXT --> DOC
   YAML & REGISTRY --> PE
-  FLAGS --> DOC & RET & PE
+  FLAGS --> DOC & RET & PE & HYB
+  DOC --> HYB
   DOC --> RET --> PE
+  HYB --> EV
   PE --> EV --> VS --> AUD
   VS --> ROUTES
   AUD --> PG
@@ -276,46 +280,51 @@ Recent work extends the deterministic core without changing the verdict contract
 
 | Capability | Description | Default |
 |------------|-------------|---------|
-| **Document layer** | Merges OCR, ASR, and vision scene text into `normalized_text` for explainability and optional rule matching | Built every run; matching uses document text only when flag is on |
-| **Policy corpus** | Versioned `policy_pack` + `clauses` in YAML (`meta_ads.yaml`); registry in `configs/policy_registry.yaml` | Loaded for `ad_compliance` |
-| **BM25 retrieval** | Shortlists active rule IDs from document text before evaluation | Off |
-| **DSL pilot** | Explicit `match:` blocks (`any` / `terms` / `requires_context` / `exceptions`) for selected Meta rules | Mixed with legacy keyword rules |
+| **Document layer** | Unified `normalized_text` from text / VLM claims+OCR / objects / ASR | Built every run; hybrid is document-first |
+| **Ontology pack** | US corpus → engine rules (`ontology/corpus/*_us.yaml`) | On (`ZATAONE_ONTOLOGY_PACK=1`) |
+| **Hybrid lexical engine** | Pattern packs (`ontology/patterns/`) — phrase / regex / terms; embedding NLP demoted | On; NLP off |
+| **BM25 retrieval** | Optional shortlist; hybrid defaults to **all packs** | Hybrid all-packs on |
+| **VLM-primary images** | Gemini structured JSON → matcher + final LLM; local OCR/DINO off | On |
 
 **Feature flags** (environment variables):
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `ZATAONE_DOCUMENT_CENTRIC` | Match rules against unified document text instead of per-signal fragments | `false` |
-| `ZATAONE_POLICY_RETRIEVAL` | Enable BM25 rule shortlist | `false` |
-| `ZATAONE_RETRIEVAL_TOP_K` | Max rules retrieved | `8` |
-| `ZATAONE_RETRIEVAL_FALLBACK_ALL` | If retrieval returns nothing, evaluate all rules | `true` |
-| `ZATAONE_ONTOLOGY_CLAUSES` | Merge `ontology/corpus/*.yaml` clauses into policy pack (BM25 + LLM context) | `false` |
+| `ZATAONE_HYBRID_ENGINE` | Pattern-pack lexical engine (replaces legacy PolicyEngine when on) | `true` |
+| `ZATAONE_HYBRID_NLP` | Embedding NLP scorer (BoW/MiniLM/…) | `false` |
+| `ZATAONE_HYBRID_ALL_PACKS` | Score all approved packs (no shortlist) | `true` |
+| `ZATAONE_ENABLE_OCR` | Local Tesseract OCR | `false` |
+| `ZATAONE_ENABLE_VISION` | Local Grounding DINO | `false` |
+| `ZATAONE_POLICY_ENGINE_ENABLED` | Run deterministic rule path on Full | `true` |
+| `ZATAONE_VERDICT_AUTHORITY` | `advisory` = LLM display; `deterministic` = rules display | `advisory` |
+| `ZATAONE_ONTOLOGY_PACK` | Load ontology US pack | `true` |
+| `ZATAONE_POLICY_RETRIEVAL` | BM25 shortlist for legacy engine | `true` |
 
-Verdict and graph metadata may include `document`, `policy_pack`, `retrieval`, and the flag states above for UI explainability.
+Verdict / graph metadata may include `document`, `advisory_vlm.structured`, `hybrid_*`, `policy_pack`, `retrieval`.
 
 ### Pipeline modes (Quick vs Full)
 
 Clients select mode with header **`X-Pipeline-Mode: full`** (default) or **`fast`**, or env **`ZATAONE_PIPELINE_MODE`**.
 
-| Mode | Extractors | YAML rule engine | Gemini | Display authority |
-|------|------------|------------------|--------|-------------------|
-| **Quick (`fast`)** | Skipped | Off | **One** vision+policy call by default (`ZATAONE_FAST_COMBINED_REVIEW=true`), else VLM then text LLM | **LLM vs `policy_context`** (`verdict_authority: advisory`) |
-| **Full (`full`)** | OCR / vision / etc. | **Off by default** (`ZATAONE_POLICY_ENGINE_ENABLED=false`); optional audit path when `true` | VLM ∥ core, then text LLM vs signals + VLM + policy | **LLM** when engine off; **rule engine + optional LLM second read** when engine on |
+| Mode | Image sensors | Deterministic | Gemini | Display authority |
+|------|---------------|---------------|--------|-------------------|
+| **Quick (`fast`)** | Skipped | Off | **One** vision+policy call (default) | **LLM** (`advisory`) |
+| **Full (`full`)** | **VLM JSON** → text packet (OCR/DINO off) | **Hybrid lexical** on claims/OCR/objects | VLM first, then text LLM with **full VLM + rule hits** | **LLM** (rules = audit) |
 
-**Quick** is for fast demos (e.g. handwriting where OCR returns 0 signals). **Full** keeps extractor signals and graph overlays for explainability; the LLM compares signals + VLM to the policy corpus unless the YAML engine is enabled.
+**Full image path:** Gemini VLM returns `ocr_text`, `ad_claims_text`, `objects[]`, `scene_description` → lexical matcher uses claims/OCR/objects → final LLM receives the **entire VLM packet** plus deterministic verdict/violations.
+
+**Quick** is for fast demos. Re-enable local OCR/DINO with `ZATAONE_ENABLE_OCR=1` / `ZATAONE_ENABLE_VISION=1` if needed.
 
 Additional flags:
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
-| `ZATAONE_POLICY_ENGINE_ENABLED` | Run YAML `policy_engine.evaluate()` on Full | `false` |
-| `ZATAONE_FAST_COMBINED_REVIEW` | Quick images: single Gemini pass (vision + policy JSON) | `true` |
-| `ZATAONE_FAST_COMBINED_MAX_TOKENS` | Cap combined Quick response size | `1024` |
-| `ZATAONE_PIPELINE_ADVISORY` | Auto-run Gemini at end of pipeline | on when `GEMINI_API_KEY` set |
+| `ZATAONE_FAST_COMBINED_REVIEW` | Quick images: single Gemini pass | `true` |
+| `ZATAONE_PIPELINE_ADVISORY` | Auto-run Gemini advisory at end of Full | on when API key set |
 
 API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
 
-**Hybrid verdict model:** Quick and Full (engine off) use **LLM vs policy** for display. When `ZATAONE_POLICY_ENGINE_ENABLED=true`, the YAML engine is the audit authority and the LLM **explains / augments** (escalates on 0 signals or diverges).
+**Local hybrid eval:** `PYTHONPATH=src python scripts/eval_hybrid_local.py` (seed + precedents). Compare NLP backends: `scripts/eval_hybrid_compare_nlp.py`.
 
 ### Platform additions (merged)
 
@@ -639,7 +648,7 @@ Step-by-step: **[docs/deploy-gcp-step-by-step.md](docs/deploy-gcp-step-by-step.m
 
 **Image build (`cloudbuild.yaml` + `docker/Dockerfile`):**
 
-- **Hugging Face models** (Grounding DINO + SigLIP) are **pre-downloaded during the Docker build** via `docker/preload_models.py` into `/app/.cache/huggingface`, so Cloud Run does not re-fetch full weights on every cold start.
+- **Hugging Face models** (optional DINO / SigLIP / MiniLM) are **pre-downloaded during the Docker build** via `docker/preload_models.py` into `/app/.cache/huggingface`. Runtime defaults use **Gemini VLM** for images (local OCR/DINO off).
 - **Cloud Build** uses a larger worker (`options.machineType`, e.g. `E2_HIGHCPU_32`) so the preload step has enough RAM.
 - Optional Hub auth (higher rate limits during build): pass **`_HF_TOKEN`** in substitutions (see `cloudbuild.yaml`).
 
@@ -671,11 +680,12 @@ Ordered by priority. The defensible moat is the combination of a deep policy cor
 | # | Priority | Status |
 |---|----------|--------|
 | 1 | **Deep ad policy corpus** (Meta / Google / TikTok first) | In progress |
-| 2 | **Large evaluation dataset + benchmarks** (clause-level labels, precision/recall per policy category) | Next |
-| 3 | **Pilot customers** (real content → labeled enforcement data flywheel) | Next |
-| 4 | **Government grants** (SBIR, innovation programs — non-dilutive, in parallel) | Planned |
-| 5 | **Government contracts** | Later (after pilots) |
-| 6 | **Additional domains** (finance, healthcare, etc.) | After proving ads |
+| 2 | **Eval denoising + benchmarks** (44 precedents north-star; seed cleanup; P/R per category) | In progress |
+| 3 | **NLI / classifier semantic layer** after lexical (embedding NLP demoted) | Next |
+| 4 | **Pilot customers** (real content → labeled enforcement data flywheel) | Next |
+| 5 | **Government grants** (SBIR, innovation programs — non-dilutive, in parallel) | Planned |
+| 6 | **Government contracts** | Later (after pilots) |
+| 7 | **Additional domains** (finance, healthcare, etc.) | After proving ads |
 
 Items 1–3 run in parallel and feed each other: deepening the corpus, building the eval set, and onboarding pilots compound together.
 

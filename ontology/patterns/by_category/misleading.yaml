@@ -1,0 +1,747 @@
+schema_version: 1.0.0
+category_id: misleading
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 7
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: misleading.before_after_distortion
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_manipulated_media
+  - meta_misleading_before_after
+  - tiktok_before_after
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.misrep.manipulated_media
+  - meta.misleading.before_after_weightloss
+  - tiktok.misleading.before_after
+  modalities:
+  - image
+  - video
+  detection_summaries:
+  - media manipulated to deceive, defraud, or mislead (incl. fabricated transformations/effects).
+  - side-by-side before-and-after imagery implying transformation/weight loss.
+  - before-and-after transformation imagery in paid ads.
+  forbidden_terms:
+  - media
+  - manipulated
+  - deceive
+  - defraud
+  - mislead
+  - incl
+  - fabricated
+  - transformations
+  - effects
+  - manipulating
+  - others
+  - side-by-side
+  - before-and-after
+  - imagery
+  - transformation
+  - weight
+  - loss
+  - can't
+  forbidden_phrases:
+  - before and after
+  - before & after
+  - transformation photos
+  - scientifically proven
+  - doctor recommended
+  - clinically proven
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  requires_context: {}
+  exceptions:
+    terms:
+    - fitness classes (per meta exception).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Fitness classes (per Meta exception).
+  vision_labels:
+  - before after
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - media manipulated to deceive, defraud, or mislead (incl. fabricated transformations/effects).
+  - side-by-side before-and-after imagery implying transformation/weight loss.
+  - before-and-after transformation imagery in paid ads.
+  eval_non_compliant_hits: 2
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: misleading.clickbait_or_fake_ui
+  category_id: misleading
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - amazon_misleading_fake_ui
+  - google_clickbait_and_ad_design
+  source_files:
+  - amazon_ads_us.yaml
+  - google_ads_us.yaml
+  clause_ids:
+  - amazon.misleading.no_fake_functionality
+  - google.misrep.clickbait_ads
+  - google.misrep.misleading_ad_design
+  modalities:
+  - image
+  - landing_page
+  - text
+  - video
+  detection_summaries:
+  - fake/non-clickable ui elements mimicking interactive ctas.
+  - clickbait/sensationalist tactics; fake ui elements (buttons, fields, alerts) or ads not clearly identifiable
+    as ads.
+  forbidden_terms:
+  - fake
+  - non-clickable
+  - elements
+  - mimicking
+  - interactive
+  - ctas
+  - functionality
+  - tricks
+  - customers
+  - clicking
+  - believing
+  - inactive
+  - clickbait
+  - sensationalist
+  - tactics
+  - buttons
+  - fields
+  - alerts
+  forbidden_phrases:
+  - scientifically proven
+  - doctor recommended
+  - clinically proven
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  requires_context: {}
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - fake/non-clickable ui elements mimicking interactive ctas.
+  - clickbait/sensationalist tactics; fake ui elements (buttons, fields, alerts) or ads not clearly identifiable
+    as ads.
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: misleading.exaggerated_results
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_unreliable_claims
+  - meta_misleading_deceptive_practices
+  - pinterest_misleading_false
+  - reddit_misleading_deceptive
+  - snap_misleading_deceptive
+  - x_misleading_deceptive
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - pinterest_ads_us.yaml
+  - reddit_ads_us.yaml
+  - snapchat_ads_us.yaml
+  - x_ads_us.yaml
+  clause_ids:
+  - google.misrep.unreliable_claims
+  - meta.misleading.deceptive_practices
+  - meta.misleading.exaggerated_success_claims
+  - pinterest.misleading.false_or_misleading
+  - pinterest.misleading.exaggerated_claims
+  - reddit.misleading.no_deception
+  - reddit.misleading.deceptive_ads_prohibited
+  - snap.misleading.deceptive_content
+  - x.misleading.deceptive_marketing
+  - x.misleading.improbable_outcomes
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - inaccurate or improbable results presented as the likely outcome a user can expect.
+  - deceptive or exaggerated claims about the success/effectiveness of a product or service to mislead
+    users into purchasing or sharing info.
+  - false/misleading language, unrealistic/exaggerated/magical claims, or bait-and-switch product presentation.
+  - deceptive/untrue/misleading ads or promotions; unrealistic claims or guarantees of winnings.
+  - false/misleading claims, offers, functionality, or manipulated creative.
+  - deceptive/clickbait marketing, misleading product claims, or unjustified outcome promises on x.
+  forbidden_terms:
+  - guaranteed
+  - miracle
+  - 100%
+  - overnight
+  - instant
+  - proven
+  - inaccurate
+  - improbable
+  - presented
+  - likely
+  - outcome
+  - user
+  - expect
+  - making
+  - entice
+  - even
+  - possible
+  - deceptive
+  - exaggerated
+  - success
+  forbidden_phrases:
+  - scientifically proven
+  - clinically proven
+  - doctor recommended
+  - guaranteed results
+  - miracle cure
+  - works overnight
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  requires_context: {}
+  exceptions:
+    terms:
+    - typical, substantiated results clearly presented as such.
+    - substantiated claims with cited, verifiable evidence.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Typical, substantiated results clearly presented as such.
+    - Substantiated claims with cited, verifiable evidence.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - inaccurate or improbable results presented as the likely outcome a user can expect.
+  - deceptive or exaggerated claims about the success/effectiveness of a product or service to mislead
+    users into purchasing or sharing info.
+  - false/misleading language, unrealistic/exaggerated/magical claims, or bait-and-switch product presentation.
+  - deceptive/untrue/misleading ads or promotions; unrealistic claims or guarantees of winnings.
+  - false/misleading claims, offers, functionality, or manipulated creative.
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: misleading.false_affiliation_or_endorsement
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_unacceptable_business_practices
+  - meta_misleading_false_affiliation
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  clause_ids:
+  - google.misrep.unacceptable_business_practices
+  - google.misrep.misleading_representation
+  - meta.misleading.famous_person_baiting
+  - meta.misleading.misrepresent_entity
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - implying support/affiliation with a brand, org, or government entity when false; impersonation; misrepresenting
+    identity or qualifications.
+  - misuse of a famous person's image, or misrepresenting an entity, news outlet, or association to imply
+    endorsement or affiliation.
+  forbidden_terms:
+  - support
+  - brand
+  - government
+  - 'false'
+  - impersonation
+  - identity
+  - qualifications
+  - scamming
+  - hiding
+  - business
+  - includes
+  - making
+  - seem
+  - misleading
+  - obscuring
+  - omitting
+  - affiliations
+  - person's
+  forbidden_phrases:
+  - as seen on
+  - endorsed by
+  - official partner
+  - celebrity endorsed
+  - scientifically proven
+  - doctor recommended
+  - clinically proven
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  requires_context: {}
+  exceptions:
+    terms:
+    - documented, authorized affiliations and endorsements.
+    - authorized endorsements with documented permission.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Documented, authorized affiliations and endorsements.
+    - Authorized endorsements with documented permission.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - implying support/affiliation with a brand, org, or government entity when false; impersonation; misrepresenting
+    identity or qualifications.
+  - misuse of a famous person's image, or misrepresenting an entity, news outlet, or association to imply
+    endorsement or affiliation.
+  eval_non_compliant_hits: 4
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: misleading.guaranteed_outcomes
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - meta_misleading_health_results_timing
+  - tiktok_absolute_terms
+  source_files:
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - meta.misleading.health_results_timing
+  - tiktok.misleading.absolute_terms
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - promises of specific results within a specific timeframe with no qualifying or disclaimer language.
+  - absolute/guaranteed terms about results, time, region, or brand (e.g. "right away", "in 10 seconds").
+  forbidden_terms:
+  - guaranteed
+  - overnight
+  - instant
+  - 100%
+  - promises
+  - within
+  - timeframe
+  - qualifying
+  - can't
+  - promise
+  - health-related
+  - time
+  - absolute
+  - terms
+  - region
+  - brand
+  - right
+  - away
+  - seconds
+  - feature
+  forbidden_phrases:
+  - results may vary
+  - or your money back
+  - guaranteed overnight
+  - results in days
+  - scientifically proven
+  - doctor recommended
+  - clinically proven
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  - pattern: \b\d+\s*(day|week|hour)s?\s+(results?|guarantee)\b
+    confidence: 0.85
+    note: timed outcome promise
+  requires_context: {}
+  exceptions:
+    terms:
+    - clearly qualified claims with disclaimer (e.g. 'results may vary').
+    - qualified claims with realistic framing and disclaimers.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Clearly qualified claims with disclaimer (e.g. 'results may vary').
+    - Qualified claims with realistic framing and disclaimers.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - promises of specific results within a specific timeframe with no qualifying or disclaimer language.
+  - absolute/guaranteed terms about results, time, region, or brand (e.g. "right away", "in 10 seconds").
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: misleading.missing_or_inconsistent_material_info
+  category_id: misleading
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - amazon_misleading_landing
+  - google_pricing_and_offers
+  - snap_misleading_cloaking
+  - tiktok_landing_page_consistency
+  - x_misleading_pricing
+  source_files:
+  - amazon_ads_us.yaml
+  - google_ads_us.yaml
+  - snapchat_ads_us.yaml
+  - tiktok_ads_us.yaml
+  - x_ads_us.yaml
+  clause_ids:
+  - amazon.misleading.landing_page_match
+  - google.misrep.dishonest_pricing
+  - google.misrep.unavailable_offers
+  - snap.misleading.cloaking
+  - tiktok.misleading.landing_page_consistency
+  - x.misleading.pricing_omission
+  modalities:
+  - landing_page
+  - text
+  - image
+  - video
+  detection_summaries:
+  - ad promise/product/offer does not match the landing page.
+  - omitting material pricing info, hidden/unexpected charges, or promoting offers unavailable from the
+    destination.
+  - cloaking or post-submission url/landing-page changes to evade review.
+  - inconsistency between ad creative and landing page (stronger claims/ guarantees on the destination).
+  - offers/deals not available or missing vital pricing/payment/expense info.
+  forbidden_terms:
+  - promise
+  - product
+  - offer
+  - match
+  - landing
+  - page
+  - accurately
+  - reflect
+  - sold
+  - same
+  - omitting
+  - pricing
+  - info
+  - hidden
+  - unexpected
+  - charges
+  - offers
+  - unavailable
+  forbidden_phrases:
+  - scientifically proven
+  - doctor recommended
+  - clinically proven
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  requires_context: {}
+  exceptions:
+    terms:
+    - full cost and offer terms clearly and conspicuously disclosed.
+    - ad and landing page claims consistent and substantiated.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Full cost and offer terms clearly and conspicuously disclosed.
+    - Ad and landing page claims consistent and substantiated.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ad promise/product/offer does not match the landing page.
+  - omitting material pricing info, hidden/unexpected charges, or promoting offers unavailable from the
+    destination.
+  - cloaking or post-submission url/landing-page changes to evade review.
+  - inconsistency between ad creative and landing page (stronger claims/ guarantees on the destination).
+  - offers/deals not available or missing vital pricing/payment/expense info.
+  eval_non_compliant_hits: 2
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: misleading.unsubstantiated_objective_claims
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - amazon_misleading_claims
+  - microsoft_misleading_truthful
+  - ftc_unsubstantiated_objective_claims
+  - tiktok_unsubstantiated_claims
+  source_files:
+  - amazon_ads_us.yaml
+  - microsoft_ads_us.yaml
+  - regulators_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - amazon.misleading.truthful_substantiated_claims
+  - microsoft.misleading.truthful_not_deceptive
+  - microsoft.misleading.no_unsubstantiated_claims
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  - tiktok.misleading.unsubstantiated_claims
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - unsubstantiated superiority/objective claims or claims lacking evidence.
+  - misleading/deceptive product descriptions; unsubstantiated claims or absolute superlatives without
+    evidence.
+  - objective claims (express or implied) made without a reasonable basis / adequate substantiation before
+    dissemination.
+  - objective product-effect claims that are not realistic or substantiated by evidence; ai-exaggerated
+    effects.
+  forbidden_terms:
+  - unsubstantiated
+  - superiority
+  - objective
+  - evidence
+  - stores
+  - truthful
+  - accurate
+  - support
+  - best
+  - misleading
+  - deceptive
+  - product
+  - descriptions
+  - absolute
+  - superlatives
+  - description
+  - features
+  - benefits
+  forbidden_phrases:
+  - scientifically proven
+  - doctor recommended
+  - clinically proven
+  forbidden_patterns:
+  - pattern: \d+%\s+(guaranteed|safe|effective|cure|results?)
+    confidence: 0.9
+    note: percentage guarantee / efficacy claim
+  - pattern: (lose|shed)\s+\d+\s+(pounds?|lbs?|kg|kilos?)\s+in\s+\d+\s+(days?|weeks?)
+    confidence: 0.95
+    note: weight-loss timeframe
+  - pattern: (in|within)\s+\d+\s+(hours?|days?|weeks?)\s+(guaranteed|or\s+money\s+back)
+    confidence: 0.85
+    note: time-bound guarantee
+  - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
+    confidence: 0.8
+    note: absolute certainty claim
+  requires_context: {}
+  exceptions:
+    terms:
+    - claims backed by competent and reliable evidence held before dissemination.
+    - claims substantiated with competent and reliable evidence.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Claims backed by competent and reliable evidence held before dissemination.
+    - Claims substantiated with competent and reliable evidence.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - before after
+  - fake button
+  - claims
+  - that
+  - misleading
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - unsubstantiated superiority/objective claims or claims lacking evidence.
+  - misleading/deceptive product descriptions; unsubstantiated claims or absolute superlatives without
+    evidence.
+  - objective claims (express or implied) made without a reasonable basis / adequate substantiation before
+    dissemination.
+  - objective product-effect claims that are not realistic or substantiated by evidence; ai-exaggerated
+    effects.
+  eval_non_compliant_hits: 26
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

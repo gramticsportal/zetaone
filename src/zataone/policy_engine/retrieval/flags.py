@@ -15,10 +15,30 @@ def policy_retrieval_enabled() -> bool:
 
 
 def retrieval_top_k() -> int:
+    """
+    BM25 shortlist size. Default 32 (under-filter) when hybrid engine is on,
+    else 8. Override with ZATAONE_RETRIEVAL_TOP_K.
+    """
+    raw = os.environ.get("ZATAONE_RETRIEVAL_TOP_K", "").strip()
+    if raw:
+        try:
+            return max(1, int(raw))
+        except ValueError:
+            pass
+    # Prefer under-filter when hybrid is active
     try:
-        return max(1, int(os.environ.get("ZATAONE_RETRIEVAL_TOP_K", "8")))
-    except ValueError:
-        return 8
+        from zataone.policy_engine.hybrid.flags import hybrid_engine_enabled
+
+        if hybrid_engine_enabled():
+            try:
+                from zataone.policy_engine.hybrid.flags import hybrid_retrieval_top_k
+
+                return hybrid_retrieval_top_k()
+            except Exception:
+                return 32
+    except Exception:
+        pass
+    return 8
 
 
 def retrieval_fallback_all() -> bool:

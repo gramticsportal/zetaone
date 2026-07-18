@@ -35,10 +35,31 @@ def test_text_asset_only_text_extractor(monkeypatch):
     assert [e.extractor_id for e in selected] == ["text_extractor"]
 
 
-def test_image_asset_ocr_vision_not_embedding(monkeypatch):
+def test_image_asset_ocr_vision_off_by_default(monkeypatch):
+    """VLM-primary path: local OCR/DINO off unless explicitly enabled."""
     monkeypatch.delenv("ZATAONE_ENABLE_EMBEDDING", raising=False)
+    monkeypatch.delenv("ZATAONE_ENABLE_OCR", raising=False)
+    monkeypatch.delenv("ZATAONE_ENABLE_VISION", raising=False)
     extractors = [
         _mock_ext("text_extractor"),
+        _mock_ext("ad_compliance_ocr"),
+        _mock_ext("ad_compliance_vision"),
+        _mock_ext("ad_compliance_embedding"),
+    ]
+    asset = SimpleNamespace(type="image", image_data=b"x")
+    config = {"extractors": {"enabled": ["ocr", "vision"]}}
+    selected = select_extractors_for_asset(extractors, asset, config)
+    ids = {e.extractor_id for e in selected}
+    assert "ad_compliance_ocr" not in ids
+    assert "ad_compliance_vision" not in ids
+    assert "ad_compliance_embedding" not in ids
+
+
+def test_image_asset_ocr_vision_when_flags_on(monkeypatch):
+    monkeypatch.setenv("ZATAONE_ENABLE_OCR", "1")
+    monkeypatch.setenv("ZATAONE_ENABLE_VISION", "1")
+    monkeypatch.delenv("ZATAONE_ENABLE_EMBEDDING", raising=False)
+    extractors = [
         _mock_ext("ad_compliance_ocr"),
         _mock_ext("ad_compliance_vision"),
         _mock_ext("ad_compliance_embedding"),
@@ -54,6 +75,8 @@ def test_image_asset_ocr_vision_not_embedding(monkeypatch):
 
 def test_embedding_when_flag_on(monkeypatch):
     monkeypatch.setenv("ZATAONE_ENABLE_EMBEDDING", "true")
+    monkeypatch.setenv("ZATAONE_ENABLE_OCR", "1")
+    monkeypatch.setenv("ZATAONE_ENABLE_VISION", "1")
     assert embedding_enabled() is True
     extractors = [_mock_ext("ad_compliance_embedding")]
     asset = SimpleNamespace(type="image", image_data=b"x")

@@ -25,10 +25,11 @@ RUN sed '/^torch/d' /tmp/requirements.txt > /tmp/req-notorch.txt \
 ARG HF_TOKEN
 ENV HF_TOKEN=${HF_TOKEN}
 
-# Two layers so peak RAM is one model at a time (helps Cloud Build on smaller workers).
+# Separate layers so peak RAM is one model at a time (helps Cloud Build on smaller workers).
 COPY docker/preload_models.py /tmp/preload_models.py
 RUN python /tmp/preload_models.py dino
 RUN python /tmp/preload_models.py siglip
+RUN python /tmp/preload_models.py minilm
 RUN rm -f /tmp/preload_models.py
 
 COPY . .

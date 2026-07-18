@@ -1,0 +1,996 @@
+schema_version: 1.0.0
+category_id: health
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 8
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: health.disease_cure_treatment_claims
+  category_id: health
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_health_disease_implication
+  - meta_health_disease_cure
+  - ftc_health_disease_implication
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - regulators_us.yaml
+  clause_ids:
+  - google.health.unapproved_substances
+  - meta.health.disease_cure_claims
+  - meta.health.health_clickbait
+  - ftc.health.disease_implication
+  - fda.health.disease_claims
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - non-approved products implying they prevent, cure, or treat a disease, or that they are as effective
+    as prescription drugs.
+  - claims to cure/heal/eliminate incurable disease or terminal illness, or sensational exaggerated health
+    claims (health clickbait).
+  - express or implied disease cure/treatment/prevention claims for non-drug products (net-impression
+    test).
+  forbidden_terms:
+  - cure
+  - heal
+  - eliminate
+  - non-approved
+  - prevent
+  - treat
+  - disease
+  - effective
+  - prescription
+  - drugs
+  - doesn't
+  - allow
+  - regardless
+  - legality
+  - non-government
+  - incurable
+  - terminal
+  - illness
+  forbidden_phrases:
+  - cures cancer
+  - eliminates diabetes
+  - heals arthritis
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - disease
+    - cancer
+    - diabetes
+    - arthritis
+    - illness
+    - symptom
+    - pain
+    - chronic
+    - condition
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - claims permitted under an approved regulatory authorization.
+    - fda-approved drugs making authorized claims.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Claims permitted under an approved regulatory authorization.
+    - FDA-approved drugs making authorized claims.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - non-approved products implying they prevent, cure, or treat a disease, or that they are as effective
+    as prescription drugs.
+  - claims to cure/heal/eliminate incurable disease or terminal illness, or sensational exaggerated health
+    claims (health clickbait).
+  - express or implied disease cure/treatment/prevention claims for non-drug products (net-impression
+    test).
+  eval_non_compliant_hits: 14
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.health_privacy_sensitive_attributes
+  category_id: health
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - meta_health_personal_attributes
+  source_files:
+  - meta_ads_us.yaml
+  clause_ids:
+  - meta.health.personal_attributes
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - asserting or implying a person's physical/mental health or medical condition (e.g. "struggling with
+    depression?").
+  forbidden_terms:
+  - asserting
+  - person's
+  - physical
+  - mental
+  - health
+  - medical
+  - condition
+  - struggling
+  - depression
+  - asserts
+  - implies
+  - personal
+  - attributes
+  - includes
+  - direct
+  - indirect
+  - subscription
+  - just
+  forbidden_phrases:
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - asserting
+    - person's
+    - physical
+    - mental
+    - health
+    - medical
+    - struggling
+    - depression
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - general messaging that does not assert/imply an individual's condition.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - General messaging that does not assert/imply an individual's condition.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - asserting or implying a person's physical/mental health or medical condition (e.g. "struggling with
+    depression?").
+  eval_non_compliant_hits: 1
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.material_risk_safety_disclosure
+  category_id: health
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - ftc_health_material_disclosure
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.health.material_safety_disclosure
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - failure to clearly and conspicuously disclose material limitations or significant safety risks.
+  forbidden_terms:
+  - failure
+  - clearly
+  - conspicuously
+  - disclose
+  - limitations
+  - significant
+  - safety
+  - risks
+  - misleading
+  - fails
+  - light
+  - consumers
+  - customarily
+  - product
+  - natural
+  - sleep
+  - zero
+  - side
+  forbidden_phrases:
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - failure
+    - clearly
+    - conspicuously
+    - disclose
+    - limitations
+    - significant
+    - safety
+    - risks
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - material qualifying info disclosed clearly and conspicuously.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Material qualifying info disclosed clearly and conspicuously.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - failure to clearly and conspicuously disclose material limitations or significant safety risks.
+  eval_non_compliant_hits: 2
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.negative_self_perception_body_image
+  category_id: health
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - meta_health_negative_self_perception
+  source_files:
+  - meta_ads_us.yaml
+  clause_ids:
+  - meta.health.negative_self_perception
+  - meta.health.weightloss_before_after
+  modalities:
+  - text
+  - image
+  - video
+  detection_summaries:
+  - diet/weight-loss/cosmetic ads that generate negative self-perception, body shaming, before-and-after
+    transformation imagery (except fitness), or close-ups pinching fat.
+  forbidden_terms:
+  - diet
+  - weight-loss
+  - cosmetic
+  - generate
+  - negative
+  - self-perception
+  - body
+  - shaming
+  - before-and-after
+  - transformation
+  - imagery
+  - except
+  - attempt
+  - declare
+  - there
+  - perfect
+  - can't
+  - weight
+  forbidden_phrases:
+  - before and after
+  - lose weight fast
+  - get thin
+  - ugly body
+  - fda approved
+  - clinically proven
+  - weight loss
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - diet
+    - weight-loss
+    - cosmetic
+    - generate
+    - negative
+    - self-perception
+    - body
+    - shaming
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - fitness classes (meta exception).
+    - cosmetic/non-permanent beauty products outside the policy scope.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Fitness classes (Meta exception).
+    - Cosmetic/non-permanent beauty products outside the policy scope.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - diet/weight-loss/cosmetic ads that generate negative self-perception, body shaming, before-and-after
+    transformation imagery (except fitness), or close-ups pinching fat.
+  eval_non_compliant_hits: 2
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.prescription_drug_promotion_restricted
+  category_id: health
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_health_prescription_restricted
+  - tiktok_health_prescription_restricted
+  source_files:
+  - google_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.health.unauthorized_pharmacies
+  - google.health.prescription_drug_services
+  - tiktok.health.overview
+  - tiktok.health.prescription_us
+  - tiktok.health.otc_us
+  - tiktok.health.pharmacies_us
+  modalities:
+  - text
+  - landing_page
+  - image
+  - video
+  detection_summaries:
+  - offering prescription drugs without a prescription, or promoting prescription drug services without
+    required certification/application.
+  - prescription/otc/pharmacy promotion in the us without the required fda approval/certification, third-party
+    pharmacy certification, or 18+ targeting.
+  forbidden_terms:
+  - offering
+  - prescription
+  - drugs
+  - drug
+  - application
+  - locations
+  - aren't
+  - licensed
+  - restricts
+  - online
+  - prescribing
+  - dispensing
+  - sale
+  - pharmacy
+  - approval
+  - third-party
+  - healthcare
+  - highly
+  forbidden_phrases:
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - offering
+    - prescription
+    - drugs
+    - drug
+    - application
+    - locations
+    - aren't
+    - licensed
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - certified pharmacies/telemedicine in allowed locations.
+    - fda-certified rx/otc and nabp/legitscript-certified pharmacies, 18+.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Certified pharmacies/telemedicine in allowed locations.
+    - FDA-certified Rx/OTC and NABP/LegitScript-certified pharmacies, 18+.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - offering prescription drugs without a prescription, or promoting prescription drug services without
+    required certification/application.
+  - prescription/otc/pharmacy promotion in the us without the required fda approval/certification, third-party
+    pharmacy certification, or 18+ targeting.
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.rx_fair_balance_risk_disclosure
+  category_id: health
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - fda_rx_fair_balance
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - fda.health.fair_balance
+  - fda.health.major_statement
+  modalities:
+  - text
+  - image
+  - video
+  - audio
+  - landing_page
+  detection_summaries:
+  - prescription-drug product-claim ads lacking fair balance of risk vs benefit, or missing the major
+    statement / adequate provision.
+  forbidden_terms:
+  - prescription-drug
+  - product-claim
+  - fair
+  - balance
+  - benefit
+  - major
+  - adequate
+  - provision
+  - product
+  - present
+  - benefits
+  - risks
+  - prescription
+  - drug
+  - balanced
+  - fashion
+  - broadcast
+  - include
+  forbidden_phrases:
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - prescription-drug
+    - product-claim
+    - fair
+    - balance
+    - risk
+    - benefit
+    - major
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - reminder ads (no claims) and help-seeking ads outside product-claim scope.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Reminder ads (no claims) and help-seeking ads outside product-claim scope.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - prescription-drug product-claim ads lacking fair balance of risk vs benefit, or missing the major
+    statement / adequate provision.
+  eval_non_compliant_hits: 1
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.unapproved_or_dangerous_products
+  category_id: health
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_health_unapproved_products
+  - tiktok_health_cbd_restricted
+  source_files:
+  - google_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.health.unapproved_substances
+  - google.health.opioid_painkillers
+  - google.health.speculative_experimental
+  - tiktok.health.cbd_us
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - unapproved/dangerous substances, prescription opioid painkillers, or speculative/experimental treatments.
+  - cbd products beyond the narrow us exception (non-topical, >=0.3% thc, no legitscript cert, under-25
+    targeting).
+  forbidden_terms:
+  - unapproved
+  - dangerous
+  - substances
+  - prescription
+  - opioid
+  - painkillers
+  - speculative
+  - experimental
+  - treatments
+  - doesn't
+  - allow
+  - regardless
+  - legality
+  - non-government
+  - selling
+  - medical
+  - cell
+  - gene
+  forbidden_phrases:
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - unapproved
+    - dangerous
+    - substances
+    - prescription
+    - opioid
+    - painkillers
+    - speculative
+    - experimental
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - us-permitted fda-licensed cell/gene therapies by approved entities.
+    - topical hemp <0.3% thc, legitscript-certified, 25+, via tiktok rep.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - US-permitted FDA-licensed cell/gene therapies by approved entities.
+    - Topical hemp <0.3% THC, LegitScript-certified, 25+, via TikTok rep.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - unapproved/dangerous substances, prescription opioid painkillers, or speculative/experimental treatments.
+  - cbd products beyond the narrow us exception (non-topical, >=0.3% thc, no legitscript cert, under-25
+    targeting).
+  eval_non_compliant_hits: 7
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: health.unsubstantiated_health_claims
+  category_id: health
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - google_health_clinical_trials
+  - ftc_health_substantiation
+  source_files:
+  - google_ads_us.yaml
+  - regulators_us.yaml
+  clause_ids:
+  - google.health.clinical_trials
+  - ftc.health.truthful_substantiated
+  - fda.health.benefits_approved_use
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - clinical-trial recruitment creating misleading expectations or implying the tested product is safe.
+  - health benefit/safety claims lacking competent and reliable scientific evidence; drug benefits beyond
+    fda-approved use.
+  forbidden_terms:
+  - clinical-trial
+  - recruitment
+  - creating
+  - misleading
+  - expectations
+  - tested
+  - product
+  - safe
+  - clinical
+  - trial
+  - create
+  - health
+  - benefit
+  - safety
+  - competent
+  - reliable
+  - scientific
+  - evidence
+  forbidden_phrases:
+  - fda approved
+  - clinically proven
+  - weight loss
+  - before and after
+  - cures cancer
+  - eliminates disease
+  forbidden_patterns:
+  - pattern: \b(cure[sd]?|heal[sd]?|eliminat(?:e|es|ing))\b.{0,40}\b(cancer|diabetes|arthritis|disease|illness)\b
+    confidence: 0.9
+    note: cure/heal disease claim
+  - pattern: \bfda[\s-]*approved\b
+    confidence: 0.85
+    note: FDA approved claim
+  - pattern: \bbefore[\s-]+and[\s-]+after\b
+    confidence: 0.8
+    note: before/after imagery cue
+  - pattern: \bclinically\s+proven\b
+    confidence: 0.8
+    note: clinical proof claim
+  requires_context:
+    terms:
+    - pain
+    - chronic
+    - inflammation
+    - symptom
+    - disease
+    - condition
+    - arthritis
+    - diabetes
+    - asthma
+    - eczema
+    - acne
+    - psoriasis
+    - blood pressure
+    - cholesterol
+    - heart
+    - cancer
+    - tumor
+    - clinical-trial
+    - recruitment
+    - creating
+    - misleading
+    - expectations
+    - tested
+    - product
+    - safe
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - claims substantiated by competent and reliable scientific evidence.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Claims substantiated by competent and reliable scientific evidence.
+  vision_labels:
+  - pill
+  - medicine
+  - syringe
+  - supplement
+  - before after
+  - health
+  - must
+  - claims
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - clinical-trial recruitment creating misleading expectations or implying the tested product is safe.
+  - health benefit/safety claims lacking competent and reliable scientific evidence; drug benefits beyond
+    fda-approved use.
+  eval_non_compliant_hits: 12
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

@@ -1,0 +1,329 @@
+schema_version: 1.0.0
+category_id: privacy
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 4
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: privacy.data_collection_disclosure_required
+  category_id: privacy
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - tiktok_privacy_data_collection
+  source_files:
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - tiktok.privacy.data_collection_disclosure
+  modalities:
+  - landing_page
+  detection_summaries:
+  - landing pages that collect/share/use data without a clear privacy-policy disclosure, or distribute
+    malicious/undisclosed/unwanted software.
+  forbidden_terms:
+  - landing
+  - pages
+  - collect
+  - share
+  - data
+  - privacy-policy
+  - distribute
+  - malicious
+  - undisclosed
+  - unwanted
+  - clearly
+  - disclose
+  - collection
+  - sharing
+  - usage
+  - takes
+  - place
+  - page
+  forbidden_phrases:
+  - sell your data
+  - opt out
+  - personal information
+  - data collection
+  forbidden_patterns:
+  - pattern: \bsell(?:s|ing)?\s+(your\s+)?(data|personal\s+information)\b
+    confidence: 0.85
+    note: data sale
+  requires_context:
+    terms:
+    - privacy
+    - data
+    - tracking
+    - personal information
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - landing pages that collect/share/use data without a clear privacy-policy disclosure, or distribute
+    malicious/undisclosed/unwanted software.
+  eval_non_compliant_hits: 2
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: privacy.minor_opt_in_for_sale_or_sharing
+  category_id: privacy
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ccpa_privacy_minor_opt_in
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ccpa.privacy.minor_opt_in_sale_sharing
+  modalities:
+  - landing_page
+  detection_summaries:
+  - selling/sharing personal information of a consumer known to be under 16 without the required affirmative
+    opt-in (consumer 13–15, or parent for under 13).
+  forbidden_terms:
+  - selling
+  - sharing
+  - personal
+  - consumer
+  - known
+  - affirmative
+  - opt-in
+  - parent
+  - business
+  - sell
+  - share
+  - actual
+  - knowledge
+  - sells
+  - info
+  - year-olds
+  - targeted
+  - tracking
+  forbidden_phrases:
+  - sell your data
+  - opt out
+  - personal information
+  - data collection
+  forbidden_patterns:
+  - pattern: \bsell(?:s|ing)?\s+(your\s+)?(data|personal\s+information)\b
+    confidence: 0.85
+    note: data sale
+  requires_context:
+    terms:
+    - privacy
+    - data
+    - tracking
+    - personal information
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - selling/sharing personal information of a consumer known to be under 16 without the required affirmative
+    opt-in (consumer 13–15, or parent for under 13).
+  eval_non_compliant_hits: 1
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: privacy.opt_out_of_sale_or_sharing_for_targeted_ads
+  category_id: privacy
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ccpa_privacy_opt_out
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ccpa.privacy.opt_out_sale_sharing
+  modalities:
+  - landing_page
+  detection_summaries:
+  - selling/sharing personal information for cross-context behavioral advertising without a "do not sell
+    or share" link, without honoring opt-out preference signals (gpc), or after a consumer has opted out.
+  forbidden_terms:
+  - selling
+  - sharing
+  - personal
+  - cross-context
+  - behavioral
+  - sell
+  - share
+  - link
+  - honoring
+  - opt-out
+  - preference
+  - signals
+  - consumer
+  - right
+  - time
+  - direct
+  - business
+  - sells
+  forbidden_phrases:
+  - sell your data
+  - opt out
+  - personal information
+  - data collection
+  forbidden_patterns:
+  - pattern: \bsell(?:s|ing)?\s+(your\s+)?(data|personal\s+information)\b
+    confidence: 0.85
+    note: data sale
+  requires_context:
+    terms:
+    - privacy
+    - data
+    - tracking
+    - personal information
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - businesses honoring opt-out preference signals in a frictionless manner.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Businesses honoring opt-out preference signals in a frictionless manner.
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - selling/sharing personal information for cross-context behavioral advertising without a "do not sell
+    or share" link, without honoring opt-out preference signals (gpc), or after a consumer has opted out.
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: privacy.sensitive_attribute_targeting_prohibited
+  category_id: privacy
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_privacy_sensitive_categories
+  - linkedin_privacy_sensitive_targeting
+  - meta_privacy_personal_attributes
+  source_files:
+  - google_ads_us.yaml
+  - linkedin_ads_us.yaml
+  - meta_ads_us.yaml
+  clause_ids:
+  - google.privacy.sensitive_interest_categories
+  - linkedin.privacy.sensitive_data_targeting
+  - meta.privacy.personal_attributes
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - use of advertiser-curated audiences (customer match, remarketing, lookalike, custom segments) to target
+    sensitive interest categories (health, sexual orientation, race, religion, financial hardship, etc.).
+  - 'targeting based on sensitive data/categories: political opinion, race/ ethnicity, health, genetic/biometric
+    data, religion, criminal record, sexual orientation, trade union membership, or income.'
+  - ad copy or targeting that asserts or implies a person's sensitive personal attributes (race, religion,
+    health, sexual orientation, financial status, etc.), incl. "are you...?" / "people like you" phrasing.
+  forbidden_terms:
+  - advertiser-curated
+  - customer
+  - match
+  - remarketing
+  - lookalike
+  - custom
+  - segments
+  - sensitive
+  - interest
+  - categories
+  - health
+  - sexual
+  - fall
+  - within
+  - unable
+  - data
+  - political
+  - opinion
+  forbidden_phrases:
+  - sell your data
+  - opt out
+  - personal information
+  - data collection
+  forbidden_patterns:
+  - pattern: \bsell(?:s|ing)?\s+(your\s+)?(data|personal\s+information)\b
+    confidence: 0.85
+    note: data sale
+  requires_context:
+    terms:
+    - privacy
+    - data
+    - tracking
+    - personal information
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - predefined google audiences (sensitive signals excluded).
+    - benefit-focused copy that does not imply the viewer has an attribute.
+    - psas that don't assert a person/family has a condition.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Predefined Google audiences (sensitive signals excluded).
+    - Benefit-focused copy that does not imply the viewer has an attribute.
+    - PSAs that don't assert a person/family has a condition.
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - use of advertiser-curated audiences (customer match, remarketing, lookalike, custom segments) to target
+    sensitive interest categories (health, sexual orientation, race, religion, financial hardship, etc.).
+  - 'targeting based on sensitive data/categories: political opinion, race/ ethnicity, health, genetic/biometric
+    data, religion, criminal record, sexual orientation, trade union membership, or income.'
+  - ad copy or targeting that asserts or implies a person's sensitive personal attributes (race, religion,
+    health, sexual orientation, financial status, etc.), incl. "are you...?" / "people like you" phrasing.
+  eval_non_compliant_hits: 14
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

@@ -1,0 +1,1232 @@
+# TikTok Ads (US) — canonical-ontology instance.
+# Verticals: Misleading / Deceptive + Health / Medical. Conforms to ontology/schema.yaml.
+# Clause text sourced from TikTok's official "Misleading and false content" and
+# "Healthcare and Pharmaceuticals" advertising policies (Business Help Center).
+# Health clauses are taken from the policy's United States market section + global
+# overview (verified against the official article). Each clause carries an
+# `evidence` block and `last_reviewed_by` (ai until a human verifies live).
+
+source:
+  id: tiktok_ads_us
+  type: platform
+  name: TikTok Advertising Policies — Misleading & Healthcare/Pharmaceuticals
+  jurisdiction: [US]
+  url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+  status: active
+  retrieved_at: 2026-06-24
+  last_verified_at: 2026-06-24
+
+clauses:
+  # ===================== Misleading / Deceptive =====================
+  - id: tiktok.misleading.absolute_terms
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      Ad content must not feature absolute terms about a product in relation to
+      time, region, or brand, or promise/exaggerate results. Prohibited examples
+      include "Get slim legs right away" and financial claims such as "Get money
+      in 10 seconds."
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ad content must not feature absolute terms about a product in relation to
+        time, region, or brand, or promise/exaggerate results. Prohibited
+        examples include "Get slim legs right away" and financial claims such as
+        "Get money in 10 seconds."
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.misleading.before_after
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      Before-and-after imagery showing physical transformation is prohibited in
+      paid ads — for example, showing wrinkles disappearing through
+      before-and-after comparisons. Applies to weight loss, skincare, muscle
+      gain, hair growth, and similar transformation claims.
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2026-02-12
+    version: "2026-02"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Before-and-after imagery showing physical transformation is prohibited in
+        paid ads — for example, showing wrinkles disappearing through
+        before-and-after comparisons. Applies to weight loss, skincare, muscle
+        gain, hair growth, and similar transformation claims.
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.misleading.unsubstantiated_claims
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      All claims made in ad creatives must be responsible, true, realistic, and
+      substantiated with evidence. AI must not be used to make a product look
+      more powerful or effective than it really is, including exaggerated effects
+      or unrealistic instant changes.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        All claims made in ad creatives must be responsible, true, realistic, and
+        substantiated with evidence. AI must not be used to make a product look
+        more powerful or effective than it really is, including exaggerated
+        effects or unrealistic instant changes.
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.misleading.landing_page_consistency
+    source_id: tiktok_ads_us
+    category_id: misleading
+    text: >
+      The prohibition on misleading content extends to the landing page, not
+      just the ad creative. If the ad makes a moderate claim but the landing
+      page uses superlatives or guarantees, the ad will be rejected based on the
+      full user journey.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        The prohibition on misleading content extends to the landing page, not
+        just the ad creative. If the ad makes a moderate claim but the landing
+        page uses superlatives or guarantees, the ad will be rejected based on
+        the full user journey.
+      source_url: https://ads.tiktok.com/help/article/misleading-false-content
+      section: "Advertising Policies > Misleading and false content"
+      retrieved_at: 2026-06-24
+
+  # ===================== Healthcare & Pharmaceuticals (US) =====================
+  - id: tiktok.health.overview
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      Healthcare is a highly regulated area and some healthcare-related content
+      cannot be advertised at all, while others can be advertised with
+      restrictions in place. Over-the-counter (OTC) medicines, medical
+      institutions, and pharmacies may be allowed if the applicable
+      market-specific requirements are met.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Healthcare is a highly regulated area in most markets and we are
+        dedicated to following advertising regulations for healthcare and
+        pharmaceuticals. Some healthcare-related content cannot be advertised at
+        all, while others can be advertised with restrictions in place.
+        Over-the-counter (OTC) medicines, medical institutions, and pharmacies
+        may be allowed if the applicable Market-specific requirements are met.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > Overview"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.prescription_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, prescription medicine may be allowed only if the
+      advertiser provides proof of approval and certification from appropriate
+      local regional regulating authorities, such as the US Food and Drug
+      Administration (FDA), and restricts the ads to audiences aged 18 years or
+      older.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Prescription medicine — May be allowed if the following requirements are
+        met: Provide proof of approval and certification from appropriate local
+        regional regulating authorities, such as the US Food and Drug
+        Administration (FDA); Restrict the ads to audiences aged 18 years or
+        older.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.otc_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, over-the-counter medicines may be allowed only if
+      the advertiser complies with local laws and regulations, obtains necessary
+      approval and certification from appropriate local regional regulating
+      authorities such as the FDA (certifications may be required), and restricts
+      the ads to audiences aged 18 years or older.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Over-the-counter medicines — May be allowed if the following requirements
+        are met: Comply with local laws and regulations; Certifications from
+        appropriate local regional regulating authorities may be required; Obtain
+        necessary approval and certification from appropriate local regional
+        regulating authorities, such as the US Food and Drug Administration
+        (FDA); Restrict the ads to audiences aged 18 years or older.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.pharmacies_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, ads for brick-and-mortar pharmacies and online
+      pharmacies may be allowed only if the advertiser provides proof of
+      certification by a third-party licensing organization, such as the National
+      Association of Boards of Pharmacy (NABP) or LegitScript, or regional
+      equivalent.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads for brick-and-mortar pharmacies and online pharmacies may be allowed
+        if the following requirement is met: Provide proof of certification by a
+        third-party licensing organization, such as the National Association of
+        Boards of Pharmacy (NABP) or LegitScript, or regional equivalent.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  - id: tiktok.health.cbd_us
+    source_id: tiktok_ads_us
+    category_id: health
+    text: >
+      In the United States, cannabidiol (CBD) products may be allowed only with
+      restrictions (work with a TikTok Sales representative, comply with all
+      applicable laws, provide proof of LegitScript certification, restrict ads
+      to audiences aged 25 years or older). Only topical hemp products containing
+      less than 0.3% THC may be allowed; all other CBD products are not allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [25+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Cannabidiol (CBD) products — May be allowed if the following requirements
+        are met: Work with a TikTok Sales representative; Comply with all
+        applicable local laws and regulations concerning CBD product production,
+        sale, and advertising, including any specific restrictions or bans in
+        certain regions; Provide proof of certification by LegitScript; Restrict
+        the ads to audiences aged 25 years or older. Example of what may be
+        allowed: Topical hemp products that contain less than 0.3% THC. All other
+        CBD products are not allowed.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-healthcare-pharmaceuticals
+      section: "Advertising Policies > Healthcare and Pharmaceuticals > United States"
+      retrieved_at: 2026-06-24
+
+  # ===================== Financial =====================
+  - id: tiktok.finance.requirements
+    source_id: tiktok_ads_us
+    category_id: financial
+    text: >
+      The financial services policy requires enhanced transparency from
+      advertisers promoting financial products and services. Generally,
+      advertisers must comply with relevant local laws and regulations, be
+      licensed by local and regional authorities, include proper disclaimers
+      where applicable, and restrict the ad to audiences aged 18 years and older.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        This policy requires enhanced transparency from you, as an advertiser,
+        that promotes financial products and services ... Generally, the
+        following requirements must be met ...: Comply with relevant local laws
+        and regulations; Be licensed by local and regional authorities; Include
+        proper disclaimers where applicable; The ad must be restricted to
+        audiences aged 18 years and older.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-financial-services
+      section: "Advertising Policies > Financial Services > Policy"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.finance.prohibited_general
+    source_id: tiktok_ads_us
+    category_id: financial
+    text: >
+      Get-rich-quick offers, pyramid schemes, and too-good-to-be-true financial
+      offers are not allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Examples of what is not allowed: Get-rich-quick offers; Pyramid schemes;
+        Too-good-to-be-true financial offers.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-financial-services
+      section: "Advertising Policies > Financial Services > Policy > Examples of what is not allowed"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.finance.us_allowed
+    source_id: tiktok_ads_us
+    category_id: financial
+    text: >
+      In the United States, ads for financial services and products may be
+      allowed if they comply with relevant laws, comply with disclosure
+      requirements (including disclaimers; evidence of appropriate regulator and
+      third-party accreditations or certifications may be required), are licensed
+      by local and regional authorities, and are restricted to viewers aged 18
+      years and older. Examples of what may be allowed: cryptocurrencies; the
+      exchange, management, or investment of funds (fiat or virtual); loans;
+      non-fungible tokens (NFTs) (without implying NFTs are an investment or
+      tradable); and virtual currencies.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads for financial services and products may be allowed if the following
+        requirements are met: Comply with relevant laws and regulations; Comply
+        with disclosure requirements, including disclaimers, disclosure and
+        evidence of appropriate regulator and third-party accreditations or
+        certifications may be required; Be licensed by local and regional
+        authorities; Restrict ads to viewers aged 18 years and older. Examples of
+        what may be allowed: Cryptocurrencies; The exchange, management, or
+        investment of funds, such as fiat or virtual; Loans; Non-fungible tokens
+        (NFTs)* [*Do not imply that NFTs are a form of investment or that they
+        can be traded in the market]; Virtual currencies.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-financial-services
+      section: "Advertising Policies > Financial Services > Market-specific requirements > Canada, United States of America > Examples of what may be allowed"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.finance.us_prohibited
+    source_id: tiktok_ads_us
+    category_id: financial
+    text: >
+      In the United States, ads are not allowed for: bail bonds; complex
+      speculative investments such as contracts for differences (CFDs), financial
+      spread betting, penny stocks, binary options, and mini-bonds; credit repair
+      services; cryptocurrency ATMs; cryptocurrency mining devices;
+      get-rich-quick schemes; initial coin offerings (ICOs); payday loans;
+      pawnbroker loans; penny auctions; precious metals trading; pyramid schemes;
+      single securities; and unaccredited digital banks mimicking traditional
+      bank functions.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Examples of what is not allowed: Bail bonds; Complex speculative
+        investments such as contracts for differences (CFDs), financial spread
+        betting, penny stocks, binary options, and mini-bonds; Credit repair
+        services; Cryptocurrency ATMs; Cryptocurrency mining devices;
+        Get-rich-quick schemes; Initial coin offerings (ICOs); Payday loans;
+        Pawnbroker loans; Penny auctions; Precious metals trading; Pyramid
+        schemes; Single securities; Unaccredited digital banks mimicking
+        traditional bank functions.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-financial-services
+      section: "Advertising Policies > Financial Services > Market-specific requirements > Canada, United States of America > Examples of what is not allowed"
+      retrieved_at: 2026-06-27
+
+  # ===================== Housing & Employment (discrimination) =====================
+  - id: tiktok.discrimination.anti_discrimination
+    source_id: tiktok_ads_us
+    category_id: discrimination
+    text: >
+      TikTok's Housing, Employment, and Credit (HEC) Ad Policy is designed to
+      ensure compliance with anti-discrimination laws and to prevent the platform
+      from being used to exclude people from essential opportunities based on
+      protected characteristics. This HEC Ad Policy is in addition to TikTok's
+      existing Anti-Discrimination Ad Policy that prohibits unlawful
+      discrimination, including through the use of Custom Audiences or other tools
+      and audiences available on the platform.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-hec"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        TikTok's Housing, Employment, and Credit (HEC) Ad Policy is designed to
+        ensure compliance with anti-discrimination laws and to prevent the
+        platform from being used to exclude people from essential opportunities
+        based on protected characteristics. ... This HEC Ad Policy is in addition
+        to existing Anti-Discrimination Ad Policy that prohibits unlawful
+        discrimination, including without limitation, through the use of Custom
+        Audiences or the use of other tools and audiences available on our
+        platform.
+      source_url: https://ads.tiktok.com/help/article/housing-employment-credit-hec-ad-policy
+      section: "Housing, Employment, and Credit (HEC) Ad Policy"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.discrimination.hec_targeting
+    source_id: tiktok_ads_us
+    category_id: discrimination
+    text: >
+      Advertisers based in the United States, or advertisers targeting audiences
+      in the United States or Canada, must use the Special Ad Category Toggle to
+      self declare when they are running housing, employment or credit ads, which
+      automatically removes restricted targeting options. In the United States
+      and Canada, housing, employment, and credit ads cannot target audiences
+      using marital or parental status, or any options describing or appearing to
+      relate to protected characteristics (including key words that have a high
+      correlation to protected categories).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-hec"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        Advertisers based in the United States, or advertisers targeting
+        audiences in the United States or Canada must use the Special Ad Category
+        Toggle to self declare when they are running housing, employment or
+        credit ads. ... In the United States and Canada, housing, employment, and
+        credit ads cannot target audiences using the following categories: ...
+        Marital or parental status ... Any options describing or appearing to
+        relate to protected characteristics (this may include key words that have
+        a high correlation to protected categories).
+      source_url: https://ads.tiktok.com/help/article/housing-employment-credit-hec-ad-policy
+      section: "Housing, Employment, and Credit (HEC) Ad Policy > Special Ad Category Toggle"
+      retrieved_at: 2026-06-27
+
+  # ===================== Political & Social Issues =====================
+  - id: tiktok.political.prohibited
+    source_id: tiktok_ads_us
+    category_id: political
+    text: >
+      TikTok does not allow paid political advertising, including ads that
+      promote or oppose a candidate, current leader, political party or group, or
+      issue at the federal, state, or local level (including election-related,
+      advocacy, or issue ads). It also prohibits advertising of any kind by
+      political figures and entities, and bans paid political promotion across
+      all monetization features, including creators being compensated for branded
+      political content and tools such as Promote. Only official entities
+      responsible for overseeing elections may advertise about elections or
+      referendums.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-politics"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        We do not allow paid political advertising because the nature of
+        political ads is not something we believe fits the TikTok experience. In
+        addition to our paid political advertising policy, we prohibit
+        advertising of any kind by political figures and entities. ... Only
+        official entities responsible for overseeing elections are eligible to
+        advertise about elections or referendums. References to an upcoming or
+        current election or referenda, including appeals for votes, voter
+        registration, and promoting participation, are prohibited for all other
+        advertisers. ... We do not allow paid political advertising across any of
+        our monetization features, including paid ads, creators being compensated
+        for making branded political content, and the use of other promotional
+        tools on the platform, such as Promote.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-politics-government-and-elections
+      section: "Advertising Policies > Politics, Governments, and Elections"
+      retrieved_at: 2026-06-27
+
+  # ===================== Children / Minors =====================
+  - id: tiktok.minors.targeting_limited_under_18
+    source_id: tiktok_ads_us
+    category_id: minors
+    text: >
+      Some targeting and campaign options are not available when an audience
+      includes people under 18 in certain locations; TikTok limits advertisers'
+      ability to target users under 18 in the U.S., Canada, the EEA, the UK,
+      Switzerland and Latin America. Detailed (interest/behavior) targeting is
+      not available when the audience includes people under 18, and the Sales –
+      TikTok Shop objective is unavailable for under-18 audiences.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-04-01
+    version: "2025-04-age-targeting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Some targeting and campaign options are not available when you create ad
+        campaigns including audiences under the age of 18 in certain locations.
+        ... we have taken steps to limit the ability of advertisers to target
+        users under the age of 18 in the U.S., Canada, the European Economic Area
+        (EEA), the UK, Switzerland and Latin America. ... The following detailed
+        targeting options will not be available when your audience includes
+        people under the age of 18 ... [and] The following advertising objectives
+        will not be available when reaching people under the age of 18: Sales -
+        TikTok Shop.
+      source_url: https://ads.tiktok.com/help/article/about-advertising-to-people-under-the-age-of-18
+      section: "About TikTok advertising restrictions for people under the age of 18"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.minors.age_restricted_not_to_minors
+    source_id: tiktok_ads_us
+    category_id: minors
+    text: >
+      TikTok restricts a non-exhaustive list of content categories from being
+      targeted based on user age; for example, advertisements for alcoholic
+      products or other alcohol-related products or services are not allowed to
+      target audiences under the legal drinking age. Advertisers must follow
+      local legal requirements on advertising to users under 18 and all of
+      TikTok's ad policies.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "protecting-minors-initiatives"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        The following is a non-exhaustive list of some notable content categories
+        that we restrict from targeting based on user age: Advertisements for
+        alcoholic products or other alcohol-related products or services are not
+        allowed to target audiences under the legal drinking age. ... We expect
+        all of our advertisers to follow local legal requirements when creating
+        ad campaigns, including any regulations on advertising to users under the
+        age of 18, as well as all of TikTok's Ads policies.
+      source_url: https://ads.tiktok.com/help/article/protecting-minors-on-tiktok-advertising-initiatives
+      section: "Protecting minors on TikTok: advertising initiatives"
+      retrieved_at: 2026-06-27
+
+  # ===================== Privacy & Personal Data =====================
+  - id: tiktok.privacy.data_collection_disclosure
+    source_id: tiktok_ads_us
+    category_id: privacy
+    text: >
+      Advertisers must clearly disclose any data collection, sharing, and usage
+      that takes place on their landing page through the use of a privacy policy.
+      Advertisers may not distribute malicious software, or undisclosed/unwanted
+      software, including software that collects or transmits user information
+      without the user's knowledge or that is difficult to remove.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-02-01
+    version: "2025-02-data-collection-standards"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Advertisers must clearly disclose any data collection, sharing, and usage
+        that takes place on their Landing Page through the use of a privacy
+        policy. Advertisers are not allowed to distribute malicious software that
+        may harm or gain unauthorized access to a computer, device, or network.
+        ... Advertisers are not allowed to distribute unwanted or undisclosed
+        software that collects or transmits user information without user
+        knowledge.
+      source_url: https://ads.tiktok.com/help/article/data-collection-standards
+      section: "Data Collection Standards"
+      retrieved_at: 2026-06-27
+
+  # ===================== Alcohol / Tobacco / Cannabis =====================
+  - id: tiktok.atc.tobacco
+    source_id: tiktok_ads_us
+    category_id: drugs
+    text: >
+      TikTok does not allow ad content and landing pages to show, promote, or
+      sell tobacco, nicotine, or related products — including cigarettes, cigars,
+      e-cigarettes, vape pens or vape oils and cartridges, smoking paraphernalia
+      (pipes, rolling papers, filters, vaporizers, nicotine pouches), or venues
+      for smoking such as cigar bars and hookah lounges.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-dangerous-products"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        We do not allow ad content and landing pages to show, promote, or sell
+        tobacco, nicotine, or related products. ... Cigarettes, cigars, tobacco or
+        nicotine, and related products, e-cigarettes, vape pens or vape oils and
+        cartridges, or any other alternative to smoking or consumption of tobacco
+        and nicotine. Smoking paraphernalia, such as smoking pipes, rolling
+        papers, filters, vaporizers, nicotine pouches.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-dangerous-products-or-services
+      section: "Advertising Policies > Dangerous Products or Services > Tobacco and nicotine-related products"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.atc.drugs
+    source_id: tiktok_ads_us
+    category_id: drugs
+    text: >
+      TikTok does not allow ad content and landing pages to display, promote,
+      sell, solicit, or provide access to illegal drugs, controlled drugs,
+      prescription drug abuse, recreational drugs, drug paraphernalia,
+      accessories, supplies, or their use.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-dangerous-products"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        We do not allow ad content and landing pages to display, promote, sell,
+        solicit, or provide access to illegal drugs, controlled drugs,
+        prescription drug abuse, recreational drugs, drug paraphernalia,
+        accessories, supplies, or their use.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-dangerous-products-or-services
+      section: "Advertising Policies > Dangerous Products or Services > Drugs"
+      retrieved_at: 2026-06-27
+
+  # ===================== Gambling & Gaming =====================
+  - id: tiktok.gambling.certification_license
+    source_id: tiktok_ads_us
+    category_id: gambling
+    text: >
+      To advertise gambling services on TikTok you must go through the
+      certification process and provide documents proving your licenses and legal
+      compliance in your target market. Gambling ads are only allowed in specified
+      markets where gambling is legal and when all local certifications and
+      requirements are met; ads promoting unlicensed or illegal gambling services
+      are not allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        To advertise gambling services, you must go through our certification
+        process. ... Our certification process requires you to provide documents
+        that prove your licenses and legal compliance in your target market. ...
+        Gambling ads are only allowed in specified markets where gambling is legal
+        and when all local certifications and requirements are met. ... [Not
+        allowed:] Gambling ads that promote unlicensed or illegal gambling
+        services.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-gambling-and-games
+      section: "Advertising Policies > Gambling and Games > Certification requirements"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.gambling.minors
+    source_id: tiktok_ads_us
+    category_id: gambling
+    text: >
+      Gambling ads must be restricted to age-appropriate audiences; TikTok does
+      not allow gambling ads to be shown to minors, directed at underage
+      audiences, or to feature underage people.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Ads must be restricted to age-appropriate audiences; we do not allow
+        gambling ads to be shown to minors. ... [Not allowed:] Ads that are
+        directed at underage audiences. Ads that feature underage people.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-gambling-and-games
+      section: "Advertising Policies > Gambling and Games > Geographic and age restrictions"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.gambling.responsible
+    source_id: tiktok_ads_us
+    category_id: gambling
+    text: >
+      TikTok requires advertisers to promote responsible gambling: include clear
+      warnings about the risks and all legally mandated gambling disclaimers and
+      taglines, and provide links to resources or hotlines for gambling addiction
+      where possible.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Promote responsible gambling in your ads: Include clear warnings about the
+        risks; include all legally mandated gambling disclaimers and taglines.
+        Provide links to resources or hotlines for gambling addiction where
+        possible.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-gambling-and-games
+      section: "Advertising Policies > Gambling and Games > Promoting responsible gambling practices"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.gambling.social_casino_no_real_money
+    source_id: tiktok_ads_us
+    category_id: gambling
+    text: >
+      For permitted gambling-like / non-casino game ads, games must not involve
+      real money or financial rewards, and it should be clear from the
+      presentation of the ad that players cannot win real money.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-08-01
+    version: "2025-08-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Do not involve real money or financial rewards. It should be clear from
+        the presentation of the ad that players cannot win real money.
+      source_url: https://ads.tiktok.com/help/article/tiktok-ads-policy-gambling-and-games
+      section: "Advertising Policies > Gambling and Games > Market-specific requirements (non-casino / social games)"
+      retrieved_at: 2026-06-27
+
+  # ===================== Intellectual Property / Counterfeit =====================
+  - id: tiktok.ip.counterfeit_goods
+    source_id: tiktok_ads_us
+    category_id: ip_trademark
+    text: >
+      Counterfeiting is dealing in goods under a trademark that is identical to
+      or substantially similar to a registered trademark, without the trademark
+      owner's permission. TikTok does not permit the purchase, sale, trade,
+      promotion, or solicitation of counterfeit goods, and will remove such
+      content.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ip-policy-counterfeiting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Counterfeiting is the illegal manufacturing, importing and exporting,
+        distributing, selling, facilitating the trade of, or otherwise dealing in
+        goods under a trademark that is identical to or substantially similar to a
+        registered trademark, without the trademark owner's permission ... we do
+        not permit the purchase, sale, trade, promotion, or solicitation of
+        counterfeit goods on TikTok, and will remove such content.
+      source_url: https://www.tiktok.com/legal/copyright-policy
+      section: "Intellectual Property Policy > Counterfeiting"
+      retrieved_at: 2026-06-27
+
+  - id: tiktok.ip.infringement
+    source_id: tiktok_ads_us
+    category_id: ip_trademark
+    text: >
+      TikTok does not allow content that violates or infringes someone else's
+      intellectual property rights, including copyright and trademark.
+      Advertisers must hold all necessary rights, licenses, and permissions for
+      content used in their advertisements.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ip-policy"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        TikTok respects the intellectual property rights of others and requires
+        compliance with the Terms of Service and Community Guidelines which do
+        not allow content that violates or infringes someone else's intellectual
+        property rights, including copyright and trademark.
+      source_url: https://www.tiktok.com/legal/copyright-policy
+      section: "Intellectual Property Policy"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: tiktok_absolute_terms
+    canonical_id: misleading.guaranteed_outcomes
+    clause_ids: [tiktok.misleading.absolute_terms]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Absolute/guaranteed terms about results, time, region, or brand
+      (e.g. "right away", "in 10 seconds").
+    exceptions:
+      - "Qualified claims with realistic framing and disclaimers."
+    status: active
+
+  - id: tiktok_unsubstantiated_claims
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [tiktok.misleading.unsubstantiated_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Objective product-effect claims that are not realistic or substantiated by
+      evidence; AI-exaggerated effects.
+    exceptions:
+      - "Claims substantiated with competent and reliable evidence."
+    status: active
+
+  - id: tiktok_before_after
+    canonical_id: misleading.before_after_distortion
+    clause_ids: [tiktok.misleading.before_after]
+    category_id: misleading
+    severity: high
+    modalities: [image, video]
+    priority: 60
+    detection: >
+      Before-and-after transformation imagery in paid ads.
+    exceptions: []
+    status: active
+
+  - id: tiktok_landing_page_consistency
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [tiktok.misleading.landing_page_consistency]
+    category_id: misleading
+    severity: medium
+    modalities: [landing_page]
+    priority: 55
+    detection: >
+      Inconsistency between ad creative and landing page (stronger claims/
+      guarantees on the destination).
+    exceptions:
+      - "Ad and landing page claims consistent and substantiated."
+    status: active
+
+  # --- Health ---
+  - id: tiktok_health_prescription_restricted
+    canonical_id: health.prescription_drug_promotion_restricted
+    clause_ids: [tiktok.health.overview, tiktok.health.prescription_us, tiktok.health.otc_us, tiktok.health.pharmacies_us]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Prescription/OTC/pharmacy promotion in the US without the required FDA
+      approval/certification, third-party pharmacy certification, or 18+ targeting.
+    exceptions:
+      - "FDA-certified Rx/OTC and NABP/LegitScript-certified pharmacies, 18+."
+    status: active
+
+  - id: tiktok_health_cbd_restricted
+    canonical_id: health.unapproved_or_dangerous_products
+    clause_ids: [tiktok.health.cbd_us]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      CBD products beyond the narrow US exception (non-topical, >=0.3% THC, no
+      LegitScript cert, under-25 targeting).
+    exceptions:
+      - "Topical hemp <0.3% THC, LegitScript-certified, 25+, via TikTok rep."
+    status: active
+
+  # --- Financial ---
+  - id: tiktok_finance_requirements
+    canonical_id: finance.licensing_registration_required
+    clause_ids: [tiktok.finance.requirements]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Financial-services ads run without being licensed by local/regional
+      authorities, without required disclaimers, or not restricted to 18+.
+    exceptions:
+      - "Licensed advertisers with disclaimers and 18+ targeting."
+    status: active
+
+  - id: tiktok_finance_guaranteed
+    canonical_id: finance.guaranteed_returns_or_risk_free
+    clause_ids: [tiktok.finance.prohibited_general]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial
+      offers (implied guaranteed/outsized returns).
+    exceptions: []
+    status: active
+
+  - id: tiktok_finance_crypto
+    canonical_id: finance.crypto_restricted
+    clause_ids: [tiktok.finance.us_allowed, tiktok.finance.us_prohibited]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Crypto ads outside the US allowance (unlicensed, no certification, no
+      disclaimers, under-18) or prohibited types (ICOs, crypto ATMs, mining
+      devices).
+    exceptions:
+      - "Licensed/certified crypto, exchange, or NFT ads with disclaimers, 18+."
+    status: active
+
+  - id: tiktok_finance_prohibited
+    canonical_id: finance.prohibited_predatory_products
+    clause_ids: [tiktok.finance.us_prohibited]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      US-prohibited financial products: bail bonds, CFDs/spread betting/penny
+      stocks/binary options/mini-bonds, credit repair, payday/pawnbroker loans,
+      penny auctions, precious metals trading, single securities, unaccredited
+      digital banks.
+    exceptions: []
+    status: active
+
+  # --- Housing & Employment (discrimination) ---
+  - id: tiktok_discrimination_content
+    canonical_id: discrimination.discriminatory_ad_content_prohibited
+    clause_ids: [tiktok.discrimination.anti_discrimination]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Housing/employment/credit ad content that unlawfully discriminates or
+      excludes people based on protected characteristics.
+    exceptions: []
+    status: active
+
+  - id: tiktok_discrimination_targeting
+    canonical_id: discrimination.restricted_targeting_protected_class
+    clause_ids: [tiktok.discrimination.hec_targeting]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 63
+    detection: >
+      HEC ads (US/Canada) not run via the Special Ad Category Toggle, or
+      targeting by marital/parental status or options correlated with protected
+      characteristics.
+    exceptions:
+      - "HEC ads run via the Special Ad Category Toggle with allowed targeting."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: tiktok_political_prohibited
+    canonical_id: political.paid_political_ads_prohibited
+    clause_ids: [tiktok.political.prohibited]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 65
+    detection: >
+      Any paid political advertising — promoting/opposing candidates, parties, or
+      issues; ads by political figures/entities; election appeals — outside the
+      narrow official-election-authority exception.
+    exceptions:
+      - "Official entities overseeing elections (election-process information)."
+    status: active
+
+  # --- Children / Minors ---
+  - id: tiktok_minors_targeting
+    canonical_id: minors.personalized_targeting_of_minors_restricted
+    clause_ids: [tiktok.minors.targeting_limited_under_18]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Detailed (interest/behavior) targeting of under-18 audiences, or use of
+      restricted objectives (e.g. Sales – TikTok Shop) reaching under-18s.
+    exceptions:
+      - "Awareness objectives (Reach, R&F, TopView) not relying on detailed targeting."
+    status: active
+
+  - id: tiktok_minors_age_restricted
+    canonical_id: minors.age_restricted_products_not_shown_to_minors
+    clause_ids: [tiktok.minors.age_restricted_not_to_minors]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Age-restricted categories (e.g. alcohol) targeted to minors / users below
+      the legal age.
+    exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: tiktok_privacy_data_collection
+    canonical_id: privacy.data_collection_disclosure_required
+    clause_ids: [tiktok.privacy.data_collection_disclosure]
+    category_id: privacy
+    severity: medium
+    modalities: [landing_page]
+    priority: 58
+    detection: >
+      Landing pages that collect/share/use data without a clear privacy-policy
+      disclosure, or distribute malicious/undisclosed/unwanted software.
+    exceptions: []
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: tiktok_atc_tobacco
+    canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    clause_ids: [tiktok.atc.tobacco]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads/landing pages showing, promoting, or selling tobacco, nicotine,
+      e-cigarettes/vapes, paraphernalia, or smoking venues.
+    exceptions: []
+    status: active
+
+  - id: tiktok_atc_drugs
+    canonical_id: atc.recreational_drugs_and_thc_prohibited
+    clause_ids: [tiktok.atc.drugs]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ads/landing pages promoting or providing access to illegal/controlled/
+      recreational drugs, prescription-drug abuse, or drug paraphernalia.
+    exceptions: []
+    status: active
+
+  # --- Gambling & Gaming ---
+  - id: tiktok_gambling_certification
+    canonical_id: gambling.realmoney_requires_license_and_authorization
+    clause_ids: [tiktok.gambling.certification_license]
+    category_id: gambling
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Gambling ads without TikTok certification / license in a legal market, or
+      promoting unlicensed/illegal gambling services.
+    exceptions:
+      - "Certified advertisers with valid license in permitted markets."
+    status: active
+
+  - id: tiktok_gambling_minors
+    canonical_id: gambling.no_minors_targeting
+    clause_ids: [tiktok.gambling.minors]
+    category_id: gambling
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Gambling ads shown to / directed at minors, or featuring underage people.
+    exceptions: []
+    status: active
+
+  - id: tiktok_gambling_responsible
+    canonical_id: gambling.responsible_gambling_required
+    clause_ids: [tiktok.gambling.responsible]
+    category_id: gambling
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Gambling ads lacking risk warnings, legally mandated disclaimers/taglines,
+      or addiction-resource links.
+    exceptions: []
+    status: active
+
+  - id: tiktok_gambling_social_casino
+    canonical_id: gambling.social_casino_no_real_money
+    clause_ids: [tiktok.gambling.social_casino_no_real_money]
+    category_id: gambling
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 56
+    detection: >
+      Permitted gambling-like/social game ads that involve real money/financial
+      rewards or imply players can win real money.
+    exceptions: []
+    status: active
+
+  # --- Intellectual Property / Counterfeit ---
+  - id: tiktok_ip_counterfeit
+    canonical_id: ip.counterfeit_goods_prohibited
+    clause_ids: [tiktok.ip.counterfeit_goods]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads that purchase/sell/trade/promote/solicit counterfeit goods — goods
+      under a trademark identical or substantially similar to a registered mark
+      without the owner's permission.
+    exceptions: []
+    status: active
+
+  - id: tiktok_ip_infringement
+    canonical_id: ip.third_party_ip_infringement_prohibited
+    clause_ids: [tiktok.ip.infringement]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Ad creative or landing page that infringes a third party's copyright or
+      trademark, or uses content (images, music, video, trademarks) without the
+      necessary rights/licenses/permissions.
+    exceptions:
+      - "Advertiser holds the necessary rights, licenses, or permissions."
+    status: active

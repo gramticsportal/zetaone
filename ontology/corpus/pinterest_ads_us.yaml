@@ -1,0 +1,80 @@
+# Pinterest Ads (US) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Official source: Pinterest Advertising Guidelines.
+
+source:
+  id: pinterest_ads_us
+  type: platform
+  name: Pinterest Advertising Guidelines
+  jurisdiction: [US]
+  url: https://policy.pinterest.com/en/advertising-guidelines
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: pinterest.misleading.false_or_misleading
+    source_id: pinterest_ads_us
+    category_id: misleading
+    text: >
+      Pinterest doesn't allow language or imagery that is false or misleading,
+      including conspiracy theories, misinformation and disinformation.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "pinterest-advertising-guidelines"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        We don't allow language or imagery that is: ... False or misleading,
+        including conspiracy theories, misinformation and disinformation.
+      source_url: https://policy.pinterest.com/en/advertising-guidelines
+      section: "Advertising guidelines > Sensitive content"
+      retrieved_at: 2026-06-27
+
+  - id: pinterest.misleading.exaggerated_claims
+    source_id: pinterest_ads_us
+    category_id: misleading
+    text: >
+      Pinterest doesn't allow ads for products or services that make unrealistic
+      or exaggerated claims or purport to have magical properties, or ads that
+      show a different product or service than the one being offered in an
+      intentionally deceptive way.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "pinterest-advertising-guidelines"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Products or services that make unrealistic or exaggerated claims or
+        purport to have magical properties. Ads that show a different product or
+        service than the one being offered in an intentionally deceptive way.
+      source_url: https://policy.pinterest.com/en/advertising-guidelines
+      section: "Advertising guidelines > Prohibited products and services"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: pinterest_misleading_false
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [pinterest.misleading.false_or_misleading, pinterest.misleading.exaggerated_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      False/misleading language, unrealistic/exaggerated/magical claims, or
+      bait-and-switch product presentation.
+    exceptions: []
+    status: active

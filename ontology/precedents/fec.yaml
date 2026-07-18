@@ -1,0 +1,301 @@
+# FEC political advertising precedents.
+
+precedents:
+  - precedent_id: prec.fec.vitter_disclaimer_2009
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/fec-completes-action-in-12-enforcement-cases-civil-penalties-in-two-matters-total-30000/"
+    date: 2009-03-05
+    title: "FEC MUR 5587R — David Vitter committee inadequate phone-bank disclaimers"
+    summary: >
+      The David Vitter for U.S. Senate committee paid a $25,000 civil penalty for
+      phone-bank calls that failed to clearly state the committee paid for the
+      communication.
+    why_this_matters: >
+      Canonical paid-for-by disclaimer enforcement for telemarketing-style
+      political outreach.
+    retrieval_keywords: ['FEC', 'disclaimer', 'phone bank', 'David Vitter', 'paid for by', 'MUR 5587']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: civil_penalty
+    monetary_relief: "$25,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The David Vitter for U.S. Senate committee agreed to pay a $25,000 civil
+          penalty for failing to include adequate disclaimers on telephone bank
+          calls placed before the 2004 general election.
+        source_url: https://www.fec.gov/updates/fec-completes-action-in-12-enforcement-cases-civil-penalties-in-two-matters-total-30000/
+        section: "FEC Update, MUR 5587R"
+
+  - precedent_id: prec.fec.google_text_ad_disclaimers_2010
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/ao-2010-19-disclaimers-on-internet-text-ads/"
+    date: 2010-08-05
+    title: "FEC AO 2010-19 — Google text ads and political disclaimers"
+    summary: >
+      The FEC concluded Google's proposed AdWords text ads for political
+      committees, with full disclaimers on landing pages rather than in the ad
+      unit, did not violate the Act under the described circumstances.
+    why_this_matters: >
+      Foundational platform-policy precedent for short-form political ad
+      disclaimer placement online.
+    retrieval_keywords: ['FEC', 'Google AdWords', 'text ads', 'disclaimer', 'landing page', 'AO 2010-19']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - google.political.paid_for_by
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Candidates, their authorized committees and other political committees
+          need not display disclaimers on text ads they sponsor that are generated
+          through Google, Inc.'s AdWords program. The full disclaimer would instead
+          appear on a 'landing page' that appears when a user clicks through a text
+          ad.
+        source_url: https://www.fec.gov/updates/ao-2010-19-disclaimers-on-internet-text-ads/
+        section: "FEC Advisory Opinion 2010-19"
+
+  - precedent_id: prec.fec.ntdo_disclaimer_admonishment_2007
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/fec-completes-action-on-seven-enforcement-cases-two-state-parties-agree-to-civil-penalties-totaling-17000/"
+    date: 2007-11-19
+    title: "FEC MUR 5865 — New Trier Democratic Organization inadequate disclaimers"
+    summary: >
+      The FEC admonished the New Trier Democratic Organization for failing to
+      include adequate disclaimers on a mass mailing advocating Dan Seals' 2006
+      congressional candidacy.
+    why_this_matters: >
+      Official FEC admonishment for missing paid-for-by disclaimers on election
+      advocacy mail.
+    retrieval_keywords: ['FEC', 'MUR 5865', 'disclaimer', 'New Trier Democratic Organization', 'Dan Seals', 'mass mailing']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: no_action
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Commission admonished NTDO for failing to include adequate disclaimers
+          in the communication and found no reason to believe NTDO or Dan Seals for
+          Congress violated the Act by failing to report an in-kind contribution.
+        source_url: https://www.fec.gov/updates/fec-completes-action-on-seven-enforcement-cases-two-state-parties-agree-to-civil-penalties-totaling-17000/
+        section: "FEC Update, MUR 5865"
+
+  - precedent_id: prec.fec.power_of_liberty_electioneering_2019
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/week-september-16-20-2019/"
+    date: 2019-09-20
+    title: "FEC MUR 7113 — Power of Liberty electioneering communications disclosure"
+    summary: >
+      Power of Liberty, Inc. agreed to pay a $6,000 civil penalty for failing to
+      disclose electioneering communications disseminated by radio before
+      Tennessee's 2016 Republican primary.
+    why_this_matters: >
+      501(c)(4) electioneering disclosure penalty for undisclosed radio advocacy.
+    retrieval_keywords: ['FEC', 'MUR 7113', 'Power of Liberty', 'electioneering communications', 'disclosure', 'radio']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: civil_penalty
+    monetary_relief: "$6,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Commission entered into a conciliation agreement providing for Power
+          of Liberty, Inc. to pay a civil penalty of $6,000.
+        source_url: https://www.fec.gov/updates/week-september-16-20-2019/
+        section: "FEC Weekly Digest, MUR 7113"
+
+  - precedent_id: prec.fec.miller_defective_disclaimer_2010
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/"
+    date: 2010-08-31
+    title: "FEC MUR 6274 — Matt Miller committee defective disclaimers"
+    summary: >
+      The FEC dismissed a complaint against Matt Miller's Ohio congressional
+      committee for defective disclaimers but sent a reminder letter about 2
+      U.S.C. § 441d and 11 C.F.R. § 110.11 disclaimer requirements.
+    why_this_matters: >
+      Illustrates FEC prosecutorial discretion on defective disclaimer materials
+      while reaffirming statutory disclaimer rules.
+    retrieval_keywords: ['FEC', 'MUR 6274', 'Matt Miller', 'defective disclaimer', 'Ohio', '441d']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: no_action
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Commission sent a letter to the respondents, reminding them of the
+          requirements under 2 U.S.C. § 441d and 11 C.F.R. § 110.11 concerning the
+          use of appropriate disclaimers.
+        source_url: https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/
+        section: "FEC Update, MUR 6274"
+
+  - precedent_id: prec.fec.schreyer_tv_disclaimer_2010
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/"
+    date: 2010-08-31
+    title: "FEC MUR 6283 — Manfred Schreyer TV ad without audible disclaimer"
+    summary: >
+      The FEC dismissed allegations that Manfred Schreyer's congressional
+      committee aired a television ad without an audible disclaimer, but reminded
+      respondents of disclaimer and disclosure requirements.
+    why_this_matters: >
+      TV political ad precedent on audible disclaimer visibility and FEC reminder
+      letters.
+    retrieval_keywords: ['FEC', 'MUR 6283', 'television ad', 'disclaimer', 'Manfred Schreyer', 'Ohio']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - google.political.paid_for_by
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: no_action
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Commission sent a letter to the respondents, reminding them of the
+          requirements under the Federal Election Campaign Act of 1971, as amended,
+          regarding appropriate disclaimers and timely filing of financial
+          disclosure reports.
+        source_url: https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/
+        section: "FEC Update, MUR 6283"
+
+  - precedent_id: prec.fec.nrtl_reporting_penalty_2010
+    source: "U.S. Federal Election Commission"
+    source_url: "https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/"
+    date: 2010-08-31
+    title: "FEC MUR 6266 — National Right to Life PAC reporting and IE notices"
+    summary: >
+      National Right to Life PAC agreed to pay a $25,000 civil penalty for failing
+      to file timely 24- and 48-hour notices of independent expenditures and for
+      inaccurate disclosure reports.
+    why_this_matters: >
+      Major PAC penalty for independent-expenditure reporting failures adjacent to
+      political ad transparency.
+    retrieval_keywords: ['FEC', 'MUR 6266', 'National Right to Life', 'independent expenditure', '24-hour notice', 'disclosure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political', 'financial']
+    violated_clause_ids:
+      - fec.political.disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: civil_penalty
+    monetary_relief: "$25,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In a conciliation agreement, the respondents agreed to pay a $25,000 civil
+          penalty, amend reports, to the extent appropriate, to correct the errors
+          addressed in this matter.
+        source_url: https://www.fec.gov/updates/fec-takes-final-action-on-six-cases-12/
+        section: "FEC Update, MUR 6266"
+
+  - precedent_id: prec.fec.moderate_pac_disclosure_2024
+    source: "Federal Election Commission"
+    source_url: "https://www.fec.gov/files/legal/murs/8196/8196_12.pdf"
+    date: 2024-05-08
+    title: "FEC v. Moderate PAC — late independent expenditure reporting"
+    summary: >
+      The Moderate PAC agreed to pay a $58,000 civil penalty for failing to timely
+      file five 24-hour reports covering $582,652 in pre-election independent
+      expenditures.
+    why_this_matters: >
+      Recent PAC independent-expenditure disclosure enforcement for late 24-hour
+      IE reports in federal elections.
+    retrieval_keywords: ['Moderate PAC', '24-hour report', 'independent expenditure', 'FEC', 'disclosure', '$58000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - google.political.paid_for_by
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: fine
+    monetary_relief: "$58,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Respondent will pay a civil penalty to the Federal Election Commission in
+          the amount of Fifty-Eight Thousand Dollars ($58,000) pursuant to 52 U.S.C.
+          § 30109(a)(5)(A).
+        source_url: https://www.fec.gov/files/legal/murs/8196/8196_12.pdf
+        section: "MUR 8196 Conciliation Agreement, Section VI"
+
+  - precedent_id: prec.fec.black_voters_matter_24hour_2024
+    source: "Federal Election Commission"
+    source_url: "https://www.fec.gov/files/legal/murs/8353/8353_09.pdf"
+    date: 2024-03-15
+    title: "FEC v. Black Voters Matter PAC — late IE 24-hour reports (2022 Georgia)"
+    summary: >
+      Black Voters Matter Action PAC agreed to pay a $16,000 penalty for failing
+      to timely file 24-hour reports for $158,018 in pre-election independent
+      expenditures supporting Raphael Warnock.
+    why_this_matters: >
+      State-targeted IE ad disclosure enforcement — late 24-hour reporting in
+      high-spend Senate races.
+    retrieval_keywords: ['Black Voters Matter', '24-hour report', 'independent expenditure', 'Warnock', 'FEC', 'Georgia']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['political']
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+    canonical_ids:
+      - political.authorization_and_disclaimer_required
+    outcome: fine
+    monetary_relief: "$16,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Respondent violated 52 U.S.C. § 30104(g)(1) and 11 C.F.R. § 104.4(c) by
+          failing to file the required 24-hour reports for independent expenditures
+          totaling $158,018.
+        source_url: https://www.fec.gov/files/legal/murs/8353/8353_09.pdf
+        section: "MUR 8353 Conciliation Agreement, Section V"

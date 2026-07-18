@@ -1,0 +1,289 @@
+# Ad Corpus version manifest.
+# Each completed category is FROZEN and assigned a version so the corpus is
+# reproducible and benchmarkable alongside the evaluation dataset. Bump the
+# version and add a release entry whenever a category is completed/changed.
+
+current_version: "Ad Corpus v0.11"
+
+releases:
+  - version: "Ad Corpus v0.1"
+    date: 2026-06-24
+    status: frozen
+    categories: [misleading]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, ftc_us]
+    canonical_rules:
+      - misleading.exaggerated_results
+      - misleading.guaranteed_outcomes
+      - misleading.false_affiliation_or_endorsement
+      - misleading.before_after_distortion
+      - misleading.fake_scarcity_or_urgency
+      - misleading.missing_or_inconsistent_material_info
+      - misleading.unsubstantiated_objective_claims
+    eval_examples: 30
+    note: First frozen vertical (Misleading / Deceptive).
+
+  - version: "Ad Corpus v0.2"
+    date: 2026-06-24
+    status: frozen
+    categories: [misleading, health]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, ftc_us, fda_us]
+    canonical_rules_added:
+      - health.disease_cure_treatment_claims
+      - health.unsubstantiated_health_claims
+      - health.prescription_drug_promotion_restricted
+      - health.unapproved_or_dangerous_products
+      - health.negative_self_perception_body_image
+      - health.rx_fair_balance_risk_disclosure
+      - health.health_privacy_sensitive_attributes
+      - health.material_risk_safety_disclosure
+    eval_examples: 90        # 30 misleading + 60 health
+    schema_version: "1.0.0"  # schema frozen; evidence + last_reviewed_by added to every clause
+    note: >
+      Adds Health / Medical vertical from official Meta, Google, TikTok, FTC, and
+      FDA sources. All clauses traceable to official policy; nothing invented.
+      Every clause now carries an `evidence` block (verbatim quote, deep link,
+      section, retrieved_at) and `last_reviewed_by` (ai until human-verified).
+      TikTok health clauses corrected to the policy's actual United States market
+      section (Rx/OTC/pharmacy/fillers may be allowed with FDA/NABP/LegitScript
+      certification + 18+); the earlier blanket US weight-loss/invasive-cosmetic
+      bans were not traceable to the official US section and were removed.
+
+  - version: "Ad Corpus v0.3"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us]
+    canonical_rules_added:
+      - finance.prohibited_predatory_products
+      - finance.guaranteed_returns_or_risk_free
+      - finance.misleading_or_unbalanced_claims
+      - finance.performance_claims_substantiation
+      - finance.required_cost_and_risk_disclosures
+      - finance.credit_advertising_trigger_terms
+      - finance.licensing_registration_required
+      - finance.crypto_restricted
+      - finance.loan_modification_foreclosure_restricted
+      - finance.mortgage_advertising_prohibited_acts   # CFPB-only (single-source)
+      - finance.testimonials_endorsements_disclosure   # SEC-only (single-source)
+    eval_examples: 150       # 30 misleading + 60 health + 60 financial
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Financial services & investments vertical (US only) from official
+      Meta, Google, TikTok, and LinkedIn ad policies and US regulators FTC, SEC
+      (Marketing Rule 17 CFR 275.206(4)-1), FINRA (Rule 2210), and CFPB (Reg Z /
+      TILA, 12 CFR 1026.24). Adds new sources linkedin_ads_us, sec_us, finra_us,
+      cfpb_us. Every clause carries an `evidence` block (verbatim quote, deep
+      link, section, retrieved_at) and `last_reviewed_by: ai`.       Two canonicals are
+      intentionally single-source (CFPB mortgage prohibited acts; SEC testimonial
+      disclosures) and carry no `mapping` entry until a second official source
+      genuinely matches — keeping the corpus honest.
+
+  - version: "Ad Corpus v0.4"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us]
+    canonical_rules_added:
+      - discrimination.discriminatory_ad_content_prohibited
+      - discrimination.restricted_targeting_protected_class
+    eval_examples: 210       # 30 misleading + 60 health + 60 financial + 60 housing/employment
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Housing & Employment vertical (US only, category `discrimination`) from
+      official Meta (Discriminatory Practices + Special Ad Category), Google
+      (Personalized advertising restricted targeting for Housing/Employment/
+      Consumer Finance), TikTok (HEC Ad Policy), and LinkedIn (Discrimination +
+      Ads-and-discrimination) policies, plus US regulators HUD/Fair Housing Act
+      (42 U.S.C. § 3604(c)), EEOC/Title VII + ADEA (29 U.S.C. § 623(e)), and FTC
+      ECOA / Regulation B (12 CFR 1002.4(b), credit discouragement). New sources
+      hud_us, eeoc_us. Two cross-source canonicals: discriminatory ad content
+      (Meta, TikTok, LinkedIn, HUD, EEOC, FTC) and restricted protected-class
+      targeting (Meta, Google, TikTok, LinkedIn). Every clause carries an
+      `evidence` block + `last_reviewed_by: ai`; nothing invented.
+
+  - version: "Ad Corpus v0.5"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us]
+    canonical_rules_added:
+      - political.authorization_and_disclaimer_required
+      - political.paid_political_ads_prohibited
+      - political.synthetic_content_disclosure          # Google-only (single-source)
+    eval_examples: 270       # 30 misleading + 60 health + 60 financial + 60 housing/employment + 60 political
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Political & Social Issues vertical (US only, category `political`).
+      Two distinct regimes are captured honestly rather than forced into one
+      canonical: Meta (authorization + verified "Paid for by" disclaimer) and
+      Google (election-ads verification + "Paid for by" disclosure + election-law
+      / silence-period compliance) ALLOW political ads with disclosure, mapped
+      with FEC (11 CFR 110.11 / 52 U.S.C. 30120 disclaimer regime) under
+      political.authorization_and_disclaimer_required; whereas TikTok (Politics,
+      Governments, and Elections) and LinkedIn (Political) BAN paid political
+      advertising outright, mapped under political.paid_political_ads_prohibited.
+      Google's synthetic/digitally-altered-content disclosure is a single-source
+      canonical with no `mapping` entry until a second official source matches.
+      New source fec_us. Every clause carries an `evidence` block (verbatim
+      quote, deep link, section, retrieved_at) + `last_reviewed_by: ai`.
+
+  - version: "Ad Corpus v0.6"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us]
+    canonical_rules_added:
+      - minors.personalized_targeting_of_minors_restricted
+      - minors.age_restricted_products_not_shown_to_minors
+      - minors.parental_consent_for_childrens_data          # FTC COPPA (single-source)
+      - minors.child_directed_content_ad_restrictions        # Google made-for-kids (single-source)
+    eval_examples: 330       # + 60 children/minors
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    new_artifacts:
+      - ontology/policy_versions.yaml   # sidecar: per-source policy version/effective/updated/status/change-history
+    note: >
+      Adds Children / Minors vertical (US only, new category `minors`) from
+      official Meta (About Advertising to Teens — age+location only; restricted
+      topics not to under-18), Google (Ad-serving protections for children and
+      teens — under-18 ineligible for personalized advertising; sensitive
+      categories restricted; made-for-kids: no personalized ads/third-party
+      trackers/purchase incitement/misleading claims), TikTok (About advertising
+      to under-18 + Protecting minors initiatives), and FTC COPPA (16 CFR Part
+      312 — verifiable parental consent before collecting children's personal
+      information; persistent identifiers; no behavioral advertising under the
+      internal-operations exception). Two cross-source canonicals (personalized
+      targeting of minors restricted; age-restricted products not to minors) plus
+      two single-source canonicals (COPPA parental consent; Google made-for-kids)
+      kept honestly unmapped. Introduces ontology/policy_versions.yaml sidecar to
+      track policy version / effective / last-updated / deprecated-superseded
+      status / officially published change history — without changing the frozen
+      schema.
+
+  - version: "Ad Corpus v0.7"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca]
+    canonical_rules_added:
+      - privacy.sensitive_attribute_targeting_prohibited
+      - privacy.data_collection_disclosure_required          # TikTok (single-source)
+      - privacy.opt_out_of_sale_or_sharing_for_targeted_ads  # CCPA/CPRA (single-source)
+      - privacy.minor_opt_in_for_sale_or_sharing             # CCPA/CPRA (single-source)
+    eval_examples: 390       # + 60 privacy
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Privacy & Personal Data vertical (category `privacy`) from official
+      Meta (Privacy Violations and Personal Attributes), Google (Restricted
+      targeting in Personalized advertising — sensitive interest categories),
+      LinkedIn (sensitive-data targeting prohibition), TikTok (Data Collection
+      Standards), and CCPA/CPRA (Cal. Civ. Code §§ 1798.120 & 1798.135 — opt out
+      of sale/sharing for cross-context behavioral advertising; under-16 opt-in).
+      New source ccpa_ca. One cross-source canonical (sensitive-attribute
+      targeting: Meta, Google, LinkedIn) plus three single-source canonicals
+      (TikTok data-collection disclosure; CCPA opt-out; CCPA minor opt-in) kept
+      honestly unmapped. Every clause carries an `evidence` block +
+      `last_reviewed_by: ai`.
+
+  - version: "Ad Corpus v0.8"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy, alcohol, drugs]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca, ttb_us]
+    canonical_rules_added:
+      - atc.alcohol_age_and_location_targeting_required      # Meta, Google
+      - atc.tobacco_and_nicotine_ads_prohibited              # Meta, Google, TikTok
+      - atc.recreational_drugs_and_thc_prohibited            # Meta, Google, TikTok
+      - atc.cbd_restricted_with_certification                # Meta, Google
+      - atc.alcohol_mandatory_and_prohibited_statements      # TTB (single-source)
+      - atc.tobacco_advertising_format_restrictions          # FDA 21 CFR 1140 (single-source)
+    eval_examples: 450       # + 60 alcohol/tobacco/cannabis
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Alcohol / Tobacco / Cannabis vertical (categories `alcohol` + `drugs`)
+      from official Meta (Alcohol; Tobacco and Related Products; Drugs and
+      Pharmaceuticals incl. THC/CBD), Google (Alcohol; Dangerous products or
+      services — Tobacco, Recreational drugs, CBD), TikTok (Dangerous Products or
+      Services — tobacco/nicotine and drugs), TTB (FAA Act alcohol advertising;
+      27 CFR 4/5/7 mandatory + prohibited statements), and FDA (21 CFR 1140.32
+      cigarette/smokeless-tobacco advertising format). New source ttb_us. Four
+      cross-source canonicals (alcohol age/location; tobacco/nicotine prohibited;
+      recreational drugs/THC prohibited; CBD restricted-with-certification) plus
+      two single-source regulator canonicals (TTB statements; FDA tobacco format)
+      kept honestly unmapped.
+
+  - version: "Ad Corpus v0.9"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy, alcohol, drugs, gambling]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca, ttb_us]
+    canonical_rules_added:
+      - gambling.realmoney_requires_license_and_authorization   # Meta, Google, TikTok
+      - gambling.no_minors_targeting                            # Meta, Google, TikTok
+      - gambling.responsible_gambling_required                  # Google, TikTok
+      - gambling.social_casino_no_real_money                    # Meta, TikTok
+    eval_examples: 510       # + 60 gambling/gaming
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Gambling & Gaming vertical (category `gambling`) from official Meta
+      (Online Gambling and Games — authorization + license/lawful; no under-18;
+      social-casino-without-monetary-value), Google (Gambling and games —
+      country-specific certification + maintained license; responsible-gambling
+      landing page; never target minors), and TikTok (Gambling and Games —
+      certification + license in legal markets; responsible-gambling warnings;
+      not shown to minors; social games must not involve real money). Four
+      cross-source canonicals, all honestly mapped; no federal regulator clause
+      (US gambling advertising is state-regulated, outside the current US-federal
+      regulator scope). Every clause carries an `evidence` block +
+      `last_reviewed_by: ai`.
+
+  - version: "Ad Corpus v0.10"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy, alcohol, drugs, gambling, ip_trademark]
+    sources: [meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us, ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca, ttb_us]
+    canonical_rules_added:
+      - ip.counterfeit_goods_prohibited                  # Meta, Google, TikTok
+      - ip.third_party_ip_infringement_prohibited        # Meta, Google, TikTok
+      - ip.unauthorized_copyrighted_works_prohibited      # Meta (single-source)
+    eval_examples: 570       # + 60 IP / counterfeit
+    schema_version: "1.0.0"  # unchanged; schema frozen
+    note: >
+      Adds Intellectual Property / Counterfeit vertical (category `ip_trademark`)
+      from official Meta (Third-Party Intellectual Property Infringement +
+      Copyrights and Trademarks — counterfeits/knockoffs/replicas, third-party
+      copyright/trademark, pirated copyrighted works), Google (Counterfeit goods
+      answer 176017 + Trademarks answer 6118), and TikTok (Intellectual Property
+      Policy — counterfeiting + copyright/trademark infringement). Two cross-source
+      canonicals (counterfeit goods; third-party IP infringement) plus one
+      single-source Meta canonical (unauthorized/pirated copyrighted works). No
+      federal regulator clause — US IP enforcement runs through the Lanham Act
+      (15 U.S.C. § 1125) and the courts/CBP rather than an advertising regulator.
+      Completes the 10-vertical corpus build; domain expansion stops here. Every
+      clause carries an `evidence` block + `last_reviewed_by: ai`.
+
+  - version: "Ad Corpus v0.11"
+    date: 2026-06-27
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy, alcohol, drugs, gambling, ip_trademark]
+    sources:
+      - meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us
+      - x_ads_us, amazon_ads_us, snapchat_ads_us, pinterest_ads_us, reddit_ads_us, microsoft_ads_us
+      - meta_ads_eu, google_ads_eu
+      - ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca, ttb_us
+      - asa_uk, competition_bureau_ca, accc_au
+    enrichment:
+      platforms_added: [x_ads_us, amazon_ads_us, snapchat_ads_us, pinterest_ads_us, reddit_ads_us, microsoft_ads_us]
+      jurisdictions_added: [EU, UK, CA, AU]
+      platform_starter_files: [meta_ads_eu, google_ads_eu]
+      regulator_starter_files: [asa_uk, competition_bureau_ca, accc_au]
+      sidecars_added: [policy_timeline.yaml, benchmark/]
+      precedents_count: 24
+      policy_timeline_clauses: 157
+    eval_examples: 570
+    schema_version: "1.0.0"
+    note: >
+      Enrichment release (no schema change): +6 US platforms (misleading starter),
+      +EU/UK/CA/AU jurisdiction starters, policy_timeline.yaml sidecar (per-clause
+      introduced/modified events), benchmark suite (coverage.py + 21 retrieval
+      tests), precedents expanded 6→24 across FTC/SEC/FDA/EEOC/HUD files. Ten
+      US verticals remain frozen; deepen platforms/jurisdictions/precedents over time.

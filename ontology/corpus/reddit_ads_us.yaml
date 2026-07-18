@@ -1,0 +1,80 @@
+# Reddit Ads (US) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Official source: Reddit Help (promotions / advertising policies).
+
+source:
+  id: reddit_ads_us
+  type: platform
+  name: Reddit Advertising Policies
+  jurisdiction: [US]
+  url: https://business.reddithelp.com/s/article/deceptive-untrue-or-misleading-advertising-policy
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: reddit.misleading.no_deception
+    source_id: reddit_ads_us
+    category_id: misleading
+    text: >
+      When running promotions on Reddit, do not mislead or deceive — never make
+      unrealistic claims, guarantees of winnings, or any other inaccurate or
+      misleading statements in your promotion or rules.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "reddit-promotions-guidelines"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Don't mislead or deceive. Never make unrealistic claims, guarantees of
+        winnings, or any other inaccurate or misleading statements in your
+        promotion or rules.
+      source_url: https://support.reddithelp.com/hc/en-us/articles/22755369815700-Running-promotions-on-Reddit
+      section: "Running promotions on Reddit > Guidelines"
+      retrieved_at: 2026-06-27
+
+  - id: reddit.misleading.deceptive_ads_prohibited
+    source_id: reddit_ads_us
+    category_id: misleading
+    text: >
+      Reddit's Ad Policies prohibit advertisements that are deceptive, untrue,
+      or misleading. Reddit's Ad Review teams leverage human review and automated
+      tooling to identify and reject this type of ad content.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "reddit-ad-policies-deceptive"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Reddit's Ad Policies prohibit advertisements that are deceptive, untrue,
+        or misleading.
+      source_url: https://business.reddithelp.com/s/article/deceptive-untrue-or-misleading-advertising-policy
+      section: "Deceptive, untrue or misleading advertising policy"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: reddit_misleading_deceptive
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [reddit.misleading.no_deception, reddit.misleading.deceptive_ads_prohibited]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Deceptive/untrue/misleading ads or promotions; unrealistic claims or
+      guarantees of winnings.
+    exceptions: []
+    status: active

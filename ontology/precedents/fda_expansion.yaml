@@ -1,0 +1,174 @@
+# FDA tobacco/ENDS/cannabis enforcement — Phase 1+2 expansion.
+
+precedents:
+  - precedent_id: prec.fda.puff_bar_warning_2020
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/cool-clouds-distribution-inc-dba-puff-bar-608526-07202020"
+    date: 2020-07-20
+    title: "FDA warning — Puff Bar unauthorized ENDS marketing"
+    summary: >
+      FDA warned Cool Clouds Distribution (Puff Bar) that flavored disposable ENDS
+      products on puffbar.com were new tobacco products sold without required
+      marketing authorization.
+    why_this_matters: >
+      Early FDA enforcement anchor for youth-appealing disposable nicotine
+      products promoted online.
+    retrieval_keywords: ['Puff Bar', 'FDA warning letter', 'ENDS', 'youth vaping', 'unauthorized tobacco', 'flavors']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'minors']
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+    canonical_ids:
+      - atc.tobacco_advertising_format_restrictions
+      - atc.tobacco_and_nicotine_ads_prohibited
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          These products do not have FDA marketing authorization orders in effect
+          under section 910(c)(1)(A)(i) of the FD&C Act and are not otherwise exempt
+          from the marketing authorization requirement.
+        source_url: https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/cool-clouds-distribution-inc-dba-puff-bar-608526-07202020
+        section: "FDA Warning Letter 608526"
+
+  - precedent_id: prec.fda.puff_bar_retailer_blitz_2022
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/news-events/press-announcements/fda-conducts-retailer-inspection-blitz-cracks-down-illegal-sales-popular-disposable-e-cigarettes"
+    date: 2022-10-12
+    title: "FDA retailer blitz — illegal Puff/Hyde disposable e-cigarette sales"
+    summary: >
+      FDA issued warning letters to 30 retailers and one distributor for illegally
+      selling unauthorized Puff and Hyde disposable e-cigarettes, among the most
+      popular brands with youth in 2022 NYTS data.
+    why_this_matters: >
+      Supply-chain enforcement tying youth-popular brands to illegal retail
+      promotion channels.
+    retrieval_keywords: ['Puff Bar', 'Hyde', 'FDA retailer blitz', 'youth e-cigarettes', 'disposable vapes', 'warning letters']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'minors']
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+      - tiktok.atc.tobacco
+    canonical_ids:
+      - atc.tobacco_and_nicotine_ads_prohibited
+      - minors.age_restricted_products_not_shown_to_minors
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The unauthorized products were various types of Puff and Hyde brand
+          disposable e-cigarettes, which were two of the most commonly reported
+          brands used by youth e-cigarette users in 2022.
+        source_url: https://www.fda.gov/news-events/press-announcements/fda-conducts-retailer-inspection-blitz-cracks-down-illegal-sales-popular-disposable-e-cigarettes
+        section: "FDA Press Announcement, Oct 12, 2022"
+
+  - precedent_id: prec.fda.curaleaf_cbd_2019
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/curaleaf-inc-579289-07222019"
+    date: 2019-07-22
+    title: "FDA warning — Curaleaf unapproved CBD drug claims"
+    summary: >
+      FDA warned Curaleaf that CBD lotion, patch, tincture, vape pen, and pet
+      products marketed on curaleafhemp.com and social media were unapproved new
+      drugs sold with disease-treatment claims.
+    why_this_matters: >
+      Landmark CBD marketer warning linking social media promotion to unapproved
+      drug and health claims.
+    retrieval_keywords: ['Curaleaf', 'CBD', 'FDA warning letter', 'unapproved drug', 'health claims', 'cannabis']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'health', 'misleading']
+    violated_clause_ids:
+      - google.health.unapproved_substances
+      - meta.atc.cbd
+      - ftc.health.disease_implication
+    canonical_ids:
+      - health.unsubstantiated_health_claims
+      - atc.cbd_restricted_with_certification
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          FDA has determined that your "CBD Lotion," "CBD Pain-Relief Patch," "CBD
+          Tincture," and "CBD Disposable Vape Pen" products are unapproved new drugs
+          sold in violation of sections 505(a) and 301(d) of the Federal Food, Drug,
+          and Cosmetic Act.
+        source_url: https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/curaleaf-inc-579289-07222019
+        section: "FDA Warning Letter 579289"
+
+  - precedent_id: prec.fda.delta8_batch_2022
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/news-events/press-announcements/fda-issues-warning-letters-companies-illegally-selling-cbd-and-delta-8-thc-products"
+    date: 2022-05-04
+    title: "FDA batch warning — illegally marketed delta-8 THC and CBD products"
+    summary: >
+      FDA issued its first warning letters for delta-8 THC products illegally
+      marketed with unapproved therapeutic claims and added to foods such as
+      gummies and peanut brittle.
+    why_this_matters: >
+      First FDA delta-8 enforcement wave covering intoxicating cannabinoid ads and
+      edibles.
+    retrieval_keywords: ['FDA', 'delta-8 THC', 'CBD', 'warning letters', 'gummies', 'unapproved drug claims']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'health']
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.health.unapproved_substances
+      - tiktok.atc.drugs
+    canonical_ids:
+      - atc.recreational_drugs_and_thc_prohibited
+      - health.unsubstantiated_health_claims
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          This action is the first time the FDA has issued warning letters for
+          products containing delta-8 THC.
+        source_url: https://www.fda.gov/news-events/press-announcements/fda-issues-warning-letters-companies-illegally-selling-cbd-and-delta-8-thc-products
+        section: "FDA Press Announcement, May 4, 2022"
+
+  - precedent_id: prec.fda.cbd_food_beverage_2022
+    source: "U.S. Food and Drug Administration"
+    source_url: "https://www.fda.gov/food/hfp-constituent-updates/fda-warns-companies-illegally-selling-food-and-beverage-products-contain-cbd"
+    date: 2022-11-21
+    title: "FDA warning batch — CBD food and beverage products appealing to children"
+    summary: >
+      FDA warned five companies for illegally selling CBD in food and beverage
+      forms that could confuse consumers or appeal to children, including gummies
+      and hard candies.
+    why_this_matters: >
+      FDA enforcement on CBD edibles/drink marketing intersecting youth appeal and
+      platform ATC restrictions.
+    retrieval_keywords: ['FDA', 'CBD food', 'CBD beverages', 'gummies', 'children', 'warning letters']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['drugs', 'minors', 'health']
+    violated_clause_ids:
+      - google.health.unapproved_substances
+      - meta.atc.cbd
+      - tiktok.atc.drugs
+    canonical_ids:
+      - atc.cbd_restricted_with_certification
+      - minors.age_restricted_products_not_shown_to_minors
+    outcome: warning_letter
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          These companies are selling CBD containing products that people may
+          confuse for traditional foods or beverages which may result in
+          unintentional consumption or overconsumption of CBD.
+        source_url: https://www.fda.gov/food/hfp-constituent-updates/fda-warns-companies-illegally-selling-food-and-beverage-products-contain-cbd
+        section: "FDA Constituent Update, Nov 21, 2022"

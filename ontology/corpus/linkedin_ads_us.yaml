@@ -1,0 +1,381 @@
+# LinkedIn Ads (US) — canonical-ontology instance.
+# Vertical: Financial services & investments. Conforms to ontology/schema.yaml.
+# Clause text quoted from the official LinkedIn Advertising Policies and the
+# "Financial Products and Services Advertising" Marketing Solutions help article.
+# Each clause carries an `evidence` block (verbatim quote, deep link, section,
+# retrieved_at) and `last_reviewed_by` (ai until a human verifies live).
+
+source:
+  id: linkedin_ads_us
+  type: platform
+  name: LinkedIn Advertising Policies
+  jurisdiction: [US]
+  url: https://www.linkedin.com/legal/ads-policy
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  # ===================== Financial =====================
+  - id: linkedin.finance.restricted
+    source_id: linkedin_ads_us
+    category_id: financial
+    text: >
+      Ads promoting financial products and services are restricted. This
+      includes ads promoting products and services related to lending,
+      mortgages, credit, investments and investment advising, financial trading
+      and exchanges, insurance, and pensions.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-ads-policy-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Financial Services. Ads promoting financial products and services are
+        restricted. This includes ads promoting products and services related to
+        lending, mortgages, credit, investments and investment advising,
+        financial trading and exchanges, insurance, and pensions.
+      source_url: https://www.linkedin.com/legal/ads-policy
+      section: "LinkedIn Advertising Policies > Financial Services"
+      retrieved_at: 2026-06-27
+
+  - id: linkedin.finance.requirements
+    source_id: linkedin_ads_us
+    category_id: financial
+    text: >
+      Ads promoting financial trading and exchanges, banking, mortgage, credit,
+      insurance, lending, pension or investment products or services must
+      include a privacy policy, provide current and accurate contact
+      information, contain all required disclosures under applicable local laws
+      and regulations, avoid any misleading, deceptive, or unsupported
+      competitive claims, not target members under the age of 18, and not
+      promote products or services on LinkedIn's prohibited list.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-financial-guidelines-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads promoting financial trading and exchanges, banking, mortgage,
+        credit, insurance, lending, pension or investment products or services,
+        must comply with LinkedIn's Advertising Policies, including the following
+        requirements: Include a Privacy Policy. Provide current and accurate
+        contact information. Contain all required disclosures under applicable
+        local laws and regulations. Avoid any misleading, deceptive, or
+        unsupported competitive claims. Do not target members under the age of
+        18. Do not promote products or services on our prohibited list.
+      source_url: https://www.linkedin.com/help/lms/answer/a9357023
+      section: "Financial Products and Services Advertising > Requirements"
+      retrieved_at: 2026-06-27
+
+  - id: linkedin.finance.prohibited
+    source_id: linkedin_ads_us
+    category_id: financial
+    text: >
+      Ads promoting the following financial products and services are
+      prohibited: payday loans; reverse mortgages; peer-to-peer (P2P) lending;
+      binary options; financial products or services designed to facilitate
+      illegal purposes; services that guarantee financial return; services that
+      guarantee foreclosure prevention; services that guarantee loan
+      modification; penny auctions; and penny stocks.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-financial-guidelines-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads promoting the following financial products and services are
+        prohibited: Payday loans; Reverse mortgages; Peer-to-Peer (P2P) Lending;
+        Binary options; Financial products or services designed to facilitate
+        illegal purposes; Services that guarantee financial return; Services
+        that guarantee foreclosure prevention; Services that guarantee loan
+        modification; Penny auctions; Penny stocks.
+      source_url: https://www.linkedin.com/help/lms/answer/a9357023
+      section: "Financial Products and Services Advertising > Prohibited"
+      retrieved_at: 2026-06-27
+
+  # ===================== Housing & Employment (discrimination) =====================
+  - id: linkedin.discrimination.no_discrimination
+    source_id: linkedin_ads_us
+    category_id: discrimination
+    text: >
+      LinkedIn does not tolerate discrimination based on personal attributes such
+      as age, gender, gender identity, disability, religion, ethnicity, race,
+      color, national origin or sexual orientation. Ads must comply with this as
+      well as all laws, including laws that prohibit discrimination in connection
+      with education, housing, credit and employment. LinkedIn does not allow ads
+      that advocate, promote or contain discriminatory hiring practices or denial
+      of education, housing or economic opportunity based on protected
+      characteristics, and ads that promote the denial or restriction of fair and
+      equal access to education, housing, credit or career opportunities are
+      prohibited.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-ads-policy-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        Discrimination. LinkedIn does not tolerate discrimination based on
+        personal attributes such as age, gender, gender identity, disability,
+        religion, ethnicity, race, color, national origin or sexual orientation.
+        Ads must comply with this as well as all laws, including laws that
+        prohibit discrimination in connection with education, housing, credit and
+        employment. ... [We do] not allow ads that advocate, promote or contain
+        discriminatory hiring practices or denial of education, housing or
+        economic opportunity based on age, gender, religion, ethnicity, race or
+        sexual preference. Ads that promote the denial or restriction of fair and
+        equal access to education, housing, or credit or career opportunities are
+        prohibited.
+      source_url: https://www.linkedin.com/legal/ads-policy
+      section: "LinkedIn Advertising Policies > Discrimination"
+      retrieved_at: 2026-06-27
+
+  - id: linkedin.discrimination.targeting_certification
+    source_id: linkedin_ads_us
+    category_id: discrimination
+    text: >
+      LinkedIn advertisers must certify via a checkbox that if an ad relates to
+      employment, housing, education or credit, they will not use LinkedIn to
+      discriminate based on gender, age, or other protected characteristics; only
+      after certifying does gender or age-range targeting become available. If
+      the campaign objective is talent leads or job recruitment, the option to
+      target by age group is not available at all.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-ads-discrimination-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        LinkedIn advertisers are required to certify via a checkbox that if an ad
+        relates to employment, housing, education or credit, they will not use
+        LinkedIn to discriminate based on gender or other protected
+        characteristics. Only once an advertiser checks this box, the option to
+        build an ad audience using gender will become available ... [and] the
+        option to target by age range will become available. ... If the provided
+        objective is talent leads or job recruitment, the option to target ads by
+        age group is not available at all.
+      source_url: https://www.linkedin.com/help/lms/answer/a416948
+      section: "LinkedIn Ads and discrimination"
+      retrieved_at: 2026-06-27
+
+  # ===================== Political & Social Issues =====================
+  - id: linkedin.political.prohibited
+    source_id: linkedin_ads_us
+    category_id: political
+    text: >
+      Political ads are prohibited, including ads advocating for or against a
+      particular candidate, party, ballot proposition, law, regulation, or
+      otherwise intended to influence an election outcome; ads fundraising for or
+      by political candidates, parties, political action committees or similar
+      organizations, or ballot propositions; and ads exploiting a sensitive
+      political issue even if the advertiser has no explicit political agenda.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2018-01-01
+    version: "linkedin-ads-policy-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        Political. Political ads are prohibited, including ads advocating for or
+        against a particular candidate, party, ballot proposition, law,
+        regulation, or otherwise intended to influence an election outcome; ads
+        fundraising for or by political candidates, parties, political action
+        committees or similar organizations, or ballot propositions; and ads
+        exploiting a sensitive political issue even if the advertiser has no
+        explicit political agenda.
+      source_url: https://www.linkedin.com/legal/ads-policy
+      section: "LinkedIn Advertising Policies > Political"
+      retrieved_at: 2026-06-27
+
+  # ===================== Privacy & Personal Data =====================
+  - id: linkedin.privacy.sensitive_data_targeting
+    source_id: linkedin_ads_us
+    category_id: privacy
+    text: >
+      Ads must not target based on sensitive data or categories, including
+      political affiliation or opinions, racial or ethnic origin, data concerning
+      health (including medical information and consumer health data), genetic
+      data, biometric data, religious or philosophical affiliation or beliefs,
+      data relating to a criminal record or alleged or actual commission of a
+      crime, sexual behavior or orientation, trade union membership, or income,
+      or as otherwise defined by applicable law.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-05-28
+    version: "linkedin-ads-policy-2024"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Ads must not target based on sensitive data or categories, including
+        political affiliation or opinions, racial or ethnic origin, data
+        concerning health (including medical information and consumer health
+        data), genetic data, biometric data, religious or philosophical
+        affiliation or beliefs, data relating to a criminal record or alleged or
+        actual commission of a crime, sexual behavior or orientation, trade union
+        membership, or income, or as otherwise defined by applicable law.
+      source_url: https://www.linkedin.com/legal/ads-policy
+      section: "LinkedIn Advertising Policies > Targeting / Sensitive data"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: linkedin_finance_misleading
+    canonical_id: finance.misleading_or_unbalanced_claims
+    clause_ids: [linkedin.finance.requirements]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Financial ads with misleading, deceptive, or unsupported competitive
+      claims, or missing required disclosures / privacy policy / contact info.
+    exceptions:
+      - "Claims with factual support and all required local-law disclosures."
+    status: active
+
+  - id: linkedin_finance_licensing
+    canonical_id: finance.licensing_registration_required
+    clause_ids: [linkedin.finance.restricted]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Restricted financial products/services advertised without meeting
+      LinkedIn's financial-services restrictions (incl. 18+ targeting).
+    exceptions:
+      - "Authorized advertisers meeting LinkedIn's financial-services requirements."
+    status: active
+
+  - id: linkedin_finance_prohibited
+    canonical_id: finance.prohibited_predatory_products
+    clause_ids: [linkedin.finance.prohibited]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Promotion of LinkedIn-prohibited financial products: payday loans, reverse
+      mortgages, P2P lending, binary options, penny auctions, penny stocks, or
+      products to facilitate illegal purposes.
+    exceptions: []
+    status: active
+
+  - id: linkedin_finance_guarantees
+    canonical_id: finance.guaranteed_returns_or_risk_free
+    clause_ids: [linkedin.finance.prohibited]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Services that guarantee financial return, guarantee foreclosure
+      prevention, or guarantee loan modification.
+    exceptions: []
+    status: active
+
+  # --- Housing & Employment (discrimination) ---
+  - id: linkedin_discrimination_content
+    canonical_id: discrimination.discriminatory_ad_content_prohibited
+    clause_ids: [linkedin.discrimination.no_discrimination]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Ads promoting discriminatory hiring or denial/restriction of fair access to
+      education, housing, credit, or career opportunities based on protected
+      characteristics.
+    exceptions:
+      - "Lawful preferences for historically disadvantaged groups where permitted."
+    status: active
+
+  - id: linkedin_discrimination_targeting
+    canonical_id: discrimination.restricted_targeting_protected_class
+    clause_ids: [linkedin.discrimination.targeting_certification]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 63
+    detection: >
+      Employment/housing/education/credit ads using gender/age targeting without
+      certification, or recruitment campaigns attempting age-group targeting.
+    exceptions:
+      - "Certified non-discriminatory targeting; age targeting disabled for recruitment."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: linkedin_political_prohibited
+    canonical_id: political.paid_political_ads_prohibited
+    clause_ids: [linkedin.political.prohibited]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Political ads advocating for/against candidates, parties, ballot
+      propositions, laws or regulations; political fundraising; or ads exploiting
+      a sensitive political issue.
+    exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: linkedin_privacy_sensitive_targeting
+    canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    clause_ids: [linkedin.privacy.sensitive_data_targeting]
+    category_id: privacy
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Targeting based on sensitive data/categories: political opinion, race/
+      ethnicity, health, genetic/biometric data, religion, criminal record,
+      sexual orientation, trade union membership, or income.
+    exceptions: []
+    status: active

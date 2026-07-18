@@ -1,0 +1,281 @@
+# DOJ enforcement precedents (non-HUD seed cases).
+
+precedents:
+  - precedent_id: prec.doj.counterfeit_phones_amazon_2023
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/usao-id/pr/five-family-members-sentenced-prison-and-ordered-forfeit-combined-519-million-dollars"
+    date: 2023-03-23
+    title: "DOJ — counterfeit Apple/Samsung phones sold on Amazon and eBay"
+    summary: >
+      Five family members were sentenced and ordered to forfeit over $51.9 million
+      for wire fraud and trafficking counterfeit phones misrepresented as new
+      genuine products on Amazon.com and eBay.com.
+    why_this_matters: >
+      Criminal enforcement against counterfeit goods sold via major ecommerce
+      ad/marketplace channels.
+    retrieval_keywords: ['counterfeit', 'Amazon', 'eBay', 'Apple', 'Samsung', 'trademark', 'wire fraud']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$51,900,000+ forfeiture"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          They sold counterfeit cellphones and cellphone accessories on Amazon.com
+          and eBay.com that the defendants misrepresented as new and genuine Apple
+          and Samsung products.
+        source_url: https://www.justice.gov/usao-id/pr/five-family-members-sentenced-prison-and-ordered-forfeit-combined-519-million-dollars
+        section: "DOJ USAO Idaho, March 2023"
+
+  - precedent_id: prec.doj_hud.trident_redlining_2022
+    source: "U.S. Department of Justice / Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_fall-2022-semi-annual-report_2023-06.pdf"
+    date: 2022-09-14
+    title: "DOJ/CFPB v. Trident Mortgage — discriminatory lending marketing (redlining)"
+    summary: >
+      Trident Mortgage agreed to a consent order requiring $18.4 million in a loan
+      subsidy fund and a $4 million penalty for redlining and discouraging
+      applications in majority-minority Philadelphia neighborhoods.
+    why_this_matters: >
+      Fair lending marketing precedent for discriminatory outreach and housing
+      credit advertising.
+    retrieval_keywords: ['Trident Mortgage', 'redlining', 'ECOA', 'FHA', 'discriminatory marketing', 'Philadelphia']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['discrimination', 'financial']
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+      - ftc.credit.ecoa_discouragement
+    canonical_ids:
+      - discrimination.discriminatory_ad_content_prohibited
+      - discrimination.restricted_targeting_protected_class
+    outcome: consent_order
+    monetary_relief: "$4,000,000 penalty; $18,400,000 loan subsidy fund"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The CFPB's and DOJ's joint complaint alleged that Trident engaged in
+          unlawful discrimination on the basis of race, color, or national origin
+          against applicants and prospective applicants, including by redlining
+          majority minority neighborhoods.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_fall-2022-semi-annual-report_2023-06.pdf
+        section: "CFPB Semi-Annual Report, Fall 2022"
+
+  - precedent_id: prec.doj.operation_in_our_sites_2010
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/opa/speech/attorney-general-eric-holder-speaks-operation-our-sites-ii-press-conference"
+    date: 2010-11-29
+    title: "DOJ Operation In Our Sites II — 82 counterfeit domain seizures"
+    summary: >
+      DOJ and DHS executed seizure orders against 82 domain names of websites
+      selling counterfeit goods and illegal copyrighted works on Cyber Monday
+      2010.
+    why_this_matters: >
+      Foundational federal IP enforcement program seizing domains used to
+      advertise and sell counterfeits online.
+    retrieval_keywords: ['Operation In Our Sites', 'DOJ', 'domain seizure', 'counterfeit', 'Cyber Monday', 'trademark']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+      - ip.third_party_ip_infringement_prohibited
+    outcome: injunction
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Over the past few days, the Justice Department's Criminal Division, the
+          Department of Homeland Security and nine U.S. Attorneys' Offices from
+          across the country obtained and executed seizure orders against 82 domain
+          names of websites engaged in the sale and distribution of counterfeit
+          goods and illegal copyrighted works.
+        source_url: https://www.justice.gov/opa/speech/attorney-general-eric-holder-speaks-operation-our-sites-ii-press-conference
+        section: "AG Holder remarks, Operation In Our Sites II"
+
+  - precedent_id: prec.doj.project_copycat_2012
+    source: "U.S. Department of Justice / ICE HSI"
+    source_url: "https://www.justice.gov/archive/usao/co/news/2012/july/7-12-12.html"
+    date: 2012-07-12
+    title: "DOJ Project Copycat — 22 look-alike counterfeit retail sites seized"
+    summary: >
+      ICE HSI seized 22 websites that closely mimicked legitimate retailers to
+      sell counterfeit merchandise as part of Project Copycat under Operation In
+      Our Sites.
+    why_this_matters: >
+      Look-alike ecommerce ad/landing-page enforcement against sites designed to
+      deceive consumers about brand authenticity.
+    retrieval_keywords: ['Project Copycat', 'Operation In Our Sites', 'counterfeit websites', 'look-alike sites', 'ICE', 'domain seizure']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.third_party_infringement
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+      - misleading.false_affiliation_or_endorsement
+    outcome: injunction
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Many of the websites so closely resembled legitimate ones that it would be
+          difficult for even discerning consumers to tell the difference.
+        source_url: https://www.justice.gov/archive/usao/co/news/2012/july/7-12-12.html
+        section: "DOJ USAO Colorado, Project Copycat"
+
+  - precedent_id: prec.doj.ip_domain_seizures_program
+    source: "U.S. Department of Justice / IPR Center"
+    source_url: "https://www.justice.gov/criminal/criminal-ccips/file/938316/dl?inline"
+    date: 2013-06-01
+    title: "DOJ Operation In Our Sites — sustained counterfeit domain seizure program"
+    summary: >
+      Since June 2010, federal Operation In Our Sites actions have seized more
+      than 1,700 infringing website domain names and millions of dollars in
+      associated proceeds.
+    why_this_matters: >
+      Program-level IP enforcement context for ads and listings driving traffic to
+      seized counterfeit storefronts.
+    retrieval_keywords: ['Operation In Our Sites', 'domain seizure', 'counterfeit', 'IPR Center', '1700 domains', 'DOJ']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: injunction
+    monetary_relief: ">$3,000,000 seized proceeds (program total cited)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Since the operation's inception, Federal law enforcement agencies, in
+          conjunction with DOJ, have conducted 13 operations targeting sites focused
+          on particular subject matter such as sports apparel or luxury goods and
+          resulting in the seizure of more than 1,700 domain names of infringing
+          websites and monetary seizures of over $3 million.
+        source_url: https://www.justice.gov/criminal/criminal-ccips/file/938316/dl?inline
+        section: "2013 Joint Strategic Plan on Intellectual Property Enforcement"
+
+  - precedent_id: prec.doj.liao_apple_counterfeit_2022
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/usao-sdca/pr/leaders-international-organization-trafficked-counterfeit-apple-products-plead-guilty"
+    date: 2022-05-19
+    title: "DOJ v. Liao brothers — counterfeit Apple warranty fraud scheme"
+    summary: >
+      Three Liao brothers pleaded guilty to leading an international conspiracy
+      that exchanged more than 10,000 counterfeit iPhones and iPads at Apple
+      Stores, causing about $6.1 million in losses.
+    why_this_matters: >
+      Criminal counterfeit-goods precedent distinct from marketplace listing cases
+      — warranty-return fraud ring.
+    retrieval_keywords: ['Liao', 'counterfeit iPhone', 'Apple', 'trademark', 'warranty fraud', '$6.1 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$6,100,000 (estimated infringement)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          At the direction of the Liao brothers, co-conspirators traveled to
+          hundreds of Apple Stores across the United States and Canada and attempted
+          to exchange more than 10,000 counterfeit iPhones and iPads for genuine
+          iPhones and iPads.
+        source_url: https://www.justice.gov/usao-sdca/pr/leaders-international-organization-trafficked-counterfeit-apple-products-plead-guilty
+        section: "DOJ USAO Southern District of California"
+
+  - precedent_id: prec.doj.bugaboo_boutique_counterfeit_2025
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/usao-ne/pr/columbus-woman-convicted-trafficking-counterfeit-goods"
+    date: 2025-01-16
+    title: "DOJ v. Bugaboo Boutique — online counterfeit goods trafficking"
+    summary: >
+      Christine Parry was sentenced for trafficking counterfeit trademarked
+      clothing, footwear, and accessories sold through the Bugaboo Boutique online
+      store on Facebook.
+    why_this_matters: >
+      Social-commerce counterfeit enforcement — Facebook storefront selling
+      'inspired by' knockoffs with identical marks.
+    retrieval_keywords: ['Bugaboo Boutique', 'counterfeit', 'Facebook store', 'trademark', 'online trafficking', 'Nebraska']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark', 'misleading']
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$12,000 fine + restitution"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The records revealed that Parry knowingly sold counterfeit goods through
+          their online store. The counterfeit goods were described using words such
+          as "inspired by" name brand goods.
+        source_url: https://www.justice.gov/usao-ne/pr/columbus-woman-convicted-trafficking-counterfeit-goods
+        section: "DOJ USAO District of Nebraska, January 2025"
+
+  - precedent_id: prec.doj.apple_sony_counterfeit_import_2016
+    source: "U.S. Department of Justice"
+    source_url: "https://www.justice.gov/opa/pr/four-individuals-charged-importing-and-trafficking-counterfeit-apple-and-sony-technology"
+    date: 2016-03-01
+    title: "DOJ — smuggling counterfeit Apple and Sony electronics"
+    summary: >
+      Four individuals were charged with importing and trafficking more than
+      40,000 counterfeit Apple and Sony devices and accessories with an MSRP
+      exceeding $15 million.
+    why_this_matters: >
+      Import/smuggling ring precedent complementing ecommerce listing enforcement
+      — bulk counterfeit ad supply chain.
+    retrieval_keywords: ['counterfeit Apple', 'Sony', 'smuggling', 'import', 'trademark trafficking', '$15 million MSRP']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['ip_trademark']
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - amazon.misleading.truthful_substantiated_claims
+    canonical_ids:
+      - ip.counterfeit_goods_prohibited
+    outcome: court_order
+    monetary_relief: "$15,000,000+ (MSRP equivalent)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          From July 2009 through February 2014, the defendants conspired to smuggle
+          into the United States from China over 40,000 electronic devices and
+          accessories, including fake iPads, iPhones and iPods, along with labels
+          and packaging, most bearing counterfeit Apple trademarks.
+        source_url: https://www.justice.gov/opa/pr/four-individuals-charged-importing-and-trafficking-counterfeit-apple-and-sony-technology
+        section: "DOJ Office of Public Affairs, March 2016"

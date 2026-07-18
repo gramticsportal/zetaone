@@ -1,0 +1,1319 @@
+# Meta Ads (US) — canonical-ontology instance.
+# Verticals: Misleading / Deceptive + Health / Medical. Conforms to ontology/schema.yaml.
+# Clause text sourced from official Meta Transparency Center ad-standards pages.
+# Each clause carries an `evidence` block (verbatim quote, deep link, section,
+# retrieved_at) and `last_reviewed_by` (human = manually verified on the live page;
+# ai = captured from official source, pending one-time human verification).
+# Legacy rule-engine format remains at
+# src/zataone/domains/ad_compliance/policies/meta_ads.yaml.
+
+source:
+  id: meta_ads_us
+  type: platform
+  name: Meta Advertising Standards
+  jurisdiction: [US]
+  url: https://transparency.meta.com/policies/ad-standards/
+  status: active
+  retrieved_at: 2026-06-24
+  last_verified_at: 2026-06-24
+
+clauses:
+  # ===================== Misleading / Deceptive =====================
+  - id: meta.misleading.deceptive_practices
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      We aim to protect users and businesses from being deceived out of their
+      money, property or personal information by removing content and combatting
+      behavior that purposefully employs deceptive means — such as wilful
+      misrepresentation, stolen information and exaggerated claims — to scam or
+      defraud users and businesses, or to drive engagement.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        We aim to protect users and businesses from being deceived out of their
+        money, property or personal information by removing content and
+        combatting behavior that purposefully employs deceptive means — such as
+        wilful misrepresentation, stolen information and exaggerated claims — to
+        scam or defraud users and businesses, or to drive engagement.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.exaggerated_success_claims
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't use deceptive or exaggerated claims about the success of a
+      product or service to mislead people into purchasing or sharing sensitive
+      information.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't use deceptive or exaggerated claims about the success of a
+        product or service to mislead people into purchasing or sharing
+        sensitive information.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.famous_person_baiting
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't use the image of a famous person and misleading tactics in order
+      to bait people into engaging with an ad.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't use the image of a famous person and misleading tactics in
+        order to bait people into engaging with an ad.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.misrepresent_entity
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't promise financial benefits by misrepresenting an entity,
+      industry association or news outlet to mislead people or ask them to share
+      sensitive information.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't promise financial benefits by misrepresenting an entity,
+        industry association or news outlet to mislead people or ask them to
+        share sensitive information.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.health_results_timing
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads can't promise specific health-related results in a specific time with
+      no qualifying or disclaimer language.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads can't promise specific health-related results in a specific time
+        with no qualifying or disclaimer language.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices (Misleading Health Practices)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.misleading.before_after_weightloss
+    source_id: meta_ads_us
+    category_id: misleading
+    text: >
+      Ads for weight loss products or services can't depict side-by-side
+      comparison after the use of a product or transformation for weight loss,
+      with exception to fitness classes impact (i.e., Pilates).
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2024-12-27
+    version: "2024-12-27"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Side-by-side comparison after the use of a product or transformation for
+        weight loss with exception to fitness classes impact (i.e., Pilates)
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/health-wellness
+      section: "Health and Wellness > Weight Loss and Cosmetic Products and Procedures > Guidelines"
+      retrieved_at: 2026-06-24
+
+  # ===================== Health / Medical =====================
+  - id: meta.health.disease_cure_claims
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads can't promote claims (including those from health professionals or
+      health organizations) to cure, heal, or eliminate incurable diseases
+      and/or terminal illnesses.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads can't promote claims (including those from health professionals or
+        health organizations) to cure, heal, or eliminate incurable diseases
+        and/or terminal illnesses.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices (Misleading Health Practices)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.health_clickbait
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads can't employ click-bait tactics in a health context, such as the use
+      of sensational language that makes exaggerated or extreme health claims.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads can't employ click-bait tactics in a health context, such as the use
+        of sensational language that makes exaggerated or extreme health claims.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices (Misleading Health Practices)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.negative_self_perception
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads must not imply or attempt to generate negative self-perception or
+      declare there is a perfect body type or appearance one should aspire to in
+      order to promote diet, weight loss, cosmetic procedures or any other
+      health-related products. Ads promoting or marketing dietary, health or
+      weight loss products and services must be targeted to people at least 18
+      years or older.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2024-12-27
+    version: "2024-12-27"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Ads must not imply or attempt to generate negative self-perception or
+        declare there is a perfect body type or appearance one should aspire to
+        in order to promote diet, weight loss, cosmetic procedures or any other
+        health-related products. Ads promoting or marketing dietary, health or
+        weight loss products and services must be targeted to people at least 18
+        years or older.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/health-wellness
+      section: "Health and Wellness > Weight Loss and Cosmetic Products and Procedures"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.weightloss_before_after
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads can't promote weight loss products or services depicting a side-by-side
+      comparison after the use of a product or transformation for weight loss
+      (with exception to fitness classes impact, i.e., Pilates), or a close up on
+      a specific body area by pinching fat.
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2024-12-27
+    version: "2024-12-27"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [health]
+    evidence:
+      quote: >-
+        Promote weight loss products or services, depicting: Side-by-side
+        comparison after the use of a product or transformation for weight loss
+        with exception to fitness classes impact (i.e., Pilates) [and] Close up
+        on specific body area by pinching fat
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/health-wellness
+      section: "Health and Wellness > Weight Loss and Cosmetic Products and Procedures > Guidelines (Ads can't)"
+      retrieved_at: 2026-06-24
+
+  - id: meta.health.personal_attributes
+    source_id: meta_ads_us
+    category_id: health
+    text: >
+      Ads must not contain content that asserts or implies personal attributes.
+      This includes direct or indirect assertions or implications about a
+      person's physical or mental health, including medical conditions.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads must not contain content that asserts or implies personal
+        attributes. This includes direct or indirect assertions or implications
+        about a person's race, ethnicity, religion, beliefs, age, sexual
+        orientation or practices, gender identity, disability, physical or mental
+        health (including medical conditions), vulnerable financial status,
+        voting status, membership in a trade union, criminal record, or name.
+      source_url: https://transparency.meta.com/policies/ad-standards/
+      section: "Advertising Standards > Privacy Violations and Personal Attributes"
+      retrieved_at: 2026-06-24
+
+  # ===================== Financial =====================
+  - id: meta.finance.prohibited_products
+    source_id: meta_ads_us
+    category_id: financial
+    text: >
+      Advertisers can't run ads for financial products and services that are
+      frequently associated with misleading or deceptive promotional practices,
+      including payday loans, paycheck advances, bail bonds, short-term loans of
+      90 days or less, penny auctions, binary options, initial coin offerings
+      (ICO), contract for difference trading, and misleading student loan
+      consolidation, forgiveness or refinancing services.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads can't promote: Payday loans ... Paycheck advances ... Bail bonds ...
+        Short-term loans of 90 days or less ... Penny auctions, bidding fee
+        auctions, or other similar business models ... Binary options ... Initial
+        coin offerings (ICO) ... Contract for difference trading ... Misleading
+        student loan consolidation, forgiveness or refinancing services.
+      source_url: https://transparency.meta.com/policies/ad-standards/deceptive-content/prohibited-financial-products-and-services
+      section: "Deceptive Content > Prohibited Financial Products and Services > Guidelines"
+      retrieved_at: 2026-06-27
+
+  - id: meta.finance.crypto_permission
+    source_id: meta_ads_us
+    category_id: financial
+    text: >
+      Ads may not promote cryptocurrency trading platforms, software and related
+      services and products that enable monetization, reselling, swapping or
+      staking of cryptocurrencies without prior written permission. Advertisers
+      must submit a recognized regulatory license or registration and obtain
+      written permission from Meta.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads may not promote cryptocurrency trading platforms, software and
+        related services and products that enable monetization, reselling,
+        swapping or staking of cryptocurrencies without prior written
+        permission. ... To advertise across our technologies, advertisers will
+        need to submit a recognized regulatory license or registration and
+        obtain written permission from Meta through the Authorizations and
+        Verifications tab in Meta Business Suite.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/cryptocurrency-products-and-services/
+      section: "Restricted Goods & Services > Cryptocurrency Products and Services"
+      retrieved_at: 2026-06-27
+
+  - id: meta.finance.licensing_disclosure
+    source_id: meta_ads_us
+    category_id: financial
+    text: >
+      Ads promoting credit cards, loans or insurance services must be targeted to
+      people 18 years or older. Advertisers promoting financial products and
+      services may be required to verify their business and/or individual
+      identity and demonstrate they are authorized by the relevant regulatory
+      authorities where this is a requirement, and are required to comply with
+      disclosure requirements set by law.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads promoting credit cards, loans or insurance services must be targeted
+        to people 18 years or older. ... Advertisers promoting financial products
+        and services may be required to verify their business and/or individual
+        identity and demonstrate they are authorized by the relevant regulatory
+        authorities where this is a requirement; and any such authorization may
+        be subject to review by Meta. Advertisers are also required to comply
+        with disclosure requirements set by law.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/financial-services/
+      section: "Restricted Goods & Services > Financial and Insurance Products and Services"
+      retrieved_at: 2026-06-27
+
+  # ===================== Housing & Employment (discrimination) =====================
+  - id: meta.discrimination.no_discrimination
+    source_id: meta_ads_us
+    category_id: discrimination
+    text: >
+      Ads must not discriminate or encourage discrimination against people based
+      on personal attributes such as race, ethnicity, color, national origin,
+      religion, age, sex, sexual orientation, gender identity, family status,
+      disability, medical or genetic condition. Advertisers may not use audience
+      selection tools to wrongfully target or exclude specific groups of people,
+      or include discriminatory content in their ads.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        Ads must not discriminate or encourage discrimination against people
+        based on personal attributes such as race, ethnicity, color, national
+        origin, religion, age, sex, sexual orientation, gender identity, family
+        status, disability, medical or genetic condition. ... advertisers may not
+        (1) use our audience selection tools to (a) wrongfully target specific
+        groups of people for advertising ... or (b) wrongfully exclude specific
+        groups of people from seeing their ads; or (2) include discriminatory
+        content in their ads.
+      source_url: https://transparency.meta.com/policies/ad-standards/unacceptable-content/discriminatory-practices/
+      section: "Unacceptable Content > Discriminatory Practices"
+      retrieved_at: 2026-06-27
+
+  - id: meta.discrimination.special_ad_category
+    source_id: meta_ads_us
+    category_id: discrimination
+    text: >
+      Any United States advertiser or advertiser targeting the United States,
+      Canada or certain parts of Europe that is running financial products and
+      services, housing or employment ads, must self identify as a Special Ad
+      Category and run such ads with approved targeting options. For these ads,
+      certain audience options (age, gender, ZIP or postal code, exclusion
+      targeting, lookalike audiences and saved audiences) are limited or
+      unavailable.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-01-21
+    version: "2025-special-ad-category"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        Any United States advertiser or advertiser targeting the United States,
+        Canada or certain parts of Europe that is running financial products and
+        services, housing or employment ads, must self identify as a Special Ad
+        Category, as it becomes available, and run such ads with approved
+        targeting options. ... Certain audience options are limited or
+        unavailable for these ads ...: age, gender, ZIP code or postal code,
+        exclusion targeting, lookalike audiences and saved audiences.
+      source_url: https://transparency.meta.com/policies/ad-standards/unacceptable-content/discriminatory-practices/
+      section: "Unacceptable Content > Discriminatory Practices (Special Ad Category)"
+      retrieved_at: 2026-06-27
+
+  # ===================== Political & Social Issues =====================
+  - id: meta.political.authorization_disclaimer
+    source_id: meta_ads_us
+    category_id: political
+    text: >
+      Advertisers can run ads about social issues, elections or politics only if
+      they complete the authorization process required by Meta and include a
+      verified "Paid for by" disclaimer showing the entity or person responsible
+      for the ad. If an ad does not include a disclaimer and Meta determines the
+      content is about social issues, elections or politics, it will be
+      disapproved. Authorized political ads are stored in the Ad Library for
+      seven years.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-05-01
+    version: "2025-siep"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        Advertisers can run ads about social issues, elections or politics,
+        provided the advertiser complies with all applicable laws and the
+        authorization process required by Meta. ... Advertisers must include a
+        verified "Paid for by" disclaimer on these ads to show the entity or
+        person responsible for running the ad across Meta technologies. ... If
+        ads do not include a disclaimer and we determine the ad content includes
+        content about social issues, elections or politics, it will be
+        disapproved during ad review.
+      source_url: https://transparency.meta.com/policies/ad-standards/SIEP-advertising/SIEP
+      section: "Ads about Social Issues, Elections or Politics"
+      retrieved_at: 2026-06-27
+
+  # ===================== Children / Minors =====================
+  - id: meta.minors.teen_targeting_limited
+    source_id: meta_ads_us
+    category_id: minors
+    text: >
+      When an audience includes people under 18 (older in some countries), only
+      age and location can be used to reach them. Advertisers cannot select
+      interests, behaviors, gender, or activity on other apps and websites to
+      show ads to teens, and ZIP-code / sub-city ("pin drop") location targeting
+      is unavailable.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-02-01
+    version: "2023-teen-targeting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        We don't allow advertisers to select interests, behaviours, gender or
+        activity on other apps and websites when choosing to show their ads to
+        teens. Advertisers can decide to include teens in their audience only
+        based on age and location. ... [Not available to show ads to teens:] ZIP
+        code or locations smaller than cities (custom location radius or "pin
+        drop").
+      source_url: https://www.facebook.com/help/980264326141711
+      section: "How Facebook decides which ads to show teens"
+      retrieved_at: 2026-06-27
+
+  - id: meta.minors.restricted_topics_not_to_minors
+    source_id: meta_ads_us
+    category_id: minors
+    text: >
+      Meta's Advertising Standards prohibit ads about restricted topics — such as
+      alcohol, financial products, and weight-loss products and services — from
+      being shown to people under 18 (and older in certain countries).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-02-01
+    version: "2023-teen-restricted-topics"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Our Advertising Standards already prohibit ads about restricted topics —
+        like alcohol, financial products and weight loss products and services —
+        to be shown to people under 18 (and older in certain countries).
+      source_url: https://about.fb.com/news/2023/01/age-appropriate-ads-for-teens/
+      section: "Continuing to Create Age-Appropriate Ad Experiences for Teens"
+      retrieved_at: 2026-06-27
+
+  # ===================== Privacy & Personal Data =====================
+  - id: meta.privacy.personal_attributes
+    source_id: meta_ads_us
+    category_id: privacy
+    text: >
+      Ads must not contain content that shares or asks for private information
+      about users, and must not assert or imply personal attributes. This
+      includes direct or indirect assertions or implications about a person's
+      race, ethnicity, religion, beliefs, age, sexual orientation or practices,
+      gender identity, disability, physical or mental health (including medical
+      conditions), vulnerable financial status, voting status, membership in a
+      trade union, criminal record, or name.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "privacy-violations-personal-attributes"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Ads must not contain content that shares or asks for private information
+        about users. In addition, ads must not contain content that asserts or
+        implies personal attributes. This includes direct or indirect assertions
+        or implications about a person's race, ethnicity, religion, beliefs, age,
+        sexual orientation or practices, gender identity, disability, physical or
+        mental health (including medical conditions), vulnerable financial
+        status, voting status, membership in a trade union, criminal record, or
+        name.
+      source_url: https://transparency.meta.com/policies/ad-standards/objectionable-content/privacy-violations-personal-attributes
+      section: "Objectionable Content > Privacy Violations and Personal Attributes"
+      retrieved_at: 2026-06-27
+
+  # ===================== Alcohol / Tobacco / Cannabis =====================
+  - id: meta.atc.alcohol
+    source_id: meta_ads_us
+    category_id: alcohol
+    text: >
+      Ads that promote or reference alcohol must comply with all applicable local
+      laws, industry codes, licenses and approvals, and include age and country
+      targeting consistent with Meta's targeting requirements and local laws. At
+      a minimum, ads may not be targeted to people under 18 years of age.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-alcohol"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [alcohol]
+    evidence:
+      quote: >-
+        Ads that promote or reference alcohol must comply with all applicable
+        local laws, required or established industry codes, guidelines, licenses
+        and approvals, and include age and country targeting criteria consistent
+        with Meta's targeting requirements and applicable local laws. ...
+        Advertisers must follow all applicable laws, including targeting their ads
+        in accordance with legal requirements. At a minimum, ads may not be
+        targeted to people under 18 years of age.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/alcohol
+      section: "Restricted Goods and Services > Alcohol"
+      retrieved_at: 2026-06-27
+
+  - id: meta.atc.tobacco
+    source_id: meta_ads_us
+    category_id: drugs
+    text: >
+      Ads must not promote the sale or use of tobacco or nicotine products and
+      related paraphernalia, including electronic nicotine delivery devices such
+      as electronic cigarettes, vaporizers, or other products that simulate
+      smoking. Ads may only promote cessation products approved by the WHO or the
+      U.S. FDA (targeted to people 18 or older). Promoting vapes is not allowed in
+      any context.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-tobacco-related"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads must not promote the sale or use of tobacco or nicotine products and
+        related paraphernalia. Ads must not promote Electronic Nicotine delivery
+        devices, such as electronic cigarettes, vaporizers, or any other products
+        that simulate smoking or are otherwise designed for use with tobacco or
+        nicotine products. Ads may only promote cessation products approved by
+        either the World Health Organization or the U.S. Food and Drug
+        Administration, and must comply with all applicable local laws.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/tobacco-related-products/
+      section: "Restricted Goods and Services > Tobacco and Related Products"
+      retrieved_at: 2026-06-27
+
+  - id: meta.atc.drugs_thc
+    source_id: meta_ads_us
+    category_id: drugs
+    text: >
+      Advertisers can't run ads that promote the sale or use of illicit or
+      recreational drugs, or other unsafe substances, products or supplements.
+      Ads may not promote or offer the sale of THC products or cannabis products
+      containing related psychoactive components (more than 0.3% THC).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-drugs-pharma"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Advertisers can't run ads that promote the sale or use of illicit or
+        recreational drugs, or other unsafe substances, products or supplements,
+        as determined by Meta at its sole discretion. ... Ads may not promote or
+        offer the sale of THC products or cannabis products containing related
+        psychoactive components.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/drugs-pharmaceuticals
+      section: "Restricted Goods and Services > Drugs and Pharmaceuticals"
+      retrieved_at: 2026-06-27
+
+  - id: meta.atc.cbd
+    source_id: meta_ads_us
+    category_id: drugs
+    text: >
+      Ads that promote or offer the sale of CBD or similar cannabinoid products
+      are only allowed with prior written authorization from Meta and active
+      LegitScript certification. CBD ads may only run in the United States, must
+      not be targeted to people under 18, and must not make health or medical
+      claims.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-cbd"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads that promote or offer the sale of cannabidiol (CBD) or similar
+        cannabinoid products are only allowed with prior written authorization.
+        Meta requires advertisers promoting CBD products to be actively certified
+        with LegitScript. ... Ads may only promote or offer the sale of CBD in the
+        United States, and must not be targeted to people under 18 years of age.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/drugs-pharmaceuticals
+      section: "Restricted Goods and Services > Drugs and Pharmaceuticals > CBD"
+      retrieved_at: 2026-06-27
+
+  # ===================== Gambling & Gaming =====================
+  - id: meta.gambling.authorization_and_license
+    source_id: meta_ads_us
+    category_id: gambling
+    text: >
+      Ads that promote online gambling and gaming (any product or service where
+      anything of monetary value is part of both the method of entry and the
+      prize) are only allowed once the ad account has obtained authorization from
+      Meta. Advertisers must provide evidence that the gambling activities are
+      appropriately licensed by a regulator or otherwise established as lawful in
+      the territory they want to target, and may not run ads in unsupported
+      gambling markets.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-online-gambling-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Ads that promote online gambling and gaming are only allowed once an ad
+        account has obtained authorization. ... advertisers will need to request
+        authorization from Meta through the Authorizations and Verifications tab
+        in Meta Business Suite (MBS) and provide evidence that the gambling
+        activities are appropriately licensed by a regulator or otherwise
+        established as lawful in the territory they want to target.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/gambling-games/
+      section: "Restricted Goods and Services > Online Gambling and Games"
+      retrieved_at: 2026-06-27
+
+  - id: meta.gambling.no_minors
+    source_id: meta_ads_us
+    category_id: gambling
+    text: >
+      Meta does not allow targeting of online gambling and gaming ads to people
+      under the age of 18.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-online-gambling-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        At a minimum, ads may not target to people under 18 years of age nor
+        unsupported gambling markets ... Additionally, Meta doesn't allow
+        targeting for online gambling and gaming ads to people under the age of
+        18.
+      source_url: https://transparency.meta.com/policies/ad-standards/restricted-goods-services/gambling-games/
+      section: "Restricted Goods and Services > Online Gambling and Games"
+      retrieved_at: 2026-06-27
+
+  - id: meta.gambling.social_casino
+    source_id: meta_ads_us
+    category_id: gambling
+    text: >
+      Advertisers can run ads for social casino games and free-to-play games with
+      no prior authorization from Meta as long as they don't offer the
+      opportunity to win money, coins, gifts, or anything of monetary value, and
+      don't target people under the age of 18.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "ad-standards-social-casino"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["18+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Advertisers can run ads for social casino games and free to play games
+        with no prior authorization from Meta as long as they: Don't offer the
+        opportunity to win money, coins, gifts or anything of monetary value. ...
+        Don't target people under the age of 18.
+      source_url: https://www.facebook.com/business/help/345214789920228
+      section: "About Meta's Online Gambling and Games advertising policy > Social casino"
+      retrieved_at: 2026-06-27
+
+  # ===================== Intellectual Property / Counterfeit =====================
+  - id: meta.ip.counterfeit_goods
+    source_id: meta_ads_us
+    category_id: ip_trademark
+    text: >
+      Ads may not promote or sell counterfeit goods — products that copy the
+      trademark (name or logo) and/or distinctive features of another company's
+      products to imitate a genuine product. This includes counterfeits,
+      knockoffs, or replicas of another company's products.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-08-27
+    version: "2024-08-27"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads may not contain content that violates the intellectual property
+        rights of any third party, including copyright, trademark or other legal
+        rights. This includes, but is not limited to, the promotion or sale of
+        counterfeit goods, such as products that copy the trademark (name or
+        logo) and/or distinctive features of another company's products to
+        imitate a genuine product.
+      source_url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/third-party-infringement/
+      section: "Intellectual Property Infringement > Third-Party Intellectual Property Infringement"
+      retrieved_at: 2026-06-27
+
+  - id: meta.ip.third_party_infringement
+    source_id: meta_ads_us
+    category_id: ip_trademark
+    text: >
+      Ads may not contain content that infringes upon or violates the
+      intellectual property rights of any third party, including copyright,
+      trademark or other legal rights. Advertisers can't run ads that are likely
+      to confuse people about the source, sponsorship or affiliation of the goods
+      or services. If an ad contains music, the advertiser is required to secure
+      the necessary licenses.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-08-27
+    version: "2024-08-27"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads may not contain content that infringes upon or violates the
+        intellectual property rights of any third party, including copyright,
+        trademark or other legal rights. ... [advertisers can't run ads that] Are
+        likely to confuse people about the source, sponsorship or affiliation of
+        the goods or services.
+      source_url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/copyright-and-trademarks
+      section: "Intellectual Property Infringement > Copyrights and Trademarks"
+      retrieved_at: 2026-06-27
+
+  - id: meta.ip.unauthorized_copyrighted_works
+    source_id: meta_ads_us
+    category_id: ip_trademark
+    text: >
+      Advertisers can't run ads that promote, sell or attempt to circulate
+      unauthorized or pirated copies of copyrighted works, such as videos,
+      movies, TV shows and broadcasts, video games, CDs or other musical works,
+      books and more.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-08-27
+    version: "2024-08-27"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Promote, sell or attempt to circulate unauthorized or pirated copies of
+        copyrighted works, such as videos, movies, TV shows and broadcasts, video
+        games, CDs or other musical works, books and more.
+      source_url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/copyright-and-trademarks
+      section: "Intellectual Property Infringement > Copyrights and Trademarks"
+      retrieved_at: 2026-06-27
+
+rules:
+  # --- Misleading ---
+  - id: meta_misleading_deceptive_practices
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [meta.misleading.deceptive_practices, meta.misleading.exaggerated_success_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Deceptive or exaggerated claims about the success/effectiveness of a
+      product or service to mislead users into purchasing or sharing info.
+    exceptions:
+      - "Substantiated claims with cited, verifiable evidence."
+    status: active
+
+  - id: meta_misleading_health_results_timing
+    canonical_id: misleading.guaranteed_outcomes
+    clause_ids: [meta.misleading.health_results_timing]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Promises of specific results within a specific timeframe with no
+      qualifying or disclaimer language.
+    exceptions:
+      - "Clearly qualified claims with disclaimer (e.g. 'results may vary')."
+    status: active
+
+  - id: meta_misleading_false_affiliation
+    canonical_id: misleading.false_affiliation_or_endorsement
+    clause_ids: [meta.misleading.famous_person_baiting, meta.misleading.misrepresent_entity]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video]
+    priority: 60
+    detection: >
+      Misuse of a famous person's image, or misrepresenting an entity, news
+      outlet, or association to imply endorsement or affiliation.
+    exceptions:
+      - "Authorized endorsements with documented permission."
+    status: active
+
+  - id: meta_misleading_before_after
+    canonical_id: misleading.before_after_distortion
+    clause_ids: [meta.misleading.before_after_weightloss]
+    category_id: misleading
+    severity: high
+    modalities: [image, video]
+    priority: 55
+    detection: >
+      Side-by-side before-and-after imagery implying transformation/weight loss.
+    exceptions:
+      - "Fitness classes (per Meta exception)."
+    status: active
+
+  # --- Health ---
+  - id: meta_health_disease_cure
+    canonical_id: health.disease_cure_treatment_claims
+    clause_ids: [meta.health.disease_cure_claims, meta.health.health_clickbait]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Claims to cure/heal/eliminate incurable disease or terminal illness, or
+      sensational exaggerated health claims (health clickbait).
+    exceptions:
+      - "Claims permitted under an approved regulatory authorization."
+    status: active
+
+  - id: meta_health_negative_self_perception
+    canonical_id: health.negative_self_perception_body_image
+    clause_ids: [meta.health.negative_self_perception, meta.health.weightloss_before_after]
+    category_id: health
+    severity: medium
+    modalities: [text, image, video]
+    priority: 55
+    detection: >
+      Diet/weight-loss/cosmetic ads that generate negative self-perception, body
+      shaming, before-and-after transformation imagery (except fitness), or
+      close-ups pinching fat.
+    exceptions:
+      - "Fitness classes (Meta exception)."
+      - "Cosmetic/non-permanent beauty products outside the policy scope."
+    status: active
+
+  - id: meta_health_personal_attributes
+    canonical_id: health.health_privacy_sensitive_attributes
+    clause_ids: [meta.health.personal_attributes]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Asserting or implying a person's physical/mental health or medical
+      condition (e.g. "Struggling with depression?").
+    exceptions:
+      - "General messaging that does not assert/imply an individual's condition."
+    status: active
+
+  # --- Financial ---
+  - id: meta_finance_prohibited_products
+    canonical_id: finance.prohibited_predatory_products
+    clause_ids: [meta.finance.prohibited_products]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Promotion of Meta-prohibited financial products: payday loans, paycheck
+      advances, bail bonds, short-term loans ≤90 days, penny auctions, binary
+      options, ICOs, contracts for difference, or misleading student-loan
+      consolidation/forgiveness/refinancing.
+    exceptions: []
+    status: active
+
+  - id: meta_finance_crypto
+    canonical_id: finance.crypto_restricted
+    clause_ids: [meta.finance.crypto_permission]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Cryptocurrency trading platforms / monetization / staking / swapping ads
+      run without prior written permission and a recognized regulatory license.
+    exceptions:
+      - "Advertisers with Meta written permission and a valid regulatory license."
+    status: active
+
+  - id: meta_finance_licensing
+    canonical_id: finance.licensing_registration_required
+    clause_ids: [meta.finance.licensing_disclosure]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Financial-product ads not targeted 18+, or run without required
+      authorization / identity verification / legally-required disclosures.
+    exceptions:
+      - "18+ targeted ads by authorized advertisers with lawful disclosures."
+    status: active
+
+  # --- Housing & Employment (discrimination) ---
+  - id: meta_discrimination_content
+    canonical_id: discrimination.discriminatory_ad_content_prohibited
+    clause_ids: [meta.discrimination.no_discrimination]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Ad content that discriminates or encourages discrimination based on
+      protected personal attributes, in housing/employment/financial contexts.
+    exceptions: []
+    status: active
+
+  - id: meta_discrimination_targeting
+    canonical_id: discrimination.restricted_targeting_protected_class
+    clause_ids: [meta.discrimination.special_ad_category]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 63
+    detection: >
+      Housing/employment/financial ads not run as a Special Ad Category, or using
+      restricted audience options (age, gender, ZIP, exclusion, lookalike).
+    exceptions:
+      - "Ads run under Special Ad Category with approved targeting options."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: meta_political_authorization
+    canonical_id: political.authorization_and_disclaimer_required
+    clause_ids: [meta.political.authorization_disclaimer]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Social-issue/electoral/political ads run without Meta authorization or
+      without a verified "Paid for by" disclaimer.
+    exceptions:
+      - "Authorized advertisers with a verified 'Paid for by' disclaimer."
+      - "News publishers identified by Meta."
+    status: active
+
+  # --- Children / Minors ---
+  - id: meta_minors_targeting
+    canonical_id: minors.personalized_targeting_of_minors_restricted
+    clause_ids: [meta.minors.teen_targeting_limited]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Ads reaching under-18 audiences using interests, behaviors, gender,
+      off-platform activity, or ZIP/sub-city ("pin drop") targeting.
+    exceptions:
+      - "Age and location targeting only."
+    status: active
+
+  - id: meta_minors_restricted_products
+    canonical_id: minors.age_restricted_products_not_shown_to_minors
+    clause_ids: [meta.minors.restricted_topics_not_to_minors]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Restricted-topic ads (alcohol, financial products, weight-loss products/
+      services) shown to people under 18.
+    exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: meta_privacy_personal_attributes
+    canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    clause_ids: [meta.privacy.personal_attributes]
+    category_id: privacy
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Ad copy or targeting that asserts or implies a person's sensitive personal
+      attributes (race, religion, health, sexual orientation, financial status,
+      etc.), incl. "Are you...?" / "people like you" phrasing.
+    exceptions:
+      - "Benefit-focused copy that does not imply the viewer has an attribute."
+      - "PSAs that don't assert a person/family has a condition."
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: meta_atc_alcohol
+    canonical_id: atc.alcohol_age_and_location_targeting_required
+    clause_ids: [meta.atc.alcohol]
+    category_id: alcohol
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Alcohol ads targeting under-18 (or below local legal drinking age), or run
+      in countries/regions where alcohol promotion is prohibited.
+    exceptions:
+      - "News/documentary/educational/PSA references to alcohol."
+      - "Non-alcoholic products that don't depict alcohol or consumption."
+    status: active
+
+  - id: meta_atc_tobacco
+    canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    clause_ids: [meta.atc.tobacco]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads promoting tobacco/nicotine products, e-cigarettes/vapes, or related
+      paraphernalia.
+    exceptions:
+      - "WHO/FDA-approved cessation products targeted 18+."
+      - "Anti-smoking/vaping campaigns."
+    status: active
+
+  - id: meta_atc_drugs_thc
+    canonical_id: atc.recreational_drugs_and_thc_prohibited
+    clause_ids: [meta.atc.drugs_thc]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ads promoting illicit/recreational drugs or THC/cannabis products with
+      psychoactive components (>0.3% THC).
+    exceptions: []
+    status: active
+
+  - id: meta_atc_cbd
+    canonical_id: atc.cbd_restricted_with_certification
+    clause_ids: [meta.atc.cbd]
+    category_id: drugs
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      CBD/cannabinoid ads without Meta written authorization + active LegitScript
+      certification, outside the US, to under-18, or making health/medical claims.
+    exceptions:
+      - "LegitScript-certified + Meta-authorized CBD, US-only, 18+, no health claims."
+    status: active
+
+  # --- Gambling & Gaming ---
+  - id: meta_gambling_authorization
+    canonical_id: gambling.realmoney_requires_license_and_authorization
+    clause_ids: [meta.gambling.authorization_and_license]
+    category_id: gambling
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Online/real-money gambling ads without Meta authorization or without
+      evidence of a license / lawful status in the targeted territory, or in
+      unsupported markets.
+    exceptions:
+      - "Authorized advertisers with valid license/lawful documentation."
+    status: active
+
+  - id: meta_gambling_no_minors
+    canonical_id: gambling.no_minors_targeting
+    clause_ids: [meta.gambling.no_minors]
+    category_id: gambling
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: "Online gambling/gaming ads targeting people under 18."
+    exceptions: []
+    status: active
+
+  - id: meta_gambling_social_casino
+    canonical_id: gambling.social_casino_no_real_money
+    clause_ids: [meta.gambling.social_casino]
+    category_id: gambling
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 56
+    detection: >
+      Social-casino / free-to-play ads (run without authorization) that offer a
+      chance to win money/coins/anything of monetary value, or target under-18.
+    exceptions:
+      - "No monetary-value winnings and 18+ targeting."
+    status: active
+
+  # --- Intellectual Property / Counterfeit ---
+  - id: meta_ip_counterfeit
+    canonical_id: ip.counterfeit_goods_prohibited
+    clause_ids: [meta.ip.counterfeit_goods]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads or landing pages promoting/selling counterfeits, knockoffs, or replicas
+      that copy another company's trademark (name/logo) or distinctive features
+      to imitate a genuine product.
+    exceptions: []
+    status: active
+
+  - id: meta_ip_third_party_infringement
+    canonical_id: ip.third_party_ip_infringement_prohibited
+    clause_ids: [meta.ip.third_party_infringement]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Ads using a third party's copyright or trademark, or likely to confuse
+      people about the source/sponsorship/affiliation of goods or services, or
+      using music without the necessary licenses.
+    exceptions:
+      - "Authorized/licensed use, nominative/descriptive use, or rights-holder permission."
+    status: active
+
+  - id: meta_ip_unauthorized_copyrighted_works
+    canonical_id: ip.unauthorized_copyrighted_works_prohibited
+    clause_ids: [meta.ip.unauthorized_copyrighted_works]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Ads promoting/selling/circulating unauthorized or pirated copies of
+      copyrighted works (movies, TV, video games, music, books, etc.).
+    exceptions: []
+    status: active

@@ -1,0 +1,82 @@
+# Meta Ads (EU) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Meta Advertising Standards apply globally; EU teen-targeting rules noted in policy history.
+
+source:
+  id: meta_ads_eu
+  type: platform
+  name: Meta Advertising Standards (EU)
+  jurisdiction: [EU]
+  url: https://transparency.meta.com/policies/ad-standards/
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: meta_eu.misleading.deceptive_practices
+    source_id: meta_ads_eu
+    category_id: misleading
+    text: >
+      Meta aims to protect users and businesses from being deceived by removing
+      content and combatting behavior that purposefully employs deceptive means —
+      such as wilful misrepresentation, stolen information and exaggerated claims
+      — to scam or defraud users and businesses, or to drive engagement.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [EU]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [EU]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        We aim to protect users and businesses from being deceived out of their
+        money, property or personal information by removing content and
+        combatting behavior that purposefully employs deceptive means — such as
+        wilful misrepresentation, stolen information and exaggerated claims — to
+        scam or defraud users and businesses, or to drive engagement.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/fraud-scams-deceptive-practices
+      section: "Fraud & Scams > Deceptive Practices"
+      retrieved_at: 2026-06-27
+
+  - id: meta_eu.misleading.exaggerated_success_claims
+    source_id: meta_ads_eu
+    category_id: misleading
+    text: >
+      Ads can't use deceptive or exaggerated claims about the success of a
+      product or service to mislead people into purchasing or sharing sensitive
+      information.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [EU]
+    effective_date: 2025-05-01
+    version: "2025-05-01"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [EU]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads can't use deceptive or exaggerated claims about the success of a
+        product or service to mislead people into purchasing or sharing
+        sensitive information.
+      source_url: https://transparency.meta.com/policies/ad-standards/fraud-scams/unacceptable-business-practices
+      section: "Fraud & Scams > Unacceptable Business Practices"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: meta_eu_misleading_deceptive
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [meta_eu.misleading.deceptive_practices, meta_eu.misleading.exaggerated_success_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: "Deceptive/exaggerated success claims or scam-like deceptive practices."
+    exceptions: []
+    status: active

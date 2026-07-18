@@ -1,0 +1,248 @@
+# Policy metadata registry — SIDECAR, not part of the frozen schema (v1.0.0).
+# Purpose: capture, per official source/policy, the version + effective date +
+# last-updated date + deprecated/superseded status + officially published change
+# history, so we can later answer "what changed?" across policy versions.
+#
+# Keyed by `source_id` (same id used in corpus/*.yaml). A single source may have
+# multiple policy entries (disambiguated by `policy_title`). Populate fields ONLY
+# when officially published; omit (rather than invent) anything not stated on the
+# source. `status`: active | deprecated | superseded. Dates are ISO (YYYY-MM-DD)
+# when published, or a coarser string (e.g. "2025-08") when the source only gives
+# month/year. `retrieved_at` records when we last read the page.
+
+policies:
+  # ----------------------------- Regulators -----------------------------
+  - source_id: ftc_us
+    policy_title: "Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312"
+    url: https://www.law.cornell.edu/cfr/text/16/part-312
+    policy_version: "2025 amended final rule"
+    effective_date: 2025-06-23
+    last_updated: 2025-04-22        # amended rule full-compliance deadline (see change_history)
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2013-07-01
+        version: "2013 rule"
+        summary: "Prior COPPA Rule in effect (expanded definition of personal information to include persistent identifiers, geolocation, photos/video/audio)."
+        url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+      - date: 2025-01-16
+        version: "2025 amended final rule"
+        summary: "FTC published amended COPPA Rule: separate verifiable parental consent required before disclosing children's personal information to third parties for targeted advertising; new data-security, retention, and deletion requirements."
+        url: https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-finalizes-changes-childrens-privacy-rule-limiting-companies-ability-monetize-kids-data
+      - date: 2026-02-25
+        version: "enforcement policy statement"
+        summary: "FTC policy statement limiting enforcement when mixed/general-audience services collect children's data solely to verify user age, subject to safeguards."
+        url: https://www.ftc.gov/legal-library/browse/cases-proceedings/public-statements
+      - date: 2026-04-22
+        version: "2025 amended final rule"
+        summary: "Amended Rule took full effect; active enforcement exposure begins for in-scope operators."
+        url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
+
+  # ----------------------------- Platforms ------------------------------
+  - source_id: meta_ads_us
+    policy_title: "Meta Advertising Standards (incl. ads to teens / SIEP)"
+    url: https://transparency.meta.com/policies/ad-standards/
+    policy_version: null            # Meta does not publish a numeric ad-standards version
+    effective_date: null
+    last_updated: null
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2021-07-27
+        version: "teen-targeting update"
+        summary: "Restricted advertiser targeting of under-18s to age, gender, and location (removed interest/activity-based targeting)."
+        url: https://about.fb.com/news/2021/07/protecting-young-people/
+      - date: 2023-02-01
+        version: "teen-targeting update"
+        summary: "Removed gender as a targeting option for teens; teen on/off-app engagement no longer informs ads — only age and location used to reach teens."
+        url: https://about.fb.com/news/2023/01/age-appropriate-ads-for-teens/
+      - date: 2023-11-01
+        version: "EU/EEA/CH delivery restriction"
+        summary: "Ads with locations in the EU, EEA, or Switzerland can no longer deliver to audiences under 18."
+        url: https://www.facebook.com/business/help/229435355723442
+
+  - source_id: google_ads_us
+    policy_title: "Google Ads — Ad-serving protections for children and teens"
+    url: https://support.google.com/adspolicy/answer/15416897
+    policy_version: null
+    effective_date: null
+    last_updated: null
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2021-08-15
+        version: "under-18 personalized-ads restriction"
+        summary: "Users under 18 made ineligible for personalized advertising; sensitive ad categories restricted for minors."
+        url: https://blog.google/technology/families/giving-kids-and-teens-safer-experience-online/
+      - date: 2023-01-20
+        version: "CBD policy update"
+        summary: "Dangerous Products & Services updated to allow topical hemp-derived CBD (<=0.3% THC) and FDA-approved CBD pharmaceuticals in CA/CO/PR, with LegitScript + Google certification."
+        url: https://support.google.com/adspolicy/answer/12997469
+      - date: 2026-06-03
+        version: "personalized-advertising clarification"
+        summary: "Clarified Demand Gen/Discovery use advertiser-curated audiences by default and may be restricted when promoting sensitive interest categories."
+        url: https://support.google.com/adspolicy/answer/143465
+      - date: 2025-01-01
+        version: "Gambling and games (answer 15132179)"
+        summary: "Gambling and games policy: country-specific certification, maintained license, responsible-gambling landing page, never target minors."
+        url: https://support.google.com/adspolicy/answer/15132179
+
+  - source_id: tiktok_ads_us
+    policy_title: "TikTok Advertising Policies"
+    url: https://ads.tiktok.com/help/article/tiktok-advertising-policies
+    policy_version: null
+    effective_date: null
+    last_updated: 2025-08          # page states "Last updated: August 2025"
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2023-07-11
+        version: "teen personalized-ads restriction"
+        summary: "US users 13–15 no longer shown personalized ads based on off-TikTok activity; EEA/UK/Switzerland users 13–17 no longer shown personalized ads based on on- or off-TikTok activity."
+        url: https://www.tiktok.com/business/en-US/blog/privacy-updates-improved-data-control-transparency-tools
+      - date: 2025-04
+        version: "Age Targeting Restrictions"
+        summary: "Age Targeting Restrictions article last updated (per-market under-18 targeting limits)."
+        url: https://ads.tiktok.com/help/article/age-targeting-restrictions
+      - date: 2025-07-25
+        version: "Branded Content Policy update"
+        summary: "Branded Content Policy revised: new Prohibited Industries sub-sections and a Restricted Industries & Products section with age restrictions."
+        url: https://www.tiktok.com/legal/page/global/bc-policy/en
+      - date: 2025-02
+        version: "Data Collection Standards"
+        summary: "Data Collection Standards article last updated (privacy-policy disclosure; no malicious/undisclosed software)."
+        url: https://ads.tiktok.com/help/article/data-collection-standards
+      - date: 2025-08
+        version: "Advertising Policies refresh"
+        summary: "TikTok Advertising Policies index last updated (August 2025)."
+        url: https://ads.tiktok.com/help/article/tiktok-advertising-policies
+
+  - source_id: linkedin_ads_us
+    policy_title: "LinkedIn Advertising Policies"
+    url: https://www.linkedin.com/legal/ads-policy
+    policy_version: "linkedin-ads-policy-2024"
+    effective_date: 2024-05-28
+    last_updated: 2024-05-28
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2018-01-01
+        version: "political-ads prohibition"
+        summary: "LinkedIn has prohibited political advertising since 2018."
+        url: https://www.linkedin.com/legal/ads-policy
+
+  - source_id: ccpa_ca
+    policy_title: "California Consumer Privacy Act (CCPA), as amended by CPRA"
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+    policy_version: "CPRA (Prop 24) amendments"
+    effective_date: 2023-01-01        # CPRA operative date
+    last_updated: 2023-03-29          # CPPA first regulations approved
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2020-01-01
+        version: "CCPA (AB 375)"
+        summary: "Original CCPA took effect: right to opt out of sale of personal information."
+        url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+      - date: 2023-01-01
+        version: "CPRA (Prop 24)"
+        summary: "CPRA operative: added right to opt out of 'sharing' for cross-context behavioral advertising; sensitive personal information limits; under-16 opt-in."
+        url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.135
+
+  - source_id: ttb_us
+    policy_title: "TTB alcohol advertising regulations (FAA Act; 27 CFR parts 4, 5, 7)"
+    url: https://www.ttb.gov/what-we-do/program-areas/advertising
+    policy_version: "Industry Circular 2024-1"
+    effective_date: 2024-03-12
+    last_updated: 2024-03-12
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2022-01-01
+        version: "Industry Circular 2022-2"
+        summary: "Prior guidance on applying TTB advertising regulations to social media."
+        url: https://www.ttb.gov/public-information/industry-circulars
+      - date: 2024-03-12
+        version: "Industry Circular 2024-1"
+        summary: "Modifies and supersedes IC 2022-2; addresses use of links/link-sharing sites to satisfy mandatory statements and various social-media forms."
+        url: https://www.ttb.gov/public-information/industry-circulars/ttb-industry-circular-2024-1
+
+  - source_id: fda_us
+    policy_title: "FDA tobacco advertising — 21 CFR Part 1140 (cigarettes & smokeless tobacco)"
+    url: https://www.law.cornell.edu/cfr/text/21/1140.32
+    policy_version: "21 CFR Part 1140"
+    effective_date: 2010-06-22
+    last_updated: 2020-03-18         # 21 CFR Part 1141 required cigarette warnings (85 FR 15708)
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2010-06-22
+        version: "21 CFR 1140 (FSPTCA)"
+        summary: "Tobacco Control Act advertising restrictions, incl. black-text-on-white format (1140.32) for cigarettes/smokeless tobacco."
+        url: https://www.ecfr.gov/current/title-21/chapter-I/subchapter-K/part-1140
+      - date: 2018-08-10
+        version: "covered-tobacco warning compliance"
+        summary: "Compliance date for required health-warning statements on covered tobacco / RYO / cigarette tobacco packages and advertisements."
+        url: https://www.fda.gov/tobacco-products/products-guidance-regulations/labeling-and-warning-statements-tobacco-products
+
+  # ----------------------- Intellectual Property -----------------------
+  - source_id: meta_ads_us
+    policy_title: "Meta Ad Standards — Third-Party Intellectual Property Infringement / Copyrights and Trademarks"
+    url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/third-party-infringement/
+    policy_version: null            # Meta publishes a change log, not a numeric version
+    effective_date: null
+    last_updated: 2024-08-27        # latest entry shown in the page change log
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2024-05-31
+        version: "change-log entry"
+        summary: "Third-Party Intellectual Property Infringement policy updated (per Meta Transparency Center change log)."
+        url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/third-party-infringement/
+      - date: 2024-08-27
+        version: "change-log entry"
+        summary: "Most recent Third-Party Intellectual Property Infringement policy update shown in the change log."
+        url: https://transparency.meta.com/policies/ad-standards/intellectual-property-infringement/third-party-infringement/
+
+  - source_id: google_ads_us
+    policy_title: "Google Ads — Counterfeit goods (176017) & Trademarks (6118)"
+    url: https://support.google.com/adspolicy/answer/176017
+    policy_version: null
+    effective_date: null
+    last_updated: 2023-07-24        # trademark policy revision effective date
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2023-07-24
+        version: "trademark policy revision"
+        summary: "Trademark policy revised: industry-wide complaints removed; brand owners must file complaints against specific ads/advertisers."
+        url: https://support.google.com/adspolicy/answer/6118
+      - date: 2023-07-24
+        version: "counterfeit goods policy"
+        summary: "Counterfeit goods remain an egregious-violation policy (account suspension on a valid complaint); applies to ad content and website/app."
+        url: https://support.google.com/adspolicy/answer/176017
+
+  - source_id: tiktok_ads_us
+    policy_title: "TikTok Intellectual Property Policy (copyright, trademark, counterfeiting)"
+    url: https://www.tiktok.com/legal/copyright-policy
+    policy_version: null
+    effective_date: null
+    last_updated: null              # page does not publish a dated version for ads IP
+    status: active
+    superseded_by: null
+    retrieved_at: 2026-06-27
+    change_history:
+      - date: 2024-01-01
+        version: "IP policy (counterfeiting section)"
+        summary: "TikTok Intellectual Property Policy prohibits content infringing copyright/trademark and bars purchase/sale/promotion/solicitation of counterfeit goods."
+        url: https://www.tiktok.com/legal/copyright-policy

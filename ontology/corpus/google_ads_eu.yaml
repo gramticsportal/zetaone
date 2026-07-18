@@ -1,0 +1,93 @@
+# Google Ads (EU) — misrepresentation starter vertical. Conforms to ontology/schema.yaml.
+# Google Ads policies apply globally; EU-specific DSA redress is noted in policy pages.
+
+source:
+  id: google_ads_eu
+  type: platform
+  name: Google Ads Policies (EU)
+  jurisdiction: [EU]
+  url: https://support.google.com/adspolicy/answer/6020955?hl=en-GB
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: google_eu.misrep.unreliable_claims
+    source_id: google_ads_eu
+    category_id: misleading
+    text: >
+      Google doesn't allow making inaccurate claims or claims that entice the user
+      with an improbable result (even if this result is possible) as the likely
+      outcome that a user can expect.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [EU]
+    effective_date: 2024-01-01
+    version: "adspolicy-misrepresentation-unreliable"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [EU]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Making inaccurate claims or claims that entice the user with an improbable
+        result (even if this result is possible) as the likely outcome that a user
+        can expect.
+      source_url: https://support.google.com/adspolicy/answer/15936857?hl=en-GB
+      section: "Advertising Policies > Misrepresentation > Unreliable claims"
+      retrieved_at: 2026-06-27
+
+  - id: google_eu.misrep.dishonest_pricing
+    source_id: google_ads_eu
+    category_id: misleading
+    text: >
+      Google doesn't allow failure to clearly and conspicuously disclose the
+      payment model or full expense that a user will bear before and after
+      purchase, or employing pricing practices that create a false or misleading
+      impression of the cost of a product or service.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [EU]
+    effective_date: 2024-01-01
+    version: "adspolicy-misrepresentation-pricing"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [EU]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Failure to clearly and conspicuously disclose the payment model or full
+        expense that a user will bear before and after purchase is not allowed.
+        Employing pricing practices that create a false or misleading impression
+        of the cost of a product or service, leading to inflated or unexpected
+        charges is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/15938375?hl=en-GB
+      section: "Advertising Policies > Misrepresentation > Dishonest pricing practices"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: google_eu_misrep_unreliable
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [google_eu.misrep.unreliable_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: "Improbable/unreliable outcome claims presented as likely."
+    exceptions: []
+    status: active
+
+  - id: google_eu_misrep_pricing
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [google_eu.misrep.dishonest_pricing]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: "Undisclosed full expense or dishonest/misleading pricing practices."
+    exceptions: []
+    status: active

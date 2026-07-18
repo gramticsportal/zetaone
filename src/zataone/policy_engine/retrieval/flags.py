@@ -11,7 +11,7 @@ def policy_retrieval_enabled() -> bool:
         return True
     if v in ("0", "false", "no", "off"):
         return False
-    return False
+    return True
 
 
 def retrieval_top_k() -> int:

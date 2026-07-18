@@ -36,6 +36,23 @@ from zataone.document.builder import DocumentBuilder
 from zataone.document.flags import document_centric_enabled
 from zataone.extractors.registry import ExtractorRegistry
 from zataone.policy_engine.corpus.loader import load_policy_pack_from_dict
+from zataone.policy_engine.corpus.ontology_flags import (
+    legacy_meta_policy_only,
+    ontology_clauses_enabled,
+    ontology_pack_enabled,
+)
+from zataone.policy_engine.corpus.ontology_loader import (
+    load_ontology_clauses,
+    merge_ontology_clauses_into_pack,
+)
+from zataone.policy_engine.corpus.ontology_pack_builder import (
+    build_ontology_policy_pack,
+    filter_pack_for_platform,
+)
+from zataone.policy_engine.corpus.ontology_platform import (
+    filter_rule_ids_for_platform,
+    normalize_platform,
+)
 from zataone.policy_engine.jurisdiction.router import JurisdictionRouter
 from zataone.policy_engine.engine import PolicyEngine
 from zataone.policy_engine.retrieval.flags import policy_retrieval_enabled
@@ -148,6 +165,14 @@ class CompliancePipeline:
                 )
             )
         vision_cfg = config.get("vision", {})
+        if ontology_pack_enabled() and not legacy_meta_policy_only():
+            try:
+                from zataone.policy_engine.corpus.vision_queries import OBJECT_QUERIES
+
+                if OBJECT_QUERIES:
+                    vision_cfg = {**vision_cfg, "object_queries": OBJECT_QUERIES}
+            except ImportError:
+                pass
         if hasattr(extractors_module, "VisionExtractor") and _allow("vision"):
             extractor_classes.append(
                 (
@@ -243,11 +268,41 @@ class CompliancePipeline:
             return yaml.safe_load(f) or {}
 
     def _load_domain_policies(self) -> None:
-        """Load jurisdiction-appropriate policy pack from domain policies."""
+        """Load policy pack: ontology US corpus (default) or legacy meta_ads.yaml."""
         domain_module = importlib.import_module(f"zataone.domains.{self._domain}")
         domain_path = os.path.dirname(domain_module.__file__)
 
         import yaml
+
+        vision_support_map: dict = {}
+        embedding_rule_map: dict = {}
+
+        if ontology_pack_enabled() and not legacy_meta_policy_only():
+            pack = build_ontology_policy_pack(jurisdiction=self._jurisdiction, platform="all")
+            if pack is not None:
+                logger.info(
+                    "Loading ontology policy pack: %d clauses, %d rules (jurisdiction=%s)",
+                    len(pack.clauses),
+                    len(pack.rules),
+                    self._jurisdiction,
+                )
+                self._policy_pack = pack
+                rules = pack.rules
+                vision_support_map = self._vision_support_from_rules(rules)
+                try:
+                    mappings_module = importlib.import_module(
+                        f"zataone.domains.{self._domain}.mappings"
+                    )
+                    embedding_rule_map = getattr(mappings_module, "EMBEDDING_RULE_MAP", {})
+                except ImportError:
+                    pass
+                self._policy_engine.load_policy_pack(
+                    rules=rules,
+                    vision_support_map=vision_support_map,
+                    embedding_rule_map=embedding_rule_map,
+                )
+                self._policy_retriever = PolicyRetriever(self._policy_pack)
+                return
 
         policy_path = JurisdictionRouter().resolve_policy_path(
             domain_path, self._domain, self._jurisdiction
@@ -256,22 +311,35 @@ class CompliancePipeline:
             return
 
         logger.info(
-            "Loading policy pack: %s (domain=%s, jurisdiction=%s)",
-            os.path.basename(policy_path), self._domain, self._jurisdiction,
+            "Loading legacy policy pack: %s (domain=%s, jurisdiction=%s)",
+            os.path.basename(policy_path),
+            self._domain,
+            self._jurisdiction,
         )
 
-        with open(policy_path, "r") as f:
-            data = yaml.safe_load(f) or {}
+        with open(policy_path, "rb") as f:
+            raw = f.read()
+        data = yaml.safe_load(raw) or {}
 
         self._policy_pack = load_policy_pack_from_dict(
             data,
             source_path=policy_path,
             jurisdiction=self._jurisdiction,
         )
+        import hashlib
+
+        self._policy_pack.content_hash = hashlib.sha256(raw).hexdigest()
+        if ontology_clauses_enabled():
+            ont = load_ontology_clauses(jurisdiction=self._jurisdiction)
+            n_before = len(self._policy_pack.clauses)
+            merge_ontology_clauses_into_pack(self._policy_pack, ont)
+            logger.info(
+                "Ontology clauses merged into legacy pack: %d -> %d",
+                n_before,
+                len(self._policy_pack.clauses),
+            )
         rules = self._policy_pack.rules
 
-        vision_support_map = {}
-        embedding_rule_map = {}
         try:
             mappings_module = importlib.import_module(
                 f"zataone.domains.{self._domain}.mappings"
@@ -287,6 +355,20 @@ class CompliancePipeline:
             embedding_rule_map=embedding_rule_map,
         )
         self._policy_retriever = PolicyRetriever(self._policy_pack)
+
+    @staticmethod
+    def _vision_support_from_rules(rules: dict) -> dict:
+        try:
+            from zataone.policy_engine.corpus.vision_queries import vision_labels_for_category
+        except ImportError:
+            return {}
+        out: dict[str, set[str]] = {}
+        for rid, rule in rules.items():
+            cat = str(rule.get("category_id") or "")
+            labels = vision_labels_for_category(cat)
+            if labels:
+                out[rid] = set(labels)
+        return out
 
     def _run_fast_precore(
         self,
@@ -357,7 +439,9 @@ class CompliancePipeline:
             self._domain_config,
             run_pipeline_mode=run_pipeline_mode,
         )
-        signals, counts = extract_signals_parallel(extractors, asset, asset_id=asset_id)
+        signals, counts, failed_extractors = extract_signals_parallel(
+            extractors, asset, asset_id=asset_id
+        )
 
         producers = sorted(eid for eid, n in counts.items() if n > 0)
         logger.info(
@@ -379,12 +463,21 @@ class CompliancePipeline:
 
         evaluate_document = document if document_centric_enabled() else None
 
+        platform = normalize_platform((getattr(asset, "metadata", None) or {}).get("platform"))
+        pack_for_run = (
+            filter_pack_for_platform(self._policy_pack, platform)
+            if self._policy_pack is not None
+            else None
+        )
+        rules_for_run = (pack_for_run or self._policy_pack).rules if self._policy_pack else {}
+
         retrieval_result = None
         active_rule_ids = None
-        if self._policy_retriever is not None:
+        if self._policy_retriever is not None and pack_for_run is not None:
+            # Retrieval index uses full pack; filter hits by platform afterward.
             vision_primary_ids = {
                 rid
-                for rid, rule in (self._policy_pack.rules if self._policy_pack else {}).items()
+                for rid, rule in rules_for_run.items()
                 if rule.get("vision_primary_labels")
             }
             retrieval_result = self._policy_retriever.retrieve(
@@ -393,6 +486,13 @@ class CompliancePipeline:
             )
             if policy_retrieval_enabled() and retrieval_result.retrieved_rule_ids:
                 active_rule_ids = set(retrieval_result.retrieved_rule_ids)
+
+        platform_rules = filter_rule_ids_for_platform(rules_for_run, platform)
+        if platform_rules is not None:
+            if active_rule_ids is not None:
+                active_rule_ids = active_rule_ids & platform_rules
+            else:
+                active_rule_ids = platform_rules
 
         engine_on = policy_engine_enabled()
         if engine_on:
@@ -408,10 +508,27 @@ class CompliancePipeline:
             verdict["status"] = "PENDING_ADVISORY"
             verdict["verdict"] = "pending_advisory"
 
+        # Fail to review, never to approve: a crashed extractor means coverage
+        # is incomplete, so a clean result cannot be trusted as COMPLIANT.
+        if failed_extractors:
+            logger.warning(
+                "Extraction degraded (%s); capping verdict at REVIEW_REQUIRED",
+                sorted(failed_extractors),
+            )
+            if verdict.get("status") == "COMPLIANT":
+                verdict["status"] = "REVIEW_REQUIRED"
+            if verdict.get("verdict") == "likely_approved":
+                verdict["verdict"] = "borderline"
+
         verdict_metadata = dict(verdict.get("metadata") or {})
+        if failed_extractors:
+            verdict_metadata["degraded_extractors"] = failed_extractors
         verdict_metadata["document"] = document.to_dict()
         verdict_metadata["document_centric_enabled"] = document_centric_enabled()
-        if self._policy_pack is not None:
+        verdict_metadata["platform_filter"] = platform
+        if pack_for_run is not None:
+            verdict_metadata["policy_pack"] = pack_for_run.to_dict()
+        elif self._policy_pack is not None:
             verdict_metadata["policy_pack"] = self._policy_pack.to_dict()
         if retrieval_result is not None:
             verdict_metadata["retrieval"] = retrieval_result.to_dict()
@@ -690,6 +807,11 @@ class CompliancePipeline:
                 tenant_id=tenant_id,
                 policy_pack_id=policy_pack_id,
             )
+
+            # Queue borderline / flagged / degraded outcomes for human review.
+            from zataone.services.review_service import review_state_for_verdict
+
+            asset_record.review_state = review_state_for_verdict(verdict)
 
             self._audit_service.persist_audit_event(
                 session,

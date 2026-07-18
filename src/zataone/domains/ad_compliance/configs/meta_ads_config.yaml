@@ -11,15 +11,30 @@ extractors:
 vision:
   model_id: "IDEA-Research/grounding-dino-base"
   object_queries:
+    # Policy-relevant prompts (Grounding DINO is text-conditioned, not general COCO det)
     - weapon
     - gun
     - knife
+    - ammunition
+    - explosive
     - pill
     - medicine
     - syringe
+    - cigarette
+    - cigar
+    - vape
+    - tobacco
+    - casino
+    - dice
+    - poker chips
+    - alcohol
+    - beer
+    - wine
     - money
     - cash
     - banknote
+    - counterfeit
+    - luxury handbag
   detection_threshold: 0.3
   text_threshold: 0.3
 

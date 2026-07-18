@@ -10,6 +10,7 @@ from zataone.models.verdict import Verdict
 from zataone.models.violation import Violation
 from zataone.models.audit import AuditEvent
 from zataone.models.webhook import Webhook
+from zataone.models.review_decision import ReviewDecision
 
 __all__ = [
     "Tenant",
@@ -21,4 +22,5 @@ __all__ = [
     "Violation",
     "AuditEvent",
     "Webhook",
+    "ReviewDecision",
 ]

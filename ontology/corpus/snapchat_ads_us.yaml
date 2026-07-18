@@ -1,0 +1,91 @@
+# Snapchat Ads (US) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Official source: Snap Advertising Policies.
+
+source:
+  id: snapchat_ads_us
+  type: platform
+  name: Snap Advertising Policies
+  jurisdiction: [US]
+  url: https://www.snap.com/ad-policies
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: snap.misleading.deceptive_content
+    source_id: snapchat_ads_us
+    category_id: misleading
+    text: >
+      Snap prohibits ads that are false or misleading, including deceptive
+      claims, offers, functionality, or business practices, including
+      manipulating content for false or misleading purposes (whether through
+      generative AI or through deceptive editing).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "snap-ad-policies-deceptive"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads that are false or misleading, including deceptive claims, offers,
+        functionality, or business practices, including manipulating content for
+        false or misleading purposes (whether through generative AI or through
+        deceptive editing).
+      source_url: https://www.snap.com/ad-policies
+      section: "Snap Advertising Policies > 4.3 Deceptive Content"
+      retrieved_at: 2026-06-27
+
+  - id: snap.misleading.cloaking
+    source_id: snapchat_ads_us
+    category_id: misleading
+    text: >
+      Cloaking, otherwise restricting landing page access, or modifications to URL
+      content following submission in an attempt to circumvent review are
+      prohibited.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "snap-ad-policies-deceptive"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Cloaking, otherwise restricting landing page access, or modifications to
+        URL content following submission in an attempt to circumvent review.
+      source_url: https://values.snap.com/policy/prohibited-content/deceptive-content
+      section: "Prohibited Content > Deceptive Content"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: snap_misleading_deceptive
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [snap.misleading.deceptive_content]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: "False/misleading claims, offers, functionality, or manipulated creative."
+    exceptions: []
+    status: active
+
+  - id: snap_misleading_cloaking
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [snap.misleading.cloaking]
+    category_id: misleading
+    severity: high
+    modalities: [landing_page]
+    priority: 62
+    detection: "Cloaking or post-submission URL/landing-page changes to evade review."
+    exceptions: []
+    status: active

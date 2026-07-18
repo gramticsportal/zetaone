@@ -1,0 +1,1679 @@
+# Google Ads (US) — canonical-ontology instance.
+# Verticals: Misleading / Deceptive + Health / Medical. Conforms to ontology/schema.yaml.
+# Clause text quoted from the official Google Ads "Misrepresentation" and
+# "Healthcare and medicines" policies. Each clause carries an `evidence` block
+# and `last_reviewed_by` (ai until a human manually verifies on the live page).
+
+source:
+  id: google_ads_us
+  type: platform
+  name: Google Ads Policies — Misrepresentation & Healthcare/Medicines
+  jurisdiction: [US]
+  url: https://support.google.com/adspolicy/answer/6020955
+  status: active
+  retrieved_at: 2026-06-24
+  last_verified_at: 2026-06-24
+
+clauses:
+  - id: google.misrep.unacceptable_business_practices
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Scamming users by hiding or misrepresenting information about your
+      business, products or services is not allowed. This includes making it
+      seem like you're supported by another brand, organization or government
+      entity when you're not; offering products or services you don't have or
+      can't deliver; lying about services that could put health or safety at
+      risk; and impersonating other brands or businesses.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Scamming users by hiding or misrepresenting information about your
+        business, products or services is not allowed. This includes making it
+        seem like you're supported by another brand, organization or government
+        entity when you're not; offering products or services you don't have or
+        can't deliver; lying about services that could put health or safety at
+        risk; and impersonating other brands or businesses.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.misleading_representation
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Making misleading statements, obscuring, or omitting material information
+      about your identity, affiliations, or qualifications is not allowed.
+      Providing an inaccurate business name or one that does not clearly
+      represent the advertised business is not allowed.
+    modalities: [text, image, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Making misleading statements, obscuring, or omitting material
+        information about your identity, affiliations, or qualifications is not
+        allowed. Providing an inaccurate business name or one that does not
+        clearly represent the advertised business is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.dishonest_pricing
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Failure to clearly and conspicuously disclose the payment model or full
+      expense a user will bear before and after purchase is not allowed.
+      Employing pricing practices that create a false or misleading impression
+      of the cost of a product or service, leading to inflated or unexpected
+      charges, is not allowed.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Failure to clearly and conspicuously disclose the payment model or full
+        expense a user will bear before and after purchase is not allowed.
+        Employing pricing practices that create a false or misleading impression
+        of the cost of a product or service, leading to inflated or unexpected
+        charges, is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices > Dishonest pricing"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.clickbait_ads
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Ads that use clickbait tactics or sensationalist text or imagery to drive
+      traffic are not allowed. Ads that use negative life events such as death,
+      accidents, illness, arrests or bankruptcy to induce fear, guilt or other
+      strong negative emotions to pressure the viewer to take immediate action
+      are not allowed.
+    modalities: [text, image, video]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads that use clickbait tactics or sensationalist text or imagery to
+        drive traffic are not allowed. Ads that use negative life events such as
+        death, accidents, illness, arrests or bankruptcy to induce fear, guilt
+        or other strong negative emotions to pressure the viewer to take
+        immediate action are not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices > Clickbait ads"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.misleading_ad_design
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Ads that make it difficult for the user to understand they are interacting
+      with an ad are not allowed. This includes non-functional elements that
+      resemble buttons or input fields, misleading icons or arrows, designs that
+      mimic system notifications or dialog boxes, inconsistencies between the ad
+      and the landing page, and ads that don't clearly indicate they are
+      advertisements.
+    modalities: [image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads that make it difficult for the user to understand they are
+        interacting with an ad are not allowed. This includes non-functional
+        elements that resemble buttons or input fields, misleading icons or
+        arrows, designs that mimic system notifications or dialog boxes,
+        inconsistencies between the ad and the landing page, and ads that don't
+        clearly indicate they are advertisements.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unacceptable business practices > Misleading ad design"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.manipulated_media
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Manipulating media to deceive, defraud, or mislead others is not allowed.
+    modalities: [image, video]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Manipulating media to deceive, defraud, or mislead others is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Manipulated media"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.unreliable_claims
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Making inaccurate claims or claims that entice the user with an improbable
+      result (even if this result is possible) as the likely outcome a user can
+      expect is not allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Making inaccurate claims or claims that entice the user with an
+        improbable result (even if this result is possible) as the likely
+        outcome a user can expect is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unreliable claims"
+      retrieved_at: 2026-06-24
+
+  - id: google.misrep.unavailable_offers
+    source_id: google_ads_us
+    category_id: misleading
+    text: >
+      Promising products, services, or promotional offers in the ad that are
+      unavailable or aren't easily found from the destination is not allowed.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-misrepresentation"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Promising products, services, or promotional offers in the ad that are
+        unavailable or aren't easily found from the destination is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6020955
+      section: "Misrepresentation > Unreliable claims > Unavailable offers"
+      retrieved_at: 2026-06-24
+
+  # ===================== Health / Medicines =====================
+  - id: google.health.unauthorized_pharmacies
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Offering prescription drugs without a prescription is not allowed.
+      Targeting locations where you aren't licensed is not allowed.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Offering prescription drugs without a prescription is not allowed.
+        Targeting locations where you aren't licensed is not allowed.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Unauthorized pharmacies"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.prescription_drug_services
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Google restricts the promotion of services related to the online
+      prescribing, dispensing, and sale of prescription drugs. Advertisers must
+      apply to serve ads for prescription drug services and check the
+      location-specific restrictions for every location where they advertise.
+    modalities: [text, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Google restricts the promotion of services related to the online
+        prescribing, dispensing, and sale of prescription drugs. Businesses
+        subject to this policy include but aren't limited to online pharmacies
+        and telemedicine providers. Advertisers must apply to serve ads for
+        prescription drug services.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Prescription drug services"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.unapproved_substances
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Google doesn't allow the promotion of certain products regardless of any
+      claims of legality, including non-government approved products marketed in
+      a way that implies they're safe or effective for use in preventing,
+      curing, or treating a particular disease or ailment, and products that
+      imply they're as effective as prescription drugs or controlled substances.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Google doesn't allow the promotion of certain products, regardless of
+        any claims of legality: ... Non-government approved products that are
+        marketed in a way that implies that they're safe or effective for use in
+        preventing, curing, or treating a particular disease or ailment [and]
+        Products that imply they're as effective as prescription drugs or
+        controlled substances.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Unapproved substances"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.opioid_painkillers
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Google doesn't allow ads promoting or selling prescription opioid
+      painkillers.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Google doesn't allow ads promoting or selling prescription opioid
+        painkillers. This doesn't include medication-assisted treatment (MAT)
+        drugs for opioid use disorder that meet all other requirements for
+        prescription drugs listed on this page.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Prescription opioid painkillers"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.speculative_experimental
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Promotion of speculative and/or experimental medical treatments is not
+      allowed. Promotion of cell or gene therapies is not allowed except, in the
+      United States, FDA licensed or approved therapies by entities holding the
+      relevant FDA license or approval.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Except as provided below in relation to the promotion of cell or gene
+        therapies in the United States, the following isn't allowed: Promotion
+        of speculative and/or experimental medical treatments. Promotion of cell
+        or gene therapies, subject to the exception below.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Speculative and experimental medical treatment, cell therapies, and gene therapies"
+      retrieved_at: 2026-06-24
+
+  - id: google.health.clinical_trials
+    source_id: google_ads_us
+    category_id: health
+    text: >
+      Where promotion of clinical trial recruitment is allowed, promotions may
+      not create misleading expectations or effects of a product being tested,
+      and may not imply that the products being tested are safe.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-healthcare-medicines"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        While promotion of clinical trial recruitment in some locations is
+        allowed, the following restrictions apply: Prescription drugs may not be
+        promoted. Promotions may not create misleading expectations or effects of
+        a product being tested. Promotions may not imply that the products being
+        tested are safe.
+      source_url: https://support.google.com/adspolicy/answer/176031
+      section: "Healthcare and medicines > Clinical trial recruitment"
+      retrieved_at: 2026-06-24
+
+  # ===================== Financial =====================
+  - id: google.finance.disclosures
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      When promoting financial products or services, advertisers must provide
+      the physical address for the business, all associated fees, and links to
+      third-party accreditation or endorsement where affiliation is asserted or
+      implied. Disclosures must be clearly and immediately visible without
+      needing to click or hover over anything.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-financial-products-services"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        If you're promoting financial products or services, you're required to
+        provide: The physical address for the business offering the financial
+        product or service; All associated fees; Links to third-party
+        accreditation or endorsement where affiliation is asserted or implied
+        ... Disclosures can't be posted as roll-over text or made available
+        through another link or tab. They must be clearly and immediately
+        visible without needing to click or hover over anything.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Financial products and services disclosures"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.personal_loans
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Only personal loans that require repayment in full in 61 days or longer
+      are allowed. Advertisers promoting personal loans must prominently
+      disclose the minimum and maximum period for repayment, the maximum Annual
+      Percentage Rate (APR), and a representative example of the total cost of
+      the loan, including all applicable fees.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-financial-products-services"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Only personal loans that require repayment in full in 61 days or longer
+        are allowed. ... If you promote personal loans, you're required to
+        prominently disclose all of the following additional information on your
+        ad's destination: Minimum and maximum period for repayment; Maximum
+        Annual Percentage Rate (APR) ...; A representative example of the total
+        cost of the loan, including all applicable fees.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Personal loans"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.high_apr_us
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Google doesn't allow ads for personal loans with an APR of 36% and above
+      in the US. This policy applies to advertisers who make loans directly,
+      lead generators, and those who connect consumers with third-party lenders.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-high-apr-personal-loans"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Google doesn't allow ads for personal loans with an APR of 36% and above
+        in the US. This policy applies to advertisers who make loans directly,
+        lead generators, and those who connect consumers with third-party
+        lenders.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > High APR personal loans (US specific)"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.binary_options
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Ads for binary options or equivalent financial products are not allowed,
+      including binary options brokers, and informational or educational sites
+      and blogs on binary options and equivalent products.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-binary-options"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads for binary options or equivalent financial products are not allowed.
+        Binary Options brokers: Sites that offer binary options and signals or
+        software for binary options with no other financial products are not
+        allowed. Binary Options informational or educational sites and blogs:
+        Educational sites or blogs on binary options and equivalent products are
+        not allowed.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Binary options"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.complex_speculative
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Google only allows advertisements for complex speculative financial
+      products (such as Contracts for Difference, financial spread betting, and
+      rolling spot forex) in select locations and only if the advertiser is a
+      licensed provider or aggregator, the products and ads comply with local
+      laws, the location is eligible, and the account has received approval.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-complex-speculative"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Due to the inherent complexities and risks involved in trading the
+        following types of complex speculative financial products, to protect
+        users, Google only allow advertisements for these products in select
+        locations and only if they meet all of the following criteria: The
+        advertiser is a licensed provider or aggregator; The products and ads
+        comply with local laws and industry standards; The targeted location is
+        eligible for advertising under this policy and; The account has received
+        approval from Google Ads to run ads about these products.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Complex speculative financial products"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.credit_repair
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Ads for credit repair services are not allowed. This policy applies to
+      advertisers who offer credit repair services directly, lead generators,
+      and those who connect consumers with third-party credit repair services.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-credit-repair"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Ads for credit repair services are not allowed.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Credit repair services"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.loan_modification
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Google restricts loan-modification products and services. The following
+      lead to disapproval: guaranteeing loan modification or foreclosure
+      prevention; charging an upfront fee (unless the service is provided by a
+      law firm); asking users to transfer or surrender property titles or
+      offering to buy a house below market price; asking users to bypass the
+      lender and pay the company directly; and encouraging users not to contact
+      their lender, lawyer, credit counselor, or housing counselor.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-loan-modification"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        ... the following scenarios would lead to disapproval for Loan
+        modification: Guaranteeing loan modification or foreclosure prevention;
+        Charging an upfront fee, unless service is being provided by a law firm;
+        Asking users to transfer or surrender property titles, or offering to
+        buy a house at a below-market price; Asking users to bypass the lender
+        and make payments directly to the company or other third party;
+        Encouraging users not to contact their lender, lawyer, credit counselor,
+        or housing counselor.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Loan modification"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.crypto
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Google Ads allows certain categories of cryptocurrency-related products
+      and services to be advertised with and without certification by Google in
+      limited circumstances. Advertisers must comply with state and local
+      regulations for any region or country that their ads target.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-cryptocurrencies"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Due to the complex and evolving nature of regulations related to
+        cryptocurrencies and related products and services, Google Ads allows
+        certain categories of cryptocurrency-related products and services to be
+        advertised with and without certification by Google in limited
+        circumstances. When promoting cryptocurrencies and related products, you
+        must comply with state and local regulations for any region or country
+        that your ads target.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Cryptocurrencies and related products"
+      retrieved_at: 2026-06-27
+
+  - id: google.finance.verification
+    source_id: google_ads_us
+    category_id: financial
+    text: >
+      Advertisers are required to complete a verification process to advertise
+      financial services in some locations, providing information about the type
+      of services they provide, the licenses they hold, registration numbers,
+      and other relevant information about their business.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-financial-services-verification"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [18+]
+      industries: [financial]
+    evidence:
+      quote: >-
+        You're required to complete a verification process to advertise
+        financial services in some locations. This verification usually involves
+        providing information about the type of services you provide, the
+        licenses you hold to provide those services, your registration numbers,
+        and any other relevant information about your business.
+      source_url: https://support.google.com/adspolicy/answer/2464998
+      section: "Financial products and services > Location specific financial services verification"
+      retrieved_at: 2026-06-27
+
+  # ===================== Housing & Employment (discrimination) =====================
+  - id: google.discrimination.restricted_targeting
+    source_id: google_ads_us
+    category_id: discrimination
+    text: >
+      Certain demographics (age, gender, marital status, parental status) may not
+      be used to target Housing, Employment, and Consumer Finance Ads in the
+      United States and Canada, and ZIP code location targeting cannot be used
+      for these ads. These restrictions are designed to help ensure equitable
+      access to opportunities in Housing, Employment, and Consumer finance.
+      Geographic targeting using radius (at least 1 km), city, and country is
+      allowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-02-01
+    version: "2024-personalized-advertising-hec"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        Certain demographics (age, gender, marital status, parental status) may
+        not be used to target Housing, Employment, and Consumer Finance Ads in
+        the United States and Canada. ZIP code location targeting cannot be used
+        for Housing, Employment, and Consumer Finance Ads in the United States
+        and Canada. ... These restrictions are designed to help ensure equitable
+        access to opportunities in Housing, Employment, and Consumer finance in
+        the United States and Canada.
+      source_url: https://support.google.com/adspolicy/answer/143465
+      section: "Restricted targeting in Personalized advertising > Categories with targeting restrictions"
+      retrieved_at: 2026-06-27
+
+  # ===================== Political & Social Issues =====================
+  - id: google.political.compliance_verification
+    source_id: google_ads_us
+    category_id: political
+    text: >
+      Political ads and destinations must comply with legal requirements,
+      including campaign and election laws and mandated election "silence
+      periods" for any geographic areas they target. In regions where election
+      ads verification is required, election ads may run only if the advertiser
+      is verified by Google, and are subject to disclosure requirements and
+      targeting restrictions.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-political-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        We support responsible political advertising, and expect all political
+        ads and destinations to comply with legal requirements. This includes
+        campaign and election laws and mandated election "silence periods" for
+        any geographic areas they target. ... In some regions, election ads may
+        run only if the advertiser is verified by Google. In these regions,
+        election ads are subject to disclosure requirements and targeting
+        restrictions.
+      source_url: https://support.google.com/adspolicy/answer/6014595
+      section: "Political content > Overview"
+      retrieved_at: 2026-06-27
+
+  - id: google.political.paid_for_by
+    source_id: google_ads_us
+    category_id: political
+    text: >
+      All election ads run by verified election advertisers in regions where
+      election ads verification is required must contain a disclosure that
+      identifies who paid for the ad. For most ad formats Google automatically
+      generates a "Paid for by" disclosure; for some formats the advertiser is
+      responsible for including a "Paid for by" disclosure that is visible at all
+      times and legible to an average viewer.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "2024-political-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        All election ads run by verified election advertisers in regions where
+        election ads verification is required must contain a disclosure that
+        identifies who paid for the ad. For most ad formats, Google will
+        automatically generate a "Paid for by" disclosure, using the information
+        provided during the verification process. ... For visual formats, the
+        disclosure must be visible at all times and be of a sufficient size to be
+        legible to an average viewer.
+      source_url: https://support.google.com/adspolicy/answer/6014595
+      section: "Political content > Disclosure requirements for election advertising"
+      retrieved_at: 2026-06-27
+
+  - id: google.political.synthetic_content
+    source_id: google_ads_us
+    category_id: political
+    text: >
+      Advertisers must disclose all election ads that contain synthetic or
+      digitally altered content — specifically images, video, or audio that
+      inauthentically depict real or realistic-looking people or events — by
+      selecting the "Altered or synthetic content" checkbox in their campaign
+      settings. Inconsequential edits (e.g. resizing, cropping, color correction)
+      are out of scope.
+    modalities: [image, video, audio]
+    jurisdiction: [US]
+    effective_date: 2024-07-01
+    version: "2024-synthetic-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        Google believes that users should have information to make informed
+        decisions when viewing election ads that contain synthetic or digitally
+        altered content, specifically images, video, or audio that inauthentically
+        depict real or realistic-looking people or events. ... Advertisers must
+        disclose all election ads that contain synthetic or digitally altered
+        content by selecting the checkbox in the "Altered or synthetic content"
+        section in their campaign settings.
+      source_url: https://support.google.com/adspolicy/answer/6014595
+      section: "Political content > Disclosure requirements for synthetic or digitally altered content"
+      retrieved_at: 2026-06-27
+
+  # ===================== Children / Minors =====================
+  - id: google.minors.no_personalized_ads_under_18
+    source_id: google_ads_us
+    category_id: minors
+    text: >
+      Users under the age of 18 are not eligible for personalized advertising of
+      any kind, including serving based on Predefined Google Audiences.
+      Advertisers using advertiser-curated audiences are prohibited from
+      uploading customer information from viewers of child-directed content.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-08-15
+    version: "personalized-advertising-restricted-targeting"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Users under the age of 18 are not eligible for personalized advertising
+        of any kind, including serving based on Predefined Google Audiences.
+        Advertisers using advertiser-curated audiences are prohibited from
+        uploading customer information from viewers of child-directed content.
+      source_url: https://support.google.com/adspolicy/answer/143465
+      section: "Restricted targeting in Personalized advertising > Users under 18"
+      retrieved_at: 2026-06-27
+
+  - id: google.minors.sensitive_categories_restricted
+    source_id: google_ads_us
+    category_id: minors
+    text: >
+      Ad-serving protections for children and teens disable ads personalization
+      and restrict sensitive ad content and categories for users under 18, such
+      as gambling, alcohol, adult content and pornography, shocking content,
+      dating and relationships, and body modification and weight loss.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-08-15
+    version: "ad-serving-protections-children-teens"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [minors]
+    evidence:
+      quote: >-
+        These protections include disabling ads personalization and restricting
+        sensitive ad content and categories for users above the digital age of
+        consent and under 18 years old, such as: ... Shocking content ...
+        Gambling ... Alcohol ... Adult content and pornography ... Dating and
+        relationships ... Body modification and weight loss.
+      source_url: https://support.google.com/adspolicy/answer/15416897
+      section: "Ad protections for children and teens"
+      retrieved_at: 2026-06-27
+
+  - id: google.minors.made_for_kids
+    source_id: google_ads_us
+    category_id: minors
+    text: >
+      On content set as "made for kids" on YouTube, advertisers may not run
+      personalized ads or use any third-party trackers. The policy also prohibits
+      inciting children to purchase a product and prohibits misleading and
+      deceptive claims.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2020-01-06
+    version: "ads-and-made-for-kids-content"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [under_13]
+      industries: [minors]
+    evidence:
+      quote: >-
+        Under this policy, advertisers may not run personalized ads or make use
+        of any third party trackers on content set as "made for kids". The policy
+        also prohibits inciting children to purchase a product and misleading and
+        deceptive claims.
+      source_url: https://support.google.com/adspolicy/answer/15416897
+      section: "Ad protections for children and teens > Ads & made for kids content"
+      retrieved_at: 2026-06-27
+
+  # ===================== Privacy & Personal Data =====================
+  - id: google.privacy.sensitive_interest_categories
+    source_id: google_ads_us
+    category_id: privacy
+    text: >
+      Advertisers promoting products and services that fall within sensitive
+      interest categories are unable to use advertiser-curated audiences
+      (Customer Match, data segments/remarketing, audience expansion, lookalike,
+      and custom segments). Sensitive interest categories include health, sexual
+      orientation, race and ethnicity, religious beliefs, negative financial
+      status, political affiliation, and relationship hardships, among others.
+      Predefined Google audiences may be used because sensitive user signals are
+      excluded from them.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "personalized-advertising-sensitive-categories"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Advertisers promoting products and services that fall within sensitive
+        interest categories are unable to use advertiser-curated audiences. This
+        helps ensure that sensitive interest categories aren't inadvertently used
+        for targeting audiences. Because predefined Google audiences are
+        expressly configured without sensitive user signals, all advertisers are
+        allowed to use them, even if they promote sensitive interest categories.
+      source_url: https://support.google.com/adspolicy/answer/143465
+      section: "Restricted targeting in Personalized advertising > Sensitive interest categories"
+      retrieved_at: 2026-06-27
+
+  # ===================== Alcohol / Tobacco / Cannabis =====================
+  - id: google.atc.alcohol
+    source_id: google_ads_us
+    category_id: alcohol
+    text: >
+      Google Ads follows local alcohol laws and industry standards. Alcohol ads
+      must not target minors and may only target locations allowed to show
+      alcohol ads. Content that promotes harmful or illegal consumption is
+      prohibited: any ad implying health or social benefits from alcohol,
+      promoting alcohol use in dangerous situations (e.g. driving), or encouraging
+      underage or excessive drinking will be disapproved.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-alcohol"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [alcohol]
+    evidence:
+      quote: >-
+        Google Ads prohibits content that promotes harmful or illegal consumption
+        or alcohol. Any ad implying health or social benefits from alcohol,
+        promoting alcohol use in dangerous situations like driving, or encouraging
+        underage or excessive drinking will be disapproved. ... The following is
+        not allowed: Targeting individuals below the legal drinking age in one or
+        more locations your ads target.
+      source_url: https://support.google.com/adspolicy/answer/6012382
+      section: "Advertising Policies > Alcohol"
+      retrieved_at: 2026-06-27
+
+  - id: google.atc.tobacco
+    source_id: google_ads_us
+    category_id: drugs
+    text: >
+      Ads for tobacco or any products containing tobacco are not allowed. Ads for
+      products that form a component part of a tobacco product, or that directly
+      facilitate or promote tobacco consumption, are not allowed, as are ads for
+      products designed to simulate tobacco smoking (e.g. herbal cigarettes,
+      electronic cigarettes, e-cigarettes).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-tobacco"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads for tobacco or any products containing tobacco are not allowed. ...
+        Ads for products that form a component part of a tobacco product, as well
+        as products and services that directly facilitate or promote tobacco
+        consumption are not allowed. ... Ads for products designed to simulate
+        tobacco smoking are not allowed. Examples (non-exhaustive): Herbal
+        cigarettes, electronic cigarettes, e-cigarettes.
+      source_url: https://support.google.com/adspolicy/answer/16489929
+      section: "Dangerous products or services > Tobacco"
+      retrieved_at: 2026-06-27
+
+  - id: google.atc.recreational_drugs
+    source_id: google_ads_us
+    category_id: drugs
+    text: >
+      Ads for substances that alter mental state for the purpose of recreation or
+      otherwise induce "highs" are not allowed, as are ads for products or
+      services marketed as facilitating recreational drug use and instructional
+      content about producing, purchasing, or using recreational drugs.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-dangerous-recreational-drugs"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads for substances that alter mental state for the purpose of recreation
+        or otherwise induce "highs" are not allowed. Ads for products or services
+        marketed as facilitating recreational drug use are not allowed. Ads for
+        instructional content about producing, purchasing, or using recreational
+        drugs are not allowed.
+      source_url: https://support.google.com/adspolicy/answer/6014299
+      section: "Dangerous products or services > Recreational drugs"
+      retrieved_at: 2026-06-27
+
+  - id: google.atc.cbd
+    source_id: google_ads_us
+    category_id: drugs
+    text: >
+      Ads for topical, hemp-derived cannabidiol (CBD) products with THC content of
+      0.3% or less are allowed only if the advertiser applies to advertise these
+      CBD products and targets only California, Colorado, and Puerto Rico; some ad
+      formats have additional restrictions. Other CBD-based products (supplements,
+      food additives, inhalants) remain disallowed.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-01-20
+    version: "adspolicy-cbd-2023"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Ads for topical, hemp-derived cannabidiol (CBD) products with THC content
+        of 0.3% or less are allowed. Advertisers must apply to advertise these CBD
+        products and only target California, Colorado, and Puerto Rico. Some ad
+        formats may have additional restrictions for promotion of CBD products.
+      source_url: https://support.google.com/adspolicy/answer/6014299
+      section: "Dangerous products or services > Recreational drugs > CBD"
+      retrieved_at: 2026-06-27
+
+  # ===================== Gambling & Gaming =====================
+  - id: google.gambling.certification_license
+    source_id: google_ads_us
+    category_id: gambling
+    text: >
+      Google only allows advertising of online gambling and online
+      gambling-promoting content in listed countries where the country-specific
+      certification criteria are met. Advertisers must apply for and obtain
+      certification and maintain any required license, authorization, or
+      registration; serving gambling ads without a valid certification may result
+      in the account being prohibited from running ads.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        We only allow advertising of online gambling and online
+        gambling-promoting content in the countries listed below and where the
+        country-specific certification criteria are met. ... Advertisers must
+        maintain any license, authorization, registration or similar required
+        under this policy ... Serving gambling ads without a valid certification
+        may result in your account being prohibited from running ads until you
+        apply for and receive certification.
+      source_url: https://support.google.com/adspolicy/answer/15132179
+      section: "Advertising Policies > Gambling and games"
+      retrieved_at: 2026-06-27
+
+  - id: google.gambling.minors
+    source_id: google_ads_us
+    category_id: gambling
+    text: >
+      Gambling and online gambling-promoting content ads and destinations must
+      only target approved countries and must never target minors.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Gambling and online gambling-promoting content ads and destinations must
+        also: only target approved countries, have a landing page that displays
+        information about responsible gambling and never target minors.
+      source_url: https://support.google.com/adspolicy/answer/15132179
+      section: "Advertising Policies > Gambling and games > Requirements"
+      retrieved_at: 2026-06-27
+
+  - id: google.gambling.responsible
+    source_id: google_ads_us
+    category_id: gambling
+    text: >
+      Gambling ads and destinations must have a landing page that displays
+      information about responsible gambling.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-gambling-and-games"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [gambling]
+    evidence:
+      quote: >-
+        Gambling and online gambling-promoting content ads and destinations must
+        also: only target approved countries, have a landing page that displays
+        information about responsible gambling and never target minors.
+      source_url: https://support.google.com/adspolicy/answer/15132179
+      section: "Advertising Policies > Gambling and games > Requirements"
+      retrieved_at: 2026-06-27
+
+  # ===================== Intellectual Property / Counterfeit =====================
+  - id: google.ip.counterfeit_goods
+    source_id: google_ads_us
+    category_id: ip_trademark
+    text: >
+      Google Ads and Display & Video 360 prohibit the sale or promotion for sale
+      of counterfeit goods. Counterfeit goods are products that contain a
+      trademark or logo that is identical to or substantially indistinguishable
+      from the trademark of another. They mimic the brand features of the product
+      in an attempt to pass themselves off as a genuine product of the brand
+      owner. This policy applies to the content of your ad and your website or app.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "adspolicy-counterfeit-176017"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Google Ads and Display & Video 360 prohibit the sale or promotion for
+        sale of counterfeit goods. Counterfeit goods are products that contain a
+        trademark or logo that is identical to or substantially indistinguishable
+        from the trademark of another. They mimic the brand features of the
+        product in an attempt to pass themselves off as a genuine product of the
+        brand owner.
+      source_url: https://support.google.com/adspolicy/answer/176017
+      section: "Advertising Policies > Counterfeit goods"
+      retrieved_at: 2026-06-27
+
+  - id: google.ip.trademark
+    source_id: google_ads_us
+    category_id: ip_trademark
+    text: >
+      Google Ads and Display & Video 360 abide by local trademark laws and
+      protect the rights of trademark owners, so Google doesn't allow ads that
+      infringe trademark rights. If a trademark owner submits a complaint, Google
+      may restrict use of the trademark — including ads that use a trademark from
+      a direct competitor or in a confusing, deceptive, or misleading way.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-07-24
+    version: "adspolicy-trademarks-6118"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Google Ads and Display & Video 360 abide by local trademark laws and
+        protects the rights of trademark owners, so we don't allow ads that
+        infringe trademark rights.
+      source_url: https://support.google.com/adspolicy/answer/6118
+      section: "Advertising Policies > Trademarks"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: google_unreliable_claims
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [google.misrep.unreliable_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Inaccurate or improbable results presented as the likely outcome a user
+      can expect.
+    exceptions:
+      - "Typical, substantiated results clearly presented as such."
+    status: active
+
+  - id: google_unacceptable_business_practices
+    canonical_id: misleading.false_affiliation_or_endorsement
+    clause_ids: [google.misrep.unacceptable_business_practices, google.misrep.misleading_representation]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Implying support/affiliation with a brand, org, or government entity when
+      false; impersonation; misrepresenting identity or qualifications.
+    exceptions:
+      - "Documented, authorized affiliations and endorsements."
+    status: active
+
+  - id: google_pricing_and_offers
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [google.misrep.dishonest_pricing, google.misrep.unavailable_offers]
+    category_id: misleading
+    severity: medium
+    modalities: [text, landing_page]
+    priority: 55
+    detection: >
+      Omitting material pricing info, hidden/unexpected charges, or promoting
+      offers unavailable from the destination.
+    exceptions:
+      - "Full cost and offer terms clearly and conspicuously disclosed."
+    status: active
+
+  - id: google_clickbait_and_ad_design
+    canonical_id: misleading.clickbait_or_fake_ui
+    clause_ids: [google.misrep.clickbait_ads, google.misrep.misleading_ad_design]
+    category_id: misleading
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 55
+    detection: >
+      Clickbait/sensationalist tactics; fake UI elements (buttons, fields, alerts)
+      or ads not clearly identifiable as ads.
+    exceptions: []
+    status: active
+
+  - id: google_manipulated_media
+    canonical_id: misleading.before_after_distortion
+    clause_ids: [google.misrep.manipulated_media]
+    category_id: misleading
+    severity: high
+    modalities: [image, video]
+    priority: 55
+    detection: >
+      Media manipulated to deceive, defraud, or mislead (incl. fabricated
+      transformations/effects).
+    exceptions: []
+    status: active
+
+  # --- Health ---
+  - id: google_health_prescription_restricted
+    canonical_id: health.prescription_drug_promotion_restricted
+    clause_ids: [google.health.unauthorized_pharmacies, google.health.prescription_drug_services]
+    category_id: health
+    severity: high
+    modalities: [text, landing_page]
+    priority: 70
+    detection: >
+      Offering prescription drugs without a prescription, or promoting
+      prescription drug services without required certification/application.
+    exceptions:
+      - "Certified pharmacies/telemedicine in allowed locations."
+    status: active
+
+  - id: google_health_unapproved_products
+    canonical_id: health.unapproved_or_dangerous_products
+    clause_ids: [google.health.unapproved_substances, google.health.opioid_painkillers, google.health.speculative_experimental]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Unapproved/dangerous substances, prescription opioid painkillers, or
+      speculative/experimental treatments.
+    exceptions:
+      - "US-permitted FDA-licensed cell/gene therapies by approved entities."
+    status: active
+
+  - id: google_health_disease_implication
+    canonical_id: health.disease_cure_treatment_claims
+    clause_ids: [google.health.unapproved_substances]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Non-approved products implying they prevent, cure, or treat a disease, or
+      that they are as effective as prescription drugs.
+    exceptions: []
+    status: active
+
+  - id: google_health_clinical_trials
+    canonical_id: health.unsubstantiated_health_claims
+    clause_ids: [google.health.clinical_trials]
+    category_id: health
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Clinical-trial recruitment creating misleading expectations or implying
+      the tested product is safe.
+    exceptions: []
+    status: active
+
+  # --- Financial ---
+  - id: google_finance_prohibited
+    canonical_id: finance.prohibited_predatory_products
+    clause_ids:
+      - google.finance.binary_options
+      - google.finance.credit_repair
+      - google.finance.high_apr_us
+      - google.finance.complex_speculative
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Prohibited/heavily-restricted financial products: binary options, credit
+      repair, US personal loans with APR ≥36%, or unlicensed complex speculative
+      products (CFDs, spread betting, forex).
+    exceptions:
+      - "Complex speculative products by a licensed provider with Google approval."
+    status: active
+
+  - id: google_finance_disclosures
+    canonical_id: finance.required_cost_and_risk_disclosures
+    clause_ids: [google.finance.disclosures]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Financial ads missing clearly/immediately-visible disclosures (physical
+      address, all fees, accreditation links).
+    exceptions: []
+    status: active
+
+  - id: google_finance_credit_terms
+    canonical_id: finance.credit_advertising_trigger_terms
+    clause_ids: [google.finance.personal_loans]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Personal-loan ads under 61-day repayment, or missing required
+      min/max repayment period, max APR, and a representative cost example.
+    exceptions: []
+    status: active
+
+  - id: google_finance_crypto
+    canonical_id: finance.crypto_restricted
+    clause_ids: [google.finance.crypto]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Cryptocurrency-related ads without required certification or non-compliant
+      with state/local regulations.
+    exceptions:
+      - "Certified categories compliant with state/local regulations."
+    status: active
+
+  - id: google_finance_loan_modification
+    canonical_id: finance.loan_modification_foreclosure_restricted
+    clause_ids: [google.finance.loan_modification]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Loan-modification/foreclosure ads that guarantee outcomes, charge upfront
+      fees (non-law-firm), seek title transfer, or discourage lender contact.
+    exceptions:
+      - "Services provided by a law firm (for the upfront-fee restriction)."
+    status: active
+
+  - id: google_finance_verification
+    canonical_id: finance.licensing_registration_required
+    clause_ids: [google.finance.verification]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Financial-services ads run without completing required location-specific
+      licensing/registration verification.
+    exceptions:
+      - "Advertisers who completed financial-services verification."
+    status: active
+
+  # --- Housing & Employment (discrimination) ---
+  - id: google_discrimination_targeting
+    canonical_id: discrimination.restricted_targeting_protected_class
+    clause_ids: [google.discrimination.restricted_targeting]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 63
+    detection: >
+      Housing/employment/consumer-finance ads (US/Canada) targeting by restricted
+      demographics (age, gender, marital/parental status) or ZIP code.
+    exceptions:
+      - "Geographic targeting by radius (>=1 km), city, or country."
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: google_political_authorization
+    canonical_id: political.authorization_and_disclaimer_required
+    clause_ids: [google.political.compliance_verification, google.political.paid_for_by]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 63
+    detection: >
+      Election ads run by unverified advertisers, missing a "Paid for by"
+      disclosure, or not complying with election laws / silence periods.
+    exceptions:
+      - "Verified election advertisers with a 'Paid for by' disclosure."
+    status: active
+
+  - id: google_political_synthetic
+    canonical_id: political.synthetic_content_disclosure
+    clause_ids: [google.political.synthetic_content]
+    category_id: political
+    severity: high
+    modalities: [image, video, audio]
+    priority: 60
+    detection: >
+      Election ads with synthetic/digitally altered images, video, or audio that
+      inauthentically depict real or realistic people/events, without the
+      required altered/synthetic-content disclosure.
+    exceptions:
+      - "Inconsequential edits (resizing, cropping, color correction)."
+    status: active
+
+  # --- Children / Minors ---
+  - id: google_minors_personalization
+    canonical_id: minors.personalized_targeting_of_minors_restricted
+    clause_ids: [google.minors.no_personalized_ads_under_18]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Personalized advertising (predefined audiences, remarketing, Customer
+      Match, custom segments) served to users under 18.
+    exceptions: []
+    status: active
+
+  - id: google_minors_sensitive_categories
+    canonical_id: minors.age_restricted_products_not_shown_to_minors
+    clause_ids: [google.minors.sensitive_categories_restricted]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Sensitive categories (gambling, alcohol, adult, dating, body modification/
+      weight loss, shocking content) served to users under 18.
+    exceptions: []
+    status: active
+
+  - id: google_minors_made_for_kids
+    canonical_id: minors.child_directed_content_ad_restrictions
+    clause_ids: [google.minors.made_for_kids]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      On made-for-kids content: personalized ads, third-party trackers, ads
+      inciting children to purchase, or misleading/deceptive claims.
+    exceptions: []
+    status: active
+
+  # --- Privacy & Personal Data ---
+  - id: google_privacy_sensitive_categories
+    canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    clause_ids: [google.privacy.sensitive_interest_categories]
+    category_id: privacy
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Use of advertiser-curated audiences (Customer Match, remarketing,
+      lookalike, custom segments) to target sensitive interest categories
+      (health, sexual orientation, race, religion, financial hardship, etc.).
+    exceptions:
+      - "Predefined Google audiences (sensitive signals excluded)."
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: google_atc_alcohol
+    canonical_id: atc.alcohol_age_and_location_targeting_required
+    clause_ids: [google.atc.alcohol]
+    category_id: alcohol
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 62
+    detection: >
+      Alcohol ads targeting below the legal drinking age, targeting disallowed
+      locations, or promoting harmful/illegal/excessive consumption or health/
+      social benefits.
+    exceptions: []
+    status: active
+
+  - id: google_atc_tobacco
+    canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    clause_ids: [google.atc.tobacco]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 70
+    detection: >
+      Ads for tobacco, tobacco components/paraphernalia, or products that
+      simulate smoking (e-cigarettes, herbal cigarettes).
+    exceptions: []
+    status: active
+
+  - id: google_atc_recreational_drugs
+    canonical_id: atc.recreational_drugs_and_thc_prohibited
+    clause_ids: [google.atc.recreational_drugs]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ads for recreational drugs / mind-altering "high"-inducing substances,
+      drug-use facilitation, or instructional drug content.
+    exceptions: []
+    status: active
+
+  - id: google_atc_cbd
+    canonical_id: atc.cbd_restricted_with_certification
+    clause_ids: [google.atc.cbd]
+    category_id: drugs
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      CBD ads outside CA/CO/PR, without Google certification, or for non-topical/
+      ingestible CBD (supplements, food additives, inhalants), or THC >0.3%.
+    exceptions:
+      - "Topical hemp-derived CBD <=0.3% THC, certified, targeting only CA/CO/PR."
+    status: active
+
+  # --- Gambling & Gaming ---
+  - id: google_gambling_certification
+    canonical_id: gambling.realmoney_requires_license_and_authorization
+    clause_ids: [google.gambling.certification_license]
+    category_id: gambling
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 64
+    detection: >
+      Online gambling ads served without valid Google certification / license in
+      approved countries.
+    exceptions:
+      - "Certified advertisers with valid license, targeting approved countries."
+    status: active
+
+  - id: google_gambling_minors
+    canonical_id: gambling.no_minors_targeting
+    clause_ids: [google.gambling.minors]
+    category_id: gambling
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: "Gambling ads targeting minors or unapproved countries."
+    exceptions: []
+    status: active
+
+  - id: google_gambling_responsible
+    canonical_id: gambling.responsible_gambling_required
+    clause_ids: [google.gambling.responsible]
+    category_id: gambling
+    severity: medium
+    modalities: [landing_page]
+    priority: 58
+    detection: >
+      Gambling ad landing pages lacking responsible-gambling information.
+    exceptions: []
+    status: active
+
+  # --- Intellectual Property / Counterfeit ---
+  - id: google_ip_counterfeit
+    canonical_id: ip.counterfeit_goods_prohibited
+    clause_ids: [google.ip.counterfeit_goods]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 72
+    detection: >
+      Ad or website/app selling or promoting counterfeit goods — products with a
+      trademark/logo identical to or substantially indistinguishable from
+      another's, mimicking brand features to pass as genuine (incl. "knock off",
+      "replica", "fake", etc.).
+    exceptions: []
+    status: active
+
+  - id: google_ip_trademark
+    canonical_id: ip.third_party_ip_infringement_prohibited
+    clause_ids: [google.ip.trademark]
+    category_id: ip_trademark
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 66
+    detection: >
+      Ads that infringe trademark rights — e.g. a direct competitor using the
+      mark, or use in a confusing, deceptive, or misleading way — following a
+      valid trademark-owner complaint.
+    exceptions:
+      - "Resellers/informational sites and other permitted uses per Google's trademark policy."
+    status: active

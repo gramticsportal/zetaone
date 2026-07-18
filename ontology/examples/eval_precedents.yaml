@@ -1,0 +1,619 @@
+# Evaluation examples derived from verified enforcement precedents.
+# Real-world non_compliant ad copy (verbatim or minimal reconstruction from official
+# evidence). All rows use split: test. Synthetic seeds remain in eval_seed.yaml.
+#
+# Regenerate: python ontology/tools/build_eval_precedents.py
+# Total: 44 examples (all non_compliant, all test split)
+
+examples:
+- id: prec_ev_kardashian_emax_2022
+  content: Are you guys into crypto??? This is not financial advice but sharing what my friends told me about the EthereumMax token!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.sec.kardashian_ethereummax_2022'
+- id: prec_ev_paul_pierce_emax_2023
+  content: Check out EthereumMax — don't miss this crypto opportunity! (paid promotion, undisclosed)
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.testimonials
+  - sec.finance.untrue_or_unbalanced
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.sec.paul_pierce_crypto_2023'
+- id: prec_ev_lohan_trx_2023
+  content: Excited to share Tronix (TRX) with you — this crypto is going to the moon!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.sec.lindsay_lohan_crypto_2023'
+- id: prec_ev_mayweather_centra_2018
+  content: You can call me Floyd Crypto Mayweather — get in on the Centra Tech ICO now!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.sec.mayweather_khaled_icos_2018'
+- id: prec_ev_flyfish_nft_2024
+  content: Invest in Flyfish Club NFTs — members can potentially profit from reselling at appreciated prices on the secondary market.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.untrue_or_unbalanced
+  - google.finance.crypto
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.sec.flyfish_club_nfts_2024'
+- id: prec_ev_robinhood_finfluencer_2025
+  content: Start trading with Robinhood and watch your money grow — easy passive income from the stock market! (paid influencer post)
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - finra.finance.fair_balanced
+  - finra.finance.no_performance_projection
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.finra.robinhood_finfluencer_2025'
+- id: prec_ev_m1_influencer_2024
+  content: Invest smarter with M1 Finance — build wealth effortlessly with our automated investing platform! (paid social post)
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - finra.finance.fair_balanced
+  - finra.finance.no_performance_projection
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.finra.m1_finance_influencers_2024'
+- id: prec_ev_moomoo_zero_commission_2024
+  content: Trade with zero commission on Moomoo — start investing today!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - finra.finance.fair_balanced
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.finra.moomoo_influencers_2024'
+- id: prec_ev_tradezero_free_trading_2024
+  content: Join TradeZero — the free trading platform that makes you rich from day one!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - finra.finance.fair_balanced
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.finra.tradezero_influencers_2024'
+- id: prec_ev_webull_finfluencer_2025
+  content: Webull will change your life — guaranteed profits with zero effort! (paid influencer ad)
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - finra.finance.fair_balanced
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.finra.webull_influencers_2025'
+- id: prec_ev_teami_detox_2020
+  content: Teami 30 Day Detox Pack helps you lose weight. Our teas fight cancer, clear clogged arteries, decrease migraines, and treat and prevent flus and colds.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.teami_health_influencers_2020'
+- id: prec_ev_lumosity_brain_2016
+  content: Play Lumosity games to stave off memory loss, dementia, and even Alzheimer's disease.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.lumosity_brain_training_2016'
+- id: prec_ev_reebok_easetone_2011
+  content: Walking in EasyTone shoes strengthens and tones your leg and buttock muscles more than regular shoes.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.reebok_easetone_2011'
+- id: prec_ev_skechers_shapeups_2012
+  content: Shape-ups help you lose weight and strengthen and tone your buttocks, legs, and abdominal muscles.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.skechers_shapeups_2012'
+- id: prec_ev_nextmed_glp1_2025
+  content: GLP-1 weight-loss membership — only $138/month! Join thousands who lost 30 lbs.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.truthful_substantiated
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.nextmed_weight_loss_2025'
+- id: prec_ev_evoke_clinic_ad_2025
+  content: 'Google search ad: [Your local addiction treatment center] — Call now for immediate admission (routes to Evoke call center, not the clinic searched).'
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - google.misrep.unacceptable_business_practices
+  - ftc.health.disease_implication
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.evoke_wellness_google_ads_2025'
+- id: prec_ev_covid_tea_fraud_2020
+  content: Our herbal tea and essential oils can treat or prevent COVID-19 — boost immunity and stop the virus naturally.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.disease_implication
+  - fda.health.disease_claims
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.fda.opioid_marketing_2020'
+- id: prec_ev_curaleaf_cbd_2019
+  content: Curaleaf CBD products treat cancer, Alzheimer's, opioid withdrawal, and chronic pain.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - drugs
+  - health
+  - misleading
+  violated_clause_ids:
+  - google.health.unapproved_substances
+  - meta.atc.cbd
+  - ftc.health.disease_implication
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.fda.curaleaf_cbd_2019'
+- id: prec_ev_draftkings_odds_2016
+  content: Deposit $10, get $10 free — everyone wins big on DraftKings daily fantasy!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - gambling
+  - misleading
+  - financial
+  violated_clause_ids:
+  - google.gambling.responsible
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.nyag.draftkings_fanduel_2016'
+- id: prec_ev_sportsbook_riskfree_2022
+  content: Place a risk-free bet and claim your $1,000 welcome offer — free money for new players!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - gambling
+  - misleading
+  - financial
+  violated_clause_ids:
+  - ftc.misleading.express_implied
+  - google.gambling.responsible
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.nyag.sports_betting_superbowl_2022'
+- id: prec_ev_pch_sweepstakes_2023
+  content: Buy now to complete your sweepstakes entry and increase your chances of winning $5,000 a week for life from Publishers Clearing House!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  - gambling
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - google.misrep.misleading_ad_design
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.publishers_clearing_house_2023'
+- id: prec_ev_mckenzie_energy_beer_2007
+  content: McKenzie River Corporation energy beer — feel the stimulating, energizing boost with every sip.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - alcohol
+  - health
+  - misleading
+  violated_clause_ids:
+  - ttb.atc.alcohol_statements
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ttb.mckenzie_energy_alcohol_2007'
+- id: prec_ev_clean_beer_2022
+  content: Clean beer — clean and healthy. No headaches, no hangovers.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - alcohol
+  - health
+  - misleading
+  violated_clause_ids:
+  - ttb.atc.alcohol_statements
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ttb.clean_beer_guidance_2022'
+- id: prec_ev_vitter_phonebank_2009
+  content: '[Phone bank call] Vote for David Vitter for U.S. Senate — no ''paid for by'' disclaimer.'
+  modality: audio
+  label: non_compliant
+  category_ids:
+  - political
+  violated_clause_ids:
+  - fec.political.disclaimer
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.fec.vitter_disclaimer_2009'
+- id: prec_ev_ntdo_mail_piece_2007
+  content: 'Mass mailing: Elect Dan Seals to Congress — missing required ''paid for by'' disclaimer.'
+  modality: text
+  label: non_compliant
+  category_ids:
+  - political
+  violated_clause_ids:
+  - fec.political.disclaimer
+  - meta.political.authorization_disclaimer
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.fec.ntdo_disclaimer_admonishment_2007'
+- id: prec_ev_bountiful_reviews_2023
+  content: 'Amazon listing: 4.5 stars, Amazon''s Choice — reviews inherited from unrelated product.'
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  - ip_trademark
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - amazon.misleading.truthful_substantiated_claims
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.bountiful_review_hijacking_2023'
+- id: prec_ev_roomster_reviews_2023
+  content: Roomster app — 20,000+ verified 5-star reviews. Find trusted roommates instantly!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - google.misrep.unreliable_claims
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.caag.roomster_fake_reviews_2023'
+- id: prec_ev_cameo_celebrity_2024
+  content: '[Cameo video] Celebrity: ''I use this product every day — you should too!'' (paid, no #ad)'
+  modality: video
+  label: non_compliant
+  category_ids:
+  - misleading
+  - financial
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - sec.finance.testimonials
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.nyag.cameo_endorsements_2024'
+- id: prec_ev_iheart_pixel_radio_2022
+  content: 'Radio ad script: ''I''ve been using the Google Pixel 4 and I love it — best phone I''ve ever owned.'' (personality never used the phone)'
+  modality: audio
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - google.misrep.misleading_representation
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.nyag.google_iheart_pixel_2022'
+- id: prec_ev_herbalife_mlm_2016
+  content: Join Herbalife — quit your job and enjoy a lavish lifestyle from distributor earnings!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - ftc.finance.earnings_claims
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.herbalife_mlm_2016'
+- id: prec_ev_devry_jobs_2016
+  content: 90% of DeVry graduates find jobs in their field within 6 months — earn more than graduates of other colleges.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  - financial
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.devry_education_claims_2016'
+- id: prec_ev_turbotax_free_2022
+  content: File your taxes for FREE with TurboTax — free for everyone!
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - cfpb.finance.actually_available_terms
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.intuit_turbotax_free_2022'
+- id: prec_ev_hrblock_free_2024
+  content: File your taxes FREE with H&R Block — no cost online filing for all taxpayers.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - cfpb.finance.actually_available_terms
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.hrblock_free_filing_2024'
+- id: prec_ev_credit_karma_preapproved_2023
+  content: You're pre-approved for this credit card! Apply now — you're guaranteed approval.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.credit_karma_preapproved_2023'
+- id: prec_ev_obamacareplans_2025
+  content: ObamacarePlans.com — buy low-cost, comprehensive ACA-compliant health insurance from the official marketplace.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.mediaalpha_insurance_leads_2025'
+- id: prec_ev_assurance_aca_2025
+  content: Get comprehensive ACA-compliant health insurance — full Obamacare coverage at affordable rates.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.health.disease_implication
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.assurance_iq_insurance_2025'
+- id: prec_ev_western_benefits_2024
+  content: Official Department of Education partner — consolidate your student loans and get forgiveness today.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - cfpb.finance.actually_available_terms
+  - linkedin.finance.prohibited
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.cfpb.western_benefits_2024'
+- id: prec_ev_rmk_va_mortgage_2023
+  content: VA/FHA-approved lender — get your mortgage approved fast with government backing.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - misleading
+  - discrimination
+  violated_clause_ids:
+  - cfpb.finance.mortgage_prohibited_acts
+  - cfpb.finance.trigger_terms
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.cfpb.rmk_mortgage_ads_2023'
+- id: prec_ev_att_unlimited_2019
+  content: AT&T Unlimited Data plan — truly unlimited high-speed data with no restrictions.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.express_implied
+  - ftc.misleading.reasonable_basis
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.att_unlimited_data_2019'
+- id: prec_ev_juul_youth_2023
+  content: Colorful vape ad featuring young models enjoying fruity, sweet, and minty JUUL flavors.
+  modality: image
+  label: non_compliant
+  category_ids:
+  - drugs
+  - minors
+  - misleading
+  violated_clause_ids:
+  - fda.atc.tobacco_format
+  - meta.atc.tobacco
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.nyag.juul_youth_marketing_2023'
+- id: prec_ev_bugaboo_counterfeit_2025
+  content: 'Facebook shop listing: Designer luxury handbag — inspired style, 90% off retail.'
+  modality: text
+  label: non_compliant
+  category_ids:
+  - ip_trademark
+  - misleading
+  violated_clause_ids:
+  - meta.ip.counterfeit_goods
+  - google.ip.counterfeit_goods
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.doj.bugaboo_boutique_counterfeit_2025'
+- id: prec_ev_cri_genetics_reviews_2024
+  content: 'Independent review site: CRI Genetics DNA test — 5 stars, most accurate ancestry results guaranteed.'
+  modality: text
+  label: non_compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.material_safety_disclosure
+  - google.health.speculative_experimental
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.caag.cri_genetics_2024'
+- id: prec_ev_vw_clean_diesel_2016
+  content: Volkswagen Clean Diesel — environmentally friendly low-emissions driving for a greener planet.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.volkswagen_clean_diesel_2016'
+- id: prec_ev_opendoor_chart_2022
+  content: Sell to Opendoor and net thousands more than a traditional home sale — see our chart.
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  - financial
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - google.misrep.unreliable_claims
+  jurisdiction: US
+  labeled_by: expert
+  split: test
+  note: 'derived_from: prec.ftc.opendoor_ibuying_2022'

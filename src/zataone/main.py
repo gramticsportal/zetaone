@@ -72,6 +72,14 @@ app.include_router(api_router)                          # legacy: /assets
 app.include_router(api_router, prefix="/api/v1")        # versioned: /api/v1/assets
 app.include_router(admin_router)
 
+
+@app.on_event("startup")
+def _start_reaper() -> None:
+    """Sweep assets stuck in 'processing' (instance recycles kill bg threads)."""
+    from zataone.core.reaper import start_reaper
+
+    start_reaper()
+
 if _WEB_DIR.is_dir():
     app.mount(
         "/ui",
@@ -90,6 +98,7 @@ def root() -> dict[str, str]:
     }
     if _WEB_DIR.is_dir():
         out["ui"] = "/ui/policylens.html"
+        out["review_ui"] = "/ui/reviewlens.html"
     return out
 
 

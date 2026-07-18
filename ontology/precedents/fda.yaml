@@ -1,0 +1,69 @@
+precedents:
+- precedent_id: prec.fda.juul_marketing_denial_2022
+  source: U.S. Food and Drug Administration
+  source_url: https://www.fda.gov/news-events/press-announcements/fda-denies-authorization-market-juul-products
+  date: 2022-06-23
+  title: FDA marketing denial orders — JUUL e-cigarette products
+  summary: 'The FDA issued marketing denial orders (MDOs) for all JUUL products then on the U.S. market, finding the applications lacked sufficient evidence that marketing the products would be appropriate for the protection of public health, citing concerns about toxicological data. FDA later administratively stayed and rescinded the MDOs for additional scientific review; MGOs were ultimately granted in 2025 for some products.
+
+    '
+  category_ids:
+  - drugs
+  violated_clause_ids:
+  - fda.atc.tobacco_format
+  - meta.atc.tobacco
+  canonical_ids:
+  - atc.tobacco_and_nicotine_ads_prohibited
+  outcome: marketing_denial
+  monetary_relief: Products must stop sale/distribution absent authorization (MDO)
+  status: rescinded
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Today, the U.S. Food and Drug Administration issued marketing denial orders (MDOs) to JUUL Labs Inc. for all of their products currently marketed in the United States. As a result, the company must stop selling and distributing these products.
+    source_url: https://www.fda.gov/news-events/press-announcements/fda-denies-authorization-market-juul-products
+    section: FDA Press Announcement, June 23, 2022
+  why_this_matters: FDA marketing denial order removing JUUL products for lack of authorization.
+  retrieval_keywords:
+  - JUUL
+  - FDA
+  - marketing denial order
+  - ENDS
+  - tobacco
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.fda.opioid_marketing_2020
+  source: U.S. Food and Drug Administration + FTC (warning letters)
+  source_url: https://www.fda.gov/news-events/press-announcements/fda-and-ftc-warn-companies-selling-fraudulent-covid-19-products
+  date: 2020-03-09
+  title: FDA/FTC joint warning letters — fraudulent COVID-19 treatment claims
+  summary: 'The FDA and FTC issued joint warning letters to seven companies for selling fraudulent COVID-19 products — including teas, essential oils, and colloidal silver — with claims that the products could treat or prevent COVID-19. The agencies demanded immediate cessation of unlawful claims.
+
+    '
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.health.disease_implication
+  - fda.health.disease_claims
+  canonical_ids:
+  - health.disease_cure_treatment_claims
+  - health.unsubstantiated_health_claims
+  outcome: warning_letter
+  monetary_relief: Cease-and-desist; potential seizure/injunction if ignored
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: The U.S. Food and Drug Administration and the Federal Trade Commission issued warning letters to seven companies for selling fraudulent COVID-19 products, as part of the agency's effort to protect consumers.
+    source_url: https://www.fda.gov/news-events/press-announcements/fda-and-ftc-warn-companies-selling-fraudulent-covid-19-products
+    section: FDA Press Announcement, March 9, 2020
+  why_this_matters: FDA/FTC joint opioid COVID fraud warning letter campaign on deceptive health ads.
+  retrieval_keywords:
+  - opioid
+  - COVID-19
+  - FDA warning letter
+  - health fraud
+  - '2020'
+  confidence: verified
+  last_verified_at: '2026-06-27'

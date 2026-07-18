@@ -1,0 +1,1388 @@
+# US federal regulators (FTC, FDA) — canonical-ontology instance.
+# Verticals: Misleading / Deceptive (FTC substantiation) + Health / Medical
+# (FTC Health Products Compliance Guidance, FDA prescription-drug advertising).
+# Clause text quoted from official FTC policy statements / guidance, FDA drug-ad
+# pages, and 21 CFR 202.1. Each clause carries an `evidence` block and
+# `last_reviewed_by` (ai until a human verifies live).
+# Regulator rules carry HIGHER priority than platform rules on conflict.
+
+sources:
+  - id: ftc_us
+    type: regulator
+    name: US Federal Trade Commission
+    jurisdiction: [US]
+    url: https://www.ftc.gov/business-guidance/advertising-marketing
+    status: active
+    retrieved_at: 2026-06-24
+    last_verified_at: 2026-06-24
+
+  - id: fda_us
+    type: regulator
+    name: US Food and Drug Administration
+    jurisdiction: [US]
+    url: https://www.fda.gov/drugs/prescription-drug-advertising
+    status: active
+    retrieved_at: 2026-06-24
+    last_verified_at: 2026-06-24
+
+  - id: sec_us
+    type: regulator
+    name: US Securities and Exchange Commission
+    jurisdiction: [US]
+    url: https://www.sec.gov/
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: finra_us
+    type: regulator
+    name: Financial Industry Regulatory Authority
+    jurisdiction: [US]
+    url: https://www.finra.org/rules-guidance/rulebooks/finra-rules/2210
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: cfpb_us
+    type: regulator
+    name: US Consumer Financial Protection Bureau
+    jurisdiction: [US]
+    url: https://www.consumerfinance.gov/
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: hud_us
+    type: regulator
+    name: US Department of Housing and Urban Development (Fair Housing Act)
+    jurisdiction: [US]
+    url: https://www.hud.gov/program_offices/fair_housing_equal_opp/fair_housing_act_overview
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: eeoc_us
+    type: regulator
+    name: US Equal Employment Opportunity Commission
+    jurisdiction: [US]
+    url: https://www.eeoc.gov/prohibited-employment-policiespractices
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: fec_us
+    type: regulator
+    name: US Federal Election Commission
+    jurisdiction: [US]
+    url: https://www.law.cornell.edu/cfr/text/11/110.11
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: ccpa_ca
+    type: regulator
+    name: California Consumer Privacy Act / CPRA (Cal. Civ. Code § 1798.100 et seq.)
+    jurisdiction: [US]
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+  - id: ttb_us
+    type: regulator
+    name: Alcohol and Tobacco Tax and Trade Bureau (TTB)
+    jurisdiction: [US]
+    url: https://www.ttb.gov/what-we-do/program-areas/advertising
+    status: active
+    retrieved_at: 2026-06-27
+    last_verified_at: 2026-06-27
+
+clauses:
+  # ===================== FTC: Misleading backbone =====================
+  - id: ftc.misleading.reasonable_basis
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      Advertisers and ad agencies must have a reasonable basis for advertising
+      claims before they are disseminated. A firm's failure to possess and rely
+      upon a reasonable basis for objective claims constitutes an unfair and
+      deceptive act or practice in violation of Section 5 of the FTC Act.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1984-01-01
+    version: "ftc-substantiation-1984"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        First, advertisers and ad agencies should have a reasonable basis for
+        advertising claims before they are disseminated. The Commission intends
+        to continue vigorous enforcement of this existing legal requirement that
+        advertisers substantiate express and implied claims, however conveyed,
+        that make objective assertions about the item or service advertised. A
+        firm's failure to possess and rely upon a reasonable basis for objective
+        claims constitutes an unfair and deceptive act or practice in violation
+        of Section 5 of the Federal Trade Commission Act.
+      source_url: https://www.ftc.gov/legal-library/browse/ftc-policy-statement-regarding-advertising-substantiation
+      section: "FTC Policy Statement Regarding Advertising Substantiation"
+      retrieved_at: 2026-06-24
+
+  - id: ftc.misleading.express_implied
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      The FTC holds advertisers responsible for both express and implied claims.
+      An express claim is literally made in the ad; an implied claim is made
+      indirectly or by inference. Advertisers must have proof to back up express
+      and implied claims that consumers take from an ad.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2001-01-01
+    version: "ftc-ad-faqs"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Under the law, claims in advertisements must be truthful, cannot be
+        deceptive or unfair, and must be evidence-based. ... An ad can
+        communicate claims to consumers either expressly or by implication. ...
+        Whether you communicate a claim expressly or by implication, you need to
+        have evidence to back it up.
+      source_url: https://www.ftc.gov/business-guidance/resources/advertising-faqs-guide-small-business
+      section: "Advertising FAQ's: A Guide for Small Business"
+      retrieved_at: 2026-06-24
+
+  # ===================== FTC: Health =====================
+  - id: ftc.health.truthful_substantiated
+    source_id: ftc_us
+    category_id: health
+    text: >
+      FTC truth-in-advertising law distills to two principles: (1) advertising
+      must be truthful and not misleading; and (2) before disseminating an ad,
+      advertisers must have adequate substantiation for all objective product
+      claims conveyed, expressly or by implication. Claims about the health
+      benefits or safety of foods, dietary supplements, drugs, and other
+      health-related products require competent and reliable scientific evidence.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-12-01
+    version: "ftc-health-products-2022"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Sections 5 and 12 of the FTC Act, along with the FTC's policy statements
+        on deception and advertising substantiation, are the foundation of FTC
+        truth-in-advertising law, and can be distilled down to two common-sense
+        principles: 1) Advertising must be truthful and not misleading; and 2)
+        Before disseminating an ad, advertisers must have adequate substantiation
+        for all objective product claims conveyed, expressly or by implication,
+        to consumers acting reasonably. ... As a general rule, however, claims
+        about the health benefits or safety of foods, dietary supplements, drugs,
+        and other health-related products require substantiation in the form of
+        competent and reliable scientific evidence.
+      source_url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+      section: "Health Products Compliance Guidance > II.A. FTC Authority over Advertising of Health-Related Products"
+      retrieved_at: 2026-06-24
+
+  - id: ftc.health.disease_implication
+    source_id: ftc_us
+    category_id: health
+    text: >
+      A statement about a product's effect on the normal structure or function
+      of the body may, depending on context, convey an implied claim that the
+      product is beneficial for the treatment of a disease. If elements of an ad
+      imply a disease benefit, the advertiser must be able to substantiate the
+      implied disease claim even if the ad contains no express reference to a
+      disease.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-12-01
+    version: "ftc-health-products-2022"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Depending on how it is phrased or the context in which it is presented, a
+        statement about a product's effect on the normal "structure or function"
+        of the body may also convey to consumers an implied claim that the
+        product is beneficial for the treatment of a disease. If elements of an
+        ad imply that the product also provides a disease benefit, the advertiser
+        must be able to substantiate the implied disease claim even if the ad
+        contains no express reference to a disease.
+      source_url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+      section: "Health Products Compliance Guidance > III.A.1. Identifying Express and Implied Claims"
+      retrieved_at: 2026-06-24
+
+  - id: ftc.health.material_safety_disclosure
+    source_id: ftc_us
+    category_id: health
+    text: >
+      An ad is misleading if it fails to disclose information that is material in
+      light of the claims made or how consumers customarily use the product.
+      Advertisers should disclose any significant limitations on an advertised
+      health benefit and information about any significant safety risks, clearly
+      and conspicuously.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-12-01
+    version: "ftc-health-products-2022"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Under Section 15 of the FTC Act, an ad is misleading if it fails to
+        disclose information that is material in light of the claims in the ad or
+        with respect to how consumers would customarily use the product. ... For
+        example, advertisers should disclose any significant limitations on an
+        advertised health benefit. Similarly, advertising that makes either an
+        express or implied safety representation should include information about
+        any significant safety risks.
+      source_url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+      section: "Health Products Compliance Guidance > III.A.2. When to Disclose Qualifying Information"
+      retrieved_at: 2026-06-24
+
+  # ===================== FDA: Health =====================
+  - id: fda.health.disease_claims
+    source_id: fda_us
+    category_id: health
+    text: >
+      Products not approved as drugs must not claim to cure, treat, mitigate, or
+      prevent disease; such claims render the product an unapproved drug under
+      the Federal Food, Drug, and Cosmetic Act.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1938-06-25
+    version: "fdca-201g-disease-claims"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        The term "drug" means ... articles intended for use in the diagnosis,
+        cure, mitigation, treatment, or prevention of disease in man or other
+        animals; and ... articles (other than food) intended to affect the
+        structure or any function of the body of man or other animals.
+      source_url: https://www.fda.gov/drugs/prescription-drug-advertising/basics-drug-ads
+      section: "Federal Food, Drug, and Cosmetic Act § 201(g) — definition of 'drug'"
+      retrieved_at: 2026-06-24
+
+  - id: fda.health.fair_balance
+    source_id: fda_us
+    category_id: health
+    text: >
+      Product claim ads must present the benefits and risks of a prescription
+      drug in a balanced fashion ("fair balance") and must not be false or
+      misleading in any way. An ad does not present a true statement if the
+      information relating to effectiveness is presented in greater scope, depth,
+      or detail than, and is not fairly balanced by, information relating to side
+      effects and contraindications.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1975-01-01
+    version: "21cfr202.1"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        It fails to present a fair balance between information relating to side
+        effects and contraindications and information relating to effectiveness
+        of the drug in that the information relating to effectiveness is presented
+        in greater scope, depth, or detail than is required by section 502(n) of
+        the act and this information is not fairly balanced by a presentation of a
+        summary of true information relating to side effects and contraindications
+        of the drug.
+      source_url: https://www.law.cornell.edu/cfr/text/21/202.1
+      section: "21 CFR 202.1(e)(5)(ii) — 'True statement' / fair balance"
+      retrieved_at: 2026-06-24
+
+  - id: fda.health.major_statement
+    source_id: fda_us
+    category_id: health
+    text: >
+      Broadcast product claim ads must include the drug's most important risk
+      information (the "major statement") in a way that is clear, conspicuous,
+      and neutral, and must either include every risk or make "adequate
+      provision" for dissemination of the FDA-approved prescribing information.
+    modalities: [video, audio]
+    jurisdiction: [US]
+    effective_date: 1997-01-01
+    version: "fda-broadcast-adequate-provision"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        Broadcast product claim ads may make statements about a drug's
+        benefit(s). They must include the drug's most important risk information
+        ("major statement") in a way that is clear, conspicuous, and neutral. In
+        addition, they must include either every risk or provide enough sources
+        for the audience to obtain the drug's prescribing information ("adequate
+        provision").
+      source_url: https://www.fda.gov/drugs/prescription-drug-advertising/basics-drug-ads
+      section: "Basics of Drug Ads > Broadcast product claim ads"
+      retrieved_at: 2026-06-24
+
+  - id: fda.health.benefits_approved_use
+    source_id: fda_us
+    category_id: health
+    text: >
+      The law does not allow drug companies to advertise benefits unless they
+      are related to the FDA-approved use, and advertised benefits must be
+      supported by substantial evidence or substantial clinical experience.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1962-01-01
+    version: "fda-approved-use-benefits"
+    status: active
+    last_verified_at: 2026-06-24
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [health]
+    evidence:
+      quote: >-
+        The law does not allow drug companies to advertise benefits unless they
+        are related to the FDA-approved use. Also, advertised benefits must be
+        supported by "substantial evidence" or substantial clinical experience.
+      source_url: https://www.fda.gov/drugs/prescription-drug-advertising/drug-advertising-glossary-terms
+      section: "Drug Advertising: A Glossary of Terms > Benefit"
+      retrieved_at: 2026-06-24
+
+  # ===================== FTC: Financial (earnings claims) =====================
+  - id: ftc.finance.earnings_claims
+    source_id: ftc_us
+    category_id: financial
+    text: >
+      It is an unfair or deceptive trade practice to make false, misleading or
+      deceptive representations concerning the profits or earnings that may be
+      anticipated by a participant in a money-making opportunity, or to
+      misrepresent that purchasing a money-making opportunity is risk-free or
+      involves little risk. Earnings claims must have a reasonable basis and
+      written substantiation in the seller's possession at the time the claim is
+      made.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-12-01
+    version: "ftc-penalty-offenses-mmo-2021"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        It is an unfair or deceptive trade practice to make false, misleading or
+        deceptive representations concerning the profits or earnings that may be
+        anticipated by a participant in a money-making opportunity ... It is an
+        unfair or deceptive trade practice to misrepresent, explicitly or
+        implicitly, that purchasing a money-making opportunity is risk-free or
+        involves little risk.
+      source_url: https://www.ftc.gov/system/files/attachments/penalty-offenses-concerning-money-making-opportunities/mmo-notice.pdf
+      section: "Notice of Penalty Offenses Concerning Money Making Opportunities (§ 5(a)(1) FTC Act)"
+      retrieved_at: 2026-06-27
+
+  # ===================== SEC: Financial (Marketing Rule) =====================
+  - id: sec.finance.untrue_or_unbalanced
+    source_id: sec_us
+    category_id: financial
+    text: >
+      An advertisement may not include any untrue statement of a material fact,
+      or omit to state a material fact necessary in order to make the statement
+      made not misleading; and may not discuss any potential benefits without
+      providing fair and balanced treatment of any material risks or material
+      limitations associated with the potential benefits.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-05-04
+    version: "17cfr275.206(4)-1"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        (a) General prohibitions. An advertisement may not: (1) Include any
+        untrue statement of a material fact, or omit to state a material fact
+        necessary in order to make the statement made, in the light of the
+        circumstances under which it was made, not misleading; ... (4) Discuss
+        any potential benefits to clients or investors connected with or
+        resulting from the investment adviser's services or methods of operation
+        without providing fair and balanced treatment of any material risks or
+        material limitations associated with the potential benefits.
+      source_url: https://www.law.cornell.edu/cfr/text/17/275.206(4)-1
+      section: "17 CFR 275.206(4)-1(a)(1) and (a)(4) — General prohibitions"
+      retrieved_at: 2026-06-27
+
+  - id: sec.finance.performance_fair_balanced
+    source_id: sec_us
+    category_id: financial
+    text: >
+      An advertisement may not include or exclude performance results, or
+      present performance time periods, in a manner that is not fair and
+      balanced.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-05-04
+    version: "17cfr275.206(4)-1"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        (6) Include or exclude performance results, or present performance time
+        periods, in a manner that is not fair and balanced.
+      source_url: https://www.law.cornell.edu/cfr/text/17/275.206(4)-1
+      section: "17 CFR 275.206(4)-1(a)(6) — General prohibitions (performance)"
+      retrieved_at: 2026-06-27
+
+  - id: sec.finance.testimonials
+    source_id: sec_us
+    category_id: financial
+    text: >
+      An advertisement may not include any testimonial or endorsement, and an
+      adviser may not provide compensation for a testimonial or endorsement,
+      unless the adviser discloses whether the person giving it is a current
+      client or investor, whether compensation was provided, and any material
+      conflicts of interest on the part of the person giving the testimonial or
+      endorsement.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-05-04
+    version: "17cfr275.206(4)-1"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        (b) Testimonials and endorsements. An advertisement may not include any
+        testimonial or endorsement, and an adviser may not provide compensation,
+        directly or indirectly, for a testimonial or endorsement, unless the
+        investment adviser complies with the conditions in paragraphs (b)(1)
+        through (3) of this section ... (A) That the testimonial was given by a
+        current client or investor, and the endorsement was given by a person
+        other than a current client or investor ...; (B) That cash or non-cash
+        compensation was provided for the testimonial or endorsement, if
+        applicable; and (C) A brief statement of any material conflicts of
+        interest on the part of the person giving the testimonial or endorsement.
+      source_url: https://www.law.cornell.edu/cfr/text/17/275.206(4)-1
+      section: "17 CFR 275.206(4)-1(b) — Testimonials and endorsements"
+      retrieved_at: 2026-06-27
+
+  # ===================== FINRA: Financial (Rule 2210) =====================
+  - id: finra.finance.fair_balanced
+    source_id: finra_us
+    category_id: financial
+    text: >
+      All member communications must be based on principles of fair dealing and
+      good faith, must be fair and balanced, and must provide a sound basis for
+      evaluating the facts; no member may omit any material fact or qualification
+      if the omission would cause the communications to be misleading. No member
+      may make any false, exaggerated, unwarranted, promissory or misleading
+      statement or claim, and communications must provide balanced treatment of
+      risks and potential benefits.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2013-02-04
+    version: "finra-rule-2210"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        All member communications must be based on principles of fair dealing
+        and good faith, must be fair and balanced, and must provide a sound basis
+        for evaluating the facts in regard to any particular security or type of
+        security, industry, or service. No member may omit any material fact or
+        qualification if the omission, in light of the context of the material
+        presented, would cause the communications to be misleading. ... No member
+        may make any false, exaggerated, unwarranted, promissory or misleading
+        statement or claim in any communication. ... Members must ensure that
+        statements ... provide balanced treatment of risks and potential
+        benefits.
+      source_url: https://www.finra.org/rules-guidance/rulebooks/finra-rules/2210
+      section: "FINRA Rule 2210(d)(1)(A), (B), (D) — Content Standards"
+      retrieved_at: 2026-06-27
+
+  - id: finra.finance.no_performance_projection
+    source_id: finra_us
+    category_id: financial
+    text: >
+      Communications may not predict or project performance, imply that past
+      performance will recur, or make any exaggerated or unwarranted claim,
+      opinion or forecast (subject to limited exceptions for certain hypothetical
+      and projected illustrations permitted by the rule).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2013-02-04
+    version: "finra-rule-2210"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Communications may not predict or project performance, imply that past
+        performance will recur or make any exaggerated or unwarranted claim,
+        opinion or forecast; provided, however, that this paragraph (d)(1)(F)
+        does not prohibit [certain hypothetical and projected illustrations].
+      source_url: https://www.finra.org/rules-guidance/rulebooks/finra-rules/2210
+      section: "FINRA Rule 2210(d)(1)(F) — Content Standards (performance)"
+      retrieved_at: 2026-06-27
+
+  # ===================== CFPB: Financial (Reg Z / TILA, 12 CFR 1026.24) =====================
+  - id: cfpb.finance.actually_available_terms
+    source_id: cfpb_us
+    category_id: financial
+    text: >
+      If an advertisement for credit states specific credit terms, it shall
+      state only those terms that actually are or will be arranged or offered by
+      the creditor. Disclosures required by this section shall be made clearly
+      and conspicuously, and if an advertisement states a rate of finance charge,
+      it shall state the rate as an "annual percentage rate," using that term.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2011-12-30
+    version: "12cfr1026.24"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        (a) Actually available terms. If an advertisement for credit states
+        specific credit terms, it shall state only those terms that actually are
+        or will be arranged or offered by the creditor. (b) Clear and conspicuous
+        standard. Disclosures required by this section shall be made clearly and
+        conspicuously. (c) Advertisement of rate of finance charge. If an
+        advertisement states a rate of finance charge, it shall state the rate as
+        an "annual percentage rate," using that term.
+      source_url: https://www.law.cornell.edu/cfr/text/12/1026.24
+      section: "12 CFR 1026.24(a)–(c) — Advertising"
+      retrieved_at: 2026-06-27
+
+  - id: cfpb.finance.trigger_terms
+    source_id: cfpb_us
+    category_id: financial
+    text: >
+      If an advertisement sets forth any triggering term — the amount or
+      percentage of any downpayment, the number of payments or period of
+      repayment, the amount of any payment, or the amount of any finance charge —
+      the advertisement must also state the amount or percentage of the
+      downpayment, the terms of repayment over the full term of the loan, and the
+      annual percentage rate (using that term).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2011-12-30
+    version: "12cfr1026.24"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        (d) Advertisement of terms that require additional disclosures—(1)
+        Triggering terms. If any of the following terms is set forth in an
+        advertisement, the advertisement shall meet the requirements of paragraph
+        (d)(2) ...: (i) The amount or percentage of any downpayment. (ii) The
+        number of payments or period of repayment. (iii) The amount of any
+        payment. (iv) The amount of any finance charge. (2) ... shall state the
+        following terms ...: (i) The amount or percentage of the downpayment.
+        (ii) The terms of repayment ... over the full term of the loan ... (iii)
+        The "annual percentage rate," using that term ...
+      source_url: https://www.law.cornell.edu/cfr/text/12/1026.24
+      section: "12 CFR 1026.24(d) — Triggering terms / additional disclosures"
+      retrieved_at: 2026-06-27
+
+  - id: cfpb.finance.mortgage_prohibited_acts
+    source_id: cfpb_us
+    category_id: financial
+    text: >
+      In advertisements for credit secured by a dwelling, it is prohibited to
+      misleadingly advertise "fixed" rates or payments, make misleading
+      comparisons, misrepresent government endorsement, misuse the consumer's
+      current lender's name, make misleading claims of debt elimination, or
+      misuse the term "counselor."
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2011-12-30
+    version: "12cfr1026.24"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        (i) Prohibited acts or practices in advertisements for credit secured by
+        a dwelling. The following acts or practices are prohibited ...: (1)
+        Misleading advertising of "fixed" rates and payments ...; (2) Misleading
+        comparisons in advertisements ...; (3) Misrepresentations about
+        government endorsement ...; (4) Misleading use of the current lender's
+        name ...; (5) Misleading claims of debt elimination ...; (6) Misleading
+        use of the term "counselor".
+      source_url: https://www.law.cornell.edu/cfr/text/12/1026.24
+      section: "12 CFR 1026.24(i) — Prohibited acts (dwelling-secured credit)"
+      retrieved_at: 2026-06-27
+
+  # ===================== FTC: Credit discrimination (ECOA / Reg B) =====================
+  - id: ftc.credit.ecoa_discouragement
+    source_id: ftc_us
+    category_id: discrimination
+    text: >
+      Under the Equal Credit Opportunity Act and Regulation B, a creditor shall
+      not discriminate against an applicant on a prohibited basis regarding any
+      aspect of a credit transaction, and shall not make any oral or written
+      statement, in advertising or otherwise, to applicants or prospective
+      applicants that would discourage on a prohibited basis a reasonable person
+      from making or pursuing an application. (Prohibited bases under ECOA
+      include race, color, religion, national origin, sex, marital status, and
+      age.) The FTC shares enforcement of ECOA for creditors within its
+      jurisdiction.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2011-12-21
+    version: "12cfr1002.4-ecoa"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        (a) Discrimination. A creditor shall not discriminate against an
+        applicant on a prohibited basis regarding any aspect of a credit
+        transaction. (b) Discouragement. A creditor shall not make any oral or
+        written statement, in advertising or otherwise, to applicants or
+        prospective applicants that would discourage on a prohibited basis a
+        reasonable person from making or pursuing an application.
+      source_url: https://www.law.cornell.edu/cfr/text/12/1002.4
+      section: "12 CFR 1002.4(a)–(b) — Regulation B (ECOA) General rules"
+      retrieved_at: 2026-06-27
+
+  # ===================== HUD: Housing (Fair Housing Act) =====================
+  - id: hud.housing.discriminatory_ad
+    source_id: hud_us
+    category_id: discrimination
+    text: >
+      Under the Fair Housing Act it is unlawful to make, print, or publish, or
+      cause to be made, printed, or published any notice, statement, or
+      advertisement, with respect to the sale or rental of a dwelling, that
+      indicates any preference, limitation, or discrimination based on race,
+      color, religion, sex, handicap, familial status, or national origin, or an
+      intention to make any such preference, limitation, or discrimination.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1968-04-11
+    version: "42usc3604c"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        To make, print, or publish, or cause to be made, printed, or published
+        any notice, statement, or advertisement, with respect to the sale or
+        rental of a dwelling that indicates any preference, limitation, or
+        discrimination based on race, color, religion, sex, handicap, familial
+        status, or national origin, or an intention to make any such preference,
+        limitation, or discrimination.
+      source_url: https://www.law.cornell.edu/uscode/text/42/3604
+      section: "42 U.S.C. § 3604(c) — Fair Housing Act (discriminatory advertising)"
+      retrieved_at: 2026-06-27
+
+  # ===================== EEOC: Employment (Title VII / ADEA) =====================
+  - id: eeoc.employment.discriminatory_ad
+    source_id: eeoc_us
+    category_id: discrimination
+    text: >
+      It is illegal for an employer to publish a job advertisement that shows a
+      preference for or discourages someone from applying for a job because of
+      his or her race, color, religion, sex (including transgender status, sexual
+      orientation, and pregnancy), national origin, age (40 or older), disability
+      or genetic information. For example, a help-wanted ad that seeks "females"
+      or "recent college graduates" may discourage men and people over 40 from
+      applying and may violate the law.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1964-07-02
+    version: "eeoc-prohibited-practices"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        It is illegal for an employer to publish a job advertisement that shows a
+        preference for or discourages someone from applying for a job because of
+        his or her race, color, religion, sex (including transgender status,
+        sexual orientation, and pregnancy), national origin, age (40 or older),
+        disability or genetic information. For example, a help-wanted ad that
+        seeks "females" or "recent college graduates" may discourage men and
+        people over 40 from applying and may violate the law.
+      source_url: https://www.eeoc.gov/prohibited-employment-policiespractices
+      section: "Prohibited Employment Policies/Practices > Job Advertisements"
+      retrieved_at: 2026-06-27
+
+  - id: eeoc.employment.age_ad_adea
+    source_id: eeoc_us
+    category_id: discrimination
+    text: >
+      Under the Age Discrimination in Employment Act it is unlawful for an
+      employer, labor organization, or employment agency to print or publish, or
+      cause to be printed or published, any notice or advertisement relating to
+      employment indicating any preference, limitation, specification, or
+      discrimination based on age. A job notice or advertisement may specify an
+      age limit only in the rare circumstances where age is shown to be a bona
+      fide occupational qualification (BFOQ) reasonably necessary to the normal
+      operation of the business.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 1967-12-15
+    version: "29usc623e-adea"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [discrimination]
+    evidence:
+      quote: >-
+        It shall be unlawful for an employer, labor organization, or employment
+        agency to print or publish, or cause to be printed or published, any
+        notice or advertisement relating to employment by such an employer or
+        membership in or any classification or referral for employment by such a
+        labor organization, ... indicating any preference, limitation,
+        specification, or discrimination, based on age.
+      source_url: https://www.eeoc.gov/statutes/age-discrimination-employment-act-1967
+      section: "ADEA § 4(e), 29 U.S.C. § 623(e) — Printing or publication of notice or advertisement"
+      retrieved_at: 2026-06-27
+
+  # ===================== FEC: Political (disclaimers) =====================
+  - id: fec.political.disclaimer
+    source_id: fec_us
+    category_id: political
+    text: >
+      Public communications by a political committee, public communications by
+      any person that expressly advocate the election or defeat of a clearly
+      identified candidate or that solicit a contribution, and all
+      electioneering communications must include a disclaimer. The disclaimer
+      must be clear and conspicuous and identify who paid for (and, where
+      required, who authorized) the communication; a communication not authorized
+      by a candidate must state the full name and permanent street address,
+      telephone number, or website of the person who paid for it and that it is
+      not authorized by any candidate. Internet public communications placed or
+      promoted for a fee must include such a disclaimer.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2002-12-13
+    version: "11cfr110.11"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [political]
+    evidence:
+      quote: >-
+        (b) General content requirements. A disclaimer required by paragraph (a)
+        of this section must contain the following information: (1) If the
+        communication ... is paid for and authorized by a candidate ... the
+        disclaimer must clearly state that the communication has been paid for by
+        the authorized political committee; ... (3) If the communication ... is
+        not authorized by a candidate ... the disclaimer must clearly state the
+        full name and permanent street address, telephone number, or website
+        address of the person who paid for the communication, and that the
+        communication is not authorized by any candidate or candidate's
+        committee. (c)(1) ... A disclaimer ... must be presented in a clear and
+        conspicuous manner ... (c)(5)(ii) An internet public communication must
+        include a disclaimer that complies with the requirements of paragraphs
+        (b) and (c)(1) of this section.
+      source_url: https://www.law.cornell.edu/cfr/text/11/110.11
+      section: "11 CFR 110.11(a)-(c) — Communications; advertising; disclaimers (52 U.S.C. 30120)"
+      retrieved_at: 2026-06-27
+
+  # ===================== FTC: Children / Minors (COPPA) =====================
+  - id: ftc.minors.coppa_parental_consent
+    source_id: ftc_us
+    category_id: minors
+    text: >
+      Under the COPPA Rule, an operator of a website or online service directed
+      to children (under 13), or with actual knowledge that it collects personal
+      information from a child, must provide notice and obtain verifiable parental
+      consent before any collection, use, or disclosure of personal information
+      from children. Personal information includes persistent identifiers (e.g.
+      cookies, device IDs) used to recognize a user over time and across services.
+      The "support for internal operations" exception cannot be used to contact a
+      specific individual, including through behavioral advertising, or to amass a
+      profile on a specific individual.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2025-06-23
+    version: "16cfr312-2025"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [under_13]
+      industries: [minors]
+    evidence:
+      quote: >-
+        An operator is required to obtain verifiable parental consent before any
+        collection, use, or disclosure of personal information from children ...
+        Personal information means individually identifiable information about an
+        individual collected online, including ... (7) A persistent identifier
+        that can be used to recognize a user over time and across different Web
+        sites or online services. ... Support for the internal operations ... So
+        long as the information collected ... is not used or disclosed to contact
+        a specific individual, including through behavioral advertising, to amass
+        a profile on a specific individual, or for any other purpose.
+      source_url: https://www.law.cornell.edu/cfr/text/16/part-312
+      section: "16 CFR 312.2, 312.5 — Children's Online Privacy Protection Rule (COPPA)"
+      retrieved_at: 2026-06-27
+
+  # ===================== CCPA/CPRA: Privacy & Personal Data =====================
+  - id: ccpa.privacy.opt_out_sale_sharing
+    source_id: ccpa_ca
+    category_id: privacy
+    text: >
+      A consumer has the right, at any time, to direct a business that sells or
+      shares personal information to third parties not to sell or share it (the
+      "right to opt out of sale or sharing"). "Sharing" includes disclosing
+      personal information for cross-context behavioral advertising. A business
+      that sells/shares must provide a clear and conspicuous "Do Not Sell or
+      Share My Personal Information" homepage link, and must honor opt-out
+      preference signals (e.g. Global Privacy Control).
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-01-01
+    version: "cpra-civ-1798.120-135"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        A consumer shall have the right, at any time, to direct a business that
+        sells or shares personal information about the consumer to third parties
+        not to sell or share the consumer's personal information. This right may
+        be referred to as the right to opt out of sale or sharing. ... [§1798.135]
+        Provide a clear and conspicuous link on the business' internet homepages,
+        titled "Do Not Sell or Share My Personal Information," to an internet web
+        page that enables a consumer ... to opt out of the sale or sharing of the
+        consumer's personal information.
+      source_url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+      section: "Cal. Civ. Code §§ 1798.120, 1798.135 (CCPA/CPRA) — opt out of sale/sharing"
+      retrieved_at: 2026-06-27
+
+  - id: ccpa.privacy.minor_opt_in_sale_sharing
+    source_id: ccpa_ca
+    category_id: privacy
+    text: >
+      A business shall not sell or share the personal information of a consumer
+      if it has actual knowledge the consumer is under 16, unless the consumer
+      (ages 13–15) or the parent/guardian (under 13) has affirmatively authorized
+      the sale or sharing. A business that willfully disregards the consumer's age
+      is deemed to have actual knowledge of it.
+    modalities: [landing_page]
+    jurisdiction: [US]
+    effective_date: 2023-01-01
+    version: "cpra-civ-1798.120c"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [minors]
+      industries: [privacy]
+    evidence:
+      quote: >-
+        Notwithstanding subdivision (a), a business shall not sell or share the
+        personal information of consumers if the business has actual knowledge
+        that the consumer is less than 16 years of age, unless the consumer, in
+        the case of consumers at least 13 years of age and less than 16 years of
+        age, or the consumer's parent or guardian, in the case of consumers who
+        are less than 13 years of age, has affirmatively authorized the sale or
+        sharing of the consumer's personal information.
+      source_url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.120
+      section: "Cal. Civ. Code § 1798.120(c) (CCPA/CPRA) — minors' opt-in to sale/sharing"
+      retrieved_at: 2026-06-27
+
+  # ===================== TTB: Alcohol advertising =====================
+  - id: ttb.atc.alcohol_statements
+    source_id: ttb_us
+    category_id: alcohol
+    text: >
+      Under the FAA Act, TTB's advertising regulations (27 CFR parts 4, 5, 7)
+      apply to alcohol advertisements in any media, including social media.
+      Advertisements must contain mandatory statements — the responsible
+      advertiser's name and address (or name and contact information) and the
+      product class/type as on the approved label (distilled spirits also require
+      alcohol content) — and must not include prohibited statements such as ones
+      that are false, untrue, or misleading; inconsistent with the approved label;
+      disparaging of a competitor; or that make false or misleading health-related
+      claims.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-03-01
+    version: "industry-circular-2024-1"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: ["21+"]
+      industries: [alcohol]
+    evidence:
+      quote: >-
+        TTB regulates the advertising of alcohol beverage products to prevent
+        consumer deception; provide the consumer with adequate information as to
+        the identity and quality of the product advertised; identify the person
+        responsible for the advertisement; and, in the case of distilled spirits
+        only, disclose the alcohol content. ... Prohibited Practices ... General
+        statements that are false, untrue, or misleading; Statements that are
+        inconsistent with approved product labels; ... Health-related statements
+        that are false or misleading.
+      source_url: https://www.ttb.gov/system/files?file=images%2Ffact_sheets%2Fttb-advertising.pdf
+      section: "TTB Advertising — Mandatory statements & prohibited practices (27 CFR 4.62/5.233/7.233; 4.64/5.235/7.235)"
+      retrieved_at: 2026-06-27
+
+  # ===================== FDA: Tobacco advertising =====================
+  - id: fda.atc.tobacco_format
+    source_id: fda_us
+    category_id: drugs
+    text: >
+      Under 21 CFR 1140.32, each manufacturer, distributor, and retailer
+      advertising cigarettes or smokeless tobacco must use only black text on a
+      white background (with limited exceptions, e.g. adult publications and
+      certain in-facility advertising). Audio advertising is limited to words only
+      with no music or sound effects, and video advertising is limited to static
+      black text on a white background.
+    modalities: [text, image, video, audio]
+    jurisdiction: [US]
+    effective_date: 2010-06-22
+    version: "21cfr1140.32"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [drugs]
+    evidence:
+      quote: >-
+        Except as provided in paragraph (b) of this section, each manufacturer,
+        distributor, and retailer advertising or causing to be advertised,
+        disseminating or causing to be disseminated, any labeling or advertising
+        for cigarettes or smokeless tobacco shall use only black text on a white
+        background. ... (b) Labeling and advertising in an audio or video format
+        shall be limited as follows: (1) Audio format shall be limited to words
+        only with no music or sound effects. (2) Video formats shall be limited to
+        static black text only on a white background.
+      source_url: https://www.law.cornell.edu/cfr/text/21/1140.32
+      section: "21 CFR 1140.32 — Format and content requirements for labeling and advertising"
+      retrieved_at: 2026-06-27
+
+rules:
+  # --- Misleading ---
+  - id: ftc_unsubstantiated_objective_claims
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [ftc.misleading.reasonable_basis, ftc.misleading.express_implied]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95                # regulator outranks platform on conflict
+    detection: >
+      Objective claims (express or implied) made without a reasonable basis /
+      adequate substantiation before dissemination.
+    exceptions:
+      - "Claims backed by competent and reliable evidence held before dissemination."
+    status: active
+
+  # --- Health ---
+  - id: ftc_health_substantiation
+    canonical_id: health.unsubstantiated_health_claims
+    clause_ids: [ftc.health.truthful_substantiated, fda.health.benefits_approved_use]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Health benefit/safety claims lacking competent and reliable scientific
+      evidence; drug benefits beyond FDA-approved use.
+    exceptions:
+      - "Claims substantiated by competent and reliable scientific evidence."
+    status: active
+
+  - id: ftc_health_disease_implication
+    canonical_id: health.disease_cure_treatment_claims
+    clause_ids: [ftc.health.disease_implication, fda.health.disease_claims]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Express or implied disease cure/treatment/prevention claims for non-drug
+      products (net-impression test).
+    exceptions:
+      - "FDA-approved drugs making authorized claims."
+    status: active
+
+  - id: ftc_health_material_disclosure
+    canonical_id: health.material_risk_safety_disclosure
+    clause_ids: [ftc.health.material_safety_disclosure]
+    category_id: health
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 90
+    detection: >
+      Failure to clearly and conspicuously disclose material limitations or
+      significant safety risks.
+    exceptions:
+      - "Material qualifying info disclosed clearly and conspicuously."
+    status: active
+
+  - id: fda_rx_fair_balance
+    canonical_id: health.rx_fair_balance_risk_disclosure
+    clause_ids: [fda.health.fair_balance, fda.health.major_statement]
+    category_id: health
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 95
+    detection: >
+      Prescription-drug product-claim ads lacking fair balance of risk vs
+      benefit, or missing the major statement / adequate provision.
+    exceptions:
+      - "Reminder ads (no claims) and help-seeking ads outside product-claim scope."
+    status: active
+
+  # --- Financial ---
+  - id: ftc_finance_earnings
+    canonical_id: finance.performance_claims_substantiation
+    clause_ids: [ftc.finance.earnings_claims]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      False/misleading profit or earnings representations, or risk-free/low-risk
+      claims, for a money-making opportunity without a reasonable basis and
+      written substantiation held at the time of the claim.
+    exceptions:
+      - "Earnings claims with a reasonable basis and contemporaneous written substantiation."
+    status: active
+
+  - id: sec_finance_misleading
+    canonical_id: finance.misleading_or_unbalanced_claims
+    clause_ids: [sec.finance.untrue_or_unbalanced]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 92
+    detection: >
+      Untrue/omitted material facts, or benefits discussed without fair and
+      balanced treatment of material risks/limitations (investment adviser ads).
+    exceptions: []
+    status: active
+
+  - id: sec_finance_performance
+    canonical_id: finance.performance_claims_substantiation
+    clause_ids: [sec.finance.performance_fair_balanced]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 92
+    detection: >
+      Performance results included/excluded or time periods presented in a
+      manner that is not fair and balanced.
+    exceptions: []
+    status: active
+
+  - id: sec_finance_testimonials
+    canonical_id: finance.testimonials_endorsements_disclosure
+    clause_ids: [sec.finance.testimonials]
+    category_id: financial
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 92
+    detection: >
+      Testimonials/endorsements without required disclosures (client status,
+      compensation, material conflicts of interest).
+    exceptions:
+      - "Testimonials/endorsements meeting all 206(4)-1(b) disclosure conditions."
+    status: active
+
+  - id: finra_finance_fair_balanced
+    canonical_id: finance.misleading_or_unbalanced_claims
+    clause_ids: [finra.finance.fair_balanced]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 90
+    detection: >
+      Communications that are not fair and balanced, omit material facts, make
+      false/exaggerated/promissory claims, or lack balanced risk vs benefit.
+    exceptions: []
+    status: active
+
+  - id: finra_finance_performance
+    canonical_id: finance.performance_claims_substantiation
+    clause_ids: [finra.finance.no_performance_projection]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 90
+    detection: >
+      Predicting/projecting performance, implying past performance will recur,
+      or making exaggerated/unwarranted claims, opinions, or forecasts.
+    exceptions:
+      - "Hypothetical/projected illustrations permitted under Rule 2210(d)(1)(F)."
+    status: active
+
+  - id: cfpb_finance_trigger_terms
+    canonical_id: finance.credit_advertising_trigger_terms
+    clause_ids: [cfpb.finance.actually_available_terms, cfpb.finance.trigger_terms]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 92
+    detection: >
+      Credit ads stating terms not actually available, omitting the APR (as
+      "annual percentage rate"), or stating a triggering term without the
+      required additional disclosures (downpayment, repayment terms, APR).
+    exceptions: []
+    status: active
+
+  - id: cfpb_finance_mortgage
+    canonical_id: finance.mortgage_advertising_prohibited_acts
+    clause_ids: [cfpb.finance.mortgage_prohibited_acts]
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 92
+    detection: >
+      Dwelling-secured credit ads with misleading "fixed" rates, misleading
+      comparisons, false government endorsement, misuse of the current lender's
+      name, debt-elimination claims, or misuse of "counselor."
+    exceptions: []
+    status: active
+
+  # --- Housing & Employment (discrimination) ---
+  - id: hud_housing_discriminatory_ad
+    canonical_id: discrimination.discriminatory_ad_content_prohibited
+    clause_ids: [hud.housing.discriminatory_ad]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Housing ads/notices indicating a preference, limitation, or discrimination
+      based on race, color, religion, sex, handicap, familial status, or
+      national origin (e.g. "no kids," "Christians preferred," "adults only").
+    exceptions:
+      - "Lawful Housing for Older Persons (55+/62+) communities under HOPA."
+    status: active
+
+  - id: eeoc_employment_discriminatory_ad
+    canonical_id: discrimination.discriminatory_ad_content_prohibited
+    clause_ids: [eeoc.employment.discriminatory_ad, eeoc.employment.age_ad_adea]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Job ads showing preference for / discouraging applicants based on race,
+      color, religion, sex, national origin, age (40+), disability, or genetic
+      information (e.g. "young," "recent grads only," "females only").
+    exceptions:
+      - "Age/other limits that are a bona fide occupational qualification (BFOQ)."
+    status: active
+
+  - id: ftc_credit_ecoa
+    canonical_id: discrimination.discriminatory_ad_content_prohibited
+    clause_ids: [ftc.credit.ecoa_discouragement]
+    category_id: discrimination
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Credit advertising statements that discourage, on a prohibited basis (race,
+      color, religion, national origin, sex, marital status, age), a reasonable
+      person from applying.
+    exceptions: []
+    status: active
+
+  # --- Political & Social Issues ---
+  - id: fec_political_disclaimer
+    canonical_id: political.authorization_and_disclaimer_required
+    clause_ids: [fec.political.disclaimer]
+    category_id: political
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 95
+    detection: >
+      Political/express-advocacy/solicitation/electioneering communications
+      (including paid internet ads) lacking a clear and conspicuous disclaimer
+      stating who paid for and, where required, authorized the communication.
+    exceptions:
+      - "Small items (bumper stickers, pins) where a disclaimer is impracticable (11 CFR 110.11(f))."
+    status: active
+
+  # --- Children / Minors (COPPA) ---
+  - id: ftc_minors_coppa
+    canonical_id: minors.parental_consent_for_childrens_data
+    clause_ids: [ftc.minors.coppa_parental_consent]
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Collecting personal information (incl. persistent identifiers) from
+      under-13 children for behavioral advertising/profiling without notice and
+      verifiable parental consent.
+    exceptions:
+      - "Support for internal operations not used for behavioral advertising or profiling."
+      - "Other limited 312.5(c) exceptions (one-time response, safety, etc.)."
+    status: active
+
+  # --- Privacy & Personal Data (CCPA/CPRA) ---
+  - id: ccpa_privacy_opt_out
+    canonical_id: privacy.opt_out_of_sale_or_sharing_for_targeted_ads
+    clause_ids: [ccpa.privacy.opt_out_sale_sharing]
+    category_id: privacy
+    severity: high
+    modalities: [landing_page]
+    priority: 95
+    detection: >
+      Selling/sharing personal information for cross-context behavioral
+      advertising without a "Do Not Sell or Share" link, without honoring opt-out
+      preference signals (GPC), or after a consumer has opted out.
+    exceptions:
+      - "Businesses honoring opt-out preference signals in a frictionless manner."
+    status: active
+
+  - id: ccpa_privacy_minor_opt_in
+    canonical_id: privacy.minor_opt_in_for_sale_or_sharing
+    clause_ids: [ccpa.privacy.minor_opt_in_sale_sharing]
+    category_id: privacy
+    severity: high
+    modalities: [landing_page]
+    priority: 95
+    detection: >
+      Selling/sharing personal information of a consumer known to be under 16
+      without the required affirmative opt-in (consumer 13–15, or parent for
+      under 13).
+    exceptions: []
+    status: active
+
+  # --- Alcohol / Tobacco / Cannabis (TTB, FDA) ---
+  - id: ttb_alcohol_statements
+    canonical_id: atc.alcohol_mandatory_and_prohibited_statements
+    clause_ids: [ttb.atc.alcohol_statements]
+    category_id: alcohol
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 92
+    detection: >
+      Alcohol ads missing mandatory statements (responsible advertiser, class/
+      type, distilled-spirits alcohol content) or containing prohibited false/
+      misleading/label-inconsistent/health claims.
+    exceptions:
+      - "Consumer specialty items needing only company/brand name."
+      - "Space-constrained social posts linking to a compliant page."
+    status: active
+
+  - id: fda_tobacco_format
+    canonical_id: atc.tobacco_advertising_format_restrictions
+    clause_ids: [fda.atc.tobacco_format]
+    category_id: drugs
+    severity: high
+    modalities: [text, image, video, audio]
+    priority: 92
+    detection: >
+      Cigarette/smokeless-tobacco advertising not in black-text-on-white format,
+      or audio/video ads exceeding the words-only / static-text limits.
+    exceptions:
+      - "Adult publications and certain in-facility advertising (21 CFR 1140.32(b))."
+    status: active

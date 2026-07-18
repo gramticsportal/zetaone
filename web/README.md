@@ -5,6 +5,7 @@
 | File | Purpose |
 |------|--------|
 | **`policylens.html`** | **PolicyLens** — Full/Quick pipeline toggle, upload → poll → verdict, explainability graph, overlays (Full), inline Gemini advisory |
+| **`reviewlens.html`** | **ReviewLens** — human review queue: open a queued case (creative media, violations, LLM advisory), mark per-rule false positives, record approve / needs-changes / reject via `POST /assets/{id}/review`. Recorded decisions are authoritative. |
 | **`sentrilens.html`** | Redirects to `policylens.html` (legacy path). |
 | **`index.html`** | Minimal JSON viewer (links to PolicyLens for the full UI). |
 

@@ -1,0 +1,84 @@
+# Microsoft Advertising (US) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Official source: Microsoft Advertising Policies / Product Ads Policies.
+
+source:
+  id: microsoft_ads_us
+  type: platform
+  name: Microsoft Advertising Policies
+  jurisdiction: [US]
+  url: https://help.ads.microsoft.com/apex/index/3/en/60214
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: microsoft.misleading.truthful_not_deceptive
+    source_id: microsoft_ads_us
+    category_id: misleading
+    text: >
+      Your product description must be truthful, accurate and not misleading or
+      deceptive, including product features, benefits, pricing, saving claims,
+      comparisons, and testimonials.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "microsoft-product-ads-policies"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Your product description must be truthful accurate and not misleading or
+        deceptive, including, but not limited to: product features, benefits,
+        qualities, brand, conditions, availabilities, quantity, qualities and
+        comparisons, pricing, saving claims, rebate offers, shipping, warranties,
+        sponsorships, uses, grade, refunds, taxes, etc.
+      source_url: https://help.ads.microsoft.com/apex/index/3/en/60214
+      section: "Product Ads Policies"
+      retrieved_at: 2026-06-27
+
+  - id: microsoft.misleading.no_unsubstantiated_claims
+    source_id: microsoft_ads_us
+    category_id: misleading
+    text: >
+      Microsoft prohibits misleading or deceptive content, including
+      unsubstantiated claims or endorsements and sensationalist text or images.
+      Ads must not use absolute terms such as "best" or "top-tier" without
+      evidence.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "microsoft-advertising-policies"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Microsoft prohibits misleading deceptive content ... including
+        unsubstantiated claims or endorsements ... Ads must not use absolute
+        terms such as "best", "top-tier", "national-level", etc.
+      source_url: http://go.microsoft.com/fwlink?LinkId=398341
+      section: "Microsoft Advertising Policies > Information integrity and misleading content"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: microsoft_misleading_truthful
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [microsoft.misleading.truthful_not_deceptive, microsoft.misleading.no_unsubstantiated_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Misleading/deceptive product descriptions; unsubstantiated claims or
+      absolute superlatives without evidence.
+    exceptions: []
+    status: active

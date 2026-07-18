@@ -15,7 +15,55 @@ ZataOne is designed for organizations that need:
 - **Configuration-driven growth** — Add domains, modalities, and jurisdictions without core rewrites
 - **Multi-tenant readiness** — Built for SaaS deployment with tenant isolation
 
-The platform follows a strict separation of concerns: AI extracts signals, the policy engine evaluates rules, and the evidence system produces human-reviewable proof.
+The platform follows a strict separation of concerns: AI extracts signals, the policy engine evaluates rules, and the evidence system produces human-reviewable proof. Borderline and flagged outcomes flow into a **human review queue** (ReviewLens); recorded decisions are authoritative and double as labeled data for rule tuning.
+
+---
+
+## Compliance ontology corpus
+
+Structured ad-compliance knowledge base: every **platform** (Meta, Google, TikTok, …) and **regulator** (FTC, FDA, SEC, …) policy maps into one shared schema — cross-source canonical rules, labeled evals, and verified enforcement precedents.
+
+```mermaid
+flowchart TB
+  subgraph sources["25 sources"]
+    P["12 ad platforms<br/>Meta · Google · TikTok · …"]
+    R["13 regulators<br/>FTC · FDA · SEC · …"]
+  end
+
+  subgraph policy["Policy layer"]
+    C["157 clauses · 11 categories"]
+    Ru["128 rules"]
+  end
+
+  subgraph unify["Unification"]
+    CR["52 canonical rules"]
+    M["37 cross-source mappings"]
+  end
+
+  subgraph learn["Learning & proof"]
+    E["614 eval examples<br/>570 seed + 44 precedent"]
+    PR["128 verified precedents"]
+  end
+
+  subgraph check["Quality"]
+    V["validate.py"]
+    B["benchmark · 21/21 retrieval tests"]
+  end
+
+  P --> C
+  R --> C
+  C --> Ru --> CR
+  CR --> M
+  CR --> E
+  CR --> PR
+  C --> V
+  E --> B
+  PR --> B
+```
+
+**Flow:** policies → clauses & rules → canonical rules → mappings, evals, precedents → validation & benchmarks.
+
+Docs: [`ontology/README.md`](ontology/README.md) · full architecture map [`ontology/ONTOLOGY_MAP.md`](ontology/ONTOLOGY_MAP.md)
 
 ---
 
@@ -29,6 +77,7 @@ How clients, the API, pipeline, storage, and optional advisory layer connect:
 flowchart TB
   subgraph clients["Clients"]
     PL["PolicyLens UI<br/>web/policylens.html"]
+    RL["ReviewLens UI<br/>web/reviewlens.html"]
     EXT["Static host<br/>e.g. underintelligence.com"]
     API_CLIENT["curl / integrations"]
   end
@@ -41,8 +90,10 @@ flowchart TB
   end
 
   subgraph api["FastAPI — zataone.main"]
-    ROUTES["API routes<br/>/assets · /graph · /health"]
+    ROUTES["API routes<br/>/assets · /graph · /review-queue · /health"]
     CORS["CORS + X-Domain"]
+    REV["ReviewService<br/>queue + decisions + labels"]
+    REAP["Reaper<br/>stuck-asset sweep"]
   end
 
   subgraph pipeline["CompliancePipeline"]
@@ -77,10 +128,12 @@ flowchart TB
 
   subgraph persist["Persistence"]
     PG[("PostgreSQL")]
-    TBL["assets · signals · violations<br/>evidence · verdicts · audit_events"]
+    TBL["assets · signals · violations<br/>evidence · verdicts · review_decisions<br/>audit_events"]
+    OBJ["ObjectStore<br/>original media (disk / GCS)"]
   end
 
   PL -->|"HTTPS + API base URL"| CR
+  RL -->|"/review-queue · /assets/{id}/review"| CR
   EXT -->|"HTTPS + CORS_ORIGINS"| CR
   API_CLIENT --> CR
   CB --> AR --> CR
@@ -97,6 +150,9 @@ flowchart TB
   VS --> ROUTES
   AUD --> PG
   ING --> PG
+  ING --> OBJ
+  ROUTES --> REV --> PG
+  REAP --> PG
   PG --> TBL
   CR --- SQL
   ROUTES -.->|"POST /assets/{id}/llm-final-review"| GEM
@@ -148,6 +204,16 @@ sequenceDiagram
     U->>API: POST /assets/{id}/llm-final-review
     API-->>U: Gemini narrative (does not change verdict)
   end
+
+  opt Human review (borderline / flagged / degraded)
+    U->>API: GET /review-queue
+    API-->>U: assets with review_state pending_review
+    U->>API: GET /assets/{id}/media
+    API-->>U: original creative (ObjectStore)
+    U->>API: POST /assets/{id}/review (decision + per-violation labels)
+    API->>DB: review_decisions + review_state final_* + audit event
+    API-->>U: recorded decision (authoritative)
+  end
 ```
 
 ### Pipeline stages (deterministic core)
@@ -163,8 +229,13 @@ flowchart LR
   F --> G
   G --> H[Evidence]
   H --> I[Verdict + risk score]
-  I --> J[Audit + DB persist]
+  I --> I2{Extractor failure?}
+  I2 -->|yes| I3[Cap at REVIEW_REQUIRED<br/>degraded_extractors]
+  I2 -->|no| J
+  I3 --> J[Audit + DB persist<br/>+ review_state]
   J --> K[Graph API / PolicyLens]
+  J --> L[Review queue / ReviewLens]
+  L --> M[Human decision<br/>recorded as labels]
 ```
 
 | Layer | Responsibility |
@@ -174,6 +245,7 @@ flowchart LR
 | **Policy Engine** | Deterministic rule evaluation against signals |
 | **Evidence** | Traceable, immutable proof with anchors to source content |
 | **Verdict** | Final decision with risk scoring and explainability |
+| **Human Review** | Borderline, flagged, and degraded outcomes queue for a recorded human decision (`review_decisions`); per-violation true/false-positive labels feed rule tuning |
 | **Audit** | Immutable trail for regulatory and operational transparency |
 
 **Core principle:** AI models are sensors—they extract signals but never make enforcement decisions. Policies are configuration-driven and versioned for auditability.
@@ -186,8 +258,9 @@ flowchart LR
 2. **Signal** — Extractors produce structured facts (entities, claims, metadata)
 3. **Policy** — Rules evaluate signals; same inputs always yield same outputs
 4. **Evidence** — Violations generate anchored, tamper-proof evidence bundles
-5. **Verdict** — Compliant / non-compliant / needs-review with risk score
-6. **Audit** — Every decision recorded for compliance and debugging
+5. **Verdict** — Compliant / non-compliant / needs-review with risk score; extractor failures cap the verdict at needs-review (fail-to-review, never silent approval)
+6. **Review** — Borderline / flagged / degraded assets enter `review_state: pending_review`; a recorded human decision (ReviewLens or API) becomes the authoritative final state
+7. **Audit** — Every decision recorded for compliance and debugging
 
 Expansion is configuration-only:
 
@@ -216,6 +289,7 @@ Recent work extends the deterministic core without changing the verdict contract
 | `ZATAONE_POLICY_RETRIEVAL` | Enable BM25 rule shortlist | `false` |
 | `ZATAONE_RETRIEVAL_TOP_K` | Max rules retrieved | `8` |
 | `ZATAONE_RETRIEVAL_FALLBACK_ALL` | If retrieval returns nothing, evaluate all rules | `true` |
+| `ZATAONE_ONTOLOGY_CLAUSES` | Merge `ontology/corpus/*.yaml` clauses into policy pack (BM25 + LLM context) | `false` |
 
 Verdict and graph metadata may include `document`, `policy_pack`, `retrieval`, and the flag states above for UI explainability.
 
@@ -240,6 +314,18 @@ Additional flags:
 | `ZATAONE_PIPELINE_ADVISORY` | Auto-run Gemini at end of pipeline | on when `GEMINI_API_KEY` set |
 
 API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
+
+**Hybrid verdict model:** Quick and Full (engine off) use **LLM vs policy** for display. When `ZATAONE_POLICY_ENGINE_ENABLED=true`, the YAML engine is the audit authority and the LLM **explains / augments** (escalates on 0 signals or diverges).
+
+### Platform additions (merged)
+
+| Area | Notes |
+|------|--------|
+| **API keys** | `src/zataone/api/auth.py`, admin routes; migration `create_api_keys_table.sql` |
+| **Webhooks** | `webhook_service.py`; migration `create_webhooks_table.sql` |
+| **Jurisdiction** | `JurisdictionRouter` — US / EU / UK policy packs (`meta_ads_eu.yaml`, `meta_ads_uk.yaml`) |
+| **Text / video** | Expanded `TextExtractor`; `VideoExtractor` for video assets |
+| **Local smoke test** | `test_local.py` at repo root |
 
 ---
 
@@ -295,9 +381,14 @@ curl http://localhost:8000/health
 | POST | `/assets` | Submit asset for compliance check (async) |
 | POST | `/assets/image` | Submit image for compliance check (async) |
 | POST | `/assets/audio` | Submit audio for transcription (faster-whisper) + compliance check |
+| GET | `/assets` | List/filter assets: `status`, `review_state`, `compliance_status`, `rule_id`, `external_ref`, `parent_asset_id`, date range, pagination |
 | GET | `/assets/{asset_id}` | Poll for verdict when ready |
+| GET | `/assets/{asset_id}/media` | Serve the original uploaded media from the ObjectStore (used by ReviewLens) |
 | GET | `/assets/{asset_id}/graph` | Compliance graph: signals, evidence, violations, verdict, plus `document`, `policy_pack`, `retrieval` when available |
 | POST | `/assets/{asset_id}/llm-final-review` | Optional advisory pass (Gemini VLM + text); does not override deterministic verdict |
+| GET | `/review-queue` | Assets awaiting human review (`review_state: pending_review`), oldest first |
+| POST | `/assets/{asset_id}/review` | Record a human decision (`approved` / `rejected` / `needs_changes`) with reason + per-violation true/false-positive labels; authoritative, fires `review.completed` webhook |
+| GET | `/assets/{asset_id}/reviews` | Decision history for an asset |
 
 **POST /assets** — Submit content for compliance evaluation. Returns immediately with `status: processing` and `asset_id`. Poll `GET /assets/{asset_id}` for the verdict.
 
@@ -312,9 +403,13 @@ Request body:
   "content": "string (required)",
   "type": "text|image|video|audio (required)",
   "asset_id": "string (optional)",
-  "metadata": "object (optional)"
+  "metadata": "object (optional)",
+  "external_ref": "string (optional — client campaign/creative id)",
+  "parent_asset_id": "uuid (optional — previous revision, builds resubmission chains)"
 }
 ```
+
+`external_ref` and `parent_asset_id` are also accepted as multipart form fields on `/assets/image` and `/assets/audio`. Original bytes are stored content-addressed in the ObjectStore and served back via `GET /assets/{id}/media`.
 
 Immediate response:
 
@@ -415,6 +510,17 @@ cd web && python -m http.server 5500
 # Open http://localhost:5500/policylens.html
 ```
 
+### ReviewLens UI
+
+**[web/reviewlens.html](web/reviewlens.html)** — static human-review UI, same pattern as PolicyLens (no build step, served at **`/ui/reviewlens.html`**).
+
+| Area | Features |
+|------|----------|
+| **Queue** | `GET /review-queue` — oldest first, with verdict band, risk score, fired rules, degraded flag |
+| **Case view** | Original creative via `GET /assets/{id}/media`, verdict details, policy pack + hash, LLM advisory (marked non-authoritative) |
+| **Labels** | Per-violation *false positive* checkboxes — stored in `review_decisions.violation_feedback` for rule tuning and future model training |
+| **Decision** | Approve / Needs changes / Reject with reason; `POST /assets/{id}/review`; asset transitions to `final_*` and an audit event is written |
+
 See [web/README.md](web/README.md). Legacy [web/sentrilens.html](web/sentrilens.html) redirects to PolicyLens.
 
 ---
@@ -423,11 +529,22 @@ See [web/README.md](web/README.md). Legacy [web/sentrilens.html](web/sentrilens.
 
 The pipeline persists the full compliance graph to PostgreSQL when `persist=True` (default):
 
-- **assets** — Ingested content with content hash and type
+- **assets** — Ingested content with content hash, type, `storage_uri` (ObjectStore), `external_ref`, `parent_asset_id` (revision chains), `metadata`, and `review_state` lifecycle
 - **signals** — Extracted features from each extractor
+- **violations** — Rule hits with severity, linked to the triggering signal
 - **evidence** — Violation evidence linked to signals
-- **verdicts** — Final decision with risk score and result
-- **audit_events** — Immutable trail for each compliance check
+- **verdicts** — Final decision with risk score and result (metadata includes policy pack snapshot + `content_hash`, and `degraded_extractors` when extraction partially failed)
+- **review_decisions** — Recorded human decisions: reviewer, decision, reason, source, per-violation true/false-positive labels
+- **audit_events** — Immutable trail for each compliance check and review decision
+
+Original media bytes are stored outside Postgres in the **ObjectStore** (content-addressed by sha256):
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `ZATAONE_OBJECT_STORE_DIR` | Local disk root for stored media | `data/objects` |
+| `ZATAONE_OBJECT_STORE_BUCKET` | GCS bucket (takes precedence; use on Cloud Run) | unset |
+| `ZATAONE_STUCK_ASSET_TIMEOUT_MIN` | Reaper: minutes before a `processing` asset is marked failed | `30` |
+| `ZATAONE_REAPER_INTERVAL_S` | Reaper sweep interval (0 disables the loop) | `300` |
 
 Set `DATABASE_URL` before running (default: `postgresql://localhost:5432/zataone`):
 
@@ -446,6 +563,7 @@ python -c "from zataone.storage.database import create_all_tables; create_all_ta
 ```bash
 psql $DATABASE_URL -f migrations/add_idempotency_key.sql
 psql $DATABASE_URL -f migrations/add_asset_status.sql
+psql $DATABASE_URL -f migrations/add_review_workflow_and_media.sql   # review workflow, media, lineage
 ```
 
 PostgreSQL via Docker:
@@ -482,6 +600,7 @@ pytest tests/ -v
 - `tests/test_policy_retrieval.py` — BM25 shortlist behavior
 - `tests/test_dsl_evaluator.py`, `tests/test_policy_engine_dsl_pilot.py` — DSL match evaluation
 - `tests/test_explainability_document.py` — Graph API document metadata
+- `tests/test_review_workflow.py` — Review queue-entry rules, label sanitization, ObjectStore round-trip, degraded-extraction reporting (no DB required)
 
 ---
 
@@ -541,16 +660,34 @@ gcloud builds submit --config cloudbuild.yaml \
 
 **Runtime notes:** Set **`DATABASE_URL`** to the Cloud SQL Unix socket form, attach the instance on the service, set **`CORS_ORIGINS`** for your UI origin, and **`HF_TOKEN`** on Cloud Run if you still want Hub access for edge cases. The Dockerfile sets **`ZATAONE_DISABLE_CORE_STUB_EXTRACTORS=true`** so domain extractors are used on Cloud Run.
 
-**Web UI:** `web/policylens.html` (**PolicyLens**) is served at **`/ui/policylens.html`**. Set **`GEMINI_*`** and **`CORS_ORIGINS`** on the Cloud Run service for advisory review from the browser (see *Advisory review* above). **`/ui/sentrilens.html`** redirects to PolicyLens.
+**Web UI:** `web/policylens.html` (**PolicyLens**) is served at **`/ui/policylens.html`**; `web/reviewlens.html` (**ReviewLens**, human review queue) at **`/ui/reviewlens.html`**. Set **`GEMINI_*`** and **`CORS_ORIGINS`** on the Cloud Run service for advisory review from the browser (see *Advisory review* above). On Cloud Run also set **`ZATAONE_OBJECT_STORE_BUCKET`** so stored media survives instance recycling. **`/ui/sentrilens.html`** redirects to PolicyLens.
 
 ---
 
-## Future Roadmap
+## Strategic Roadmap (current priorities)
+
+Ordered by priority. The defensible moat is the combination of a deep policy corpus, a labeled evaluation dataset with measured precision/recall, and real-world enforcement data from pilot customers.
+
+| # | Priority | Status |
+|---|----------|--------|
+| 1 | **Deep ad policy corpus** (Meta / Google / TikTok first) | In progress |
+| 2 | **Large evaluation dataset + benchmarks** (clause-level labels, precision/recall per policy category) | Next |
+| 3 | **Pilot customers** (real content → labeled enforcement data flywheel) | Next |
+| 4 | **Government grants** (SBIR, innovation programs — non-dilutive, in parallel) | Planned |
+| 5 | **Government contracts** | Later (after pilots) |
+| 6 | **Additional domains** (finance, healthcare, etc.) | After proving ads |
+
+Items 1–3 run in parallel and feed each other: deepening the corpus, building the eval set, and onboarding pilots compound together.
+
+The canonical compliance ontology (schema, categories, cross-source mappings, eval seed) lives in [`ontology/`](ontology/README.md) — one unified corpus where every platform and regulator policy maps into the same schema.
+
+### Platform roadmap
 
 | Phase | Focus | Status |
 |-------|-------|--------|
 | **Foundation** | PostgreSQL, ingestion API, extractors, policy engine, PolicyLens UI | In progress |
 | **Explainability** | Document layer, policy corpus, BM25 retrieval, DSL pilot, graph metadata | Shipped (flags default off) |
+| **Full cycle** | Media persistence (ObjectStore), human review workflow + ReviewLens UI, per-violation labels, revision chains (`parent_asset_id`), fail-to-review degradation, stuck-asset reaper, policy pack hash stamping | Shipped |
 | **MVP** | Additional policy packs, hardened auth, audit exports | Planned |
 | **Scale** | Multi-tenancy, webhooks, video pipeline, 10+ packs | Planned |
 | **Platform** | Policy builder UI, extractor SDK, marketplace, SOC 2 | Planned |

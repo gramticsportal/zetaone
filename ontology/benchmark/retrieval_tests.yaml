@@ -1,0 +1,141 @@
+# Retrieval benchmark — tests keyword/BM25-style retrieval against the corpus.
+# Each test specifies a natural-language query and required hits in top_k results.
+# Run:  python ontology/benchmark/run_retrieval_tests.py
+# Coverage:  python ontology/benchmark/coverage.py
+
+tests:
+  # --- Misleading / Deceptive ---
+  - id: retr_mis_001
+    query: "deceptive exaggerated claims mislead consumers purchase"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [meta.misleading.exaggerated_success_claims]
+
+  - id: retr_mis_002
+    query: "clickbait fake notification system alert ad"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_canonical_ids: [misleading.clickbait_or_fake_ui]
+
+  - id: retr_mis_003
+    query: "guaranteed risk free investment returns FINRA earnings claims"
+    top_k: 20
+    must_include_category_ids: [financial]
+    must_include_clause_ids: [ftc.finance.earnings_claims]
+
+  # --- Health ---
+  - id: retr_health_001
+    query: "cure treat disease unsubstantiated health claim"
+    top_k: 15
+    must_include_category_ids: [health]
+    must_include_canonical_ids: [health.disease_cure_treatment_claims]
+
+  - id: retr_health_002
+    query: "prescription drug fair balance risk disclosure"
+    top_k: 15
+    must_include_category_ids: [health]
+    must_include_clause_ids: [fda.health.fair_balance]
+
+  # --- Minors / Privacy ---
+  - id: retr_minors_001
+    query: "children under 13 parental consent COPPA personal information"
+    top_k: 15
+    must_include_category_ids: [minors]
+    must_include_clause_ids: [ftc.minors.coppa_parental_consent]
+
+  - id: retr_minors_002
+    query: "personalized ads minors under 18 targeting restricted"
+    top_k: 15
+    must_include_category_ids: [minors]
+    must_include_canonical_ids: [minors.personalized_targeting_of_minors_restricted]
+
+  - id: retr_privacy_001
+    query: "sensitive personal attributes race religion targeting prohibited"
+    top_k: 15
+    must_include_category_ids: [privacy]
+    must_include_canonical_ids: [privacy.sensitive_attribute_targeting_prohibited]
+
+  # --- Housing / Employment ---
+  - id: retr_disc_001
+    query: "fair housing discriminatory advertising protected class"
+    top_k: 15
+    must_include_category_ids: [discrimination]
+    must_include_clause_ids: [hud.housing.discriminatory_ad]
+
+  # --- Political ---
+  - id: retr_pol_001
+    query: "political ad authorization disclaimer paid for by"
+    top_k: 15
+    must_include_category_ids: [political]
+    must_include_canonical_ids: [political.authorization_and_disclaimer_required]
+
+  # --- Alcohol / Tobacco / Cannabis ---
+  - id: retr_atc_001
+    query: "tobacco nicotine e-cigarette ads prohibited"
+    top_k: 15
+    must_include_category_ids: [drugs]
+    must_include_canonical_ids: [atc.tobacco_and_nicotine_ads_prohibited]
+
+  - id: retr_atc_002
+    query: "alcohol age location targeting legal drinking age"
+    top_k: 15
+    must_include_category_ids: [alcohol]
+    must_include_canonical_ids: [atc.alcohol_age_and_location_targeting_required]
+
+  # --- Gambling ---
+  - id: retr_gmb_001
+    query: "online gambling license certification authorization real money"
+    top_k: 15
+    must_include_category_ids: [gambling]
+    must_include_canonical_ids: [gambling.realmoney_requires_license_and_authorization]
+
+  - id: retr_gmb_002
+    query: "gambling ads never target minors under 18"
+    top_k: 15
+    must_include_category_ids: [gambling]
+    must_include_canonical_ids: [gambling.no_minors_targeting]
+
+  # --- IP / Counterfeit ---
+  - id: retr_ip_001
+    query: "counterfeit knockoff replica trademark imitate genuine product"
+    top_k: 15
+    must_include_category_ids: [ip_trademark]
+    must_include_canonical_ids: [ip.counterfeit_goods_prohibited]
+
+  # --- New platforms (misleading) ---
+  - id: retr_x_001
+    query: "clickbait sensationalized inaccurate calls to action deceptive marketing"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [x.misleading.deceptive_marketing]
+
+  - id: retr_amazon_001
+    query: "misleading claims substantiation superiority best most exaggerated"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [amazon.misleading.truthful_substantiated_claims]
+
+  - id: retr_snap_001
+    query: "false misleading deceptive claims offers functionality snapchat"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [snap.misleading.deceptive_content]
+
+  # --- International regulators ---
+  - id: retr_uk_001
+    query: "CAP code materially mislead substantiation objective claims"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [asa.misleading.substantiation_required]
+
+  - id: retr_ca_001
+    query: "Competition Act false misleading representation general impression"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [competition_bureau.misleading.false_or_misleading]
+
+  - id: retr_au_001
+    query: "Australian Consumer Law misleading deceptive conduct trade commerce"
+    top_k: 15
+    must_include_category_ids: [misleading]
+    must_include_clause_ids: [accc.misleading.section_18_acl]

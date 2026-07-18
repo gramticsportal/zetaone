@@ -28,9 +28,10 @@ def test_parallel_extractors_collects_signals():
         return m
 
     with patch("zataone.core.pipeline_run.pipeline_parallel_extractors_enabled", return_value=True):
-        signals, counts = extract_signals_parallel([_slow_ext(), _fast_ext()], SimpleNamespace(type="text"))
+        signals, counts, failed = extract_signals_parallel([_slow_ext(), _fast_ext()], SimpleNamespace(type="text"))
     assert len(signals) == 1
     assert counts.get("a") == 1
+    assert failed == {}
 
 
 def test_pipeline_run_includes_metadata_flags(monkeypatch):
@@ -45,11 +46,24 @@ def test_pipeline_run_includes_metadata_flags(monkeypatch):
         self._extractor_registry.register(TextExtractor())
         self._domain_config = {"extractors": {"enabled": ["ocr", "vision"]}}
 
+    fake_signal = SimpleNamespace(
+        id="sig-1",
+        extractor_id="text",
+        signal_type="text",
+        confidence=0.9,
+        value={"text": "guaranteed instant cure"},
+        raw_data={"text": "guaranteed instant cure"},
+    )
+
     with patch.object(CompliancePipeline, "_load_domain_extractors", mock_load_extractors):
         with patch.object(CompliancePipeline, "_load_domain_policies"):
-            pipeline = CompliancePipeline(domain="ad_compliance")
-            asset = {"content": "guaranteed instant cure", "type": "text"}
-            result = pipeline.run(asset, persist=False)
+            with patch(
+                "zataone.core.pipeline.extract_signals_parallel",
+                return_value=([fake_signal], {"text": 1}, {}),
+            ):
+                pipeline = CompliancePipeline(domain="ad_compliance")
+                asset = {"content": "guaranteed instant cure", "type": "text"}
+                result = pipeline.run(asset, persist=False)
 
     assert "verdict" in result
     meta = result.get("metadata") or {}

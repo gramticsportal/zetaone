@@ -1,0 +1,117 @@
+# UK regulators — ASA/CAP Code (misleading advertising starter). Conforms to ontology/schema.yaml.
+
+source:
+  id: asa_uk
+  type: regulator
+  name: ASA / CAP Code (UK Non-broadcast Advertising)
+  jurisdiction: [UK]
+  url: https://www.asa.org.uk/codes-and-rulings/advertising-codes/non-broadcast-code.html
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: asa.misleading.materially_mislead
+    source_id: asa_uk
+    category_id: misleading
+    text: >
+      Marketing communications must not materially mislead or be likely to do so.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [UK]
+    effective_date: 2024-01-01
+    version: "CAP-Code-Section-3"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [UK]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Marketing communications must not materially mislead or be likely to do so.
+      source_url: https://www.asa.org.uk/type/non_broadcast/code_section/03.html
+      section: "CAP Code > 03 Misleading advertising > Rule 3.1"
+      retrieved_at: 2026-06-27
+
+  - id: asa.misleading.substantiation_required
+    source_id: asa_uk
+    category_id: misleading
+    text: >
+      Before distributing or submitting a marketing communication for publication,
+      marketers must hold documentary evidence to prove claims that consumers are
+      likely to regard as objective and that are capable of objective
+      substantiation. The ASA may regard claims as misleading in the absence of
+      adequate substantiation.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [UK]
+    effective_date: 2024-01-01
+    version: "CAP-Code-Section-3"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [UK]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Before distributing or submitting a marketing communication for
+        publication, marketers must hold documentary evidence to prove claims that
+        consumers are likely to regard as objective and that are capable of
+        objective substantiation. The ASA may regard claims as misleading in the
+        absence of adequate substantiation.
+      source_url: https://www.asa.org.uk/type/non_broadcast/code_section/03.html
+      section: "CAP Code > 03 Misleading advertising > Rule 3.7"
+      retrieved_at: 2026-06-27
+
+  - id: asa.misleading.omit_material_info
+    source_id: asa_uk
+    category_id: misleading
+    text: >
+      Marketing communications must not mislead the consumer by omitting material
+      information. They must not mislead by hiding material information or
+      presenting it in an unclear, unintelligible, ambiguous or untimely manner.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [UK]
+    effective_date: 2024-01-01
+    version: "CAP-Code-Section-3"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [UK]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Marketing communications must not mislead the consumer by omitting
+        material information. They must not mislead by hiding material
+        information or presenting it in an unclear, unintelligible, ambiguous or
+        untimely manner.
+      source_url: https://www.asa.org.uk/type/non_broadcast/code_section/03.html
+      section: "CAP Code > 03 Misleading advertising > Rule 3.3"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: asa_misleading_substantiation
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [asa.misleading.substantiation_required]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: "Objective claims without adequate substantiation held before publication."
+    exceptions: []
+    status: active
+
+  - id: asa_misleading_material_info
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [asa.misleading.omit_material_info]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 63
+    detection: "Omitting/hiding material information or presenting it unclearly."
+    exceptions: []
+    status: active

@@ -1,0 +1,123 @@
+# X Ads (US) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Official source: X Business Ads Policies.
+
+source:
+  id: x_ads_us
+  type: platform
+  name: X Advertising Policies
+  jurisdiction: [US]
+  url: https://business.x.com/en/help/ads-policies/ads-content-policies/deceptive-and-fraudulent-content
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: x.misleading.deceptive_marketing
+    source_id: x_ads_us
+    category_id: misleading
+    text: >
+      Ads must not promote products or services using deceptive marketing or
+      misrepresentative business practices, including use of clickbait tactics
+      where the primary purpose is to drive users to a landing page through
+      exaggerated, sensationalized, inaccurate language or calls-to-action, or
+      use of misleading tactics or claims during the promotion of a product or
+      service.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "x-ads-deceptive-fraudulent"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads must not promote products or services using deceptive marketing or
+        misrepresentative business practices. Examples include: Use of clickbait
+        tactics, where the primary purpose is to drive users to a landing page
+        through exaggerated, sensationalized, inaccurate language or
+        calls-to-action. Use of misleading tactics or claims during the
+        promotion of a product or service.
+      source_url: https://business.x.com/en/help/ads-policies/ads-content-policies/deceptive-and-fraudulent-content
+      section: "Ads Content Policies > Deceptive & Fraudulent Content > Deceptive marketing"
+      retrieved_at: 2026-06-27
+
+  - id: x.misleading.improbable_outcomes
+    source_id: x_ads_us
+    category_id: misleading
+    text: >
+      Ads must not contain content that promises or suggests unjustified
+      opportunities or results, including impractical outcomes.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "x-ads-deceptive-fraudulent"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads must not contain content that promises or suggests unjustified
+        opportunities or results.
+      source_url: https://business.x.com/en/help/ads-policies/ads-content-policies/deceptive-and-fraudulent-content
+      section: "Ads Content Policies > Deceptive & Fraudulent Content > Impractical Outcomes"
+      retrieved_at: 2026-06-27
+
+  - id: x.misleading.pricing_omission
+    source_id: x_ads_us
+    category_id: misleading
+    text: >
+      Ads must not promote offers or deals that are not available or omit vital
+      information on pricing, payment terms, or expenses the customer will incur.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "x-ads-deceptive-fraudulent"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Promotion of offers or deals that are not available or omitting vital
+        information on pricing, payment terms, or expenses the customer will
+        incur.
+      source_url: https://business.x.com/en/help/ads-policies/ads-content-policies/deceptive-and-fraudulent-content
+      section: "Ads Content Policies > Deceptive & Fraudulent Content > Deceptive marketing"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: x_misleading_deceptive
+    canonical_id: misleading.exaggerated_results
+    clause_ids: [x.misleading.deceptive_marketing, x.misleading.improbable_outcomes]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 58
+    detection: >
+      Deceptive/clickbait marketing, misleading product claims, or unjustified
+      outcome promises on X.
+    exceptions: []
+    status: active
+
+  - id: x_misleading_pricing
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [x.misleading.pricing_omission]
+    category_id: misleading
+    severity: medium
+    modalities: [text, image, video, landing_page]
+    priority: 55
+    detection: >
+      Offers/deals not available or missing vital pricing/payment/expense info.
+    exceptions: []
+    status: active

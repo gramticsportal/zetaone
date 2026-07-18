@@ -1,0 +1,178 @@
+# SEC enforcement precedents — Phase 3 (crypto/NFT/staking).
+
+precedents:
+  - precedent_id: prec.sec.terraform_luna_2024
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/newsroom/press-releases/2024-73"
+    date: 2024-06-12
+    title: "SEC v. Terraform Labs — $4.5B fraud verdict on LUNA/UST crypto securities"
+    summary: >
+      Terraform Labs and Do Kwon agreed to pay more than $4.5 billion after a jury
+      found them liable for securities fraud involving unregistered crypto asset
+      securities that wiped out roughly $40 billion in market value.
+    why_this_matters: >
+      Landmark algorithmic stablecoin and crypto securities fraud case with jury
+      verdict and bankruptcy distribution to harmed investors.
+    retrieval_keywords: ['Terraform', 'LUNA', 'UST', 'Do Kwon', 'algorithmic stablecoin', 'crypto fraud', '$4.5 billion']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.untrue_or_unbalanced
+      - google.finance.crypto
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.crypto_restricted
+    outcome: settlement
+    monetary_relief: "$4,473,828,306"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Terraform Labs PTE, Ltd. and Do Kwon agreed to pay more than $4.5 billion
+          following a unanimous jury verdict holding them liable for orchestrating a
+          years-long fraud involving crypto asset securities that led to massive
+          investor losses when the scheme unraveled.
+        source_url: https://www.sec.gov/newsroom/press-releases/2024-73
+        section: "SEC Press Release 2024-73"
+
+  - precedent_id: prec.sec.kraken_staking_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/files/litigation/complaints/2023/comp-pr2023-25.pdf"
+    date: 2023-02-09
+    title: "SEC v. Kraken — unregistered crypto staking-as-a-service"
+    summary: >
+      Kraken agreed to pay $30 million and cease its U.S. staking program after
+      the SEC charged it with offering and selling an unregistered investment
+      contract through pooled crypto staking services.
+    why_this_matters: >
+      Defines staking-as-a-service as securities offering — core crypto
+      yield/advertising compliance precedent.
+    retrieval_keywords: ['Kraken', 'staking', 'crypto yield', 'unregistered securities', 'proof of stake', '$30 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial']
+    violated_clause_ids:
+      - sec.finance.untrue_or_unbalanced
+      - google.finance.crypto
+    canonical_ids:
+      - finance.crypto_restricted
+      - finance.misleading_or_unbalanced_claims
+    outcome: settlement
+    monetary_relief: "$30,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          This case concerns the illegal unregistered offer and sale of securities
+          involving the staking of crypto assets.
+        source_url: https://www.sec.gov/files/litigation/complaints/2023/comp-pr2023-25.pdf
+        section: "SEC Complaint, Case 3:23-cv-00588, SUMMARY ¶1"
+
+  - precedent_id: prec.sec.impact_theory_nfts_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/files/litigation/admin/2023/33-11226.pdf"
+    date: 2023-08-28
+    title: "SEC v. Impact Theory — unregistered NFT securities offering"
+    summary: >
+      Impact Theory agreed to a cease-and-desist order after the SEC found it
+      raised about $29.9 million selling Founder's Keys NFTs as unregistered
+      investment contracts with profit expectations tied to the company's efforts.
+    why_this_matters: >
+      First major SEC NFT-as-securities case — applies to crypto/NFT project
+      marketing and influencer promotions.
+    retrieval_keywords: ['Impact Theory', 'NFT', "Founder's Keys", 'unregistered offering', 'Howey', 'crypto art']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.untrue_or_unbalanced
+      - google.finance.crypto
+    canonical_ids:
+      - finance.crypto_restricted
+      - misleading.unsubstantiated_objective_claims
+    outcome: consent_order
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          From October 13, 2021, to December 6, 2021, Impact Theory, a media and
+          entertainment company, offered and sold crypto asset securities known as
+          Founder's Keys in the form of purported non-fungible tokens, raising
+          approximately $29.9 million worth of ether from at least hundreds of
+          investors, including investors across the United States.
+        source_url: https://www.sec.gov/files/litigation/admin/2023/33-11226.pdf
+        section: "SEC Admin Proceeding 33-11226"
+
+  - precedent_id: prec.sec.stoner_cats_nfts_2023
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/files/litigation/admin/2023/33-11233.pdf"
+    date: 2023-09-13
+    title: "SEC v. Stoner Cats — unregistered NFT securities offering"
+    summary: >
+      Stoner Cats 2 LLC agreed to a cease-and-desist order after the SEC found it
+      sold 10,320 NFTs for about $8.2 million in an unregistered securities
+      offering with reasonable profit expectations from the issuer's efforts.
+    why_this_matters: >
+      Companion NFT enforcement to Impact Theory — secondary-market profit
+      expectations and issuer promotion.
+    retrieval_keywords: ['Stoner Cats', 'NFT', 'unregistered securities', 'Ethereum', 'crypto collectibles', 'Howey']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.untrue_or_unbalanced
+      - google.finance.crypto
+    canonical_ids:
+      - finance.crypto_restricted
+    outcome: consent_order
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          On July 27, 2021, Stoner Cats 2, LLC ("SC2") conducted an unregistered
+          offering of crypto asset securities in the form of non-fungible tokens
+          called Stoner Cats (hereinafter "Stoner Cats NFTs" or "NFTs"). SC2 offered
+          and sold to the public, including U.S. investors, 10,320 NFTs for 0.35 ETH
+          (approximately $800) each.
+        source_url: https://www.sec.gov/files/litigation/admin/2023/33-11233.pdf
+        section: "SEC Admin Proceeding 33-11233, ¶1"
+
+  - precedent_id: prec.sec.flyfish_club_nfts_2024
+    source: "U.S. Securities and Exchange Commission"
+    source_url: "https://www.sec.gov/files/litigation/admin/2024/33-11305.pdf"
+    date: 2024-09-16
+    title: "SEC v. Flyfish Club — unregistered membership NFT offering"
+    summary: >
+      Flyfish Club LLC agreed to a cease-and-desist order after the SEC found it
+      sold restaurant-membership NFTs as unregistered securities by promising
+      token holders access and resale value tied to the issuer's restaurant
+      development.
+    why_this_matters: >
+      Extends NFT securities theory to membership/utility tokens with marketed
+      investment upside.
+    retrieval_keywords: ['Flyfish Club', 'NFT', 'restaurant membership', 'unregistered securities', 'Gary Vaynerchuk', 'VCR Group']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - sec.finance.untrue_or_unbalanced
+      - google.finance.crypto
+    canonical_ids:
+      - finance.crypto_restricted
+      - finance.misleading_or_unbalanced_claims
+    outcome: consent_order
+    monetary_relief: "$750,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Flyfish told investors they could potentially profit from reselling their
+          NFTs at appreciated prices in the secondary market.
+        source_url: https://www.sec.gov/files/litigation/admin/2024/33-11305.pdf
+        section: "SEC Admin Proceeding 33-11305, ¶3"

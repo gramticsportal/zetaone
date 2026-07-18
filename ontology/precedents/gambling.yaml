@@ -1,0 +1,171 @@
+# NJ DGE and state gambling advertising enforcement.
+
+precedents:
+  - precedent_id: prec.njdge.draftkings_self_excluded_2021
+    source: "New Jersey Division of Gaming Enforcement"
+    source_url: "https://www.nj.gov/oag/ge/docs/Rulings/2021/feb16_28/B_7_dk_market.pdf"
+    date: 2021-02-24
+    title: "NJ DGE v. DraftKings — marketing to self-excluded patrons"
+    summary: >
+      DraftKings agreed to a $500 civil penalty after NJ DGE found it sent
+      promotional materials to self-excluded and cooled-off patrons in violation
+      of N.J.A.C. 13:69G-2.4(a)4.
+    why_this_matters: >
+      State gambling regulator penalty for sportsbook marketing to self-excluded
+      consumers — core responsible-gambling ad compliance.
+    retrieval_keywords: ['DraftKings', 'New Jersey', 'self-exclusion', 'sports betting', 'DGE', 'responsible gambling', 'marketing']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling', 'misleading']
+    violated_clause_ids:
+      - google.gambling.responsible
+      - meta.gambling.authorization_and_license
+    canonical_ids:
+      - gambling.responsible_gambling_required
+      - gambling.realmoney_requires_license_and_authorization
+    outcome: fine
+    monetary_relief: "$500"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Division having sent a Notice of Violation to DraftKings Inc. on
+          February 12, 2021 imposing a $500 civil penalty for marketing to self-
+          excluded and cooled-off patrons in violation of a Division requirement, in
+          violation of N.J.A.C. 13:69G-2.4(a)4.
+        source_url: https://www.nj.gov/oag/ge/docs/Rulings/2021/feb16_28/B_7_dk_market.pdf
+        section: "NJ DGE Order, File Nos. D-01-20-186"
+
+  - precedent_id: prec.njdge.draftkings_self_excluded_mail_2021
+    source: "New Jersey Division of Gaming Enforcement"
+    source_url: "https://www.nj.gov/oag/ge/docs/Rulings/2021/mar16_31/b11_draftkings.pdf"
+    date: 2021-03-01
+    title: "NJ DGE v. DraftKings — promotional mailings to eleven self-excluded individuals"
+    summary: >
+      DraftKings paid a $10,000 civil penalty after NJ DGE found it sent
+      promotional mailings to eleven self-excluded individuals in violation of
+      N.J.A.C. 13:69G-2.4(b)1.
+    why_this_matters: >
+      Escalated NJ penalty for repeat self-exclusion marketing failures via direct
+      mail.
+    retrieval_keywords: ['DraftKings', 'self-exclusion', 'promotional mail', 'New Jersey DGE', 'sports betting', '$10000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling', 'misleading']
+    violated_clause_ids:
+      - google.gambling.responsible
+      - tiktok.gambling.responsible
+    canonical_ids:
+      - gambling.responsible_gambling_required
+    outcome: fine
+    monetary_relief: "$10,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Division of Gaming Enforcement having filed a complaint on March 1,
+          2021 against DraftKings Inc. seeking a sanction for sending promotional
+          mailings to eleven self-excluded individuals.
+        source_url: https://www.nj.gov/oag/ge/docs/Rulings/2021/mar16_31/b11_draftkings.pdf
+        section: "NJ DGE Order, File No. O-01-20-115"
+
+  - precedent_id: prec.njdge.tipico_promotions_2025
+    source: "New Jersey Division of Gaming Enforcement"
+    source_url: "https://www.nj.gov/oag/ge/docs/Rulings/2025/jun16_30/B7tipico.pdf"
+    date: 2025-06-24
+    title: "NJ DGE v. Tipico — self-excluded marketing and inflated cash-out odds"
+    summary: >
+      Tipico agreed to pay a $25,000 civil monetary penalty for sending
+      promotional materials to self-excluded patrons and allowing patrons to cash
+      out wagers at inflated odds.
+    why_this_matters: >
+      Combines responsible-gambling list violations with deceptive promotion
+      mechanics in regulated sports betting.
+    retrieval_keywords: ['Tipico', 'New Jersey', 'self-exclusion', 'inflated odds', 'sports betting', 'DGE', '$25000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling', 'misleading']
+    violated_clause_ids:
+      - google.gambling.responsible
+      - ftc.misleading.express_implied
+    canonical_ids:
+      - gambling.responsible_gambling_required
+      - misleading.missing_or_inconsistent_material_info
+    outcome: fine
+    monetary_relief: "$25,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Division accepts the offer of Tipico to render a civil monetary
+          penalty payment in the total amount of $25,000.
+        source_url: https://www.nj.gov/oag/ge/docs/Rulings/2025/jun16_30/B7tipico.pdf
+        section: "NJ DGE Action in Lieu of Complaint, June 24, 2025"
+
+  - precedent_id: prec.njdge.fanduel_unauthorized_promo_2025
+    source: "New Jersey Division of Gaming Enforcement"
+    source_url: "https://www.nj.gov/oag/ge/docs/Rulings/2025/jul16_31/Summary.pdf"
+    date: 2025-07-16
+    title: "NJ DGE v. FanDuel — unauthorized promotion penalty"
+    summary: >
+      NJ DGE imposed a $2,000 civil penalty on FanDuel pursuant to a Notice of
+      Violation for an unauthorized promotion.
+    why_this_matters: >
+      Shows state enforcement against sportsbook promotions run without regulatory
+      authorization.
+    retrieval_keywords: ['FanDuel', 'New Jersey', 'unauthorized promotion', 'sports betting', 'DGE', '$2000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling']
+    violated_clause_ids:
+      - google.gambling.certification_license
+      - meta.gambling.authorization_and_license
+    canonical_ids:
+      - gambling.realmoney_requires_license_and_authorization
+    outcome: fine
+    monetary_relief: "$2,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Imposed a $2,000 civil penalty on FanDuel pursuant to a Notice of
+          Violation for an unauthorized promotion.
+        source_url: https://www.nj.gov/oag/ge/docs/Rulings/2025/jul16_31/Summary.pdf
+        section: "Actions of the Director, July 16–31, 2025"
+
+  - precedent_id: prec.njdge.ballys_exclusion_list_2025
+    source: "New Jersey Division of Gaming Enforcement"
+    source_url: "https://www.nj.gov/oag/ge/docs/Rulings/2025/jul16_31/Summary.pdf"
+    date: 2025-07-16
+    title: "NJ DGE v. Bally's Atlantic City — exclusion list violations"
+    summary: >
+      NJ DGE imposed a $10,000 civil penalty against Bally's Atlantic City
+      pursuant to an Action in Lieu of Complaint for exclusion list violations.
+    why_this_matters: >
+      Land-based casino operator penalty for failing to honor self-
+      exclusion/exclusion list obligations relevant to gambling marketing reach.
+    retrieval_keywords: ["Bally's", 'Atlantic City', 'exclusion list', 'self-exclusion', 'New Jersey DGE', 'casino']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['gambling']
+    violated_clause_ids:
+      - google.gambling.responsible
+      - meta.gambling.no_minors
+    canonical_ids:
+      - gambling.responsible_gambling_required
+      - gambling.no_minors_targeting
+    outcome: fine
+    monetary_relief: "$10,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Imposed a $10,000 civil penalty against Bally's Atlantic City pursuant to
+          an Action in Lieu of Complaint for exclusion list violations.
+        source_url: https://www.nj.gov/oag/ge/docs/Rulings/2025/jul16_31/Summary.pdf
+        section: "Actions of the Director, July 16–31, 2025"

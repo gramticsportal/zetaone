@@ -35,8 +35,8 @@ class LlmFinalReviewV1(BaseModel):
         description="likely_approved | borderline | likely_rejected when LLM is primary assessor",
     )
     disclaimer: str = (
-        "Advisory only. The binding compliance outcome is the deterministic verdict "
-        "and the stored signals/evidence graph."
+        "LLM assessment synthesizing signals, VLM, and rule-engine hits. "
+        "Deterministic violations remain in the audit graph for explainability."
     )
 
     @field_validator("agreement_with_deterministic", mode="before")
@@ -94,9 +94,11 @@ def build_review_context(
         )
     else:
         instructions = (
-            "Second read after the rule engine. Do not replace the deterministic verdict; use "
-            "agreement_with_deterministic. Signals are primary structured extractors; VLM inspection "
-            "supplements. policy_context.clauses_for_review and rules_for_review are authoritative policy text."
+            "Full pipeline with rule engine ON. deterministic_verdict and violations are audit inputs; "
+            "your recommended_compliance_status and recommended_verdict are the user-visible outcome. "
+            "Synthesize signals, advisory_vlm.inspection, violations, and policy_context. "
+            "Set agreement_with_deterministic to diverges when you disagree with the rule engine. "
+            "Cite signal ids only when present in signals."
         )
 
     out: dict[str, Any] = {

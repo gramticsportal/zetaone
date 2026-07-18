@@ -1,0 +1,357 @@
+# CFPB enforcement precedents.
+
+precedents:
+  - precedent_id: prec.cfpb.navy_federal_overdraft_2024
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-orders-navy-federal-credit-union-to-pay-more-than-95-million-for-illegal-surprise-overdraft-fees/"
+    date: 2024-11-07
+    title: "CFPB v. Navy Federal — surprise overdraft fee practices"
+    summary: >
+      The CFPB ordered Navy Federal to pay more than $95 million for unfair
+      overdraft fees on authorized-positive transactions and delayed posting of
+      person-to-person credits.
+    why_this_matters: >
+      Major 'junk fee' precedent for misleading financial product terms in
+      marketing and servicing.
+    retrieval_keywords: ['Navy Federal', 'overdraft fees', 'surprise fees', 'CFPB', 'unfair practices', 'banking']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+    outcome: consent_order
+    monetary_relief: ">$95,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Respondent committed unfair acts and practices when it collected overdraft
+          fees from consumers on transactions that had a sufficient balance at the
+          time Respondent authorized the transaction but then later settled with an
+          insufficient balance.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_navy-federal-credit-union-consent-order_2024-11.pdf
+        section: "CFPB Consent Order 2024-CFPB-0014"
+
+  - precedent_id: prec.cfpb.edfinancial_pslf_2022
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-sanctions-edfinancial-for-lying-about-student-loan-cancellation/"
+    date: 2022-03-30
+    title: "CFPB v. Edfinancial — deceptive student loan forgiveness guidance"
+    summary: >
+      Edfinancial paid a $1 million penalty for deceptive statements to FFELP
+      borrowers about Public Service Loan Forgiveness eligibility and
+      consolidation options.
+    why_this_matters: >
+      Servicer misrepresentation precedent applicable to education-finance
+      advertising and customer communications.
+    retrieval_keywords: ['Edfinancial', 'PSLF', 'student loans', 'loan forgiveness', 'deceptive statements', 'FFELP']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$1,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          When FFELP borrowers asked about forgiveness options available to them,
+          Edfinancial representatives often described forgiveness options available
+          only for FFELP loans and failed to mention PSLF.
+        source_url: https://www.consumerfinance.gov/about-us/newsroom/cfpb-sanctions-edfinancial-for-lying-about-student-loan-cancellation/
+        section: "CFPB Press Release, March 30, 2022"
+
+  - precedent_id: prec.cfpb.rmk_mortgage_ads_2023
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_spring-semi-annual-report_2023-11.pdf"
+    date: 2023-02-27
+    title: "CFPB v. RMK Financial — repeat deceptive mortgage advertisements"
+    summary: >
+      The CFPB permanently banned RMK Financial from mortgage lending after
+      finding it sent millions of deceptive mortgage ads violating a 2015 consent
+      order, including false VA/FHA affiliation implications.
+    why_this_matters: >
+      Repeat-offender mortgage ad case illustrating Reg N / TILA trigger-term and
+      affiliation deception.
+    retrieval_keywords: ['RMK Financial', 'mortgage ads', 'VA FHA', 'deceptive advertising', 'Reg N', 'Majestic Home Loans']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading', 'discrimination']
+    violated_clause_ids:
+      - cfpb.finance.mortgage_prohibited_acts
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.mortgage_advertising_prohibited_acts
+      - misleading.false_affiliation_or_endorsement
+    outcome: consent_order
+    monetary_relief: "$1,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The CFPB found that, after the 2015 Consent Order went into effect, RMK
+          disseminated millions of mortgage advertisements that violated the CFPB's
+          findings in the 2015 Order and expressly prohibited by the 2015 Order.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_spring-semi-annual-report_2023-11.pdf
+        section: "CFPB Semi-Annual Report, Spring 2023"
+
+  - precedent_id: prec.cfpb.freedom_debt_relief_2019
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_freedom-debt-relief_stipulated-final-judgment-order_2019-07.pdf"
+    date: 2019-07-01
+    title: "CFPB v. Freedom Debt Relief — deceptive debt-relief marketing"
+    summary: >
+      Freedom Debt Relief agreed to a $5 million civil penalty and $20 million
+      restitution order prohibiting misrepresentations about creditor negotiations
+      and fee charges in debt-relief advertising and sales.
+    why_this_matters: >
+      Landmark debt-relief ad enforcement on misrepresentation and advance-fee
+      practices.
+    retrieval_keywords: ['Freedom Debt Relief', 'CFPB', 'debt relief', 'deceptive marketing', 'Telemarketing Sales Rule', 'advance fees']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$5,000,000 penalty; $20,000,000 restitution"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Company Defendant and its officers, agents, servants, employees, and
+          attorneys, in connection with the advertising, marketing, promotion,
+          offering for sale, sale, or provision of Debt-Relief Services, may not
+          misrepresent, or assist others in misrepresenting, expressly or impliedly.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_freedom-debt-relief_stipulated-final-judgment-order_2019-07.pdf
+        section: "Stipulated Final Judgment, Section I"
+
+  - precedent_id: prec.cfpb.western_benefits_2024
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-takes-action-against-western-benefits-for-swindling-student-loan-borrowers/"
+    date: 2024-05-20
+    title: "CFPB v. Western Benefits Group — deceptive student-loan debt-relief ads"
+    summary: >
+      CFPB ordered Western Benefits to cease operations and pay a $400,000 penalty
+      for charging illegal advance fees and falsely claiming Department of
+      Education affiliation in debt-relief marketing.
+    why_this_matters: >
+      Recent CFPB penalty for false government-affiliation claims in student-loan
+      relief advertising.
+    retrieval_keywords: ['Western Benefits', 'CFPB', 'student loans', 'debt relief', 'advance fees', 'Department of Education affiliation']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - linkedin.finance.prohibited
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - misleading.false_affiliation_or_endorsement
+    outcome: consent_order
+    monetary_relief: "$400,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The CFPB found Western Benefits also misrepresented that it was affiliated
+          with and endorsed by the Department of Education, and that the company
+          would help consumers consolidate student loans, lower consumers' monthly
+          student loan payments, or obtain loan cancellation.
+        source_url: https://www.consumerfinance.gov/about-us/newsroom/cfpb-takes-action-against-western-benefits-for-swindling-student-loan-borrowers/
+        section: "CFPB Press Release, May 20, 2024"
+
+  - precedent_id: prec.cfpb.hello_digit_2022
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/about-us/newsroom/cfpb-takes-action-against-hello-digit-for-lying-to-consumers-about-its-automated-savings-algorithm/"
+    date: 2022-08-10
+    title: "CFPB v. Hello Digit — deceptive automated savings algorithm"
+    summary: >
+      Hello Digit paid a $2.7 million penalty after the CFPB found it falsely
+      guaranteed no overdrafts, failed to reimburse fees, and kept interest that
+      it said would go to consumers.
+    why_this_matters: >
+      Fintech savings-app marketing precedent on algorithm performance claims and
+      fee reimbursement promises.
+    retrieval_keywords: ['Hello Digit', 'automated savings', 'overdraft', 'fintech', 'deceptive algorithm', '$2.7 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+    outcome: consent_order
+    monetary_relief: "$2,700,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Hello Digit was meant to save people money, but instead the company
+          falsely guaranteed no overdrafts with its product, broke its promises to
+          make amends on its mistakes, and pocketed a portion of the interest that
+          should have gone to consumers.
+        source_url: https://www.consumerfinance.gov/about-us/newsroom/cfpb-takes-action-against-hello-digit-for-lying-to-consumers-about-its-automated-savings-algorithm/
+        section: "CFPB Press Release, August 10, 2022"
+
+  - precedent_id: prec.cfpb.onemain_addons_2023
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/enforcement/actions/onemain-financial-holdings-llc-et-al/"
+    date: 2023-05-15
+    title: "CFPB v. OneMain — deceptive optional add-on products"
+    summary: >
+      OneMain agreed to pay $20 million after the CFPB found it deceptively sold
+      and financed optional credit-insurance and non-credit add-ons and failed to
+      refund interest on cancelled products.
+    why_this_matters: >
+      Installment-lender add-on marketing precedent for hidden costs and refund
+      deception in loan ads.
+    retrieval_keywords: ['OneMain', 'add-on products', 'credit insurance', 'deceptive sales', 'installment loans', '$20 million']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$20,000,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Consumer Financial Protection Bureau (Bureau) has reviewed the
+          practices of OneMain Financial Holdings, LLC relating to the marketing,
+          sales, and financing of optional ancillary products (Optional Add-On
+          Products) and has identified unfair, deceptive, and abusive acts or
+          practices engaged in by Respondent in violation of Sections 1031 and 1036
+          of the CFPA.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_onemain-financial-holdings-llc_consent-order_2023-05.pdf
+        section: "CFPB Consent Order 2023-CFPB-0003, Background"
+
+  - precedent_id: prec.cfpb.sendwave_remit_2023
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/enforcement/actions/chime-inc-dba-sendwave/"
+    date: 2023-10-17
+    title: "CFPB v. Sendwave — deceptive remittance transfer advertising"
+    summary: >
+      Sendwave paid $1.5 million in redress and a $1.5 million penalty after the
+      CFPB found it misrepresented transfer speed and cost and violated Remittance
+      Transfer Rule disclosure requirements.
+    why_this_matters: >
+      Money-transfer app ad precedent on speed/cost misrepresentation and required
+      fee disclosures.
+    retrieval_keywords: ['Sendwave', 'Chime', 'remittance', 'money transfer', 'deceptive fees', 'Reg E']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - misleading.missing_or_inconsistent_material_info
+    outcome: consent_order
+    monetary_relief: "$3,000,000 (redress + penalty)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Bureau found that Sendwave violated the Consumer Financial Protection
+          Act of 2010's (CFPA) prohibition on deceptive acts and practices by
+          misrepresenting to consumers the speed and cost of its remittance
+          transfers.
+        source_url: https://www.consumerfinance.gov/enforcement/actions/chime-inc-dba-sendwave/
+        section: "CFPB Enforcement Action Summary"
+
+  - precedent_id: prec.cfpb.bloomtech_isa_2024
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://files.consumerfinance.gov/f/documents/cfpb_bloomtech-inc-consent-order_2024-04.pdf"
+    date: 2024-04-15
+    title: "CFPB v. BloomTech — deceptive income-share agreement lending"
+    summary: >
+      BloomTech (Lambda School) was ordered to stop deceptive ISA practices and
+      pay penalties after the CFPB found it misled students about job-placement
+      rates and failed to disclose ISA finance charges under TILA.
+    why_this_matters: >
+      Ed-tech and coding-bootcamp ad precedent on job-outcome claims and ISA
+      credit advertising.
+    retrieval_keywords: ['BloomTech', 'Lambda School', 'income share agreement', 'ISA', 'coding bootcamp', 'job placement']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$164,000 (penalty)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          Between 2017 and at least 2022, a significant majority of BloomTech's
+          students funded their enrollment in its programs with an ISA.
+        source_url: https://files.consumerfinance.gov/f/documents/cfpb_bloomtech-inc-consent-order_2024-04.pdf
+        section: "CFPB Consent Order 2024-CFPB-0001, ¶15"
+
+  - precedent_id: prec.cfpb.goldman_apple_card_2024
+    source: "Consumer Financial Protection Bureau"
+    source_url: "https://www.consumerfinance.gov/enforcement/actions/goldman-sachs-bank-usa/"
+    date: 2024-10-23
+    title: "CFPB v. Goldman Sachs — deceptive Apple Card Monthly Installments marketing"
+    summary: >
+      Goldman Sachs was ordered to pay $19.8 million in redress and a $45 million
+      penalty after the CFPB found it misled Apple Card customers about automatic
+      ACMI enrollment and refund application.
+    why_this_matters: >
+      Big-tech co-branded financial product ad/servicing precedent on installment
+      financing disclosures.
+    retrieval_keywords: ['Goldman Sachs', 'Apple Card', 'ACMI', 'installments', 'deceptive marketing', 'Apple']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['financial', 'misleading']
+    violated_clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+    canonical_ids:
+      - finance.misleading_or_unbalanced_claims
+      - finance.credit_advertising_trigger_terms
+    outcome: consent_order
+    monetary_relief: "$64,800,000 (redress + penalty)"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          The Bureau found that Goldman engaged in deceptive acts or practices by
+          misleading consumers to expect that purchases of Apple devices would
+          automatically be enrolled in ACMI, and by misleading consumers enrolled in
+          ACMI about the application of refunds to Apple Card accounts with both
+          ACMI and non-ACMI balances.
+        source_url: https://www.consumerfinance.gov/enforcement/actions/goldman-sachs-bank-usa/
+        section: "CFPB Enforcement Action Summary"

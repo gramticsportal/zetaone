@@ -1,0 +1,35 @@
+# HUD fair housing advertising enforcement.
+
+precedents:
+  - precedent_id: prec.hud.facebook_housing_ads_2019
+    source: "U.S. Department of Housing and Urban Development"
+    source_url: "https://archives.hud.gov/news/2019/pr19-035.cfm"
+    date: 2019-03-28
+    title: "HUD charge — Facebook housing ad discrimination (supplement to DOJ settlement)"
+    summary: >
+      HUD charged Facebook with violating the Fair Housing Act by enabling
+      advertisers to exclude audiences by race, religion, familial status, and
+      other protected classes in housing ads.
+    why_this_matters: >
+      Foundational FHA charge on targeted housing advertising that preceded the
+      DOJ/HUD Meta settlement already in corpus.
+    retrieval_keywords: ['HUD', 'Facebook', 'Fair Housing Act', 'housing ads', 'discrimination', 'ad targeting']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['discrimination']
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+    canonical_ids:
+      - discrimination.discriminatory_ad_content_prohibited
+      - discrimination.restricted_targeting_protected_class
+    outcome: court_order
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          HUD is charging Facebook with violating the Fair Housing Act by
+          encouraging, enabling, and causing housing discrimination through the
+          company's advertising platform.
+        source_url: https://archives.hud.gov/news/2019/pr19-035.cfm
+        section: "HUD Press Release pr19-035, March 28, 2019"

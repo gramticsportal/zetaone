@@ -1,0 +1,86 @@
+# Canada regulators — Competition Bureau / Competition Act (misleading starter).
+# Conforms to ontology/schema.yaml.
+
+source:
+  id: competition_bureau_ca
+  type: regulator
+  name: Competition Bureau (Canada) — Deceptive Marketing
+  jurisdiction: [CA]
+  url: https://competition-bureau.canada.ca/en/deceptive-marketing-practices/types-deceptive-marketing-practices/false-or-misleading-representations-and-deceptive-marketing-practices
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: competition_bureau.misleading.false_or_misleading
+    source_id: competition_bureau_ca
+    category_id: misleading
+    text: >
+      The Competition Act prohibits false or misleading representations in
+      promoting the supply or use of a product or any business interest. To
+      determine whether a representation is false or misleading, the courts
+      consider the general impression it conveys, as well as its literal meaning.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [CA]
+    effective_date: 2024-01-01
+    version: "Competition-Act-deceptive-marketing"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [CA]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        All representations, in any form whatsoever, that are false or misleading
+        in a material respect are subject to the Act. ... To determine whether a
+        representation is false or misleading, the courts consider the "general
+        impression" it conveys, as well as its literal meaning.
+      source_url: https://competition-bureau.canada.ca/en/deceptive-marketing-practices/types-deceptive-marketing-practices/false-or-misleading-representations-and-deceptive-marketing-practices
+      section: "False or Misleading Representations and Deceptive Marketing Practices"
+      retrieved_at: 2026-06-27
+
+  - id: competition_bureau.misleading.section_52
+    source_id: competition_bureau_ca
+    category_id: misleading
+    text: >
+      No person shall, for the purpose of promoting, directly or indirectly, the
+      supply or use of a product or any business interest, knowingly or recklessly
+      make a representation to the public that is false or misleading in a material
+      respect (Competition Act s. 52(1)).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [CA]
+    effective_date: 2024-01-01
+    version: "Competition-Act-s52"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [CA]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        No person shall, for the purpose of promoting, directly or indirectly,
+        the supply or use of a product or for the purpose of promoting, directly
+        or indirectly, any business interest, by any means whatever, knowingly or
+        recklessly make a representation to the public that is false or misleading
+        in a material respect.
+      source_url: https://laws-lois.justice.gc.ca/eng/acts/C-34/section-52.html
+      section: "Competition Act > Section 52(1)"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: competition_bureau_misleading
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [competition_bureau.misleading.false_or_misleading, competition_bureau.misleading.section_52]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      False or misleading representations (general impression + literal meaning)
+      promoting a product or business interest.
+    exceptions: []
+    status: active

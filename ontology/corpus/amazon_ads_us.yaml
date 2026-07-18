@@ -1,0 +1,130 @@
+# Amazon Ads (US) — misleading/deceptive starter vertical. Conforms to ontology/schema.yaml.
+# Official source: Amazon Ads creative acceptance / moderation guides.
+
+source:
+  id: amazon_ads_us
+  type: platform
+  name: Amazon Advertising Policies
+  jurisdiction: [US]
+  url: https://advertising.amazon.com/resources/ad-policy/en
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: amazon.misleading.truthful_substantiated_claims
+    source_id: amazon_ads_us
+    category_id: misleading
+    text: >
+      Advertising claims in Amazon Stores and ads must be truthful and accurate.
+      You must have evidence in support of your advertising claims. Superiority
+      claims (the best, the most, the biggest, the tastiest, better than, etc.)
+      will be rejected unless they can be substantiated.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "amazon-creative-acceptance"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Advertising claims in your Stores must be truthful and accurate. You
+        must have evidence in support of your advertising claims: ... Superiority
+        claims (the best, the most, the biggest, the tastiest, better than, etc.)
+        will be rejected unless they can be substantiated.
+      source_url: https://advertising.amazon.com/library/guides/sponsored-brands-display-ads-moderation
+      section: "Sponsored Brands & display ads moderation > Don't provide misleading claims"
+      retrieved_at: 2026-06-27
+
+  - id: amazon.misleading.landing_page_match
+    source_id: amazon_ads_us
+    category_id: misleading
+    text: >
+      Amazon ads must accurately reflect the landing page and the products being
+      sold. They must contain the same exact offers and products shown in the ad.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "amazon-creative-acceptance"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Ads should accurately reflect the landing page and the products you're
+        selling. They must contain the same exact offers and products.
+      source_url: https://advertising.amazon.com/library/guides/sponsored-brands-display-ads-moderation
+      section: "Sponsored Brands & display ads moderation > Don't provide misleading claims"
+      retrieved_at: 2026-06-27
+
+  - id: amazon.misleading.no_fake_functionality
+    source_id: amazon_ads_us
+    category_id: misleading
+    text: >
+      Fake functionality that tricks customers into clicking on ads by believing
+      inactive elements are interactive is prohibited — for example, non-clickable
+      tiles with CTA buttons.
+    modalities: [text, image, landing_page]
+    jurisdiction: [US]
+    effective_date: 2024-01-01
+    version: "amazon-stores-creative-acceptance"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Fake functionality can trick customers into clicking on ads by believing
+        that certain inactive elements of your Store are interactive and can
+        provide value to them. For example, non-clickable tiles with CTA buttons
+        are prohibited.
+      source_url: https://advertising.amazon.com/resources/ad-policy/en
+      section: "Stores creative acceptance policies > Fake functionality"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: amazon_misleading_claims
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [amazon.misleading.truthful_substantiated_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 60
+    detection: >
+      Unsubstantiated superiority/objective claims or claims lacking evidence.
+    exceptions: []
+    status: active
+
+  - id: amazon_misleading_landing
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids: [amazon.misleading.landing_page_match]
+    category_id: misleading
+    severity: medium
+    modalities: [landing_page]
+    priority: 55
+    detection: "Ad promise/product/offer does not match the landing page."
+    exceptions: []
+    status: active
+
+  - id: amazon_misleading_fake_ui
+    canonical_id: misleading.clickbait_or_fake_ui
+    clause_ids: [amazon.misleading.no_fake_functionality]
+    category_id: misleading
+    severity: medium
+    modalities: [image, landing_page]
+    priority: 54
+    detection: "Fake/non-clickable UI elements mimicking interactive CTAs."
+    exceptions: []
+    status: active

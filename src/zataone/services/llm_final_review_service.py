@@ -1,7 +1,8 @@
 """
 Optional final LLM pass: deterministic signals + verdict + (optional) Gemini VLM summary → one text model call.
 
-Does not change policy logic; result is stored under verdict.result['llm_final_review'].
+By default (ZATAONE_VERDICT_AUTHORITY=advisory) the LLM synthesis is the user-visible verdict on Full;
+rule-engine outcomes remain in the audit graph.
 """
 
 from __future__ import annotations
@@ -44,17 +45,21 @@ class AssetNotReadyForLlmReview(Exception):
 
 _CTX_VERSION = "1.0"
 
-_SYSTEM_SECOND_READ = """You are a compliance review assistant. Your inputs are a JSON object with:
-- deterministic_verdict: the policy engine outcome already computed (authoritative for product logic).
-- signals: extracted features (cite these by id when relevant).
-- violations: rule hits linked to the assessment.
+_SYSTEM_SECOND_READ = """You are the final compliance assessor (Full pipeline). Your inputs are a JSON object with:
+- deterministic_verdict: rule-engine outcome (audit baseline; may include false positives).
+- signals: extracted features (cite by id when relevant).
+- violations: rule hits from the engine (explainability; may be wrong on edge cases).
 - policy_context: policy pack summary plus clauses_for_review and rules_for_review.
 - advisory_vlm: optional vision inspection (field 'inspection' is free text; may be imperfect).
 
-Task: advisory second read only. Do NOT replace the deterministic verdict.
-Output JSON: schema_version ("1.0"), summary, agreement_with_deterministic
-(aligns | mostly_aligns | unclear | diverges), rationale, cited_signal_ids (array, may be empty),
-disclaimer. No markdown fences. No other top-level keys."""
+Task: synthesize signals, VLM, violations, and policy_context into the user-visible outcome.
+Weigh VLM + OCR/signals over weak vision-only rule hits when they conflict (e.g. academic slide vs 'campaign poster').
+Output JSON: schema_version ("1.0"), summary,
+recommended_compliance_status (COMPLIANT | REVIEW_REQUIRED | LIKELY_REJECTED),
+recommended_verdict (likely_approved | borderline | likely_rejected),
+agreement_with_deterministic (aligns | mostly_aligns | unclear | diverges),
+rationale, cited_signal_ids (array, may be empty),
+disclaimer noting rule-engine hits are audit evidence. No markdown fences."""
 
 _SYSTEM_FAST_COMBINED = """Quick compliance: ONE pass over the image. Inspect visible copy/claims, compare to policy_context, output JSON only.
 Keys: schema_version ("1.0"), inspection (brief factual vision notes, max ~400 words), summary,

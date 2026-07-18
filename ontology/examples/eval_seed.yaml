@@ -1,0 +1,6390 @@
+# Evaluation dataset — Misleading + Health + Financial + Housing/Employment +
+# Political + Children/Minors + Privacy + Alcohol/Tobacco/Cannabis + Gambling +
+# Intellectual Property/Counterfeit.
+# 570 examples total:
+#   Misleading:           30 (10 non_compliant, 10 compliant, 10 borderline)
+#   Health:               60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Financial:            60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Housing/Employment:   60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Political:            60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Children/Minors:      60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Privacy:              60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Alcohol/Tobacco/Cannabis: 60 (20 non_compliant, 20 compliant, 20 borderline)
+#   Gambling/Gaming:      60 (20 non_compliant, 20 compliant, 20 borderline)
+#   IP/Counterfeit:       60 (20 non_compliant, 20 compliant, 20 borderline)
+# Labeled examples linked to clauses/categories. Compute precision/recall PER
+# category_id and PER canonical_id from these. Conforms to entities.example.
+# labeled_by: expert here = seed authoring; replace with reviewed labels as the
+# set grows and add inter-annotator agreement before quoting metrics externally.
+
+examples:
+  # =========================================================================
+  # NON-COMPLIANT (10)
+  # =========================================================================
+  - id: mis_nc_001
+    content: "Miracle cure guaranteed in 7 days — 100% effective!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - meta.misleading.exaggerated_success_claims
+      - tiktok.misleading.absolute_terms
+      - ftc.misleading.reasonable_basis
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_002
+    content: "Make $10,000 a week from home — guaranteed passive income, zero risk!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - meta.misleading.exaggerated_success_claims
+      - google.misrep.unreliable_claims
+      - ftc.misleading.reasonable_basis
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_003
+    content: "As recommended by Elon Musk — he made millions with this app!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - meta.misleading.famous_person_baiting
+      - google.misrep.unacceptable_business_practices
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_004
+    content: "Official notice from the IRS: claim your tax refund now (sponsored)."
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - meta.misleading.misrepresent_entity
+      - google.misrep.unacceptable_business_practices
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: mis_nc_005
+    content: "Free trial! (Card charged $99/month after 3 days, not disclosed on the ad.)"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.dishonest_pricing
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: mis_nc_006
+    content: "Get slim legs right away after using — lose 20 lbs in 10 days!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - tiktok.misleading.absolute_terms
+      - meta.misleading.health_results_timing
+      - ftc.misleading.reasonable_basis
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_007
+    content: "[Image] Side-by-side before/after of wrinkles disappearing in one week."
+    modality: image
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - tiktok.misleading.before_after
+      - google.misrep.manipulated_media
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_nc_008
+    content: "[Creative] A fake 'Close (X)' button and a system-style 'Virus detected!' alert."
+    modality: image
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.misleading_ad_design
+      - google.misrep.clickbait_ads
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: mis_nc_009
+    content: "Doctors hate this one weird trick that cures diabetes overnight!"
+    modality: text
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.clickbait_ads
+      - meta.misleading.exaggerated_success_claims
+      - ftc.misleading.reasonable_basis
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: mis_nc_010
+    content: "Shop our $5 sneakers! (Destination page has no $5 sneakers anywhere.)"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [misleading]
+    violated_clause_ids:
+      - google.misrep.unavailable_offers
+      - tiktok.misleading.landing_page_consistency
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # =========================================================================
+  # COMPLIANT (10)
+  # =========================================================================
+  - id: mis_c_001
+    content: "Comfortable running shoes designed for daily training."
+    modality: text
+    label: compliant
+    category_ids: []
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_c_002
+    content: "In a 12-week study of 100 participants, 68% reported improved sleep. Results may vary."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: Specific, qualified, substantiated claim with disclaimer.
+
+  - id: mis_c_003
+    content: "Subscription is $12/month, billed monthly. Cancel anytime."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Clear, conspicuous pricing disclosure.
+
+  - id: mis_c_004
+    content: "Official partner of the National Coffee Association (membership verified)."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Affiliation is true and documented.
+
+  - id: mis_c_005
+    content: "Our moisturizer helps keep skin hydrated throughout the day."
+    modality: text
+    label: compliant
+    category_ids: []
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_c_006
+    content: "Brand ambassador Jane Doe shares why she loves our tea (paid partnership)."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Authorized endorsement, disclosed as paid.
+
+  - id: mis_c_007
+    content: "Limited-time 20% off — offer and full terms shown on the linked page."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Offer available and consistent with destination.
+
+  - id: mis_c_008
+    content: "[Image] Product photo of the actual item with accurate color and size."
+    modality: image
+    label: compliant
+    category_ids: []
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: mis_c_009
+    content: "Ad clearly labeled 'Sponsored' with a standard call-to-action button."
+    modality: image
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Clearly identifiable as an ad; no fake UI.
+
+  - id: mis_c_010
+    content: "Financial coaching course. Outcomes depend on effort; no income is guaranteed."
+    modality: text
+    label: compliant
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Explicit no-guarantee qualifier.
+
+  # =========================================================================
+  # BORDERLINE (10)
+  # =========================================================================
+  - id: mis_b_001
+    content: "Clinically proven to boost energy."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "'Clinically proven' is fine only if substantiation exists; depends on evidence held."
+
+  - id: mis_b_002
+    content: "The #1 skincare brand."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Superlative may need a substantiated basis (FTC) or be puffery.
+
+  - id: mis_b_003
+    content: "Lose weight fast with our program."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "'Fast' is vague; not an absolute time claim but borders on it."
+
+  - id: mis_b_004
+    content: "Results like these are possible with consistent use."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Possible' vs presenting an improbable result as likely (Google unreliable claims)."
+
+  - id: mis_b_005
+    content: "Trusted by thousands of happy customers."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Quantity claim may need support; often puffery.
+
+  - id: mis_b_006
+    content: "[Image] A single 'after' photo of a fit person using the product."
+    modality: image
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: Not a before/after pair, but transformation implication is close to the line.
+
+  - id: mis_b_007
+    content: "As seen on TV."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: Affiliation/endorsement implication; fine if true.
+
+  - id: mis_b_008
+    content: "Doctor recommended."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: Needs substantiation (which/how many doctors) per FTC; not inherently deceptive.
+
+  - id: mis_b_009
+    content: "Free shipping on orders over $50."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: Compliant if threshold honored; borderline if conditions hidden.
+
+  - id: mis_b_010
+    content: "Get money in 10 seconds — apply now."
+    modality: text
+    label: borderline
+    category_ids: [misleading]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Resembles TikTok's prohibited absolute time claim; borderline if it refers to app UX speed, not returns."
+
+  # =========================================================================
+  # HEALTH / MEDICAL — NON-COMPLIANT (20)
+  # =========================================================================
+  - id: hlt_nc_001
+    content: "This supplement cures cancer — eliminate the disease without chemo."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.disease_cure_claims
+      - fda.health.disease_claims
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_002
+    content: "Reverse type 2 diabetes in 14 days — clinically proven miracle pill."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.disease_claims
+      - ftc.health.truthful_substantiated
+      - meta.misleading.health_results_timing
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_003
+    content: "Our herbal drops heal Alzheimer's and prevent dementia for good."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.disease_cure_claims
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_004
+    content: "Buy Xanax online — no prescription needed, fast discreet shipping."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unauthorized_pharmacies
+      - google.health.prescription_drug_services
+      - tiktok.health.prescription_us
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_005
+    content: "Get OxyContin and other opioid painkillers shipped to your door today."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.opioid_painkillers
+      - google.health.unauthorized_pharmacies
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_006
+    content: "This detox tea melts belly fat fast — burn pounds while you sleep!"
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - ftc.health.truthful_substantiated
+      - tiktok.misleading.unsubstantiated_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_007
+    content: "Hate your body? Look how fat you were — our pills fixed it."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.negative_self_perception
+      - meta.health.weightloss_before_after
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_008
+    content: "Weight-loss before & after: see her go from 200 lbs to 130 lbs with our shake!"
+    modality: image
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.weightloss_before_after
+      - meta.misleading.before_after_weightloss
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_009
+    content: "Struggling with depression? This subscription is made just for people like you."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - meta.health.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_010
+    content: "All-natural drops as effective as prescription antibiotics — skip the doctor."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unapproved_substances
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_011
+    content: "Experimental stem-cell therapy guaranteed to regrow cartilage — book now."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.speculative_experimental
+      - ftc.health.truthful_substantiated
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_012
+    content: "Affordable rhinoplasty and lip fillers — instant nose job, no surgery scars!"
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - tiktok.misleading.unsubstantiated_claims
+      - ftc.health.truthful_substantiated
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "US TikTok allows fillers/microdermabrasion; the violation here is the exaggerated 'instant, no scars' performance claim."
+
+  - id: hlt_nc_013
+    content: "Our anti-aging cream is a medical-grade treatment that cures skin disease."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.disease_claims
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_014
+    content: "Scientists now agree: our vitamin prevents heart attacks. Proven by NIH."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - ftc.health.truthful_substantiated
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_015
+    content: "New blood-pressure drug — lowers BP fast! (No risks or side effects mentioned.)"
+    modality: video
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.fair_balance
+      - fda.health.major_statement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_016
+    content: "Join our clinical trial — this safe new drug will cure your arthritis."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.clinical_trials
+      - fda.health.disease_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_017
+    content: "hCG weight-loss protocol — drop 30 lbs in a month, doctor recommended."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unapproved_substances
+      - ftc.health.truthful_substantiated
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_018
+    content: "Order prescription Ozempic here — no prescription, no consultation required."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - google.health.unauthorized_pharmacies
+      - tiktok.health.prescription_us
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: hlt_nc_019
+    content: "This app treats acne — flashing lights are your salvation, no prescription drugs."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - fda.health.disease_claims
+      - ftc.health.disease_implication
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Mirrors FTC Health Products Guidance Example 14 (acne app)."
+
+  - id: hlt_nc_020
+    content: "Natural sleep aid with zero side effects — safer than any prescription."
+    modality: text
+    label: non_compliant
+    category_ids: [health]
+    violated_clause_ids:
+      - ftc.health.material_safety_disclosure
+      - google.health.unapproved_substances
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  # =========================================================================
+  # HEALTH / MEDICAL — COMPLIANT (20)
+  # =========================================================================
+  - id: hlt_c_001
+    content: "A daily multivitamin to help support your overall wellness."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_002
+    content: "Our protein shake supports your fitness routine. Results vary with diet and exercise."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_003
+    content: "Certified online pharmacy — licensed and accredited. Valid prescription required."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_004
+    content: "Talk to a licensed therapist online. Schedule a confidential session today."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_005
+    content: "Moisturizing face cream that leaves skin feeling soft and hydrated."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_006
+    content: "Book a consultation with a board-certified dermatologist near you."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_007
+    content: "Over-the-counter pain reliever for temporary relief of minor aches. Use as directed."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: hlt_c_008
+    content: "Stay hydrated with our electrolyte drink during your workouts."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_009
+    content: "Ask your doctor if this FDA-approved medication is right for you. See important safety information."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Help-seeking framing with safety-info reference; compliant for Rx context."
+
+  - id: hlt_c_010
+    content: "Fitness studio offering beginner-friendly Pilates classes for all levels."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_011
+    content: "Our sleep tea blends chamomile and lavender for a calming bedtime ritual."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_012
+    content: "Schedule a routine eye exam at our optometry clinic."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_013
+    content: "Toothpaste with fluoride to help prevent cavities. ADA accepted."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_014
+    content: "Get your annual flu shot at a pharmacy near you."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_015
+    content: "A balanced meal-kit service to help you cook nutritious dinners at home."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_016
+    content: "Vitamin D supplement that contributes to the maintenance of normal bones."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Structure/function style claim without disease implication."
+
+  - id: hlt_c_017
+    content: "Compression socks designed for comfort during long flights."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_018
+    content: "Mindfulness app with guided meditations to help you relax and unwind."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_019
+    content: "Reading glasses in a range of magnifications. Find your perfect fit."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hlt_c_020
+    content: "Hydrating sunscreen SPF 50 for everyday sun protection."
+    modality: text
+    label: compliant
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # =========================================================================
+  # HEALTH / MEDICAL — BORDERLINE (20)
+  # =========================================================================
+  - id: hlt_b_001
+    content: "Supports a healthy immune system during cold and flu season."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Per FTC Example 5, seasonal nose/throat framing can imply a cold-prevention disease claim."
+
+  - id: hlt_b_002
+    content: "Clinically tested ingredient for improved blood flow and endurance."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 18: 'clinically tested ingredient' may imply proven product-level benefit."
+
+  - id: hlt_b_003
+    content: "Promising preliminary studies show our supplement may reduce cholesterol."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 13: vague qualifiers ('promising','preliminary','may') often fail to convey limits."
+
+  - id: hlt_b_004
+    content: "Joint-health cream — keeps you moving and dancing into old age."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 6 'Arthricure': mobility framing can imply an arthritis-treatment claim."
+
+  - id: hlt_b_005
+    content: "Lose weight the healthy way with our balanced nutrition program."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Weight-loss reference: TikTok would reject; Meta may allow if 18+ and no negative self-perception."
+
+  - id: hlt_b_006
+    content: "Feel more confident in your body — start your wellness journey."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Borderline negative self-perception depending on accompanying imagery/tone."
+
+  - id: hlt_b_007
+    content: "Before and after: see the glow from our non-permanent vitamin-C serum."
+    modality: image
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Meta exempts non-permanent cosmetic before/after; borderline if framed as medical correction."
+
+  - id: hlt_b_008
+    content: "Telehealth visits available — get evaluated and prescribed if appropriate."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Compliant if certified/licensed; non-compliant if it facilitates Rx without proper authorization."
+
+  - id: hlt_b_009
+    content: "Our CBD oil promotes calm and relaxation."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Borderline: CBD/ingestible status varies; tips non-compliant if disease/treatment claims attach."
+
+  - id: hlt_b_010
+    content: "Boost your energy and metabolism naturally."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Boost metabolism' edges toward unsubstantiated weight-loss/efficacy claim."
+
+  - id: hlt_b_011
+    content: "Doctor-formulated formula trusted by thousands of patients."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Authority/endorsement framing may imply unproven efficacy (FTC net impression)."
+
+  - id: hlt_b_012
+    content: "Supports healthy blood sugar levels already within the normal range."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Structure/function phrasing; borderline if net impression implies diabetes treatment."
+
+  - id: hlt_b_013
+    content: "Reduce the appearance of fine lines and wrinkles."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Cosmetic appearance claim is usually allowed; borderline if it becomes a medical/anti-aging treatment claim."
+
+  - id: hlt_b_014
+    content: "Our supplement may help maintain healthy cholesterol already in normal range."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Borderline depending on substantiation and disclosure of study limitations."
+
+  - id: hlt_b_015
+    content: "Relieves occasional joint discomfort so you can stay active."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Occasional discomfort' is structure/function; borderline if it implies arthritis treatment."
+
+  - id: hlt_b_016
+    content: "Nasal strips that reduce snoring for a better night's sleep."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "FTC Example 12: needs disclosure it does not treat sleep apnea to avoid deception."
+
+  - id: hlt_b_017
+    content: "Probiotic that supports digestive and gut health."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Generally allowed structure/function claim; borderline if disease/IBS treatment implied."
+
+  - id: hlt_b_018
+    content: "Get summer-ready with our 30-day slim-down challenge."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Weight-loss framing; TikTok rejects, Meta borderline based on self-perception tone and 18+ targeting."
+
+  - id: hlt_b_019
+    content: "Order your OTC allergy medicine online for next-day delivery."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "OTC may be allowed only if market-specific requirements met; borderline pending certification."
+
+  - id: hlt_b_020
+    content: "Backed by science to help you feel your best every day."
+    modality: text
+    label: borderline
+    category_ids: [health]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Backed by science' implies a substantiation level that must actually be held (FTC)."
+
+  # =========================================================================
+  # FINANCIAL — NON-COMPLIANT (20)
+  # =========================================================================
+  - id: fin_nc_001
+    content: "Invest now — guaranteed 30% monthly returns, absolutely zero risk!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - tiktok.finance.prohibited_general
+      - linkedin.finance.prohibited
+      - finra.finance.no_performance_projection
+      - ftc.finance.earnings_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_002
+    content: "Make $10,000 a week trading forex — get rich quick with our system!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - tiktok.finance.prohibited_general
+      - ftc.finance.earnings_claims
+      - finra.finance.no_performance_projection
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_003
+    content: "Payday loans approved in minutes — get cash today, repay next paycheck!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - meta.finance.prohibited_products
+      - linkedin.finance.prohibited
+      - tiktok.finance.us_prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_004
+    content: "Trade binary options and double your money in 60 seconds!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - google.finance.binary_options
+      - linkedin.finance.prohibited
+      - tiktok.finance.us_prohibited
+      - meta.finance.prohibited_products
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_005
+    content: "Fix your credit score fast — guaranteed deletion of all bad marks!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - google.finance.credit_repair
+      - tiktok.finance.us_prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_006
+    content: "Personal loan, no hassle — APR only 199%! Apply now (US)."
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - google.finance.high_apr_us
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_007
+    content: "Buy our new ICO token before it 100x's — limited coins left!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - meta.finance.prohibited_products
+      - tiktok.finance.us_prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_008
+    content: "We guarantee we'll stop your foreclosure — just pay a small upfront fee."
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - google.finance.loan_modification
+      - linkedin.finance.prohibited
+      - cfpb.finance.mortgage_prohibited_acts
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_009
+    content: "Fixed 2.9% mortgage rate forever!" 
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - cfpb.finance.mortgage_prohibited_acts
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Uses 'fixed' for what is a variable-rate product without the required ARM disclosures."
+
+  - id: fin_nc_010
+    content: "Apply for this government-backed loan program today — endorsed by the feds!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - cfpb.finance.mortgage_prohibited_acts
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Misrepresents government endorsement; not an actual FHA/VA program."
+
+  - id: fin_nc_011
+    content: "Auto loan: just $99/month! (no APR, term, or other terms shown)"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - cfpb.finance.trigger_terms
+      - cfpb.finance.actually_available_terms
+      - google.finance.personal_loans
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_012
+    content: "Start trading on our crypto exchange now — no account verification needed!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - meta.finance.crypto_permission
+      - google.finance.crypto
+      - tiktok.finance.us_allowed
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_013
+    content: "Our fund returned 200% last year — you'll make the same!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - finra.finance.no_performance_projection
+      - sec.finance.performance_fair_balanced
+      - ftc.finance.earnings_claims
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_014
+    content: "\"Best advisor ever — I tripled my savings!\" — paid testimonial, no disclosures."
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - sec.finance.testimonials
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_015
+    content: "Invest in our fund — only upside, you simply can't lose money."
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - sec.finance.untrue_or_unbalanced
+      - finra.finance.fair_balanced
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_016
+    content: "CFD trading platform — leverage up to 500x and win big! (unlicensed)"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - google.finance.complex_speculative
+      - tiktok.finance.us_prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_017
+    content: "These penny stocks are about to explode — buy before everyone else!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - linkedin.finance.prohibited
+      - tiktok.finance.us_prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_018
+    content: "Bail bonds — fast release, available 24/7, call now."
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - meta.finance.prohibited_products
+      - tiktok.finance.us_prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_019
+    content: "Reverse mortgage — get free money from your home, no strings attached!"
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - linkedin.finance.prohibited
+      - cfpb.finance.mortgage_prohibited_acts
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: fin_nc_020
+    content: "Risk-free passive income — our trading system literally cannot lose."
+    modality: text
+    label: non_compliant
+    category_ids: [financial]
+    violated_clause_ids:
+      - ftc.finance.earnings_claims
+      - tiktok.finance.prohibited_general
+      - finra.finance.fair_balanced
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  # =========================================================================
+  # FINANCIAL — COMPLIANT (20)
+  # =========================================================================
+  - id: fin_c_001
+    content: "Open a checking account with no monthly fee. Member FDIC. Terms apply."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_002
+    content: "Auto loan from 6.9% APR. Representative example: $20,000 over 60 months at 6.9% APR = $395/mo."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_003
+    content: "Work with a registered investment adviser. Investing involves risk, including possible loss of principal."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_004
+    content: "Compare insurance quotes online. Coverage subject to underwriting and eligibility."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_005
+    content: "Personal loan: 8.99% APR, 24–60 month terms, no prepayment penalty. Repayment period 24–60 months."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_006
+    content: "Licensed crypto exchange (registered MSB). Cryptocurrency is volatile; you may lose money. 18+."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_007
+    content: "Mortgage refinance. 7.1% APR. NMLS #123456. Equal Housing Lender."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_008
+    content: "Past performance does not guarantee future results. Please read the prospectus before investing."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_009
+    content: "High-yield savings account, 4.0% APY. Rate is variable and may change after account opening."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_010
+    content: "Schedule a retirement planning consultation with one of our registered advisors."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_011
+    content: "Credit card with 19.99% APR (variable). See terms for fees and conditions."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_012
+    content: "Brokerage account with commission-free stock trades. Other fees may apply; see fee schedule."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_013
+    content: "A budgeting app that helps you track spending and set savings goals."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_014
+    content: "Term life insurance from $20/month. Premiums depend on age and health; subject to eligibility."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_015
+    content: "Business line of credit for qualified applicants. Subject to credit approval."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_016
+    content: "Free financial literacy webinar — educational content, not investment advice."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_017
+    content: "30-year fixed-rate mortgage at 6.5% APR. The rate is fixed for the full term."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_018
+    content: "Money market fund. Not FDIC insured. May lose value. No bank guarantee."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_019
+    content: "Robo-advisor portfolios. Advisory fee 0.25%/year. Investing involves risk, including loss of principal."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: fin_c_020
+    content: "Student loan refinancing. Rates 5–9% APR; actual rate and term vary by creditworthiness."
+    modality: text
+    label: compliant
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # =========================================================================
+  # FINANCIAL — BORDERLINE (20)
+  # =========================================================================
+  - id: fin_b_001
+    content: "Grow your wealth with our investing app."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "No guarantee, but lacks any risk disclosure (SEC/FINRA balanced-treatment expectation)."
+
+  - id: fin_b_002
+    content: "Our investors saw great returns last year."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Performance claim that must be presented fair and balanced; depends on disclosures."
+
+  - id: fin_b_003
+    content: "Low rates on personal loans!"
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Rates' may be a triggering term; borderline pending APR/repayment disclosures."
+
+  - id: fin_b_004
+    content: "Crypto made easy — start in minutes."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Allowed only with licensing/certification + disclaimers + 18+; borderline pending those."
+
+  - id: fin_b_005
+    content: "Beat the market with smart investing."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Implied performance/outperformance claim; needs substantiation and balance."
+
+  - id: fin_b_006
+    content: "Refinance and save thousands."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Savings claim requires substantiation; borderline without representative example."
+
+  - id: fin_b_007
+    content: "Trusted by thousands of investors."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Testimonial-adjacent social proof; borderline depending on substantiation."
+
+  - id: fin_b_008
+    content: "Get approved fast — flexible loan options."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Approval/speed claim; borderline pending terms and actually-available-terms check."
+
+  - id: fin_b_009
+    content: "Build credit responsibly with our secured card."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Credit-building (allowed) vs prohibited credit-repair framing; depends on specifics."
+
+  - id: fin_b_010
+    content: "Invest your spare change automatically."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Micro-investing; borderline without risk disclosure."
+
+  - id: fin_b_011
+    content: "Financial freedom starts here."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Lifestyle/earnings implication; borderline get-rich-quick adjacency."
+
+  - id: fin_b_012
+    content: "Earn up to 5% cash back on every purchase."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Up to' rate requires conditions/disclosure to avoid being misleading."
+
+  - id: fin_b_013
+    content: "Our fund outperformed the S&P 500 last quarter."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Cherry-picked period; fair-and-balanced performance presentation required."
+
+  - id: fin_b_014
+    content: "No-fee trading on our platform."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Possible omission if other fees apply (CFPB/FTC material-info concern)."
+
+  - id: fin_b_015
+    content: "Secure your retirement with gold and silver."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Precious metals trading is prohibited on TikTok US but allowed elsewhere; platform-dependent."
+
+  - id: fin_b_016
+    content: "Earn passive income with real estate crowdfunding."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "P2P-style/earnings framing; LinkedIn bans P2P lending, others allow with disclosures."
+
+  - id: fin_b_017
+    content: "Lock in this rate before it's gone!"
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Urgency framing; borderline against actually-available-terms unless rate is real/available."
+
+  - id: fin_b_018
+    content: "AI-powered trading signals to guide your trades."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Signals for speculative products are disallowed by Google; borderline by product type."
+
+  - id: fin_b_019
+    content: "Buy now, pay later — 0% interest."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Credit terms may trigger TILA additional-disclosure requirements; depends on terms."
+
+  - id: fin_b_020
+    content: "Join our exclusive investor community and learn our methods."
+    modality: text
+    label: borderline
+    category_ids: [financial]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Could shade into pyramid/MLM or get-rich-quick depending on the offer structure."
+
+  # =========================================================================
+  # HOUSING & EMPLOYMENT (discrimination) — NON-COMPLIANT (20)
+  # =========================================================================
+  - id: hue_nc_001
+    content: "Apartment for rent — no kids, adults-only building."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+      - meta.discrimination.no_discrimination
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Familial-status discrimination (not a HOPA 55+/62+ community)."
+
+  - id: hue_nc_002
+    content: "Cozy home for rent — Christian tenants strongly preferred."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+      - linkedin.discrimination.no_discrimination
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Religious preference in a housing ad."
+
+  - id: hue_nc_003
+    content: "House for sale — perfect for a young white family."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+      - meta.discrimination.no_discrimination
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Race + familial-status preference."
+
+  - id: hue_nc_004
+    content: "Renting to males only — no women, please."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Sex discrimination in housing."
+
+  - id: hue_nc_005
+    content: "Upstairs unit, no elevator — not suitable for handicapped or disabled people."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Handicap/disability limitation in housing ad."
+
+  - id: hue_nc_006
+    content: "Now hiring young, energetic recent college grads — digital natives only!"
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.discriminatory_ad
+      - eeoc.employment.age_ad_adea
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Age-coded preference discouraging applicants 40+."
+
+  - id: hue_nc_007
+    content: "Seeking female receptionists only."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Sex preference in a job ad (no BFOQ)."
+
+  - id: hue_nc_008
+    content: "Hiring — US-born native English speakers only, no immigrants."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "National-origin discrimination in a job ad."
+
+  - id: hue_nc_009
+    content: "No applicants over 40 — we want a youthful team."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.age_ad_adea
+      - eeoc.employment.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Explicit age limit; ADEA violation."
+
+  - id: hue_nc_010
+    content: "Christian-owned business hiring fellow believers only."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Religious preference in a job ad."
+
+  - id: hue_nc_011
+    content: "Auto loans for married couples only — singles need not apply."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - ftc.credit.ecoa_discouragement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Marital-status discouragement (ECOA prohibited basis)."
+
+  - id: hue_nc_012
+    content: "Credit cards built for men — sorry ladies, this one's not for you."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - ftc.credit.ecoa_discouragement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Sex-based discouragement in a credit ad."
+
+  - id: hue_nc_013
+    content: "[Housing rental ad targeted to men aged 25-40, excluding selected ZIP codes]"
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - meta.discrimination.special_ad_category
+      - google.discrimination.restricted_targeting
+      - tiktok.discrimination.hec_targeting
+      - linkedin.discrimination.targeting_certification
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Restricted demographic + ZIP targeting on a housing ad."
+
+  - id: hue_nc_014
+    content: "[Job recruitment ad targeted only to users under 30]"
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - meta.discrimination.special_ad_category
+      - google.discrimination.restricted_targeting
+      - linkedin.discrimination.targeting_certification
+      - tiktok.discrimination.hec_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Age-restricted targeting for a recruitment ad."
+
+  - id: hue_nc_015
+    content: "[Apartment ad set to exclude users interested in 'parenting' and 'children']"
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - meta.discrimination.special_ad_category
+      - tiktok.discrimination.hec_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Proxy exclusion of families with children via interest targeting."
+
+  - id: hue_nc_016
+    content: "[Credit-card offer targeted by ZIP code to avoid lower-income, minority neighborhoods]"
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - google.discrimination.restricted_targeting
+      - meta.discrimination.special_ad_category
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "ZIP-code redlining-style targeting on a consumer-finance ad."
+
+  - id: hue_nc_017
+    content: "Hiring — must be a US citizen, no foreigners or visa holders."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "National-origin/citizenship discrimination beyond lawful work-eligibility checks."
+
+  - id: hue_nc_018
+    content: "Senior apartments — must be able-bodied, no disabilities or wheelchairs."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Handicap limitation in housing ad."
+
+  - id: hue_nc_019
+    content: "We do not rent to families with children."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - hud.housing.discriminatory_ad
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Familial-status discrimination."
+
+  - id: hue_nc_020
+    content: "Salesman wanted — must be under 35 and single."
+    modality: text
+    label: non_compliant
+    category_ids: [discrimination]
+    violated_clause_ids:
+      - eeoc.employment.discriminatory_ad
+      - eeoc.employment.age_ad_adea
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Gendered title + age + marital-status preference."
+
+  # =========================================================================
+  # HOUSING & EMPLOYMENT (discrimination) — COMPLIANT (20)
+  # =========================================================================
+  - id: hue_c_001
+    content: "Apartment for rent, 2BR, $1,500/mo. Equal Housing Opportunity."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_002
+    content: "We are an Equal Opportunity Employer. All qualified applicants are welcome."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_003
+    content: "Hiring software engineers — apply regardless of background."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_004
+    content: "Home for sale, 3BR/2BA. We honor the Fair Housing Act."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_005
+    content: "Now hiring baristas; we value diversity and inclusion."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_006
+    content: "Credit card application open to all qualified applicants. Equal Credit Opportunity Lender."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_007
+    content: "Senior living community for residents 55 and older (Housing for Older Persons Act compliant)."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: "55+ housing is a lawful HOPA exemption to familial-status rules."
+
+  - id: hue_c_008
+    content: "Job opening: Registered Nurse. EEO employer; all qualified candidates encouraged to apply."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_009
+    content: "Mortgage pre-approval available to all qualified buyers."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_010
+    content: "Wheelchair-accessible apartment available — step-free entry and roll-in shower."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: "Describing accessibility features (welcoming) is allowed, not a limitation."
+
+  - id: hue_c_011
+    content: "Customer-service role requiring fluent Spanish and English (bilingual skills used daily on the job)."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: "Job-related language requirement tied to actual duties."
+
+  - id: hue_c_012
+    content: "Apartments near downtown, pet-friendly. All are welcome."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_013
+    content: "We're hiring! Veterans are encouraged to apply."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: "Veteran status is not an EEOC-protected basis; encouragement is lawful."
+
+  - id: hue_c_014
+    content: "Both entry-level and experienced candidates are welcome to apply."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_015
+    content: "Affordable housing program for income-qualified applicants."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: "Income qualification is not a protected class."
+
+  - id: hue_c_016
+    content: "Open house Saturday 1-4pm — everyone welcome."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_017
+    content: "Personal loan offer; rates vary by creditworthiness. Equal Credit Opportunity Lender."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_018
+    content: "Remote job, open to applicants nationwide."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: hue_c_019
+    content: "Warehouse role: must be able to lift 50 lbs (essential job function)."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+    note: "Bona fide physical requirement tied to the job's essential functions."
+
+  - id: hue_c_020
+    content: "Family-friendly apartment community — families with children welcome."
+    modality: text
+    label: compliant
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # =========================================================================
+  # HOUSING & EMPLOYMENT (discrimination) — BORDERLINE (20)
+  # =========================================================================
+  - id: hue_b_001
+    content: "Apartment perfect for young professionals."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Young professionals' may discourage families/older renters (familial/age-coded)."
+
+  - id: hue_b_002
+    content: "Looking for a recent graduate to join our team."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "EEOC flags 'recent graduates' as potentially discouraging older applicants; context-dependent."
+
+  - id: hue_b_003
+    content: "Seeking energetic, digital-native team members."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Digital native' can be an age proxy."
+
+  - id: hue_b_004
+    content: "Great starter home for a growing family."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Familial-status-coded language; could read as steering."
+
+  - id: hue_b_005
+    content: "Quiet building, ideal for mature residents."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Mature residents' is age-coded and may exclude families."
+
+  - id: hue_b_006
+    content: "Seeking a strong man for warehouse work."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Gendered phrasing; lawful only if a genuine BFOQ, otherwise discouraging."
+
+  - id: hue_b_007
+    content: "Native-level English required."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "May proxy national origin unless genuinely job-required."
+
+  - id: hue_b_008
+    content: "Hiring — 0 to 2 years of experience only."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Experience caps can have a disparate impact on older workers."
+
+  - id: hue_b_009
+    content: "Female-friendly co-living space."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Could imply a sex preference; shared-living exemptions are narrow."
+
+  - id: hue_b_010
+    content: "Christian community housing development."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Religious-organization housing exemptions are narrow and fact-specific."
+
+  - id: hue_b_011
+    content: "[Job ad targeted to our local city audience via city-level targeting]"
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "City/radius geo-targeting is allowed; borderline only if it proxies a protected class."
+
+  - id: hue_b_012
+    content: "Recruiting exclusively from top-tier universities."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Elite-school-only recruiting can create disparate impact."
+
+  - id: hue_b_013
+    content: "Looking for someone who fits our young, fun company culture."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Young culture fit' is age-coded."
+
+  - id: hue_b_014
+    content: "[Housing ad with audience set to ages 18-65+]"
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Full adult range is generally allowed under special-category rules; borderline pending platform check."
+
+  - id: hue_b_015
+    content: "Applicants must be able to perform the job without accommodation."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Disability-adjacent; may conflict with reasonable-accommodation duties."
+
+  - id: hue_b_016
+    content: "Seeking digital natives who grew up online."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Age proxy phrasing."
+
+  - id: hue_b_017
+    content: "Apartment near excellent schools — great for kids."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Familial-status steering risk depending on framing."
+
+  - id: hue_b_018
+    content: "We prefer local candidates."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Local' can proxy national origin; context-dependent."
+
+  - id: hue_b_019
+    content: "Recent bootcamp grads encouraged to apply."
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'Recent grads' is age-adjacent; encouragement softens but doesn't eliminate risk."
+
+  - id: hue_b_020
+    content: "[Consumer-finance ad targeted by a 5 km city radius]"
+    modality: text
+    label: borderline
+    category_ids: [discrimination]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Radius >=1 km is allowed; borderline only if it functions as ZIP/demographic proxy."
+
+  # =========================================================================
+  # POLITICAL & SOCIAL ISSUES (60)
+  # NOTE: two regimes — Meta/Google ALLOW political ads with authorization +
+  # "Paid for by"; TikTok/LinkedIn BAN them. "compliant" below means a properly
+  # disclaimed/authorized political ad (lawful on Meta/Google/FEC) OR
+  # non-political civic/government content; such ads would still be rejected on
+  # TikTok/LinkedIn. "non_compliant" = missing disclaimer/authorization and/or
+  # banned outright. Evaluate per platform when scoring platform-specific models.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: pol_nc_001
+    content: "Vote for Jane Smith for U.S. Senate this November!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Express advocacy with no 'Paid for by' disclaimer; banned outright on TikTok/LinkedIn."
+
+  - id: pol_nc_002
+    content: "Defeat Proposition 12 — say NO on election day."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_003
+    content: "Donate now to the Smith for Congress campaign!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Political fundraising; LinkedIn/TikTok ban; FEC solicitation disclaimer missing."
+
+  - id: pol_nc_004
+    content: "Re-elect Mayor Johnson — paid political message."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "'Paid political message' is not a valid disclaimer — must name who paid."
+
+  - id: pol_nc_005
+    content: "[Ad by sitting Senator Davis promoting his policy agenda]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "TikTok bans ads by political figures entirely; Meta requires authorization+disclaimer."
+
+  - id: pol_nc_006
+    content: "Support the Patriot PAC — help us flip the Senate this fall."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_007
+    content: "Call your representative and tell them to vote NO on HB 200!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Legislative advocacy (issue ad); SIEP disclaimer needed on Meta; banned on TikTok/LinkedIn."
+
+  - id: pol_nc_008
+    content: "Join our campaign to defeat the incumbent governor."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_009
+    content: "Elect conservative judges this election — protect our values."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_010
+    content: "Our candidate will lower your taxes — vote Row A this November."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_011
+    content: "[Election ad with AI-generated video of a candidate saying something they never said, no synthetic-content disclosure]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - google.political.synthetic_content
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Undisclosed synthetic depiction of a real person — Google synthetic-content disclosure required."
+
+  - id: pol_nc_012
+    content: "Stop the radical agenda — chip in $25 to fight back today."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Issue-exploiting fundraising; LinkedIn 'sensitive political issue' ban applies."
+
+  - id: pol_nc_013
+    content: "[Paid TikTok ad promoting Party X for the upcoming election]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_014
+    content: "Vote YES on the school bond measure this November."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_015
+    content: "Sign the petition to recall Senator Brown — add your name now."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+      - meta.political.authorization_disclaimer
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_016
+    content: "Our movement needs your vote — register and vote for change!"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - tiktok.political.prohibited
+      - meta.political.authorization_disclaimer
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "GOTV by a non-election-authority advertiser; TikTok limits this to official election bodies."
+
+  - id: pol_nc_017
+    content: "[Ad attacking the President's record on the economy, urging a vote against his party]"
+    modality: video
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_nc_018
+    content: "Elect Sarah Lee — together we win."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - meta.political.authorization_disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_019
+    content: "Political fundraiser dinner — contribute to the party tonight."
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - linkedin.political.prohibited
+      - tiktok.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_nc_020
+    content: "Vote to protect our rights this election. Paid for by 'A Concerned Citizen.'"
+    modality: text
+    label: non_compliant
+    category_ids: [political]
+    violated_clause_ids:
+      - fec.political.disclaimer
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Disclaimer is incomplete — a non-authorized payer must give full name and permanent address."
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  # Properly authorized/disclaimed political ads (lawful on Meta/Google/FEC) or
+  # non-political civic/government content. (Still rejected on TikTok/LinkedIn.)
+  - id: pol_c_001
+    content: "Re-elect Jane Smith for Senate. Paid for by Smith for Senate, Inc., 123 Main St, Springfield, IL."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Complete authorized-committee 'Paid for by' disclaimer."
+
+  - id: pol_c_002
+    content: "Vote YES on Prop 12. Paid for by Yes on 12 Committee; not authorized by any candidate."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_c_003
+    content: "[Official county elections office ad]: Election Day is Nov 5. Find your polling place at vote.gov."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Official election-authority voter information — allowed even on TikTok."
+
+  - id: pol_c_004
+    content: "Support clean energy policy. Paid for by Clean Future PAC, 50 Oak Ave, Denver, CO."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_005
+    content: "Candidate town hall livestream this Thursday. Paid for by Friends of Davis."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_006
+    content: "[Secretary of State PSA]: Register to vote by Oct 20 at your County Board of Elections."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_007
+    content: "Donate to Smith for Congress. Paid for by Smith for Congress."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Fundraising with proper committee disclaimer — lawful on Meta/Google with authorization."
+
+  - id: pol_c_008
+    content: "Our candidate's plan for jobs. Paid for by Lee Victory Fund; authorized by Lee for Mayor."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_009
+    content: "Get out and vote this November! Paid for by the State Democratic Party."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_010
+    content: "Learn about the propositions on your ballot. Paid for by League of Voters Education Fund."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_011
+    content: "[State election commission]: How to request a mail-in ballot — step-by-step guide."
+    modality: video
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Official election-process information from an election authority."
+
+  - id: pol_c_012
+    content: "Paid for by Citizens for Better Schools — Vote Yes on Measure A."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_013
+    content: "City council meeting agenda for this week — open to the public."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Routine government information, not an electoral/issue ad."
+
+  - id: pol_c_014
+    content: "Re-elect Governor Johnson. Paid for by the Johnson for Governor Committee."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_015
+    content: "Veterans for Reform endorses Candidate X. Paid for by Veterans for Reform, 9 Elm St, Austin, TX."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_016
+    content: "[County clerk reminder]: Early voting begins Monday at all branch locations."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_017
+    content: "Support our ballot initiative. Paid for by Initiative 5 Campaign; not authorized by any candidate, 12 Pine Rd, Reno, NV."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: pol_c_018
+    content: "Paid for by the Green Party of the United States. Join our movement."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_019
+    content: "Candidate meet-and-greet Saturday at the library. Paid for by Friends of Sarah Lee."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_c_020
+    content: "[State election commission]: Official voter guide available at sos.state.gov."
+    modality: text
+    label: compliant
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  # Social-issue / advocacy / brand-values content that may or may not be "about
+  # social issues, elections or politics" depending on intent, framing, and
+  # platform — and may be a "sensitive political issue" on LinkedIn.
+  - id: pol_b_001
+    content: "Climate change is real — support renewable energy for our future."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Social-issue ad; may need SIEP disclaimer on Meta; 'sensitive issue' risk on LinkedIn."
+
+  - id: pol_b_002
+    content: "Support our troops and the veterans who served."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_003
+    content: "Protect access to women's healthcare."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Sensitive political issue depending on framing/platform."
+
+  - id: pol_b_004
+    content: "Join the conversation about immigration reform."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_005
+    content: "Buy our 'Make America Read Again' literacy T-shirts."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Commercial merch with a political-style slogan; intent ambiguous."
+
+  - id: pol_b_006
+    content: "[Nonprofit ad raising awareness about gun safety in homes]"
+    modality: video
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_007
+    content: "Watch our documentary about the upcoming election."
+    modality: video
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "May qualify for a news/editorial context or may be an issue ad."
+
+  - id: pol_b_008
+    content: "Attend a rally for criminal justice reform this weekend."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_009
+    content: "Our company proudly supports marriage equality."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Brand-values statement on a sensitive issue; not candidate/election advocacy."
+
+  - id: pol_b_010
+    content: "Petition: tell Congress to fully fund public schools."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Legislative advocacy edge case; closer to non_compliant if calling for specific legislative action."
+
+  - id: pol_b_011
+    content: "Learn why voting matters in your community."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_012
+    content: "[Op-ed-style ad: the case for lower taxes]"
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_013
+    content: "Support local journalism — subscribe to our newsroom."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "News-publisher context may be exempt on Meta; depends on identification."
+
+  - id: pol_b_014
+    content: "Free webinar: understanding the new state labor law."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_015
+    content: "[Charity drive ad for refugee families]"
+    modality: video
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Charitable, but can touch immigration politics depending on copy."
+
+  - id: pol_b_016
+    content: "Awareness campaign: what to know about voter ID laws."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_017
+    content: "Help us protect the environment — volunteer this Earth Day."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_018
+    content: "Town hall on local housing policy this Wednesday evening."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_019
+    content: "Support free speech on campus."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: pol_b_020
+    content: "Our brand stands against discrimination of any kind."
+    modality: text
+    label: borderline
+    category_ids: [political]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Corporate-values statement; generally allowed but can edge into social-issue territory."
+
+  # =========================================================================
+  # CHILDREN / MINORS (60)
+  # non_compliant = personalized/interest targeting of under-18, age-restricted
+  # products to minors, made-for-kids ad violations, or collecting children's
+  # data for ads without verifiable parental consent. compliant = age+location
+  # only, contextual ads, minors excluded, or COPPA-consented. borderline =
+  # teen-appealing creative / age-adjacent products where context decides.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: min_nc_001
+    content: "[Ad set targeting users 13-17 by 'gaming' interest and by gender]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.teen_targeting_limited
+      - google.minors.no_personalized_ads_under_18
+      - tiktok.minors.targeting_limited_under_18
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Interest + gender targeting of under-18 — only age and location allowed."
+
+  - id: min_nc_002
+    content: "[Alcohol brand ad targeted to a 16-20 year-old audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_003
+    content: "[Remarketing campaign serving personalized ads to 15-year-olds]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.no_personalized_ads_under_18
+      - meta.minors.teen_targeting_limited
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_004
+    content: "[Sports-betting ad shown to an under-18 audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+      - meta.minors.restricted_topics_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_005
+    content: "[Kids' mobile game collects device IDs for ad profiling without parental consent]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Persistent identifiers from under-13 used for behavioral advertising — COPPA VPC required."
+
+  - id: min_nc_006
+    content: "[Weight-loss supplement ad targeted to teenagers]"
+    modality: image
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_007
+    content: "[Made-for-kids YouTube video runs personalized ads with third-party trackers]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.made_for_kids
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_008
+    content: "[Ad on made-for-kids content: 'Buy now! Ask mom for her credit card!']"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.made_for_kids
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Inciting children to purchase on made-for-kids content."
+
+  - id: min_nc_009
+    content: "[Credit-card offer targeted to 17-year-olds]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_010
+    content: "[Dating-app ad served to 16-year-old users]"
+    modality: image
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_011
+    content: "[Ad set reaching teens using ZIP-code / pin-drop location]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.teen_targeting_limited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_012
+    content: "[Kids' app shares children's persistent identifiers with ad networks for targeted ads]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_013
+    content: "[Vape / e-cigarette ad targeted to under-18 audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_014
+    content: "[Customer Match list used to serve ads to an under-18 segment]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.no_personalized_ads_under_18
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_015
+    content: "[Casino app ad served to 15-year-olds]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.sensitive_categories_restricted
+      - meta.minors.restricted_topics_not_to_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_016
+    content: "[Sales - TikTok Shop campaign targeting an under-18 audience]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - tiktok.minors.targeting_limited_under_18
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: min_nc_017
+    content: "[Cosmetic-surgery ad targeted to teenage girls]"
+    modality: image
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_018
+    content: "[Behavioral ad profile built on a 12-year-old's browsing without parental consent]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - ftc.minors.coppa_parental_consent
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_019
+    content: "[Interest-based ad to teens based on Instagram pages they liked]"
+    modality: text
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - meta.minors.teen_targeting_limited
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_nc_020
+    content: "[Made-for-kids content ad with a misleading 'win a free toy' claim]"
+    modality: video
+    label: non_compliant
+    category_ids: [minors]
+    violated_clause_ids:
+      - google.minors.made_for_kids
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: min_c_001
+    content: "[Kids' cereal ad targeted only by age (13+) and city location]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Age + location only — the permitted way to include teens."
+
+  - id: min_c_002
+    content: "[Contextual board-game ad on a family content channel, no personalization, no trackers]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_003
+    content: "[Brand-awareness Reach campaign to a 13+ audience using age + location only]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_004
+    content: "[Educational-app contextual ad on made-for-kids content, no third-party trackers]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Made-for-kids allows contextual ads without personalization/trackers/purchase incitement."
+
+  - id: min_c_005
+    content: "[Alcohol ad targeted to 21+ only, minors excluded]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_006
+    content: "[Toy ad to a 13+ audience with no interest/behavior targeting]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_007
+    content: "[Kids' clothing brand ad using age and location targeting only]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_008
+    content: "[Mobile game collects a persistent identifier solely for internal operations, not behavioral advertising]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "COPPA internal-operations exception (no profiling/behavioral advertising)."
+
+  - id: min_c_009
+    content: "[Sneaker ad to a general audience including teens, age + location only]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_010
+    content: "[Made-for-kids contextual ad for an all-ages movie, no incitement to purchase]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_011
+    content: "[Family-restaurant promo to 13+ by city, no personalization]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_012
+    content: "[Gambling ad restricted to 21+ with minors excluded]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_013
+    content: "[Amusement-park ad to a 13+ audience, age + location only]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_014
+    content: "[School-supplies ad served contextually on an education page]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_015
+    content: "[Streaming-service ad to a 13+ general audience, no behavioral targeting]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_016
+    content: "[Children's-book contextual ad on made-for-kids content, no trackers, no purchase incitement]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_017
+    content: "[Bicycle ad to teens using only age and location]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_018
+    content: "[Operator obtains verifiable parental consent before collecting a child's data for ads]"
+    modality: text
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "COPPA-compliant: notice + verifiable parental consent before collection/use/disclosure."
+
+  - id: min_c_019
+    content: "[Awareness TopView campaign reaching 13+ without detailed targeting]"
+    modality: video
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_c_020
+    content: "[Sportswear contextual ad on a general sports article]"
+    modality: image
+    label: compliant
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: min_b_001
+    content: "[Energy-drink ad to a 16+ audience]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Caffeine products aren't uniformly age-restricted; some markets/platforms restrict."
+
+  - id: min_b_002
+    content: "[PG-13 movie trailer targeted to teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Film/TV/game trailer age rules vary by market (TikTok BC market-specific)."
+
+  - id: min_b_003
+    content: "[Influencer promotes a skincare brand; content appeals to teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_004
+    content: "[Mobile-game ad with cartoonish characters shown to a general audience]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Could be deemed primarily appealing to children depending on creative."
+
+  - id: min_b_005
+    content: "[Fast-food promo featuring a kids'-meal toy]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_006
+    content: "[Gym-membership ad to a 16+ audience]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Fitness framing can edge into weight-loss/body-image restrictions."
+
+  - id: min_b_007
+    content: "[Sugary-snack ad on a general entertainment channel]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_008
+    content: "[Teen fashion brand using age + location to reach 13-17]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Permitted if strictly age+location; borderline because creative targets teens."
+
+  - id: min_b_009
+    content: "[Collectible card-game ad that strongly appeals to children]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_010
+    content: "[Streaming-show ad with mild violence shown to teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Depends on whether it crosses the 'shocking content' threshold for teens."
+
+  - id: min_b_011
+    content: "[Acne-treatment OTC product ad to teens]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_012
+    content: "[Loot-box mobile-game ad to a general audience including minors]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Gambling-adjacent mechanics; treatment varies by jurisdiction."
+
+  - id: min_b_013
+    content: "[Branded-content trailer for a video game in the US]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "TikTok Branded Content market-specific age rules for game trailers (US)."
+
+  - id: min_b_014
+    content: "[Theme-park season-pass ad to 13+ with city targeting]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_015
+    content: "[Protein-snack ad to a 16+ audience]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Muscle/weight framing can trigger body-image restrictions for minors."
+
+  - id: min_b_016
+    content: "[Smartphone ad featuring an influencer popular among teens]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_017
+    content: "[Back-to-school electronics ad reaching teens by age + location]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_018
+    content: "[Caffeinated-soda ad to a general audience]"
+    modality: video
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: min_b_019
+    content: "[Online-tutoring service ad to teens that collects signup data]"
+    modality: text
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "If signups collect data from under-13s, COPPA consent obligations may attach."
+
+  - id: min_b_020
+    content: "[Trading-card retailer ad with characters that appeal to kids]"
+    modality: image
+    label: borderline
+    category_ids: [minors]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # =========================================================================
+  # PRIVACY & PERSONAL DATA (60)
+  # non_compliant = asserting/implying sensitive attributes, targeting sensitive
+  # categories with curated audiences, selling/sharing data without opt-out or
+  # under-16 opt-in, or undisclosed data collection. compliant = benefit-focused
+  # copy, predefined audiences, opt-out link/GPC honored, privacy policy present,
+  # consent obtained. borderline = rhetorical "you", contextual targeting on
+  # sensitive topics, or data-driven targeting of non-sensitive products.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: prv_nc_001
+    content: "Are you struggling with depression? Get help now."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Implies the viewer has a mental-health condition."
+
+  - id: prv_nc_002
+    content: "Meet other LGBTQ singles near you."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Implies the viewer's sexual orientation."
+
+  - id: prv_nc_003
+    content: "[Customer Match list of diabetes-site visitors used to target ads]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_004
+    content: "Find other Christians in your area."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_005
+    content: "Struggling with debt? We know exactly how you feel."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_006
+    content: "[Ad targeting users by inferred race / ethnicity]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_007
+    content: "[Business sells site visitors' data for cross-context behavioral ads with no 'Do Not Sell or Share' link]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_008
+    content: "[Business ignores Global Privacy Control signals and keeps sharing data for ads]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_009
+    content: "[App sells personal info of known 14-year-olds for targeted ads without opt-in]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.minor_opt_in_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_010
+    content: "[Landing page collects emails and shares them with ad networks, no privacy policy disclosed]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - tiktok.privacy.data_collection_disclosure
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_011
+    content: "As someone living with anxiety, you need our app."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_012
+    content: "[Targeting users by trade-union membership]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_013
+    content: "If you've been diagnosed with diabetes, click here for your discount."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_014
+    content: "[Custom segment built from STD-clinic visitors used for ad targeting]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_015
+    content: "[Targeting LinkedIn members by income bracket]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_016
+    content: "We see you're a single mom — this offer is just for you."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_017
+    content: "[Business continues selling personal data after the consumer opted out]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - ccpa.privacy.opt_out_sale_sharing
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_018
+    content: "[Landing page installs undisclosed tracking software that transmits user info]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - tiktok.privacy.data_collection_disclosure
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_nc_019
+    content: "[Lookalike audience seeded from a mental-health app's user list]"
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_nc_020
+    content: "Are you a veteran with PTSD? Join our treatment program."
+    modality: text
+    label: non_compliant
+    category_ids: [privacy]
+    violated_clause_ids:
+      - meta.privacy.personal_attributes
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: prv_c_001
+    content: "Explore tools for smarter financial planning."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+    note: "Benefit-focused; no assertion of the viewer's financial status."
+
+  - id: prv_c_002
+    content: "Join our new faith-based community group."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Targets an interest/community, not an implied religious attribute of the viewer."
+
+  - id: prv_c_003
+    content: "[Health product using predefined Google audiences only, no advertiser-curated lists]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_004
+    content: "[Landing page with a clear privacy policy disclosing data collection and use]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_005
+    content: "[Homepage displays a 'Do Not Sell or Share My Personal Information' link]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_c_006
+    content: "[Business honors Global Privacy Control opt-out signals frictionlessly]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_007
+    content: "Meet new people on our dating app."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "No implied orientation/relationship status of the viewer."
+
+  - id: prv_c_008
+    content: "Support for individuals and families navigating recovery."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_009
+    content: "[Fitness brand targeting the broad 'fitness' interest via a predefined audience]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_010
+    content: "[App obtains affirmative opt-in before sharing a 15-year-old's data]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: prv_c_011
+    content: "Discover budgeting tips for everyone."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_012
+    content: "[Contextual ad on a wellness article, no behavioral targeting]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_013
+    content: "New mental-health resources are available in your city."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "PSA-style; does not assert the viewer or their family has a condition."
+
+  - id: prv_c_014
+    content: "[Business stops sharing personal data immediately after an opt-out request]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_015
+    content: "Our app helps people build healthy daily habits."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_016
+    content: "[Landing page with a privacy-policy link and clear data-use disclosure]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_017
+    content: "Faith-based events this weekend — all are welcome."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_018
+    content: "[Predefined Google audience used to promote a sensitive-category product]"
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Allowed — predefined audiences exclude sensitive signals."
+
+  - id: prv_c_019
+    content: "Financial-planning webinar — open to all."
+    modality: text
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_c_020
+    content: "[Advertiser uses only first-party contextual signals; no sale/sharing of personal info]"
+    modality: landing_page
+    label: compliant
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: prv_b_001
+    content: "You deserve a vacation — book your getaway now."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "'You' is allowed when no sensitive attribute is implied."
+
+  - id: prv_b_002
+    content: "[Wellness brand targeting the 'yoga' interest]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Wellness adjacency; sensitive only if it crosses into health conditions."
+
+  - id: prv_b_003
+    content: "[Contextual ad placed on a diabetes news site]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Contextual placement on a sensitive topic; not behavioral targeting."
+
+  - id: prv_b_004
+    content: "Tired after a long day? Try our energy drink."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_005
+    content: "[Retargeting general site visitors for a non-sensitive product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_006
+    content: "For busy parents on the go."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "References parental status generally, not an assertion about the viewer."
+
+  - id: prv_b_007
+    content: "[Lookalike audience for a generic e-commerce product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_008
+    content: "Single? Discover local events this weekend."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Relationship-status adjacency; borderline depending on implication."
+
+  - id: prv_b_009
+    content: "[Ad uses ZIP-level targeting for a non-HEC retail product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_010
+    content: "Proud to support our local community."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_011
+    content: "[Customer Match list used for a non-sensitive retail promotion]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Customer Match is allowed when not promoting a sensitive interest category."
+
+  - id: prv_b_012
+    content: "Feeling stressed? Our meditation app can help."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Could be read as implying a mental state; depends on enforcement."
+
+  - id: prv_b_013
+    content: "[App collects an email for a newsletter with a privacy-policy link]"
+    modality: landing_page
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_014
+    content: "Gifts for the woman in your life."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "References a third party, not an assertion about the viewer."
+
+  - id: prv_b_015
+    content: "[Behavioral ad based on shopping-cart abandonment]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_016
+    content: "Wellness tips for a healthier you."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_017
+    content: "[Data segment of past purchasers for a non-sensitive product]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_018
+    content: "Are you ready for summer?"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_019
+    content: "[Ad on a parenting site using contextual signals]"
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: prv_b_020
+    content: "Local deals picked for you."
+    modality: text
+    label: borderline
+    category_ids: [privacy]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Personalization wording; borderline depending on data used."
+
+  # =========================================================================
+  # ALCOHOL / TOBACCO / CANNABIS (60)
+  # non_compliant = tobacco/vape, recreational drugs/THC, under-age/harmful
+  # alcohol, uncertified CBD, missing TTB statements, non-compliant tobacco
+  # format. compliant = age/location-correct alcohol with mandatory statements,
+  # cessation products 18+, certified CBD in allowed states, FDA-format tobacco,
+  # anti-smoking PSAs. borderline = non-alcoholic / hemp / dispensary-brand /
+  # nicotine-free edge cases.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: atc_nc_001
+    content: "[Ad selling disposable fruit-flavored vapes]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_002
+    content: "Buy THC gummies — get high legally!"
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_003
+    content: "[Beer ad targeting users aged 16-20]"
+    modality: video
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - meta.atc.alcohol
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_004
+    content: "Vodka makes you more confident, successful, and attractive."
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Implies social/sexual/professional benefits from alcohol."
+
+  - id: atc_nc_005
+    content: "[Cigarette brand ad with full-color lifestyle imagery]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - fda.atc.tobacco_format
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_006
+    content: "[Ingestible CBD oil ad with no LegitScript certification]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.cbd
+      - google.atc.cbd
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_007
+    content: "Magic mushrooms for sale — microdose your way to bliss."
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_008
+    content: "Crush a 12-pack tonight — drink till you drop!"
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Encourages excessive drinking."
+
+  - id: atc_nc_009
+    content: "[Whiskey ad with no responsible-advertiser name or class/type statement]"
+    modality: image
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_010
+    content: "[E-cigarette starter-kit promotion]"
+    modality: video
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_011
+    content: "Recreational weed delivered to your door — shop our dispensary."
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_nc_012
+    content: "[Smokeless-tobacco video ad with music and color graphics]"
+    modality: video
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - fda.atc.tobacco_format
+      - google.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_013
+    content: "Whiskey cures your stress and heals the soul."
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "False/misleading curative health claim for alcohol."
+
+  - id: atc_nc_014
+    content: "[CBD inhalant product ad targeting Texas]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - google.atc.cbd
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_015
+    content: "Rolling papers, pipes, and bongs — shop our smoke shop."
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_016
+    content: "[Tequila ad showing a shots-drinking competition]"
+    modality: video
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_017
+    content: "Order recreational highs and party powders online."
+    modality: text
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_018
+    content: "[Vape brand ad targeting a general TikTok audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - tiktok.atc.tobacco
+      - meta.atc.tobacco
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_019
+    content: "[CBD gummies ad in the US targeting under-18 users]"
+    modality: image
+    label: non_compliant
+    category_ids: [drugs]
+    violated_clause_ids:
+      - meta.atc.cbd
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_nc_020
+    content: "Beer is good for your heart — drink one daily."
+    modality: text
+    label: non_compliant
+    category_ids: [alcohol]
+    violated_clause_ids:
+      - google.atc.alcohol
+      - ttb.atc.alcohol_statements
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: atc_c_001
+    content: "[Wine ad targeting 21+ in permitted US locations, with a responsible-drinking message]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_c_002
+    content: "[Non-alcoholic beer ad that doesn't depict consumption]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_003
+    content: "[FDA-approved nicotine patch ad targeted to people 18+]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_004
+    content: "[Topical CBD balm ad, LegitScript-certified, targeting only California]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: atc_c_005
+    content: "[Distilled-spirits ad with responsible-advertiser name, class/type, and ABV]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "All TTB mandatory statements present."
+
+  - id: atc_c_006
+    content: "[Cigarette ad using only black text on a white background]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Format-compliant with 21 CFR 1140.32 (platform bans still apply separately)."
+
+  - id: atc_c_007
+    content: "[Anti-smoking PSA encouraging people to quit]"
+    modality: video
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_008
+    content: "[Craft-brewery ad targeting 21+ in allowed states]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_009
+    content: "[Smoking-cessation counseling service ad, 18+]"
+    modality: text
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_010
+    content: "[Non-alcoholic cocktail mixer ad]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_011
+    content: "[Whiskey ad with mandatory statements and no health claims]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_012
+    content: "[WHO-approved nicotine gum ad targeted to adults]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_013
+    content: "[Topical hemp CBD cream, certified, targeting Colorado only]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_014
+    content: "[Wine-club ad with age-gating and a responsible-drinking message]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_015
+    content: "[Tobacco ad with audio limited to words only, no music or sound effects]"
+    modality: audio
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Format-compliant with 21 CFR 1140.32(b)."
+
+  - id: atc_c_016
+    content: "[Wine-glass accessory ad with no alcohol depicted]"
+    modality: image
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_017
+    content: "[Educational documentary referencing the history of alcohol]"
+    modality: video
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_018
+    content: "[Certified topical CBD ad targeting Puerto Rico]"
+    modality: image
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_019
+    content: "[Beer ad in an allowed state, 21+ targeting, no excessive-consumption depiction]"
+    modality: video
+    label: compliant
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_c_020
+    content: "[FDA-format-compliant smokeless-tobacco static black-text video]"
+    modality: video
+    label: compliant
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: atc_b_001
+    content: "[Non-alcoholic spirit brand using cocktail-style imagery]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_002
+    content: "[Hemp-seed-oil skincare ad making no CBD claims]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_003
+    content: "[Alcohol-delivery app ad]"
+    modality: video
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_004
+    content: "[Nicotine-free 'wellness' vape ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Meta bans even nicotine-free vapes; some other contexts may differ."
+
+  - id: atc_b_005
+    content: "[Cocktail recipe content from a spirits brand]"
+    modality: video
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_006
+    content: "[CBD pet-treats ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_007
+    content: "[Kombucha ad noting trace alcohol content]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_008
+    content: "[Nicotine-free flavored shisha ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_009
+    content: "[Dispensary brand-awareness ad with no product sale]"
+    modality: video
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_010
+    content: "[Low-alcohol hard-seltzer ad targeting 21+]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_011
+    content: "[Topical CBD ad targeting a state not on Google's allowed list]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Allowed product type but disallowed geography for Google."
+
+  - id: atc_b_012
+    content: "[Bar/restaurant promoting its happy hour]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_013
+    content: "[Functional (non-psychoactive) mushroom supplement ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_014
+    content: "[Wine-pairing editorial sponsored by a winery]"
+    modality: text
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_015
+    content: "[Lighter ad with no mention of tobacco]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "TikTok may allow lighters when promoted without tobacco/nicotine use."
+
+  - id: atc_b_016
+    content: "[Alcohol brand sponsoring a sports event]"
+    modality: video
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_017
+    content: "[Ingestible CBD beverage ad]"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Ingestible CBD is generally disallowed; borderline pending product/jurisdiction."
+
+  - id: atc_b_018
+    content: "[Cannabis-legalization advocacy ad with no product sale]"
+    modality: video
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_019
+    content: "[De-alcoholized wine ad]"
+    modality: image
+    label: borderline
+    category_ids: [alcohol]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: atc_b_020
+    content: "[Nicotine pouch alternative marketed as 'tobacco-free']"
+    modality: image
+    label: borderline
+    category_ids: [drugs]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Tobacco-free nicotine pouches still fall under platform nicotine bans."
+
+  # =========================================================================
+  # GAMBLING & GAMING (60)
+  # non_compliant = unlicensed/uncertified gambling, targeting minors, no
+  # responsible-gambling info, or social-casino offering real money. compliant =
+  # licensed+certified 21+ ads with responsible-gambling info, real-money-free
+  # social casino, or offline venues not promoting online gambling. borderline =
+  # fantasy sports / sweepstakes / loot boxes / skill-game edge cases.
+  # =========================================================================
+  # ---------------------- NON-COMPLIANT (20) ----------------------
+  - id: gmb_nc_001
+    content: "[Online casino ad with no gambling certification or license]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.authorization_and_license
+      - google.gambling.certification_license
+      - tiktok.gambling.certification_license
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_nc_002
+    content: "[Sports-betting ad targeting users aged 16-20]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.no_minors
+      - google.gambling.minors
+      - tiktok.gambling.minors
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_nc_003
+    content: "[Sportsbook ad with no responsible-gambling information on the landing page]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - google.gambling.responsible
+      - tiktok.gambling.responsible
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_nc_004
+    content: "[Social casino app ad offering real cash jackpots, run without authorization]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.social_casino
+      - tiktok.gambling.social_casino_no_real_money
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_005
+    content: "Bet now on our offshore casino — no license needed!"
+    modality: text
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.authorization_and_license
+      - google.gambling.certification_license
+      - tiktok.gambling.certification_license
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_nc_006
+    content: "[Lottery ad shown to a teenage audience]"
+    modality: image
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.minors
+      - meta.gambling.no_minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_007
+    content: "[Poker site ad in a US state without Google certification]"
+    modality: text
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - google.gambling.certification_license
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_008
+    content: "[Slots app ad featuring cartoon characters that appeal to children]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_009
+    content: "[Casino ad with no risk warnings or addiction-hotline links]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.responsible
+      - google.gambling.responsible
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_010
+    content: "[Free-to-play 'social' slots ad promising real-money cashouts]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.social_casino
+      - tiktok.gambling.social_casino_no_real_money
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_011
+    content: "[Unlicensed crypto-casino ad]"
+    modality: text
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.authorization_and_license
+      - google.gambling.certification_license
+      - tiktok.gambling.certification_license
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_nc_012
+    content: "[Betting ad targeting a 17-year-old gaming audience]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.no_minors
+      - google.gambling.minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_013
+    content: "[Gambling ad featuring an underage person]"
+    modality: image
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.minors
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_014
+    content: "[Online gambling ad running in an unsupported Meta market]"
+    modality: text
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.authorization_and_license
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_015
+    content: "[Sweepstakes-casino ad implying you can win real money, no certification]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.social_casino_no_real_money
+      - meta.gambling.social_casino
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_016
+    content: "[Sportsbook ad with no legally mandated disclaimers or taglines]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.responsible
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_017
+    content: "[Online gambling ad served without Google certification]"
+    modality: text
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - google.gambling.certification_license
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_018
+    content: "[Casino app ad targeting minors with flashy reward animations]"
+    modality: video
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.no_minors
+      - google.gambling.minors
+      - tiktok.gambling.minors
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_nc_019
+    content: "[Social casino ad offering coins redeemable for cash]"
+    modality: image
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - meta.gambling.social_casino
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_nc_020
+    content: "[Betting-platform ad promoting unlicensed gambling services]"
+    modality: text
+    label: non_compliant
+    category_ids: [gambling]
+    violated_clause_ids:
+      - tiktok.gambling.certification_license
+      - meta.gambling.authorization_and_license
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- COMPLIANT (20) ----------------------
+  - id: gmb_c_001
+    content: "[Licensed, Google-certified sportsbook ad targeting 21+ in an approved state]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: gmb_c_002
+    content: "[Casino ad with responsible-gambling info and a hotline on the landing page]"
+    modality: landing_page
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_003
+    content: "[Social casino app ad with no real-money winnings, targeting 18+]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_004
+    content: "[Brick-and-mortar Las Vegas casino ad not promoting online gambling]"
+    modality: image
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_005
+    content: "[State-lottery ad targeting adults with a responsible-play message]"
+    modality: image
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_006
+    content: "[Meta-authorized online gambling ad with a valid license, targeting 18+]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_007
+    content: "[Sportsbook ad including 'Gambling problem? Call 1-800-GAMBLER']"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_008
+    content: "[Free-to-play puzzle game ad with no monetary winnings]"
+    modality: image
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_009
+    content: "[TikTok-certified gambling ad in a legal market with risk warnings]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_010
+    content: "[Poker-room ad targeting 21+ with a responsible-gambling link]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_011
+    content: "[Casino-entertainment concert ad not promoting online gambling]"
+    modality: image
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_012
+    content: "[Licensed online casino ad excluding minors and unsupported markets]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_013
+    content: "[Social slots ad making clear that players cannot win real money]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_014
+    content: "[Sports-betting ad with legally mandated disclaimers and 21+ targeting]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_015
+    content: "[Certified gambling ad targeting only approved countries]"
+    modality: text
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_016
+    content: "[Amusement-arcade ad with no real-money gambling]"
+    modality: image
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_017
+    content: "[Responsible-gambling PSA from a state regulator]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_018
+    content: "[Daily-fantasy ad where permitted, licensed, 21+, with disclaimers]"
+    modality: video
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_019
+    content: "[Online casino ad with valid license documentation on file]"
+    modality: text
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_c_020
+    content: "[Free mobile game ad with optional cosmetic purchases, no gambling]"
+    modality: image
+    label: compliant
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # ---------------------- BORDERLINE (20) ----------------------
+  - id: gmb_b_001
+    content: "[Daily fantasy sports ad]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Legal status of DFS varies by state."
+
+  - id: gmb_b_002
+    content: "[Loot-box mobile game ad]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Gambling-adjacent mechanics; treatment varies."
+
+  - id: gmb_b_003
+    content: "[Sweepstakes promotion, no purchase necessary]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_004
+    content: "[Free-to-play casino game ad with in-app purchases but no cash payout]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_005
+    content: "[Sports-odds/statistics content from a betting affiliate]"
+    modality: text
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+    note: "Gambling-information content; certification may be required by platform."
+
+  - id: gmb_b_006
+    content: "[Skill-based cash tournament game ad]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_007
+    content: "[Crypto 'play-to-earn' game ad]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_008
+    content: "[Prize-draw raffle for a registered charity]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_009
+    content: "[Esports tournament ad with an entry fee and prize pool]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_010
+    content: "[Social poker app ad using virtual chips only]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_011
+    content: "[Gift-card giveaway requiring a follow and share]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_012
+    content: "[Horse-racing event ad]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_013
+    content: "[Arcade redemption game ad (tickets exchanged for prizes)]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_014
+    content: "[Stock-trading app ad gamified with 'win' language]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_015
+    content: "[Mobile game ad featuring a spin-the-wheel daily bonus]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_016
+    content: "[In-person bingo hall ad]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_017
+    content: "[Fantasy-league app ad with no entry fee]"
+    modality: video
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_018
+    content: "[Non-gambling brand ad using a slot-machine emoji in a giveaway]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_019
+    content: "[Scratch-card-style promo game offering discount prizes]"
+    modality: image
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: gmb_b_020
+    content: "[Betting-tips newsletter subscription ad]"
+    modality: text
+    label: borderline
+    category_ids: [gambling]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  # =========================================================================
+  # INTELLECTUAL PROPERTY / COUNTERFEIT (60)
+  # =========================================================================
+  # --- NON-COMPLIANT (20) ---
+  - id: ip_nc_001
+    content: "Replica Rolex watches — looks exactly like the real thing for 1/10th the price!"
+    modality: text
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_002
+    content: "AAA knockoff designer handbags — Gucci, LV, Chanel mirror-image quality!"
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_003
+    content: "Fake Nike Air Jordans — same logo, same box, nobody can tell the difference."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_004
+    content: "Imitation AirPods Pro with the Apple logo printed on — looks 100% authentic."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_005
+    content: "Clone Yeezy sneakers — adidas trefoil branding, factory-grade replica."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_006
+    content: "Faux Louis Vuitton belts with authentic-looking LV buckle logo."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_007
+    content: "Stream every Marvel movie free — full HD pirated copies, no subscription."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.unauthorized_copyrighted_works
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_008
+    content: "Download the latest PlayStation games — cracked ISO copies, all titles."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.unauthorized_copyrighted_works
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_009
+    content: "Bootleg Taylor Swift concert recordings — full albums, instant download."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.unauthorized_copyrighted_works
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_010
+    content: "Official Apple Store deals — [ad by unaffiliated reseller using Apple logo and brand colors to imply affiliation]"
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.third_party_infringement
+      - tiktok.ip.infringement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_011
+    content: "[Ad copy by a direct competitor using a rival's registered trademark in the headline after a valid complaint]"
+    modality: text
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - google.ip.trademark
+      - meta.ip.third_party_infringement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_012
+    content: "[Video ad using a popular copyrighted song with no music license]"
+    modality: video
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.third_party_infringement
+      - tiktok.ip.infringement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_013
+    content: "Get Disney+ shows for free — full pirated library streaming here."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.unauthorized_copyrighted_works
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_014
+    content: "Counterfeit Supreme tees — same box logo, indistinguishable from retail."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_015
+    content: "Mirror-image Cartier jewelry — buyers can't tell it from the genuine brand."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+      - meta.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_016
+    content: "[Landing page selling phone cases titled 'iPhone 16 Pro' using Apple trademark to pass off generic goods]"
+    modality: landing_page
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - google.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_017
+    content: "Pirated e-books — every bestseller PDF, instant download, no DRM."
+    modality: landing_page
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.unauthorized_copyrighted_works
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_018
+    content: "[Ad creative reusing a competitor's copyrighted product photography without permission]"
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - tiktok.ip.infringement
+      - meta.ip.third_party_infringement
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_019
+    content: "Replica NFL jerseys — team logos and trademarks, fraction of official price."
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_nc_020
+    content: "[Storefront ad using a misspelled brand name 'Addidas' with the brand's stripes logo]"
+    modality: image
+    label: non_compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids:
+      - meta.ip.third_party_infringement
+      - google.ip.trademark
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  # --- COMPLIANT (20) ---
+  - id: ip_c_001
+    content: "Handmade leather watches by our own studio — original designs, our brand only."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_002
+    content: "Shop our independent sneaker label — fully original colorways and logo."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_003
+    content: "Authorized reseller of genuine Bose headphones — official warranty included."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_004
+    content: "Stream our originally produced indie film — licensed and owned by our studio."
+    modality: landing_page
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_005
+    content: "[Video ad set to a track fully licensed through the platform's commercial music library]"
+    modality: video
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_006
+    content: "Generic phone case for 6.1-inch devices — universal fit, our own brand."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_007
+    content: "Official merchandise store — licensed apparel with brand authorization on file."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_008
+    content: "Buy our self-published novel — written and owned by our author."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_009
+    content: "Compatible replacement bands for smartwatches — clearly marked 'not affiliated', our brand."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_c_010
+    content: "Original artwork prints by our illustrators — 100% our own copyright."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_c_011
+    content: "Authorized Samsung retailer — genuine devices, sealed in original packaging."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_c_012
+    content: "Stream our podcast — all music and clips cleared and licensed."
+    modality: landing_page
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_c_013
+    content: "Our in-house cosmetics line — original brand name, trademark registered to us."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_c_014
+    content: "Refurbished genuine iPhones, clearly described as refurbished — authorized program."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: test
+
+  - id: ip_c_015
+    content: "Original board game we designed and published — our own IP."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_016
+    content: "Custom T-shirts with your own uploaded designs — you confirm you own the rights."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_017
+    content: "Licensed Marvel apparel — sold under an official Disney license agreement."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_018
+    content: "Our royalty-free stock-music subscription — every track cleared for ads."
+    modality: landing_page
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_019
+    content: "Original streetwear brand — our trademark, our designs, made in-house."
+    modality: image
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  - id: ip_c_020
+    content: "Officially licensed video game soundtrack on vinyl — publisher-authorized release."
+    modality: text
+    label: compliant
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: train
+
+  # --- BORDERLINE (20) ---
+  - id: ip_b_001
+    content: "Inspired-by designer fragrances — our own brand, smells similar to luxury scents."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_002
+    content: "Phone case compatible with iPhone — uses 'iPhone' descriptively in the listing."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_003
+    content: "[Parody ad spoofing a famous logo for commentary]"
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_004
+    content: "Vintage thrift find — authentic pre-owned designer bag, resold as-is."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_005
+    content: "Fan-art posters of popular characters — drawn by an independent artist."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_006
+    content: "Works with AirPods — third-party charging case, brand name used for compatibility."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_007
+    content: "Tribute cover band performance — promo ad mentions the original artist's name."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_008
+    content: "Dupe makeup — 'looks like' a luxury palette, sold under our own brand name."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_009
+    content: "Repair service for designer handbags — uses brand names to describe what we fix."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_010
+    content: "Custom embroidery — we'll stitch any logo you provide onto blank apparel."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_011
+    content: "Comparison ad: 'better than Brand X' — names a competitor's trademark factually."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_012
+    content: "Sampled beat in our track — claims it's transformative fair use."
+    modality: video
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_013
+    content: "Authorized-dealer claim — reseller says 'official' but authorization is unclear."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_014
+    content: "Replica prop from a movie — sold as a collectible 'inspired by' the film."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_015
+    content: "Print-on-demand shirt with a public-domain artwork from the 1800s."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_016
+    content: "Generic-brand cereal ad styled to resemble a famous brand's packaging."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_017
+    content: "Aftermarket car parts — 'fits BMW' listed for compatibility."
+    modality: text
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_018
+    content: "Streaming guide blog ad that links out to both official and unofficial sources."
+    modality: landing_page
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_019
+    content: "Logo-design service ad showing a portfolio that includes recognizable brand marks."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev
+
+  - id: ip_b_020
+    content: "Unlicensed-looking team scarf at a fan stall — provenance unclear from the ad."
+    modality: image
+    label: borderline
+    category_ids: [ip_trademark]
+    violated_clause_ids: []
+    jurisdiction: US
+    labeled_by: expert
+    split: dev

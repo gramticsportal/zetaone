@@ -1,0 +1,103 @@
+# TTB alcohol advertising enforcement.
+
+precedents:
+  - precedent_id: prec.ttb.mckenzie_energy_alcohol_2007
+    source: "Alcohol and Tobacco Tax and Trade Bureau (TTB)"
+    source_url: "https://www.ttb.gov/media/70996/download?inline="
+    date: 2007-07-16
+    title: "TTB v. McKenzie River — misleading energy/stimulating alcohol ads"
+    summary: >
+      McKenzie River Corporation served a 7-day basic permit suspension and paid a
+      $200,000 offer in compromise after TTB found print ads implying its alcohol
+      beverages had stimulating or energizing effects.
+    why_this_matters: >
+      TTB enforcement template for prohibited health/energy claims in alcohol
+      advertising.
+    retrieval_keywords: ['TTB', 'alcohol advertising', 'energy claims', 'misleading health', 'McKenzie River', 'Sparks']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['alcohol', 'health', 'misleading']
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+    canonical_ids:
+      - atc.alcohol_mandatory_and_prohibited_statements
+    outcome: consent_order
+    monetary_relief: "$200,000 offer in compromise; 7-day permit suspension"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          A TTB investigation revealed that McKenzie River Corporation had published
+          print advertisements implying that its alcohol beverage product had a
+          stimulating or an energizing effect on the consumer.
+        source_url: https://www.ttb.gov/media/70996/download?inline=
+        section: "TTB Industry Circular (McKenzie enforcement)"
+
+  - precedent_id: prec.ttb.clean_beer_guidance_2022
+    source: "U.S. Alcohol and Tobacco Tax and Trade Bureau"
+    source_url: "https://www.ttb.gov/public-information/news/use-of-the-word-clean-in-alcohol-beverage-labeling-and-advertising"
+    date: 2022-04-08
+    title: "TTB guidance — misleading 'clean' claims in alcohol advertising"
+    summary: >
+      TTB clarified that using 'clean' with health-benefit implications in alcohol
+      ads — such as 'clean and healthy' or 'no headaches' — constitutes misleading
+      health-related statements.
+    why_this_matters: >
+      Official TTB line on wellness-coded alcohol ad copy beyond McKenzie energy-
+      claim enforcement.
+    retrieval_keywords: ['TTB', 'clean beer', 'alcohol advertising', 'misleading health claims', 'wellness marketing']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['alcohol', 'health', 'misleading']
+    violated_clause_ids:
+      - ttb.atc.alcohol_statements
+    canonical_ids:
+      - atc.alcohol_mandatory_and_prohibited_statements
+    outcome: guidance
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          In other cases, the term is used together with other language to create
+          the misleading impression that consumption of the alcohol beverage will
+          have health benefits, or that the health risks otherwise associated with
+          alcohol consumption will be mitigated.
+        source_url: https://www.ttb.gov/public-information/news/use-of-the-word-clean-in-alcohol-beverage-labeling-and-advertising
+        section: "TTB Market Compliance Office, April 8, 2022"
+
+  - precedent_id: prec.ttb.fifth_generation_sponsorship_2022
+    source: "Alcohol and Tobacco Tax and Trade Bureau"
+    source_url: "https://www.ttb.gov/public-information/press/press-release-fy-22-3"
+    date: 2022-01-24
+    title: "TTB v. Fifth Generation — unlawful spirits sponsorship trade practices"
+    summary: >
+      TTB accepted a $305,000 offer in compromise from Fifth Generation (Tito's)
+      for sponsorship agreements that allegedly excluded competitors' products at
+      venue concessions.
+    why_this_matters: >
+      Alcohol trade-practice enforcement on sponsorship-driven exclusivity in
+      venue marketing.
+    retrieval_keywords: ['TTB', 'Fifth Generation', "Tito's", 'sponsorship', 'trade practices', 'FAA Act', '$305000']
+    confidence: verified
+    last_verified_at: 2026-06-27
+    category_ids: ['alcohol', 'misleading']
+    violated_clause_ids:
+      - google.atc.alcohol
+      - meta.atc.alcohol
+    canonical_ids:
+      - atc.alcohol_mandatory_and_prohibited_statements
+    outcome: settlement
+    monetary_relief: "$305,000"
+    status: final
+    jurisdiction: US
+    retrieved_at: 2026-06-27
+    evidence:
+      - quote: >-
+          As a result of an investigation into sponsorship agreements that allegedly
+          resulted in the unlawful exclusion of their competitors' products, TTB has
+          accepted a $305,000 Offer in Compromise (OIC) from Fifth Generation, Inc.
+          of Austin, Texas.
+        source_url: https://www.ttb.gov/public-information/press/press-release-fy-22-3
+        section: "TTB Press Release FY-22-3"

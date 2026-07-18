@@ -1,0 +1,131 @@
+precedents:
+- precedent_id: prec.sec.mayweather_khaled_icos_2018
+  source: U.S. Securities and Exchange Commission
+  source_url: https://www.sec.gov/newsroom/press-releases/2018-251
+  date: 2018-11-29
+  title: SEC v. Floyd Mayweather Jr. and DJ Khaled — undisclosed ICO promotions
+  summary: 'The SEC charged Floyd Mayweather Jr. and DJ Khaled with failing to disclose payments they received for promoting investments in Initial Coin Offerings (Centra Tech). Mayweather and Khaled agreed to pay a combined $767,500 in disgorgement, interest, and penalties without admitting or denying findings.
+
+    '
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.testimonials
+  canonical_ids:
+  - finance.testimonials_endorsements_disclosure
+  outcome: settlement
+  monetary_relief: $767,500 combined (disgorgement + penalties)
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Mayweather failed to disclose promotional payments from three ICO issuers, including $100,000 from Centra Tech Inc., and Khaled failed to disclose a $50,000 payment from Centra Tech.
+    source_url: https://www.sec.gov/newsroom/press-releases/2018-251
+    section: SEC Press Release 2018-251
+  why_this_matters: Early celebrity ICO touting case establishing crypto promo disclosure expectations.
+  retrieval_keywords:
+  - Mayweather
+  - DJ Khaled
+  - ICO
+  - crypto
+  - SEC
+  - Centra
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.sec.steven_seagal_bitcoiin_2020
+  source: U.S. Securities and Exchange Commission
+  source_url: https://www.sec.gov/newsroom/press-releases/2020-26
+  date: 2020-02-27
+  title: SEC v. Steven Seagal — undisclosed Bitcoiin2Gen promotion
+  summary: 'The SEC charged action-film star Steven Seagal with unlawfully touting an ICO without disclosing he was promised $250,000 in cash and $750,000 worth of Bitcoiin2Gen tokens. Seagal agreed to pay $314,000 in disgorgement, interest, and a penalty.
+
+    '
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids:
+  - sec.finance.testimonials
+  canonical_ids:
+  - finance.testimonials_endorsements_disclosure
+  outcome: settlement
+  monetary_relief: $314,000
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: Seagal agreed to pay $157,000 in disgorgement, $157,000 in prejudgment interest, and a $157,000 penalty, and agreed not to participate in any offering of digital asset securities for three years.
+    source_url: https://www.sec.gov/newsroom/press-releases/2020-26
+    section: SEC Press Release 2020-26
+  why_this_matters: Celebrity crypto promotion settlement reinforcing Section 17(b) disclosure duties.
+  retrieval_keywords:
+  - Steven Seagal
+  - Bitcoiin
+  - crypto touting
+  - SEC
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.sec.blockfi_lending_2022
+  source: U.S. Securities and Exchange Commission
+  source_url: https://www.sec.gov/newsroom/press-releases/2022-22
+  date: 2022-02-14
+  title: SEC v. BlockFi — unregistered crypto lending product offers
+  summary: 'The SEC charged BlockFi Lending LLC with failing to register offers and sales of its BlockFi Interest Accounts (BIAs), which the SEC found were securities. BlockFi agreed to pay a $50 million penalty and cease unregistered offers and sales of BIAs to U.S. investors.
+
+    '
+  category_ids:
+  - financial
+  violated_clause_ids:
+  - sec.finance.untrue_or_unbalanced
+  canonical_ids:
+  - finance.licensing_registration_required
+  outcome: settlement
+  monetary_relief: $50,000,000 penalty + $50M to states
+  status: final
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: BlockFi agreed to pay a $50 million penalty to the SEC and an additional $50 million in fines to 32 states to settle similar charges.
+    source_url: https://www.sec.gov/newsroom/press-releases/2022-22
+    section: SEC Press Release 2022-22
+  why_this_matters: BlockFi unregistered crypto lending product case affecting finance product ads.
+  retrieval_keywords:
+  - BlockFi
+  - crypto lending
+  - SEC
+  - interest accounts
+  - registration
+  confidence: verified
+  last_verified_at: '2026-06-27'
+- precedent_id: prec.sec.ripple_xrp_2023
+  source: U.S. Securities and Exchange Commission
+  source_url: https://www.sec.gov/newsroom/press-releases/2023-113
+  date: 2023-07-13
+  title: SEC v. Ripple Labs — XRP unregistered securities offers (partial summary judgment)
+  summary: 'In long-running litigation, a federal court ruled that Ripple''s programmatic sales of XRP on exchanges did not constitute unregistered securities offers, but that Ripple''s direct institutional sales did violate securities laws. The SEC continued to pursue remedies on other claims; the case is a landmark for crypto promotion and securities classification.
+
+    '
+  category_ids:
+  - financial
+  violated_clause_ids:
+  - sec.finance.untrue_or_unbalanced
+  canonical_ids:
+  - finance.crypto_restricted
+  outcome: court_order
+  monetary_relief: Partial summary judgment (institutional sales); remedies phase ongoing
+  status: on_appeal
+  jurisdiction: US
+  retrieved_at: 2026-06-27
+  evidence:
+  - quote: The Court granted summary judgment in favor of Ripple Labs on the programmatic sales of XRP on digital asset exchanges but found that Ripple's direct sales to institutional buyers constituted unregistered offers and sales of securities.
+    source_url: https://www.sec.gov/newsroom/press-releases/2023-113
+    section: SEC statement on Ripple ruling
+  why_this_matters: Ripple XRP unregistered securities case shaping crypto offer/marketing compliance.
+  retrieval_keywords:
+  - Ripple
+  - XRP
+  - crypto securities
+  - SEC
+  - '2023'
+  confidence: verified
+  last_verified_at: '2026-06-27'

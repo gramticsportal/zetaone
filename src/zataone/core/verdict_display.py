@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from zataone.core.extractor_flags import display_verdict_from_llm
+
 
 def _display_from_advisory(review: dict[str, Any]) -> tuple[str, str, str | None, bool]:
     """Map advisory JSON to display status / platform verdict."""
@@ -28,7 +30,7 @@ def _display_from_advisory(review: dict[str, Any]) -> tuple[str, str, str | None
     agreement = str(review.get("agreement_with_deterministic") or "unclear").strip().lower()
     if agreement == "diverges":
         return "REVIEW_REQUIRED", "borderline", "advisory_policy_divergence", True
-    if agreement == "aligns":
+    if agreement in ("aligns", "mostly_aligns"):
         return "COMPLIANT", "likely_approved", "advisory_policy_aligned", False
     return "REVIEW_REQUIRED", "borderline", "advisory_unclear", True
 
@@ -42,8 +44,9 @@ def apply_display_verdict(
 ) -> dict[str, Any]:
     """
     Set display fields on verdict dict. Top-level status/verdict reflect what UI should show.
-    When the rule engine did not run (Quick or ZATAONE_POLICY_ENGINE_ENABLED=false),
-    the advisory LLM assessment is the display authority.
+
+    Default (ZATAONE_VERDICT_AUTHORITY=advisory): LLM synthesis is the final judge on Full
+    and Quick when advisory runs. Deterministic outcomes are preserved for audit/explainability.
     """
     meta = dict(verdict.get("metadata") or {})
     mode = (pipeline_mode or meta.get("pipeline_mode") or "full").strip().lower()
@@ -52,7 +55,6 @@ def apply_display_verdict(
         if policy_engine_ran is not None
         else bool(meta.get("policy_engine_ran"))
     )
-    advisory_primary = mode == "fast" or not engine_ran
 
     det_status = str(verdict.get("status") or "UNKNOWN")
     det_platform = str(verdict.get("verdict") or "unknown")
@@ -62,20 +64,61 @@ def apply_display_verdict(
     meta["pipeline_mode"] = mode
     meta["policy_engine_ran"] = engine_ran
     meta["policy_engine_enabled"] = engine_ran
-    meta["verdict_authority"] = "advisory" if advisory_primary else "deterministic"
 
     review = verdict.get("llm_final_review") or {}
+    has_review = bool(review)
 
-    if advisory_primary:
-        display_status, display_platform, override_reason, elevated = _display_from_advisory(review)
-        verdict_source = "advisory"
+    llm_primary = (
+        mode == "fast"
+        or not engine_ran
+        or (engine_ran and display_verdict_from_llm())
+    )
+    meta["verdict_authority"] = "advisory" if llm_primary else "deterministic"
+
+    elevated = False
+    override_reason: str | None = None
+    verdict_source = "deterministic"
+
+    if llm_primary:
+        if has_review:
+            display_status, display_platform, override_reason, elevated = _display_from_advisory(
+                review
+            )
+            verdict_source = "advisory"
+        elif engine_ran and signal_count == 0:
+            display_status = "REVIEW_REQUIRED"
+            display_platform = "borderline"
+            override_reason = "no_extractor_signals"
+            elevated = True
+            verdict_source = "advisory_escalation"
+        elif engine_ran:
+            display_status = det_status
+            display_platform = det_platform
+            override_reason = "advisory_unavailable"
+            elevated = True
+            verdict_source = "deterministic_fallback"
+        else:
+            display_status, display_platform, override_reason, elevated = _display_from_advisory(
+                review
+            )
+            verdict_source = "advisory"
     else:
-        # Engine ran: deterministic result is authoritative. Advisory is annotation only.
-        elevated = False
-        override_reason: str | None = None
         display_status = det_status
         display_platform = det_platform
-        verdict_source = "deterministic"
+        if signal_count == 0:
+            elevated = True
+            display_status = "REVIEW_REQUIRED"
+            display_platform = "borderline"
+            override_reason = "no_extractor_signals"
+            verdict_source = "advisory_escalation"
+        elif has_review:
+            agreement = str(review.get("agreement_with_deterministic") or "unclear").strip().lower()
+            if agreement == "diverges":
+                elevated = True
+                display_status = "REVIEW_REQUIRED"
+                display_platform = "borderline"
+                override_reason = "advisory_diverges_from_deterministic"
+                verdict_source = "advisory_escalation"
 
     meta["elevated_by_advisory"] = elevated
     meta["verdict_source"] = verdict_source

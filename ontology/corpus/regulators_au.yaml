@@ -1,0 +1,81 @@
+# Australia regulators — ACCC / ACL (misleading starter). Conforms to ontology/schema.yaml.
+
+source:
+  id: accc_au
+  type: regulator
+  name: ACCC — Australian Consumer Law
+  jurisdiction: [AU]
+  url: https://www.accc.gov.au/consumers/advertising-and-promotions/false-or-misleading-claims
+  status: active
+  retrieved_at: 2026-06-27
+  last_verified_at: 2026-06-27
+
+clauses:
+  - id: accc.misleading.section_18_acl
+    source_id: accc_au
+    category_id: misleading
+    text: >
+      A person must not, in trade or commerce, engage in conduct that is
+      misleading or deceptive or is likely to mislead or deceive (Australian
+      Consumer Law s 18).
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [AU]
+    effective_date: 2010-01-01
+    version: "ACL-Sch2-s18"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [AU]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        A person must not, in trade or commerce, engage in conduct that is
+        misleading or deceptive or is likely to mislead or deceive.
+      source_url: http://www5.austlii.edu.au/au/legis/cth/consol_act/caca2010265/sch2.html
+      section: "Australian Consumer Law > Part 2-1 > Section 18"
+      retrieved_at: 2026-06-27
+
+  - id: accc.misleading.accurate_claims
+    source_id: accc_au
+    category_id: misleading
+    text: >
+      Any information or claim that a business provides about its products or
+      services must be accurate, truthful and based on reasonable grounds. Any
+      statement that creates a false impression about goods and services can be
+      breaking the law.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [AU]
+    effective_date: 2024-01-01
+    version: "ACCC-false-misleading-claims"
+    status: active
+    last_verified_at: 2026-06-27
+    last_reviewed_by: ai
+    applicability:
+      countries: [AU]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Any information or claim that a business provides about its products or
+        services must be accurate, truthful and based on reasonable grounds. ...
+        Any statement that creates a false impression about goods and services can
+        be breaking the law.
+      source_url: https://www.accc.gov.au/consumers/advertising-and-promotions/false-or-misleading-claims
+      section: "False or misleading claims > False claims and misleading impressions"
+      retrieved_at: 2026-06-27
+
+rules:
+  - id: accc_misleading_acl18
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids: [accc.misleading.section_18_acl, accc.misleading.accurate_claims]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 65
+    detection: >
+      Misleading/deceptive conduct in trade or commerce; inaccurate/untruthful
+      claims not based on reasonable grounds.
+    exceptions: []
+    status: active

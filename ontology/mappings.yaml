@@ -1,0 +1,677 @@
+# Cross-source mappings — the differentiator.
+# Collapse equivalent platform + regulator clauses into one canonical_id per category.
+# Conforms to entities.mapping in ontology/schema.yaml.
+#
+# Misleading / Deceptive vertical canonical rules:
+#   misleading.exaggerated_results
+#   misleading.guaranteed_outcomes
+#   misleading.unsubstantiated_objective_claims
+#   misleading.missing_or_inconsistent_material_info
+#   misleading.false_affiliation_or_endorsement
+#   misleading.clickbait_or_fake_ui
+#   misleading.before_after_distortion
+
+mappings:
+  - canonical_id: misleading.exaggerated_results
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.deceptive_practices
+      - meta.misleading.exaggerated_success_claims
+      - google.misrep.unreliable_claims
+      - x.misleading.deceptive_marketing
+      - x.misleading.improbable_outcomes
+      - snap.misleading.deceptive_content
+      - pinterest.misleading.false_or_misleading
+      - pinterest.misleading.exaggerated_claims
+      - reddit.misleading.no_deception
+      - reddit.misleading.deceptive_ads_prohibited
+      - meta_eu.misleading.deceptive_practices
+      - meta_eu.misleading.exaggerated_success_claims
+      - google_eu.misrep.unreliable_claims
+    relation: related
+    confidence: high
+    note: >
+      Deceptive/exaggerated/improbable-outcome claims: Meta (US+EU), Google (US+EU),
+      X, Snap, Pinterest, Reddit. FTC substantiation (separate canonical) backs all.
+
+  - canonical_id: misleading.guaranteed_outcomes
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.health_results_timing
+      - tiktok.misleading.absolute_terms
+    relation: related
+    confidence: high
+    note: >
+      Guaranteed/absolute outcomes in a specific time without disclaimer (Meta:
+      health results timing; TikTok: absolute terms like "right away").
+
+  - canonical_id: misleading.unsubstantiated_objective_claims
+    category_id: misleading
+    clause_ids:
+      - ftc.misleading.reasonable_basis
+      - ftc.misleading.express_implied
+      - tiktok.misleading.unsubstantiated_claims
+      - amazon.misleading.truthful_substantiated_claims
+      - microsoft.misleading.truthful_not_deceptive
+      - microsoft.misleading.no_unsubstantiated_claims
+      - asa.misleading.substantiation_required
+      - competition_bureau.misleading.false_or_misleading
+      - competition_bureau.misleading.section_52
+      - accc.misleading.section_18_acl
+      - accc.misleading.accurate_claims
+    relation: stricter
+    confidence: high
+    note: >
+      Objective claims require substantiation: FTC reasonable-basis doctrine (US);
+      ASA CAP 3.7 (UK); Competition Act (CA); ACL s 18 (AU); Amazon/Microsoft
+      platform substantiation rules; TikTok realistic-claims requirement.
+
+  - canonical_id: misleading.missing_or_inconsistent_material_info
+    category_id: misleading
+    clause_ids:
+      - google.misrep.dishonest_pricing
+      - google.misrep.unavailable_offers
+      - tiktok.misleading.landing_page_consistency
+      - x.misleading.pricing_omission
+      - amazon.misleading.landing_page_match
+      - snap.misleading.cloaking
+      - google_eu.misrep.dishonest_pricing
+      - asa.misleading.omit_material_info
+    relation: related
+    confidence: medium
+    note: >
+      Omitted/inconsistent material info: pricing omissions (Google US+EU, X),
+      unavailable offers (Google), landing-page mismatch (Amazon, TikTok),
+      cloaking (Snap), CAP 3.3 material-information omission (UK ASA).
+
+  - canonical_id: misleading.false_affiliation_or_endorsement
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.famous_person_baiting
+      - meta.misleading.misrepresent_entity
+      - google.misrep.unacceptable_business_practices
+      - google.misrep.misleading_representation
+    relation: equivalent
+    confidence: high
+    note: >
+      False affiliation/endorsement/impersonation: Meta (famous-person bait,
+      misrepresenting entities) and Google (unacceptable business practices,
+      misleading representation).
+
+  - canonical_id: misleading.clickbait_or_fake_ui
+    category_id: misleading
+    clause_ids:
+      - google.misrep.clickbait_ads
+      - google.misrep.misleading_ad_design
+      - amazon.misleading.no_fake_functionality
+    relation: related
+    confidence: high
+    note: >
+      Clickbait tactics and fake-UI / non-interactive elements mimicking CTAs:
+      Google (clickbait + misleading ad design); Amazon (fake functionality in
+      Stores). Meta/TikTok/X cover via broader deceptive-practices clauses.
+
+  - canonical_id: misleading.before_after_distortion
+    category_id: misleading
+    clause_ids:
+      - meta.misleading.before_after_weightloss
+      - google.misrep.manipulated_media
+      - tiktok.misleading.before_after
+    relation: related
+    confidence: high
+    note: >
+      Before-and-after / manipulated transformation imagery. TikTok bans broadly;
+      Meta restricts weight-loss before/after; Google prohibits manipulated media.
+
+  # =========================================================================
+  # Health / Medical vertical canonical rules:
+  #   health.disease_cure_treatment_claims          (Meta, Google, FTC, FDA)
+  #   health.unsubstantiated_health_claims          (FTC, FDA, Google)
+  #   health.prescription_drug_promotion_restricted (Google, TikTok)
+  #   health.unapproved_or_dangerous_products       (Google, TikTok)
+  #   health.negative_self_perception_body_image    (Meta-only — no cross-source mapping yet)
+  #   health.rx_fair_balance_risk_disclosure        (FDA-only — no cross-source mapping yet)
+  #   health.health_privacy_sensitive_attributes    (Meta-only — no cross-source mapping yet)
+  #   health.material_risk_safety_disclosure        (FTC-only — no cross-source mapping yet)
+  # =========================================================================
+  - canonical_id: health.disease_cure_treatment_claims
+    category_id: health
+    clause_ids:
+      - meta.health.disease_cure_claims
+      - google.health.unapproved_substances
+      - ftc.health.disease_implication
+      - fda.health.disease_claims
+    relation: stricter
+    confidence: high
+    note: >
+      Disease cure/treatment claims. FDA/FTC (regulators) are the stricter,
+      higher-precedence backbone; platforms prohibit cure claims for incurable
+      disease (Meta) and disease implications by unapproved products (Google).
+
+  - canonical_id: health.unsubstantiated_health_claims
+    category_id: health
+    clause_ids:
+      - ftc.health.truthful_substantiated
+      - fda.health.benefits_approved_use
+      - google.health.clinical_trials
+    relation: stricter
+    confidence: high
+    note: >
+      Health benefit claims require competent and reliable scientific evidence
+      (FTC); drug benefits limited to FDA-approved use (FDA); clinical-trial
+      promos must not imply safety/efficacy (Google).
+
+  - canonical_id: health.prescription_drug_promotion_restricted
+    category_id: health
+    clause_ids:
+      - google.health.unauthorized_pharmacies
+      - google.health.prescription_drug_services
+      - tiktok.health.overview
+      - tiktok.health.prescription_us
+      - tiktok.health.otc_us
+      - tiktok.health.pharmacies_us
+    relation: related
+    confidence: high
+    note: >
+      Prescription-drug/pharmacy promotion is restricted/gated: Google requires
+      certification/application and bans unauthorized pharmacies; TikTok (US)
+      allows Rx/OTC/pharmacy only with FDA / NABP / LegitScript certification and
+      18+ targeting.
+
+  - canonical_id: health.unapproved_or_dangerous_products
+    category_id: health
+    clause_ids:
+      - google.health.unapproved_substances
+      - google.health.opioid_painkillers
+      - google.health.speculative_experimental
+      - tiktok.health.cbd_us
+    relation: related
+    confidence: medium
+    note: >
+      Unapproved/dangerous or tightly restricted products: Google (unapproved
+      substances, opioids, experimental treatments); TikTok (CBD, allowed only
+      within a narrow topical-hemp <0.3% THC exception). Overlapping, not
+      identical, scope.
+
+  # =========================================================================
+  # Financial services & investments vertical canonical rules:
+  #   finance.prohibited_predatory_products      (Meta, Google, TikTok, LinkedIn)
+  #   finance.guaranteed_returns_or_risk_free     (TikTok, LinkedIn, FINRA, FTC)
+  #   finance.misleading_or_unbalanced_claims     (LinkedIn, FINRA, SEC)
+  #   finance.performance_claims_substantiation   (FINRA, SEC, FTC)
+  #   finance.required_cost_and_risk_disclosures  (Google, CFPB, TikTok, Meta)
+  #   finance.credit_advertising_trigger_terms    (CFPB, Google)
+  #   finance.licensing_registration_required     (Meta, Google, TikTok, LinkedIn)
+  #   finance.crypto_restricted                   (Meta, Google, TikTok)
+  #   finance.loan_modification_foreclosure_restricted (Google, LinkedIn, CFPB)
+  #   finance.mortgage_advertising_prohibited_acts (CFPB-only — no cross-source mapping yet)
+  #   finance.testimonials_endorsements_disclosure (SEC-only — no cross-source mapping yet)
+  # US jurisdiction only. Regulator clauses carry higher priority on conflict.
+  # =========================================================================
+  - canonical_id: finance.prohibited_predatory_products
+    category_id: financial
+    clause_ids:
+      - meta.finance.prohibited_products
+      - google.finance.binary_options
+      - google.finance.credit_repair
+      - google.finance.high_apr_us
+      - google.finance.complex_speculative
+      - tiktok.finance.us_prohibited
+      - linkedin.finance.prohibited
+    relation: related
+    confidence: high
+    note: >
+      Predatory / high-risk financial products banned across platforms: payday &
+      short-term loans, binary options, CFDs/spread betting, penny auctions,
+      penny stocks, credit repair, ICOs, bail bonds. Overlapping prohibited lists
+      with slightly different membership per platform.
+
+  - canonical_id: finance.guaranteed_returns_or_risk_free
+    category_id: financial
+    clause_ids:
+      - tiktok.finance.prohibited_general
+      - linkedin.finance.prohibited
+      - finra.finance.no_performance_projection
+      - ftc.finance.earnings_claims
+    relation: stricter
+    confidence: high
+    note: >
+      Guaranteed/risk-free returns and get-rich-quick claims: TikTok bans
+      get-rich-quick/too-good-to-be-true; LinkedIn bans services guaranteeing
+      financial return; FINRA bars promissory/exaggerated forecasts; FTC treats
+      risk-free/profit misrepresentations as deceptive. Regulators are stricter /
+      higher-precedence.
+
+  - canonical_id: finance.misleading_or_unbalanced_claims
+    category_id: financial
+    clause_ids:
+      - linkedin.finance.requirements
+      - finra.finance.fair_balanced
+      - sec.finance.untrue_or_unbalanced
+    relation: stricter
+    confidence: high
+    note: >
+      Fair, balanced, non-misleading financial communications: LinkedIn (avoid
+      misleading/deceptive/unsupported claims); FINRA 2210 (fair and balanced,
+      no false/exaggerated claims); SEC marketing rule (no untrue/omitted
+      material facts; balanced risk vs benefit). SEC/FINRA carry higher priority.
+
+  - canonical_id: finance.performance_claims_substantiation
+    category_id: financial
+    clause_ids:
+      - finra.finance.no_performance_projection
+      - sec.finance.performance_fair_balanced
+      - ftc.finance.earnings_claims
+    relation: stricter
+    confidence: high
+    note: >
+      Performance/earnings claims must be substantiated and fairly balanced:
+      FINRA bars performance prediction/projection; SEC requires fair-and-balanced
+      performance presentation; FTC requires reasonable basis + written
+      substantiation for earnings claims. Regulator-only backbone.
+
+  - canonical_id: finance.required_cost_and_risk_disclosures
+    category_id: financial
+    clause_ids:
+      - google.finance.disclosures
+      - cfpb.finance.actually_available_terms
+      - tiktok.finance.us_allowed
+      - meta.finance.licensing_disclosure
+    relation: related
+    confidence: medium
+    note: >
+      Clear, conspicuous cost/risk disclosures: Google (address, all fees,
+      accreditation); CFPB Reg Z (clear & conspicuous, APR as such); TikTok
+      (disclaimers + accreditation evidence); Meta (legally-required disclosures).
+      Overlapping but not identical disclosure obligations.
+
+  - canonical_id: finance.credit_advertising_trigger_terms
+    category_id: financial
+    clause_ids:
+      - cfpb.finance.actually_available_terms
+      - cfpb.finance.trigger_terms
+      - google.finance.personal_loans
+    relation: stricter
+    confidence: high
+    note: >
+      Credit-advertising trigger terms: CFPB Reg Z (actually-available terms;
+      triggering terms require downpayment/repayment/APR disclosures); Google
+      personal-loans policy operationalizes the same (min/max repayment, max APR,
+      representative example). CFPB is the higher-precedence regulatory source.
+
+  - canonical_id: finance.licensing_registration_required
+    category_id: financial
+    clause_ids:
+      - meta.finance.licensing_disclosure
+      - google.finance.verification
+      - tiktok.finance.requirements
+      - linkedin.finance.restricted
+    relation: related
+    confidence: high
+    note: >
+      Licensing/registration & advertiser verification before promoting
+      financial services: Meta (identity/authorization), Google (location-specific
+      verification), TikTok (licensed by authorities, 18+), LinkedIn (restricted,
+      18+). Equivalent intent; mechanics differ per platform.
+
+  - canonical_id: finance.crypto_restricted
+    category_id: financial
+    clause_ids:
+      - meta.finance.crypto_permission
+      - google.finance.crypto
+      - tiktok.finance.us_allowed
+      - tiktok.finance.us_prohibited
+    relation: related
+    confidence: high
+    note: >
+      Cryptocurrency restricted/gated: Meta (prior written permission + license);
+      Google (certification in limited circumstances); TikTok US (crypto/exchange
+      allowed with licensing + certification + 18+, but ICOs, crypto ATMs and
+      mining devices not allowed).
+
+  - canonical_id: finance.loan_modification_foreclosure_restricted
+    category_id: financial
+    clause_ids:
+      - google.finance.loan_modification
+      - linkedin.finance.prohibited
+      - cfpb.finance.mortgage_prohibited_acts
+    relation: related
+    confidence: medium
+    note: >
+      Loan-modification / foreclosure-relief restrictions: Google (no guaranteed
+      modification/foreclosure prevention, no upfront fees, etc.); LinkedIn (bans
+      services guaranteeing foreclosure prevention/loan modification); CFPB Reg Z
+      (misleading debt-elimination claims for dwelling-secured credit). Related,
+      not identical, scope.
+
+  # =========================================================================
+  # Housing & Employment (discrimination) vertical canonical rules:
+  #   discrimination.discriminatory_ad_content_prohibited
+  #       (Meta, TikTok, LinkedIn, HUD/FHA, EEOC/ADEA, FTC/ECOA)
+  #   discrimination.restricted_targeting_protected_class
+  #       (Meta, Google, TikTok, LinkedIn)
+  # US jurisdiction only. Regulators (HUD/EEOC/FTC) carry higher priority on
+  # conflict. Protected-class lists differ slightly by source (FHA, ADEA, Title
+  # VII, ECOA), but the advertising prohibition is genuinely equivalent.
+  # =========================================================================
+  - canonical_id: discrimination.discriminatory_ad_content_prohibited
+    category_id: discrimination
+    clause_ids:
+      - meta.discrimination.no_discrimination
+      - tiktok.discrimination.anti_discrimination
+      - linkedin.discrimination.no_discrimination
+      - hud.housing.discriminatory_ad
+      - eeoc.employment.discriminatory_ad
+      - eeoc.employment.age_ad_adea
+      - ftc.credit.ecoa_discouragement
+    relation: stricter
+    confidence: high
+    note: >
+      Ad content/notices that indicate or encourage a preference, limitation, or
+      discrimination based on protected characteristics in housing, employment,
+      or credit. Regulators are the higher-precedence backbone: HUD/FHA
+      §3604(c) (housing), EEOC/ADEA §623(e) (employment/age), FTC ECOA/Reg B
+      §1002.4(b) (credit discouragement); platforms (Meta, TikTok, LinkedIn)
+      prohibit the same in their ad standards. Genuinely equivalent intent.
+
+  - canonical_id: discrimination.restricted_targeting_protected_class
+    category_id: discrimination
+    clause_ids:
+      - meta.discrimination.special_ad_category
+      - google.discrimination.restricted_targeting
+      - tiktok.discrimination.hec_targeting
+      - linkedin.discrimination.targeting_certification
+    relation: related
+    confidence: high
+    note: >
+      Housing/employment/credit ads must use the platform's special-category
+      mechanism and cannot target/exclude on protected demographics: Meta
+      (Special Ad Category — age, gender, ZIP, exclusion, lookalike limited),
+      Google (no age/gender/marital/parental/ZIP targeting in US/Canada), TikTok
+      (HEC Special Ad Category Toggle), LinkedIn (gender/age certification; age
+      targeting disabled for recruitment). Same intent; mechanics differ.
+
+  # =========================================================================
+  # Political & Social Issues vertical canonical rules:
+  #   political.authorization_and_disclaimer_required (Meta, Google, FEC)
+  #   political.paid_political_ads_prohibited          (TikTok, LinkedIn)
+  #   political.synthetic_content_disclosure           (Google-only — no map yet)
+  # US jurisdiction only. NOTE: platforms split into two regimes — Meta/Google
+  # ALLOW political ads with authorization + "Paid for by"; TikTok/LinkedIn BAN
+  # them outright. These are deliberately kept as two separate canonicals (not
+  # forced into one) because the obligations are genuinely different. FEC is the
+  # higher-precedence regulatory backbone for the disclaimer regime.
+  # =========================================================================
+  - canonical_id: political.authorization_and_disclaimer_required
+    category_id: political
+    clause_ids:
+      - meta.political.authorization_disclaimer
+      - google.political.compliance_verification
+      - google.political.paid_for_by
+      - fec.political.disclaimer
+    relation: stricter
+    confidence: high
+    note: >
+      Political/election/issue ads require advertiser authorization or
+      verification and a clear "Paid for by" disclaimer identifying who paid:
+      Meta (authorization + verified "Paid for by"), Google (election-ads
+      verification + "Paid for by" disclosure + election-law/silence-period
+      compliance), FEC (11 CFR 110.11 disclaimer regime). FEC is the
+      higher-precedence regulatory backbone.
+
+  - canonical_id: political.paid_political_ads_prohibited
+    category_id: political
+    clause_ids:
+      - tiktok.political.prohibited
+      - linkedin.political.prohibited
+    relation: equivalent
+    confidence: high
+    note: >
+      Outright platform bans on paid political advertising: TikTok (no paid
+      political ads; no ads by political figures/entities; election info limited
+      to official election authorities) and LinkedIn (political ads prohibited,
+      including candidate/party/ballot/issue advocacy and fundraising).
+
+  # =========================================================================
+  # Children / Minors vertical canonical rules:
+  #   minors.personalized_targeting_of_minors_restricted (Meta, Google, TikTok)
+  #   minors.age_restricted_products_not_shown_to_minors (Meta, Google, TikTok)
+  #   minors.parental_consent_for_childrens_data         (FTC COPPA — single-source)
+  #   minors.child_directed_content_ad_restrictions      (Google — single-source)
+  # US jurisdiction. The two regulator/Google-only canonicals carry NO mapping
+  # entry (COPPA's verifiable-parental-consent regime and Google's made-for-kids
+  # restrictions have no genuinely equivalent clause on another source yet).
+  # =========================================================================
+  - canonical_id: minors.personalized_targeting_of_minors_restricted
+    category_id: minors
+    clause_ids:
+      - meta.minors.teen_targeting_limited
+      - google.minors.no_personalized_ads_under_18
+      - tiktok.minors.targeting_limited_under_18
+    relation: related
+    confidence: high
+    note: >
+      Under-18 audiences may not be reached with personalized / interest- /
+      behavior-based targeting: Meta (age + location only; no interests,
+      behaviors, gender, off-app activity, or ZIP/pin-drop), Google (under-18 not
+      eligible for personalized advertising of any kind), TikTok (detailed
+      targeting unavailable for under-18; limited in US/CA/EEA/UK/CH/LatAm).
+      Same intent; mechanics and exact age handling differ slightly per platform.
+
+  - canonical_id: minors.age_restricted_products_not_shown_to_minors
+    category_id: minors
+    clause_ids:
+      - meta.minors.restricted_topics_not_to_minors
+      - google.minors.sensitive_categories_restricted
+      - tiktok.minors.age_restricted_not_to_minors
+    relation: related
+    confidence: high
+    note: >
+      Age-restricted / sensitive product categories must not be shown or targeted
+      to minors: Meta (alcohol, financial products, weight-loss not to under-18),
+      Google (gambling, alcohol, adult, dating, body modification/weight loss,
+      shocking content restricted for under-18), TikTok (e.g. alcohol not to
+      audiences under the legal drinking age). Category lists differ; the
+      protect-minors-from-age-inappropriate-ads intent is genuinely equivalent.
+
+  # =========================================================================
+  # Privacy & Personal Data vertical canonical rules:
+  #   privacy.sensitive_attribute_targeting_prohibited       (Meta, Google, LinkedIn)
+  #   privacy.data_collection_disclosure_required            (TikTok — single-source)
+  #   privacy.opt_out_of_sale_or_sharing_for_targeted_ads    (CCPA/CPRA — single-source)
+  #   privacy.minor_opt_in_for_sale_or_sharing               (CCPA/CPRA — single-source)
+  # Only the sensitive-attribute-targeting rule is genuinely cross-source. The
+  # TikTok data-collection-disclosure and the two CCPA rights have no equivalent
+  # clause on another source yet, so they carry NO mapping entry.
+  # =========================================================================
+  - canonical_id: privacy.sensitive_attribute_targeting_prohibited
+    category_id: privacy
+    clause_ids:
+      - meta.privacy.personal_attributes
+      - google.privacy.sensitive_interest_categories
+      - linkedin.privacy.sensitive_data_targeting
+    relation: related
+    confidence: high
+    note: >
+      Ads must not target on — or assert/imply — sensitive personal attributes:
+      Meta (no asserting/implying race, health, sexual orientation, financial
+      status, etc. in copy or targeting), Google (advertiser-curated audiences
+      barred for sensitive interest categories), LinkedIn (no targeting on
+      sensitive data: health, race, religion, sexual orientation, political
+      opinion, income, etc.). Mechanisms differ (copy vs. audience tooling), but
+      the protect-sensitive-attributes intent is genuinely equivalent.
+
+  # =========================================================================
+  # Alcohol / Tobacco / Cannabis vertical canonical rules:
+  #   atc.alcohol_age_and_location_targeting_required    (Meta, Google)
+  #   atc.tobacco_and_nicotine_ads_prohibited            (Meta, Google, TikTok)
+  #   atc.recreational_drugs_and_thc_prohibited          (Meta, Google, TikTok)
+  #   atc.cbd_restricted_with_certification              (Meta, Google)
+  #   atc.alcohol_mandatory_and_prohibited_statements    (TTB — single-source)
+  #   atc.tobacco_advertising_format_restrictions        (FDA 21 CFR 1140 — single-source)
+  # The two regulator rules (TTB mandatory/prohibited alcohol statements; FDA
+  # cigarette/smokeless-tobacco format rules) are distinct obligations with no
+  # equivalent platform clause, so they carry NO mapping entry.
+  # =========================================================================
+  - canonical_id: atc.alcohol_age_and_location_targeting_required
+    category_id: alcohol
+    clause_ids:
+      - meta.atc.alcohol
+      - google.atc.alcohol
+    relation: related
+    confidence: high
+    note: >
+      Alcohol ads are permitted but restricted: Meta (comply with local laws;
+      age + country targeting; no targeting under 18) and Google (follow local
+      alcohol laws; don't target below the legal drinking age; only allowed
+      locations; no harmful/illegal/excessive-consumption or health/social-benefit
+      claims). Age thresholds differ (Meta min 18 vs. local legal drinking age),
+      but the restrict-by-age-and-location intent is genuinely equivalent.
+
+  - canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+    category_id: drugs
+    clause_ids:
+      - meta.atc.tobacco
+      - google.atc.tobacco
+      - tiktok.atc.tobacco
+    relation: equivalent
+    confidence: high
+    note: >
+      Tobacco/nicotine products and paraphernalia, including e-cigarettes/vapes
+      and smoking simulants, are prohibited across Meta, Google, and TikTok.
+      (Meta allows WHO/FDA-approved cessation products 18+; that's a narrow
+      exception, not a different rule.)
+
+  - canonical_id: atc.recreational_drugs_and_thc_prohibited
+    category_id: drugs
+    clause_ids:
+      - meta.atc.drugs_thc
+      - google.atc.recreational_drugs
+      - tiktok.atc.drugs
+    relation: equivalent
+    confidence: high
+    note: >
+      Illicit/recreational drugs and THC/psychoactive cannabis products are
+      prohibited across Meta (illicit/recreational drugs; THC >0.3%), Google
+      (substances inducing "highs"; drug-use facilitation/instruction), and
+      TikTok (illegal/controlled/recreational drugs and paraphernalia).
+
+  - canonical_id: atc.cbd_restricted_with_certification
+    category_id: drugs
+    clause_ids:
+      - meta.atc.cbd
+      - google.atc.cbd
+    relation: related
+    confidence: high
+    note: >
+      CBD is allowed only under strict certification/geography limits: Meta
+      (prior written authorization + active LegitScript certification; US-only;
+      18+; no health claims) and Google (topical hemp-derived CBD <=0.3% THC;
+      apply for certification; only CA/CO/PR). Scope differs (Meta US-wide vs.
+      Google three jurisdictions), but the allowed-only-with-certification intent
+      is genuinely equivalent.
+
+  # =========================================================================
+  # Gambling & Gaming vertical canonical rules (all cross-source; US):
+  #   gambling.realmoney_requires_license_and_authorization (Meta, Google, TikTok)
+  #   gambling.no_minors_targeting                          (Meta, Google, TikTok)
+  #   gambling.responsible_gambling_required                (Google, TikTok)
+  #   gambling.social_casino_no_real_money                  (Meta, TikTok)
+  # No federal regulator clause: US gambling advertising is state-regulated and
+  # outside the current US-federal regulator scope, so platforms carry the rules.
+  # =========================================================================
+  - canonical_id: gambling.realmoney_requires_license_and_authorization
+    category_id: gambling
+    clause_ids:
+      - meta.gambling.authorization_and_license
+      - google.gambling.certification_license
+      - tiktok.gambling.certification_license
+    relation: equivalent
+    confidence: high
+    note: >
+      Real-money / online gambling ads are allowed only after the platform
+      authorizes/certifies the advertiser and the advertiser holds a valid
+      license (or is otherwise lawful) in the targeted market: Meta
+      (Authorizations & Verifications + license/lawful evidence), Google
+      (country-specific certification + maintained license), TikTok (certification
+      process + license documents; only legal markets). Genuinely equivalent.
+
+  - canonical_id: gambling.no_minors_targeting
+    category_id: gambling
+    clause_ids:
+      - meta.gambling.no_minors
+      - google.gambling.minors
+      - tiktok.gambling.minors
+    relation: equivalent
+    confidence: high
+    note: >
+      Gambling/gaming ads must never target or be shown to minors: Meta (no
+      under-18 targeting), Google (never target minors), TikTok (not shown to or
+      directed at minors; no underage people featured).
+
+  - canonical_id: gambling.responsible_gambling_required
+    category_id: gambling
+    clause_ids:
+      - google.gambling.responsible
+      - tiktok.gambling.responsible
+    relation: related
+    confidence: high
+    note: >
+      Gambling ads must promote responsible gambling: Google (landing page must
+      display responsible-gambling information) and TikTok (risk warnings,
+      legally mandated disclaimers/taglines, addiction-resource links). Meta's
+      quoted policy emphasizes authorization/age rather than a responsible-
+      gambling disclosure, so it is intentionally not mapped here.
+
+  - canonical_id: gambling.social_casino_no_real_money
+    category_id: gambling
+    clause_ids:
+      - meta.gambling.social_casino
+      - tiktok.gambling.social_casino_no_real_money
+    relation: related
+    confidence: high
+    note: >
+      Social-casino / gambling-like games may be advertised (without full
+      gambling authorization) only if they offer no real money or items of
+      monetary value: Meta (no opportunity to win money/coins/anything of
+      monetary value; 18+) and TikTok (no real money/financial rewards; ad must
+      make clear players cannot win real money).
+
+  # =========================================================================
+  # Intellectual Property / Counterfeit vertical canonical rules.
+  # No federal regulator clause: US IP enforcement runs through the Lanham Act
+  # (15 U.S.C. § 1125) and the courts/CBP rather than an advertising regulator,
+  # so the platforms carry these rules. meta.ip.unauthorized_copyrighted_works
+  # (pirated copyrighted works) is single-source and intentionally unmapped.
+  # =========================================================================
+  - canonical_id: ip.counterfeit_goods_prohibited
+    category_id: ip_trademark
+    clause_ids:
+      - meta.ip.counterfeit_goods
+      - google.ip.counterfeit_goods
+      - tiktok.ip.counterfeit_goods
+    relation: equivalent
+    confidence: high
+    note: >
+      All three platforms prohibit promoting/selling counterfeit goods — products
+      bearing a trademark/logo identical or substantially indistinguishable from
+      another's and mimicking its brand features to pass as genuine: Meta
+      (counterfeits/knockoffs/replicas), Google (counterfeit goods policy), TikTok
+      (counterfeiting). Genuinely equivalent.
+
+  - canonical_id: ip.third_party_ip_infringement_prohibited
+    category_id: ip_trademark
+    clause_ids:
+      - meta.ip.third_party_infringement
+      - google.ip.trademark
+      - tiktok.ip.infringement
+    relation: equivalent
+    confidence: high
+    note: >
+      All three platforms prohibit ads that infringe a third party's intellectual
+      property (copyright and/or trademark): Meta (third-party copyright/trademark
+      infringement; no confusion as to source/affiliation), Google (no ads that
+      infringe trademark rights), TikTok (no content that violates someone else's
+      copyright or trademark; advertiser must hold the necessary rights). Genuinely
+      equivalent. Google's clause is trademark-specific while Meta/TikTok also
+      cover copyright; mapped at the shared third-party-infringement concept.

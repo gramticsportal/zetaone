@@ -20,6 +20,7 @@ from zataone.policy_engine.corpus.ontology_platform import (
     normalize_platform,
 )
 from zataone.policy_engine.corpus.ontology_rule_builder import ontology_rule_to_engine_rule
+from zataone.policy_engine.corpus.pattern_packs import augment_rules_with_packs
 
 logger = logging.getLogger(__name__)
 
@@ -111,6 +112,8 @@ def build_ontology_policy_pack(
             for cid in erule.get("clause_ids") or []:
                 if cid in clauses_by_id and engine_key not in clauses_by_id[cid].rule_ids:
                     clauses_by_id[cid].rule_ids.append(engine_key)
+
+    augment_rules_with_packs(rules_engine, root)
 
     clauses = sorted(clauses_by_id.values(), key=lambda c: c.clause_id)
     if not clauses or not rules_engine:

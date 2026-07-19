@@ -1,0 +1,432 @@
+schema_version: 1.0.0
+category_id: gambling
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 4
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: gambling.no_minors_targeting
+  category_id: gambling
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_gambling_minors
+  - meta_gambling_no_minors
+  - tiktok_gambling_minors
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.gambling.minors
+  - meta.gambling.no_minors
+  - tiktok.gambling.minors
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - gambling ads targeting minors or unapproved countries.
+  - online gambling/gaming ads targeting people under 18.
+  - gambling ads shown to / directed at minors, or featuring underage people.
+  forbidden_terms:
+  - gambling
+  - minors
+  - unapproved
+  - countries
+  - online
+  - gambling-promoting
+  - approved
+  - never
+  - gaming
+  - allow
+  - shown
+  - directed
+  - featuring
+  - underage
+  - restricted
+  - age-appropriate
+  - sports-betting
+  - aged
+  forbidden_phrases:
+  - bet now
+  - risk-free bet
+  - welcome bonus
+  - real money
+  - online casino
+  - sports betting
+  forbidden_patterns:
+  - pattern: \b(risk[\s-]*free|free)\s+(bet|wager|spin)\b
+    confidence: 0.9
+    note: risk-free bet offer
+  - pattern: \b(welcome|deposit)\s+bonus\b
+    confidence: 0.8
+    note: gambling bonus
+  - pattern: \breal[\s-]*money\s+(casino|poker|betting)\b
+    confidence: 0.9
+    note: real-money gambling
+  requires_context:
+    terms:
+    - casino
+    - bet
+    - wager
+    - gambling
+    - slots
+    - poker
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - casino
+  - dice
+  - poker chips
+  - roulette
+  - slot machine
+  - betting
+  - gambling
+  - online
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - gambling ads targeting minors or unapproved countries.
+  - online gambling/gaming ads targeting people under 18.
+  - gambling ads shown to / directed at minors, or featuring underage people.
+  eval_non_compliant_hits: 6
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: gambling.realmoney_requires_license_and_authorization
+  category_id: gambling
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_gambling_certification
+  - meta_gambling_authorization
+  - tiktok_gambling_certification
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.gambling.certification_license
+  - meta.gambling.authorization_and_license
+  - tiktok.gambling.certification_license
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - online gambling ads served without valid google certification / license in approved countries.
+  - online/real-money gambling ads without meta authorization or without evidence of a license / lawful
+    status in the targeted territory, or in unsupported markets.
+  - gambling ads without tiktok certification / license in a legal market, or promoting unlicensed/illegal
+    gambling services.
+  forbidden_terms:
+  - casino
+  - wager
+  - slots
+  - online
+  - gambling
+  - served
+  - valid
+  - license
+  - approved
+  - countries
+  - allows
+  - gambling-promoting
+  - listed
+  - country-specific
+  - real-money
+  - evidence
+  - lawful
+  - targeted
+  - territory
+  - unsupported
+  forbidden_phrases:
+  - real money casino
+  - sports betting
+  - risk-free bet
+  - welcome bonus
+  - place a bet
+  - bet now
+  - real money
+  - online casino
+  forbidden_patterns:
+  - pattern: \b(risk[\s-]*free|free)\s+(bet|wager|spin)\b
+    confidence: 0.9
+    note: risk-free bet offer
+  - pattern: \b(welcome|deposit)\s+bonus\b
+    confidence: 0.8
+    note: gambling bonus
+  - pattern: \breal[\s-]*money\s+(casino|poker|betting)\b
+    confidence: 0.9
+    note: real-money gambling
+  requires_context:
+    terms:
+    - casino
+    - bet
+    - wager
+    - gambling
+    - slots
+    - poker
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - certified advertisers with valid license, targeting approved countries.
+    - authorized advertisers with valid license/lawful documentation.
+    - certified advertisers with valid license in permitted markets.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Certified advertisers with valid license, targeting approved countries.
+    - Authorized advertisers with valid license/lawful documentation.
+    - Certified advertisers with valid license in permitted markets.
+  vision_labels:
+  - casino
+  - dice
+  - poker chips
+  - roulette
+  - slot machine
+  - betting
+  - gambling
+  - online
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - online gambling ads served without valid google certification / license in approved countries.
+  - online/real-money gambling ads without meta authorization or without evidence of a license / lawful
+    status in the targeted territory, or in unsupported markets.
+  - gambling ads without tiktok certification / license in a legal market, or promoting unlicensed/illegal
+    gambling services.
+  eval_non_compliant_hits: 7
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: gambling.responsible_gambling_required
+  category_id: gambling
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - google_gambling_responsible
+  - tiktok_gambling_responsible
+  source_files:
+  - google_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.gambling.responsible
+  - tiktok.gambling.responsible
+  modalities:
+  - landing_page
+  - text
+  - image
+  - video
+  detection_summaries:
+  - gambling ad landing pages lacking responsible-gambling information.
+  - gambling ads lacking risk warnings, legally mandated disclaimers/taglines, or addiction-resource links.
+  forbidden_terms:
+  - gambling
+  - landing
+  - pages
+  - responsible-gambling
+  - page
+  - displays
+  - responsible
+  - warnings
+  - legally
+  - mandated
+  - disclaimers
+  - taglines
+  - addiction-resource
+  - links
+  - requires
+  - include
+  - sportsbook
+  - casino
+  forbidden_phrases:
+  - bet now
+  - risk-free bet
+  - welcome bonus
+  - real money
+  - online casino
+  - sports betting
+  forbidden_patterns:
+  - pattern: \b(risk[\s-]*free|free)\s+(bet|wager|spin)\b
+    confidence: 0.9
+    note: risk-free bet offer
+  - pattern: \b(welcome|deposit)\s+bonus\b
+    confidence: 0.8
+    note: gambling bonus
+  - pattern: \breal[\s-]*money\s+(casino|poker|betting)\b
+    confidence: 0.9
+    note: real-money gambling
+  requires_context:
+    terms:
+    - casino
+    - bet
+    - wager
+    - gambling
+    - slots
+    - poker
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - casino
+  - dice
+  - poker chips
+  - roulette
+  - slot machine
+  - betting
+  - gambling
+  - online
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - gambling ad landing pages lacking responsible-gambling information.
+  - gambling ads lacking risk warnings, legally mandated disclaimers/taglines, or addiction-resource links.
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: gambling.social_casino_no_real_money
+  category_id: gambling
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - meta_gambling_social_casino
+  - tiktok_gambling_social_casino
+  source_files:
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - meta.gambling.social_casino
+  - tiktok.gambling.social_casino_no_real_money
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - social-casino / free-to-play ads (run without authorization) that offer a chance to win money/coins/anything
+    of monetary value, or target under-18.
+  - permitted gambling-like/social game ads that involve real money/financial rewards or imply players
+    can win real money.
+  forbidden_terms:
+  - social-casino
+  - free-to-play
+  - offer
+  - chance
+  - coins
+  - anything
+  - monetary
+  - value
+  - under-18
+  - casino
+  - games
+  - prior
+  - long
+  - permitted
+  - gambling-like
+  - game
+  - involve
+  - financial
+  forbidden_phrases:
+  - real money
+  - cash prizes
+  - win real cash
+  - bet now
+  - risk-free bet
+  - welcome bonus
+  - online casino
+  - sports betting
+  forbidden_patterns:
+  - pattern: \b(risk[\s-]*free|free)\s+(bet|wager|spin)\b
+    confidence: 0.9
+    note: risk-free bet offer
+  - pattern: \b(welcome|deposit)\s+bonus\b
+    confidence: 0.8
+    note: gambling bonus
+  - pattern: \breal[\s-]*money\s+(casino|poker|betting)\b
+    confidence: 0.9
+    note: real-money gambling
+  requires_context:
+    terms:
+    - casino
+    - bet
+    - wager
+    - gambling
+    - slots
+    - poker
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - no monetary-value winnings and 18+ targeting.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - No monetary-value winnings and 18+ targeting.
+  vision_labels:
+  - casino
+  - dice
+  - poker chips
+  - roulette
+  - slot machine
+  - betting
+  - gambling
+  - online
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - social-casino / free-to-play ads (run without authorization) that offer a chance to win money/coins/anything
+    of monetary value, or target under-18.
+  - permitted gambling-like/social game ads that involve real money/financial rewards or imply players
+    can win real money.
+  eval_non_compliant_hits: 4
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

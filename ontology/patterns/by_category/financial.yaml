@@ -1,0 +1,1348 @@
+schema_version: 1.0.0
+category_id: financial
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 11
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: finance.credit_advertising_trigger_terms
+  category_id: financial
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - google_finance_credit_terms
+  - cfpb_finance_trigger_terms
+  source_files:
+  - google_ads_us.yaml
+  - regulators_us.yaml
+  clause_ids:
+  - google.finance.personal_loans
+  - cfpb.finance.actually_available_terms
+  - cfpb.finance.trigger_terms
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - personal-loan ads under 61-day repayment, or missing required min/max repayment period, max apr, and
+    a representative cost example.
+  - credit ads stating terms not actually available, omitting the apr (as "annual percentage rate"), or
+    stating a triggering term without the required additional disclosures (downpayment, repayment terms,
+    apr).
+  forbidden_terms:
+  - personal-loan
+  - repayment
+  - period
+  - representative
+  - cost
+  - personal
+  - require
+  - full
+  - days
+  - longer
+  - terms
+  - actually
+  - available
+  - omitting
+  - annual
+  - percentage
+  - rate
+  - triggering
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - personal-loan
+    - repayment
+    - period
+    - representative
+    - cost
+    - personal
+    - loans
+    - require
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - personal-loan ads under 61-day repayment, or missing required min/max repayment period, max apr, and
+    a representative cost example.
+  - credit ads stating terms not actually available, omitting the apr (as "annual percentage rate"), or
+    stating a triggering term without the required additional disclosures (downpayment, repayment terms,
+    apr).
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.crypto_restricted
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_finance_crypto
+  - meta_finance_crypto
+  - tiktok_finance_crypto
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.finance.crypto
+  - meta.finance.crypto_permission
+  - tiktok.finance.us_allowed
+  - tiktok.finance.us_prohibited
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - cryptocurrency-related ads without required certification or non-compliant with state/local regulations.
+  - cryptocurrency trading platforms / monetization / staking / swapping ads run without prior written
+    permission and a recognized regulatory license.
+  - crypto ads outside the us allowance (unlicensed, no certification, no disclaimers, under-18) or prohibited
+    types (icos, crypto atms, mining devices).
+  forbidden_terms:
+  - crypto
+  - bitcoin
+  - nft
+  - token
+  - cryptocurrency-related
+  - non-compliant
+  - state
+  - regulations
+  - allows
+  - categories
+  - advertised
+  - limited
+  - circumstances
+  - cryptocurrency
+  - trading
+  - monetization
+  - staking
+  - swapping
+  - prior
+  - written
+  forbidden_phrases:
+  - buy bitcoin
+  - crypto investment
+  - guaranteed crypto
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - cryptocurrency-related
+    - non-compliant
+    - state
+    - regulations
+    - allows
+    - categories
+    - advertised
+    - limited
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - certified categories compliant with state/local regulations.
+    - advertisers with meta written permission and a valid regulatory license.
+    - licensed/certified crypto, exchange, or nft ads with disclaimers, 18+.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Certified categories compliant with state/local regulations.
+    - Advertisers with Meta written permission and a valid regulatory license.
+    - Licensed/certified crypto, exchange, or NFT ads with disclaimers, 18+.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - cryptocurrency-related ads without required certification or non-compliant with state/local regulations.
+  - cryptocurrency trading platforms / monetization / staking / swapping ads run without prior written
+    permission and a recognized regulatory license.
+  - crypto ads outside the us allowance (unlicensed, no certification, no disclaimers, under-18) or prohibited
+    types (icos, crypto atms, mining devices).
+  eval_non_compliant_hits: 9
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.guaranteed_returns_or_risk_free
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - linkedin_finance_guarantees
+  - tiktok_finance_guaranteed
+  source_files:
+  - linkedin_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - linkedin.finance.prohibited
+  - tiktok.finance.prohibited_general
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - services that guarantee financial return, guarantee foreclosure prevention, or guarantee loan modification.
+  - get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial offers (implied guaranteed/outsized
+    returns).
+  forbidden_terms:
+  - risk-free
+  - guarantee
+  - financial
+  - foreclosure
+  - prevention
+  - modification
+  - following
+  - payday
+  - reverse
+  - mortgages
+  - peer-to-peer
+  - get-rich-quick
+  - offers
+  - pyramid
+  - schemes
+  - too-good-to-be-true
+  - implied
+  - guaranteed
+  - outsized
+  forbidden_phrases:
+  - guaranteed returns
+  - guaranteed profits
+  - risk free investment
+  - double your money
+  - no risk
+  - passive income guaranteed
+  - get rich
+  - passive income
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - profit
+    - roi
+    - crypto
+    - trading
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - services that guarantee financial return, guarantee foreclosure prevention, or guarantee loan modification.
+  - get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial offers (implied guaranteed/outsized
+    returns).
+  eval_non_compliant_hits: 9
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.licensing_registration_required
+  category_id: financial
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - google_finance_verification
+  - linkedin_finance_licensing
+  - meta_finance_licensing
+  - tiktok_finance_requirements
+  source_files:
+  - google_ads_us.yaml
+  - linkedin_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.finance.verification
+  - linkedin.finance.restricted
+  - meta.finance.licensing_disclosure
+  - tiktok.finance.requirements
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - financial-services ads run without completing required location-specific licensing/registration verification.
+  - restricted financial products/services advertised without meeting linkedin's financial-services restrictions
+    (incl. 18+ targeting).
+  - financial-product ads not targeted 18+, or run without required authorization / identity verification
+    / legally-required disclosures.
+  - financial-services ads run without being licensed by local/regional authorities, without required
+    disclaimers, or not restricted to 18+.
+  forbidden_terms:
+  - financial-services
+  - completing
+  - location-specific
+  - licensing
+  - registration
+  - advertise
+  - financial
+  - locations
+  - providing
+  - type
+  - restricted
+  - advertised
+  - meeting
+  - linkedin's
+  - restrictions
+  - incl
+  - includes
+  - lending
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - financial-services
+    - completing
+    - location-specific
+    - licensing
+    - registration
+    - advertise
+    - financial
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - advertisers who completed financial-services verification.
+    - authorized advertisers meeting linkedin's financial-services requirements.
+    - 18+ targeted ads by authorized advertisers with lawful disclosures.
+    - licensed advertisers with disclaimers and 18+ targeting.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Advertisers who completed financial-services verification.
+    - Authorized advertisers meeting LinkedIn's financial-services requirements.
+    - 18+ targeted ads by authorized advertisers with lawful disclosures.
+    - Licensed advertisers with disclaimers and 18+ targeting.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - financial-services ads run without completing required location-specific licensing/registration verification.
+  - restricted financial products/services advertised without meeting linkedin's financial-services restrictions
+    (incl. 18+ targeting).
+  - financial-product ads not targeted 18+, or run without required authorization / identity verification
+    / legally-required disclosures.
+  - financial-services ads run without being licensed by local/regional authorities, without required
+    disclaimers, or not restricted to 18+.
+  eval_non_compliant_hits: 0
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.loan_modification_foreclosure_restricted
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_finance_loan_modification
+  source_files:
+  - google_ads_us.yaml
+  clause_ids:
+  - google.finance.loan_modification
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - loan-modification/foreclosure ads that guarantee outcomes, charge upfront fees (non-law-firm), seek
+    title transfer, or discourage lender contact.
+  forbidden_terms:
+  - loan-modification
+  - foreclosure
+  - guarantee
+  - outcomes
+  - charge
+  - upfront
+  - fees
+  - non-law-firm
+  - seek
+  - title
+  - transfer
+  - discourage
+  - restricts
+  - following
+  - lead
+  - disapproval
+  - guaranteeing
+  - we'll
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - loan-modification
+    - foreclosure
+    - guarantee
+    - outcomes
+    - charge
+    - upfront
+    - fees
+    - non-law-firm
+    - seek
+    - title
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - services provided by a law firm (for the upfront-fee restriction).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Services provided by a law firm (for the upfront-fee restriction).
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - loan-modification/foreclosure ads that guarantee outcomes, charge upfront fees (non-law-firm), seek
+    title transfer, or discourage lender contact.
+  eval_non_compliant_hits: 1
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.misleading_or_unbalanced_claims
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - linkedin_finance_misleading
+  - sec_finance_misleading
+  - finra_finance_fair_balanced
+  source_files:
+  - linkedin_ads_us.yaml
+  - regulators_us.yaml
+  clause_ids:
+  - linkedin.finance.requirements
+  - sec.finance.untrue_or_unbalanced
+  - finra.finance.fair_balanced
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - financial ads with misleading, deceptive, or unsupported competitive claims, or missing required disclosures
+    / privacy policy / contact info.
+  - untrue/omitted material facts, or benefits discussed without fair and balanced treatment of material
+    risks/limitations (investment adviser ads).
+  - communications that are not fair and balanced, omit material facts, make false/exaggerated/promissory
+    claims, or lack balanced risk vs benefit.
+  forbidden_terms:
+  - financial
+  - misleading
+  - deceptive
+  - unsupported
+  - competitive
+  - privacy
+  - contact
+  - info
+  - trading
+  - exchanges
+  - banking
+  - mortgage
+  - insurance
+  - untrue
+  - omitted
+  - facts
+  - benefits
+  - discussed
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - financial
+    - misleading
+    - deceptive
+    - unsupported
+    - competitive
+    - privacy
+    - contact
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - claims with factual support and all required local-law disclosures.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Claims with factual support and all required local-law disclosures.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - financial ads with misleading, deceptive, or unsupported competitive claims, or missing required disclosures
+    / privacy policy / contact info.
+  - untrue/omitted material facts, or benefits discussed without fair and balanced treatment of material
+    risks/limitations (investment adviser ads).
+  - communications that are not fair and balanced, omit material facts, make false/exaggerated/promissory
+    claims, or lack balanced risk vs benefit.
+  eval_non_compliant_hits: 9
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.mortgage_advertising_prohibited_acts
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - cfpb_finance_mortgage
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - cfpb.finance.mortgage_prohibited_acts
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - dwelling-secured credit ads with misleading "fixed" rates, misleading comparisons, false government
+    endorsement, misuse of the current lender's name, debt-elimination claims, or misuse of "counselor."
+  forbidden_terms:
+  - dwelling-secured
+  - misleading
+  - fixed
+  - rates
+  - comparisons
+  - 'false'
+  - government
+  - current
+  - lender's
+  - advertisements
+  - secured
+  - dwelling
+  - misleadingly
+  - advertise
+  - guarantee
+  - we'll
+  - stop
+  - foreclosure
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - dwelling-secured
+    - misleading
+    - fixed
+    - rates
+    - comparisons
+    - 'false'
+    - government
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - dwelling-secured credit ads with misleading "fixed" rates, misleading comparisons, false government
+    endorsement, misuse of the current lender's name, debt-elimination claims, or misuse of "counselor."
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.performance_claims_substantiation
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ftc_finance_earnings
+  - sec_finance_performance
+  - finra_finance_performance
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.finance.earnings_claims
+  - sec.finance.performance_fair_balanced
+  - finra.finance.no_performance_projection
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - false/misleading profit or earnings representations, or risk-free/low-risk claims, for a money-making
+    opportunity without a reasonable basis and written substantiation held at the time of the claim.
+  - performance results included/excluded or time periods presented in a manner that is not fair and balanced.
+  - predicting/projecting performance, implying past performance will recur, or making exaggerated/unwarranted
+    claims, opinions, or forecasts.
+  forbidden_terms:
+  - 'false'
+  - misleading
+  - profit
+  - earnings
+  - representations
+  - risk-free
+  - low-risk
+  - money-making
+  - opportunity
+  - reasonable
+  - basis
+  - written
+  - unfair
+  - deceptive
+  - trade
+  - concerning
+  - performance
+  - included
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - 'false'
+    - misleading
+    - profit
+    - earnings
+    - representations
+    - risk-free
+    - low-risk
+    - money-making
+    - opportunity
+    - reasonable
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - earnings claims with a reasonable basis and contemporaneous written substantiation.
+    - hypothetical/projected illustrations permitted under rule 2210(d)(1)(f).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Earnings claims with a reasonable basis and contemporaneous written substantiation.
+    - Hypothetical/projected illustrations permitted under Rule 2210(d)(1)(F).
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - false/misleading profit or earnings representations, or risk-free/low-risk claims, for a money-making
+    opportunity without a reasonable basis and written substantiation held at the time of the claim.
+  - performance results included/excluded or time periods presented in a manner that is not fair and balanced.
+  - predicting/projecting performance, implying past performance will recur, or making exaggerated/unwarranted
+    claims, opinions, or forecasts.
+  eval_non_compliant_hits: 7
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.prohibited_predatory_products
+  category_id: financial
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_finance_prohibited
+  - linkedin_finance_prohibited
+  - meta_finance_prohibited_products
+  - tiktok_finance_prohibited
+  source_files:
+  - google_ads_us.yaml
+  - linkedin_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.finance.binary_options
+  - google.finance.credit_repair
+  - google.finance.high_apr_us
+  - google.finance.complex_speculative
+  - linkedin.finance.prohibited
+  - meta.finance.prohibited_products
+  - tiktok.finance.us_prohibited
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - 'prohibited/heavily-restricted financial products: binary options, credit repair, us personal loans
+    with apr ≥36%, or unlicensed complex speculative products (cfds, spread betting, forex).'
+  - 'promotion of linkedin-prohibited financial products: payday loans, reverse mortgages, p2p lending,
+    binary options, penny auctions, penny stocks, or products to facilitate illegal purposes.'
+  - 'promotion of meta-prohibited financial products: payday loans, paycheck advances, bail bonds, short-term
+    loans ≤90 days, penny auctions, binary options, icos, contracts for difference, or misleading student-loan
+    consolidation/forgiveness/refinancing.'
+  - 'us-prohibited financial products: bail bonds, cfds/spread betting/penny stocks/binary options/mini-bonds,
+    credit repair, payday/pawnbroker loans, penny auctions, precious metals trading, single securities,
+    unaccredited digital banks.'
+  forbidden_terms:
+  - heavily-restricted
+  - financial
+  - binary
+  - repair
+  - personal
+  - unlicensed
+  - complex
+  - speculative
+  - cfds
+  - spread
+  - equivalent
+  - brokers
+  - informational
+  - educational
+  - sites
+  - blogs
+  - applies
+  - offer
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - heavily-restricted
+    - financial
+    - binary
+    - repair
+    - personal
+    - loans
+    - unlicensed
+    - complex
+    - speculative
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - complex speculative products by a licensed provider with google approval.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Complex speculative products by a licensed provider with Google approval.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - 'prohibited/heavily-restricted financial products: binary options, credit repair, us personal loans
+    with apr ≥36%, or unlicensed complex speculative products (cfds, spread betting, forex).'
+  - 'promotion of linkedin-prohibited financial products: payday loans, reverse mortgages, p2p lending,
+    binary options, penny auctions, penny stocks, or products to facilitate illegal purposes.'
+  - 'promotion of meta-prohibited financial products: payday loans, paycheck advances, bail bonds, short-term
+    loans ≤90 days, penny auctions, binary options, icos, contracts for difference, or misleading student-loan
+    consolidation/forgiveness/refinancing.'
+  - 'us-prohibited financial products: bail bonds, cfds/spread betting/penny stocks/binary options/mini-bonds,
+    credit repair, payday/pawnbroker loans, penny auctions, precious metals trading, single securities,
+    unaccredited digital banks.'
+  eval_non_compliant_hits: 12
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.required_cost_and_risk_disclosures
+  category_id: financial
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - google_finance_disclosures
+  source_files:
+  - google_ads_us.yaml
+  clause_ids:
+  - google.finance.disclosures
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - financial ads missing clearly/immediately-visible disclosures (physical address, all fees, accreditation
+    links).
+  forbidden_terms:
+  - financial
+  - clearly
+  - immediately-visible
+  - physical
+  - address
+  - fees
+  - accreditation
+  - links
+  - provide
+  - business
+  - associated
+  - pre-approved
+  - passive
+  - guaranteed
+  - risk-free
+  - crypto
+  - forex
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - financial
+    - clearly
+    - immediately-visible
+    - physical
+    - address
+    - fees
+    - accreditation
+    - links
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - financial ads missing clearly/immediately-visible disclosures (physical address, all fees, accreditation
+    links).
+  eval_non_compliant_hits: 0
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: finance.testimonials_endorsements_disclosure
+  category_id: financial
+  severity: medium
+  review_status: approved
+  source_rule_ids:
+  - sec_finance_testimonials
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - sec.finance.testimonials
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - testimonials/endorsements without required disclosures (client status, compensation, material conflicts
+    of interest).
+  forbidden_terms:
+  - testimonials
+  - endorsements
+  - client
+  - compensation
+  - conflicts
+  - interest
+  - include
+  - testimonial
+  - adviser
+  - provide
+  - unless
+  - best
+  - advisor
+  - ever
+  - tripled
+  - savings
+  - guys
+  - crypto
+  forbidden_phrases:
+  - guaranteed returns
+  - get rich
+  - double your money
+  - no risk
+  - passive income
+  - risk free investment
+  forbidden_patterns:
+  - pattern: \bguaranteed\s+(returns?|profits?|income)\b
+    confidence: 0.9
+    note: guaranteed returns
+  - pattern: \b(double|triple)\s+your\s+(money|investment)\b
+    confidence: 0.9
+    note: unrealistic return claim
+  - pattern: \brisk[\s-]*free\s+(invest|return|profit)
+    confidence: 0.85
+    note: risk-free investment
+  - pattern: \b\d+%\s+(apr|return|roi)\b
+    confidence: 0.75
+    note: numeric return claim
+  requires_context:
+    terms:
+    - invest
+    - investment
+    - returns
+    - loan
+    - credit
+    - crypto
+    - bitcoin
+    - forex
+    - trading
+    - apr
+    - interest
+    - testimonials
+    - endorsements
+    - client
+    - compensation
+    - conflicts
+    - include
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - testimonials/endorsements meeting all 206(4)-1(b) disclosure conditions.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Testimonials/endorsements meeting all 206(4)-1(b) disclosure conditions.
+  vision_labels:
+  - money
+  - cash
+  - banknote
+  - cryptocurrency
+  - credit card
+  - financial
+  - that
+  - loans
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - testimonials/endorsements without required disclosures (client status, compensation, material conflicts
+    of interest).
+  eval_non_compliant_hits: 9
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

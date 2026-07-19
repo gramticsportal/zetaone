@@ -82,9 +82,43 @@ docker compose exec api python scripts/eval_policy_engine.py
 
 Prints engine, rule count, git SHA, all metrics above. Re-run after any corpus, pack, or engine change and record the SHA next to the numbers.
 
-## 6. One-line scoreboard
+## 6. One-line scoreboard (baseline run)
 
 | North star | Main engine | To beat |
 | :---- | :---- | :---- |
 | 44-precedent recall | **0.455** | 0.818 |
 | Clean seed+prec F1 | **0.394** (P 0.733 / R 0.269) | 0.634 |
+
+---
+
+## 7. UPDATE (2026-07-19, same day): pattern-pack adoption + document-centric matching
+
+We adopted the hybrid branch's **data only** — `ontology/patterns/` (52 approved packs) — wired into our DSL via `pattern_packs.py` (join on `source_rule_ids`; phrases/regex/exceptions/context merged into engine rules; env-flagged). No hybrid engine code was taken.
+
+Debugging why packs changed nothing revealed the *actual* baseline bottleneck: with `ZATAONE_DOCUMENT_CENTRIC` off (default), rules only match against **TextExtractor signal fragments**, never the full document text — the engine could only re-confirm the extractor's own keyword list. Enabling document-centric matching is worth more than any vocabulary change.
+
+### Experiment matrix (all: same protocol, `main` w/ packs)
+
+| Variant | 44-recall | P | R | F1 |
+| :---- | :---- | :---- | :---- | :---- |
+| Baseline (fragment mode) | 0.455 | 0.733 | 0.269 | 0.394 |
+| Doc-centric, **no** packs | 0.977 | 0.550 | 0.983 | 0.706 |
+| Doc-centric + packs (phrases only, replace) | 0.136 | 0.580 | 0.201 | 0.298 |
+| **Doc-centric + packs merged + terms** ← shipped default | **0.977** | 0.554 | **0.991** | **0.711** |
+| Cofounder hybrid (reference) | 0.818 | 0.554 | 0.739 | 0.634 |
+
+### New scoreboard
+
+| North star | Main engine (new) | Hybrid |
+| :---- | :---- | :---- |
+| **44-precedent recall** | **0.977** (43/44) | 0.818 (36/44) |
+| Clean seed+prec F1 | **0.711** | 0.634 |
+
+### Findings that matter for the next sync
+
+1. **Doc-centric matching, not vocabulary, was our bottleneck** — it alone moves F1 0.394 → 0.706. Now enabled in local compose (`ZATAONE_DOCUMENT_CENTRIC=1`); production rollout to discuss.
+2. **Pack phrases alone are weak** (recall 0.136 when naive terms removed): the hybrid engine's recall also comes from its single-term tier, not its phrases.
+3. **Both engines converge to precision ≈0.554 at high recall.** The compliant seed rows are in-category copy, and single category terms fire on them regardless of compliance. Precision is the shared frontier; more lexicon will not move it. Next levers: multi-hit/severity-weighted decision rule, real context gating, and the NLI/classifier sensor (agreed direction #3).
+4. Remaining golden miss (1/44): semantic-claim class — classifier territory.
+
+Reproduce: `docker compose exec api python scripts/eval_policy_engine.py` (flags: `ZATAONE_DOCUMENT_CENTRIC`, `ZATAONE_PATTERN_PACKS`, `ZATAONE_PACK_TERMS`, `ZATAONE_PACK_REPLACE_TERMS`, `ZATAONE_PACK_CONTEXT_GATE`).

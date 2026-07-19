@@ -2,11 +2,38 @@
 name: zataone
 
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: zataone
+      POSTGRES_USER: zataone
+      POSTGRES_PASSWORD: zataone
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zataone -d zataone"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
   api:
     build:
       context: ..
       dockerfile: docker/Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://zataone:zataone@db:5432/zataone
+      # Benchmarked best deterministic config (docs/DETERMINISTIC_ENGINE_BENCHMARK_MAIN.md)
+      ZATAONE_DOCUMENT_CENTRIC: "1"
+      ZATAONE_PACK_TERMS: "1"
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - ../src:/app/src
+
+volumes:
+  pgdata:

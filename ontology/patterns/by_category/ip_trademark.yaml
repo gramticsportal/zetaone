@@ -1,0 +1,299 @@
+schema_version: 1.0.0
+category_id: ip_trademark
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 3
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: ip.counterfeit_goods_prohibited
+  category_id: ip_trademark
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_ip_counterfeit
+  - meta_ip_counterfeit
+  - tiktok_ip_counterfeit
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.ip.counterfeit_goods
+  - meta.ip.counterfeit_goods
+  - tiktok.ip.counterfeit_goods
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - ad or website/app selling or promoting counterfeit goods — products with a trademark/logo identical
+    to or substantially indistinguishable from another's, mimicking brand features to pass as genuine
+    (incl. "knock off", "replica", "fake", etc.).
+  - ads or landing pages promoting/selling counterfeits, knockoffs, or replicas that copy another company's
+    trademark (name/logo) or distinctive features to imitate a genuine product.
+  - ads that purchase/sell/trade/promote/solicit counterfeit goods — goods under a trademark identical
+    or substantially similar to a registered mark without the owner's permission.
+  forbidden_terms:
+  - website
+  - selling
+  - counterfeit
+  - goods
+  - trademark
+  - logo
+  - identical
+  - substantially
+  - indistinguishable
+  - another's
+  - mimicking
+  - display
+  - video
+  - prohibit
+  - sale
+  - landing
+  - pages
+  - counterfeits
+  forbidden_phrases:
+  - fake designer
+  - replica handbags
+  - counterfeit goods
+  forbidden_patterns:
+  - pattern: \b(replica|counterfeit|knock[\s-]?off|fake)\s+\w+
+    confidence: 0.85
+    note: counterfeit goods
+  requires_context:
+    terms:
+    - brand
+    - logo
+    - trademark
+    - designer
+    - replica
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - counterfeit
+  - fake logo
+  - replica handbag
+  - luxury handbag
+  - trademark
+  - that
+  - goods
+  - rights
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ad or website/app selling or promoting counterfeit goods — products with a trademark/logo identical
+    to or substantially indistinguishable from another's, mimicking brand features to pass as genuine
+    (incl. "knock off", "replica", "fake", etc.).
+  - ads or landing pages promoting/selling counterfeits, knockoffs, or replicas that copy another company's
+    trademark (name/logo) or distinctive features to imitate a genuine product.
+  - ads that purchase/sell/trade/promote/solicit counterfeit goods — goods under a trademark identical
+    or substantially similar to a registered mark without the owner's permission.
+  eval_non_compliant_hits: 11
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: ip.third_party_ip_infringement_prohibited
+  category_id: ip_trademark
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_ip_trademark
+  - meta_ip_third_party_infringement
+  - tiktok_ip_infringement
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.ip.trademark
+  - meta.ip.third_party_infringement
+  - tiktok.ip.infringement
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - ads that infringe trademark rights — e.g. a direct competitor using the mark, or use in a confusing,
+    deceptive, or misleading way — following a valid trademark-owner complaint.
+  - ads using a third party's copyright or trademark, or likely to confuse people about the source/sponsorship/affiliation
+    of goods or services, or using music without the necessary licenses.
+  - ad creative or landing page that infringes a third party's copyright or trademark, or uses content
+    (images, music, video, trademarks) without the necessary rights/licenses/permissions.
+  forbidden_terms:
+  - infringe
+  - trademark
+  - rights
+  - direct
+  - competitor
+  - mark
+  - confusing
+  - deceptive
+  - misleading
+  - following
+  - valid
+  - trademark-owner
+  - display
+  - video
+  - abide
+  - protect
+  - third
+  - party's
+  forbidden_phrases:
+  - fake designer
+  - replica handbags
+  - counterfeit goods
+  forbidden_patterns:
+  - pattern: \b(replica|counterfeit|knock[\s-]?off|fake)\s+\w+
+    confidence: 0.85
+    note: counterfeit goods
+  requires_context:
+    terms:
+    - brand
+    - logo
+    - trademark
+    - designer
+    - replica
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - resellers/informational sites and other permitted uses per google's trademark policy.
+    - authorized/licensed use, nominative/descriptive use, or rights-holder permission.
+    - advertiser holds the necessary rights, licenses, or permissions.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Resellers/informational sites and other permitted uses per Google's trademark policy.
+    - Authorized/licensed use, nominative/descriptive use, or rights-holder permission.
+    - Advertiser holds the necessary rights, licenses, or permissions.
+  vision_labels:
+  - counterfeit
+  - fake logo
+  - replica handbag
+  - luxury handbag
+  - trademark
+  - that
+  - goods
+  - rights
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ads that infringe trademark rights — e.g. a direct competitor using the mark, or use in a confusing,
+    deceptive, or misleading way — following a valid trademark-owner complaint.
+  - ads using a third party's copyright or trademark, or likely to confuse people about the source/sponsorship/affiliation
+    of goods or services, or using music without the necessary licenses.
+  - ad creative or landing page that infringes a third party's copyright or trademark, or uses content
+    (images, music, video, trademarks) without the necessary rights/licenses/permissions.
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: ip.unauthorized_copyrighted_works_prohibited
+  category_id: ip_trademark
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - meta_ip_unauthorized_copyrighted_works
+  source_files:
+  - meta_ads_us.yaml
+  clause_ids:
+  - meta.ip.unauthorized_copyrighted_works
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - ads promoting/selling/circulating unauthorized or pirated copies of copyrighted works (movies, tv,
+    video games, music, books, etc.).
+  forbidden_terms:
+  - selling
+  - circulating
+  - unauthorized
+  - pirated
+  - copies
+  - copyrighted
+  - works
+  - movies
+  - video
+  - games
+  - music
+  - can't
+  - sell
+  - attempt
+  - circulate
+  - stream
+  - every
+  - marvel
+  forbidden_phrases:
+  - fake designer
+  - replica handbags
+  - counterfeit goods
+  forbidden_patterns:
+  - pattern: \b(replica|counterfeit|knock[\s-]?off|fake)\s+\w+
+    confidence: 0.85
+    note: counterfeit goods
+  requires_context:
+    terms:
+    - brand
+    - logo
+    - trademark
+    - designer
+    - replica
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - counterfeit
+  - fake logo
+  - replica handbag
+  - luxury handbag
+  - trademark
+  - that
+  - goods
+  - rights
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - ads promoting/selling/circulating unauthorized or pirated copies of copyrighted works (movies, tv,
+    video games, music, books, etc.).
+  eval_non_compliant_hits: 5
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

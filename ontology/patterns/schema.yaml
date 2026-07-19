@@ -1,0 +1,64 @@
+# ZataOne hybrid pattern-pack schema (Phase A)
+# Instance data: ontology/patterns/by_category/*.yaml
+# Generated/refreshed by: ontology/tools/mine_pattern_candidates.py
+
+schema_version: "1.0.0"
+status: draft  # Phase A mined candidates; human curation before Phase B engine wiring
+
+enums:
+  review_status: [mined, curated, approved, deprecated]
+  matcher_kind: [term, phrase, regex, vision_label, embedding_prototype]
+  severity: [low, medium, high, critical]
+
+entities:
+  pattern_pack:
+    description: >
+      Hierarchical hybrid matcher pack keyed by canonical_id.
+      One pack per universal rule; source platform/regulator rules hang off it.
+    fields:
+      canonical_id: {type: slug, required: true}
+      category_id: {type: slug, required: true}
+      severity: {type: enum, enum: severity, required: true}
+      review_status: {type: enum, enum: review_status, default: mined}
+      source_rule_ids: {type: "list[slug]", required: true}
+      clause_ids: {type: "list[slug]", required: true}
+      detection_summaries: {type: "list[string]", required: false}
+      forbidden_terms: {type: "list[string]", required: false}
+      forbidden_phrases: {type: "list[string]", required: false}
+      forbidden_patterns:
+        type: list
+        required: false
+        item_fields:
+          pattern: {type: string, required: true}
+          confidence: {type: float, required: false}
+          note: {type: string, required: false}
+      requires_context:
+        type: object
+        required: false
+        fields:
+          terms: {type: "list[string]", required: false}
+          note: {type: string, required: false}
+      exceptions:
+        type: object
+        required: false
+        fields:
+          terms: {type: "list[string]", required: false}
+          phrases: {type: "list[string]", required: false}
+          patterns: {type: "list[string]", required: false}
+          notes: {type: "list[string]", required: false}
+      vision_labels: {type: "list[string]", required: false}
+      vision_min_confidence: {type: float, default: 0.55}
+      embedding_prototypes: {type: "list[string]", required: false}
+      modalities: {type: "list[string]", required: false}
+      eval_non_compliant_hits: {type: int, required: false}
+      notes: {type: string, required: false}
+
+hierarchy:
+  - category_id
+  - canonical_id
+  - source_rule_ids / clause_ids
+  - matchers (terms | phrases | regex | vision | embedding)
+
+runtime_notes: >
+  Phase B will load approved packs after BM25 shortlist.
+  Whole-corpus packs are for offline mining + curation; runtime uses top-K only.

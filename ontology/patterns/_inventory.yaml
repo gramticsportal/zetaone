@@ -1,0 +1,707 @@
+schema_version: 1.0.0
+phase: A
+jurisdiction: US
+qc_status: approved
+generated_by: ontology/tools/curate_and_approve_patterns.py
+counts:
+  canonical_packs: 52
+  categories: 11
+  review_status_approved: 52
+  review_status_curated: 0
+  smoke_passed: 7
+  smoke_total: 7
+smoke_tests:
+  cases:
+  - kind: positive
+    category: misleading
+    text: guaranteed miracle overnight results 100%
+    hit_count: 2
+    hits:
+    - canonical_id: misleading.exaggerated_results
+      matches:
+      - term:guaranteed
+      - term:miracle
+      - term:100%
+      - term:overnight
+      weak: true
+    - canonical_id: misleading.guaranteed_outcomes
+      matches:
+      - term:guaranteed
+      - term:overnight
+      - term:100%
+      weak: true
+    pass: true
+  - kind: positive
+    category: health
+    text: this pill cures cancer and eliminates diabetes
+    hit_count: 8
+    hits:
+    - canonical_id: health.disease_cure_treatment_claims
+      matches:
+      - phrase:cures cancer
+      - phrase:eliminates diabetes
+      - regex:cure/heal disease claim
+    - canonical_id: health.health_privacy_sensitive_attributes
+      matches:
+      - phrase:cures cancer
+      - regex:cure/heal disease claim
+    - canonical_id: health.material_risk_safety_disclosure
+      matches:
+      - phrase:cures cancer
+      - regex:cure/heal disease claim
+    - canonical_id: health.negative_self_perception_body_image
+      matches:
+      - phrase:cures cancer
+      - regex:cure/heal disease claim
+    - canonical_id: health.prescription_drug_promotion_restricted
+      matches:
+      - phrase:cures cancer
+      - regex:cure/heal disease claim
+    - canonical_id: health.rx_fair_balance_risk_disclosure
+      matches:
+      - phrase:cures cancer
+      - regex:cure/heal disease claim
+    pass: true
+  - kind: positive
+    category: financial
+    text: guaranteed returns risk-free investment double your money
+    hit_count: 11
+    hits:
+    - canonical_id: finance.credit_advertising_trigger_terms
+      matches:
+      - phrase:guaranteed returns
+      - phrase:double your money
+      - regex:guaranteed returns
+      - regex:unrealistic return claim
+      - regex:risk-free investment
+    - canonical_id: finance.crypto_restricted
+      matches:
+      - phrase:guaranteed returns
+      - phrase:double your money
+      - regex:guaranteed returns
+      - regex:unrealistic return claim
+      - regex:risk-free investment
+    - canonical_id: finance.guaranteed_returns_or_risk_free
+      matches:
+      - phrase:guaranteed returns
+      - phrase:double your money
+      - regex:guaranteed returns
+      - regex:unrealistic return claim
+      - regex:risk-free investment
+    - canonical_id: finance.licensing_registration_required
+      matches:
+      - phrase:guaranteed returns
+      - phrase:double your money
+      - regex:guaranteed returns
+      - regex:unrealistic return claim
+      - regex:risk-free investment
+    - canonical_id: finance.loan_modification_foreclosure_restricted
+      matches:
+      - phrase:guaranteed returns
+      - phrase:double your money
+      - regex:guaranteed returns
+      - regex:unrealistic return claim
+      - regex:risk-free investment
+    - canonical_id: finance.misleading_or_unbalanced_claims
+      matches:
+      - phrase:guaranteed returns
+      - phrase:double your money
+      - regex:guaranteed returns
+      - regex:unrealistic return claim
+      - regex:risk-free investment
+    pass: true
+  - kind: positive
+    category: gambling
+    text: real money casino welcome bonus risk-free bet
+    hit_count: 4
+    hits:
+    - canonical_id: gambling.no_minors_targeting
+      matches:
+      - phrase:risk-free bet
+      - phrase:welcome bonus
+      - phrase:real money
+      - regex:risk-free bet offer
+      - regex:gambling bonus
+      - regex:real-money gambling
+    - canonical_id: gambling.realmoney_requires_license_and_authorization
+      matches:
+      - phrase:real money casino
+      - phrase:risk-free bet
+      - phrase:welcome bonus
+      - phrase:real money
+      - regex:risk-free bet offer
+      - regex:gambling bonus
+    - canonical_id: gambling.responsible_gambling_required
+      matches:
+      - phrase:risk-free bet
+      - phrase:welcome bonus
+      - phrase:real money
+      - regex:risk-free bet offer
+      - regex:gambling bonus
+      - regex:real-money gambling
+    - canonical_id: gambling.social_casino_no_real_money
+      matches:
+      - phrase:real money
+      - phrase:risk-free bet
+      - phrase:welcome bonus
+      - regex:risk-free bet offer
+      - regex:gambling bonus
+      - regex:real-money gambling
+    pass: true
+  - kind: positive
+    category: political
+    text: vote for smith paid for by citizens for change
+    hit_count: 3
+    hits:
+    - canonical_id: political.authorization_and_disclaimer_required
+      matches:
+      - phrase:paid for by
+      - phrase:vote for
+      - regex:paid-for-by disclaimer cue
+      - regex:vote/elect for
+    - canonical_id: political.paid_political_ads_prohibited
+      matches:
+      - phrase:vote for
+      - phrase:paid for by
+      - regex:paid-for-by disclaimer cue
+      - regex:vote/elect for
+    - canonical_id: political.synthetic_content_disclosure
+      matches:
+      - phrase:vote for
+      - phrase:paid for by
+      - regex:paid-for-by disclaimer cue
+      - regex:vote/elect for
+    pass: true
+  - kind: negative
+    category: political
+    text: approximation estimation error underfitting overfitting hypothesis class
+    hit_count: 0
+    hits: []
+    pass: true
+  - kind: negative
+    category: misleading
+    text: approximation estimation error underfitting overfitting hypothesis class
+    hit_count: 0
+    hits: []
+    pass: true
+  passed: 7
+  total: 7
+categories:
+  alcohol:
+    canonical_count: 2
+    canonical_ids:
+    - atc.alcohol_age_and_location_targeting_required
+    - atc.alcohol_mandatory_and_prohibited_statements
+    approved: 2
+  discrimination:
+    canonical_count: 2
+    canonical_ids:
+    - discrimination.discriminatory_ad_content_prohibited
+    - discrimination.restricted_targeting_protected_class
+    approved: 2
+  drugs:
+    canonical_count: 4
+    canonical_ids:
+    - atc.cbd_restricted_with_certification
+    - atc.recreational_drugs_and_thc_prohibited
+    - atc.tobacco_advertising_format_restrictions
+    - atc.tobacco_and_nicotine_ads_prohibited
+    approved: 4
+  financial:
+    canonical_count: 11
+    canonical_ids:
+    - finance.credit_advertising_trigger_terms
+    - finance.crypto_restricted
+    - finance.guaranteed_returns_or_risk_free
+    - finance.licensing_registration_required
+    - finance.loan_modification_foreclosure_restricted
+    - finance.misleading_or_unbalanced_claims
+    - finance.mortgage_advertising_prohibited_acts
+    - finance.performance_claims_substantiation
+    - finance.prohibited_predatory_products
+    - finance.required_cost_and_risk_disclosures
+    - finance.testimonials_endorsements_disclosure
+    approved: 11
+  gambling:
+    canonical_count: 4
+    canonical_ids:
+    - gambling.no_minors_targeting
+    - gambling.realmoney_requires_license_and_authorization
+    - gambling.responsible_gambling_required
+    - gambling.social_casino_no_real_money
+    approved: 4
+  health:
+    canonical_count: 8
+    canonical_ids:
+    - health.disease_cure_treatment_claims
+    - health.health_privacy_sensitive_attributes
+    - health.material_risk_safety_disclosure
+    - health.negative_self_perception_body_image
+    - health.prescription_drug_promotion_restricted
+    - health.rx_fair_balance_risk_disclosure
+    - health.unapproved_or_dangerous_products
+    - health.unsubstantiated_health_claims
+    approved: 8
+  ip_trademark:
+    canonical_count: 3
+    canonical_ids:
+    - ip.counterfeit_goods_prohibited
+    - ip.third_party_ip_infringement_prohibited
+    - ip.unauthorized_copyrighted_works_prohibited
+    approved: 3
+  minors:
+    canonical_count: 4
+    canonical_ids:
+    - minors.age_restricted_products_not_shown_to_minors
+    - minors.child_directed_content_ad_restrictions
+    - minors.parental_consent_for_childrens_data
+    - minors.personalized_targeting_of_minors_restricted
+    approved: 4
+  misleading:
+    canonical_count: 7
+    canonical_ids:
+    - misleading.before_after_distortion
+    - misleading.clickbait_or_fake_ui
+    - misleading.exaggerated_results
+    - misleading.false_affiliation_or_endorsement
+    - misleading.guaranteed_outcomes
+    - misleading.missing_or_inconsistent_material_info
+    - misleading.unsubstantiated_objective_claims
+    approved: 7
+  political:
+    canonical_count: 3
+    canonical_ids:
+    - political.authorization_and_disclaimer_required
+    - political.paid_political_ads_prohibited
+    - political.synthetic_content_disclosure
+    approved: 3
+  privacy:
+    canonical_count: 4
+    canonical_ids:
+    - privacy.data_collection_disclosure_required
+    - privacy.minor_opt_in_for_sale_or_sharing
+    - privacy.opt_out_of_sale_or_sharing_for_targeted_ads
+    - privacy.sensitive_attribute_targeting_prohibited
+    approved: 4
+canonical_index:
+- canonical_id: atc.alcohol_age_and_location_targeting_required
+  category_id: alcohol
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 5
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 6
+- canonical_id: atc.alcohol_mandatory_and_prohibited_statements
+  category_id: alcohol
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: discrimination.discriminatory_ad_content_prohibited
+  category_id: discrimination
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 5
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 16
+- canonical_id: discrimination.restricted_targeting_protected_class
+  category_id: discrimination
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 5
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 4
+- canonical_id: atc.cbd_restricted_with_certification
+  category_id: drugs
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 4
+- canonical_id: atc.recreational_drugs_and_thc_prohibited
+  category_id: drugs
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 4
+- canonical_id: atc.tobacco_advertising_format_restrictions
+  category_id: drugs
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: atc.tobacco_and_nicotine_ads_prohibited
+  category_id: drugs
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 5
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 7
+- canonical_id: finance.credit_advertising_trigger_terms
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: finance.crypto_restricted
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 9
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 9
+- canonical_id: finance.guaranteed_returns_or_risk_free
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 19
+  forbidden_phrase_count: 8
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 9
+- canonical_id: finance.licensing_registration_required
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 0
+- canonical_id: finance.loan_modification_foreclosure_restricted
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 1
+- canonical_id: finance.misleading_or_unbalanced_claims
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 9
+- canonical_id: finance.mortgage_advertising_prohibited_acts
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: finance.performance_claims_substantiation
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 7
+- canonical_id: finance.prohibited_predatory_products
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 12
+- canonical_id: finance.required_cost_and_risk_disclosures
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 17
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 0
+- canonical_id: finance.testimonials_endorsements_disclosure
+  category_id: financial
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 9
+- canonical_id: gambling.no_minors_targeting
+  category_id: gambling
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 6
+- canonical_id: gambling.realmoney_requires_license_and_authorization
+  category_id: gambling
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 8
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 7
+- canonical_id: gambling.responsible_gambling_required
+  category_id: gambling
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: gambling.social_casino_no_real_money
+  category_id: gambling
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 8
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 4
+- canonical_id: health.disease_cure_treatment_claims
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 8
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 14
+- canonical_id: health.health_privacy_sensitive_attributes
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 1
+- canonical_id: health.material_risk_safety_disclosure
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 2
+- canonical_id: health.negative_self_perception_body_image
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 9
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 2
+- canonical_id: health.prescription_drug_promotion_restricted
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: health.rx_fair_balance_risk_disclosure
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 1
+- canonical_id: health.unapproved_or_dangerous_products
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 7
+- canonical_id: health.unsubstantiated_health_claims
+  category_id: health
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 12
+- canonical_id: ip.counterfeit_goods_prohibited
+  category_id: ip_trademark
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 11
+- canonical_id: ip.third_party_ip_infringement_prohibited
+  category_id: ip_trademark
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: ip.unauthorized_copyrighted_works_prohibited
+  category_id: ip_trademark
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: minors.age_restricted_products_not_shown_to_minors
+  category_id: minors
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 8
+- canonical_id: minors.child_directed_content_ad_restrictions
+  category_id: minors
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: minors.parental_consent_for_childrens_data
+  category_id: minors
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: minors.personalized_targeting_of_minors_restricted
+  category_id: minors
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 2
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 6
+- canonical_id: misleading.before_after_distortion
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 2
+- canonical_id: misleading.clickbait_or_fake_ui
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: misleading.exaggerated_results
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 5
+- canonical_id: misleading.false_affiliation_or_endorsement
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 7
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 4
+- canonical_id: misleading.guaranteed_outcomes
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 20
+  forbidden_phrase_count: 7
+  forbidden_pattern_count: 5
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: misleading.missing_or_inconsistent_material_info
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 2
+- canonical_id: misleading.unsubstantiated_objective_claims
+  category_id: misleading
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 3
+  forbidden_pattern_count: 4
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 26
+- canonical_id: political.authorization_and_disclaimer_required
+  category_id: political
+  review_status: approved
+  forbidden_term_count: 6
+  forbidden_phrase_count: 5
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.65
+  eval_non_compliant_hits: 21
+- canonical_id: political.paid_political_ads_prohibited
+  category_id: political
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 6
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.65
+  eval_non_compliant_hits: 19
+- canonical_id: political.synthetic_content_disclosure
+  category_id: political
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 8
+  forbidden_pattern_count: 3
+  vision_min_confidence: 0.65
+  eval_non_compliant_hits: 1
+- canonical_id: privacy.data_collection_disclosure_required
+  category_id: privacy
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 2
+- canonical_id: privacy.minor_opt_in_for_sale_or_sharing
+  category_id: privacy
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 1
+- canonical_id: privacy.opt_out_of_sale_or_sharing_for_targeted_ads
+  category_id: privacy
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 3
+- canonical_id: privacy.sensitive_attribute_targeting_prohibited
+  category_id: privacy
+  review_status: approved
+  forbidden_term_count: 18
+  forbidden_phrase_count: 4
+  forbidden_pattern_count: 1
+  vision_min_confidence: 0.55
+  eval_non_compliant_hits: 14
+approval_notes:
+- All packs denoised (detection-prose noise removed).
+- Political vision_min_confidence >= 0.65.
+- Approved = has phrases or regex after QC; curated = terms-only residual.
+- Ready for Phase B hybrid evaluator (BM25 shortlist → match packs).

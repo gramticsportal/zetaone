@@ -1,0 +1,404 @@
+schema_version: 1.0.0
+category_id: minors
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 4
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: minors.age_restricted_products_not_shown_to_minors
+  category_id: minors
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_minors_sensitive_categories
+  - meta_minors_restricted_products
+  - tiktok_minors_age_restricted
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.minors.sensitive_categories_restricted
+  - meta.minors.restricted_topics_not_to_minors
+  - tiktok.minors.age_restricted_not_to_minors
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - sensitive categories (gambling, alcohol, adult, dating, body modification/ weight loss, shocking content)
+    served to users under 18.
+  - restricted-topic ads (alcohol, financial products, weight-loss products/ services) shown to people
+    under 18.
+  - age-restricted categories (e.g. alcohol) targeted to minors / users below the legal age.
+  forbidden_terms:
+  - sensitive
+  - categories
+  - gambling
+  - alcohol
+  - adult
+  - dating
+  - body
+  - modification
+  - weight
+  - loss
+  - shocking
+  - served
+  - ad-serving
+  - protections
+  - children
+  - teens
+  - disable
+  - personalization
+  forbidden_phrases:
+  - for kids
+  - under 13
+  - under 18
+  - aimed at children
+  - for children
+  - kids only
+  forbidden_patterns:
+  - pattern: \bunder\s*(?:the\s*)?(age\s*of\s*)?(13|16|18)\b
+    confidence: 0.85
+    note: age gate
+  - pattern: \b(for|aimed\s+at)\s+(kids|children|teens?)\b
+    confidence: 0.85
+    note: child-directed
+  requires_context:
+    terms:
+    - child
+    - children
+    - kids
+    - teen
+    - youth
+    - minor
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - child
+  - teenager
+  - young model
+  - under
+  - users
+  - audiences
+  - from
+  - children
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - sensitive categories (gambling, alcohol, adult, dating, body modification/ weight loss, shocking content)
+    served to users under 18.
+  - restricted-topic ads (alcohol, financial products, weight-loss products/ services) shown to people
+    under 18.
+  - age-restricted categories (e.g. alcohol) targeted to minors / users below the legal age.
+  eval_non_compliant_hits: 8
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: minors.child_directed_content_ad_restrictions
+  category_id: minors
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_minors_made_for_kids
+  source_files:
+  - google_ads_us.yaml
+  clause_ids:
+  - google.minors.made_for_kids
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - 'on made-for-kids content: personalized ads, third-party trackers, ads inciting children to purchase,
+    or misleading/deceptive claims.'
+  forbidden_terms:
+  - made-for-kids
+  - personalized
+  - third-party
+  - trackers
+  - inciting
+  - children
+  - purchase
+  - misleading
+  - deceptive
+  - kids
+  - youtube
+  - prohibits
+  - video
+  - runs
+  - card
+  - toy'
+  - teen
+  - youth
+  forbidden_phrases:
+  - under 13
+  - under 18
+  - for children
+  - kids only
+  forbidden_patterns:
+  - pattern: \bunder\s*(?:the\s*)?(age\s*of\s*)?(13|16|18)\b
+    confidence: 0.85
+    note: age gate
+  - pattern: \b(for|aimed\s+at)\s+(kids|children|teens?)\b
+    confidence: 0.85
+    note: child-directed
+  requires_context:
+    terms:
+    - child
+    - children
+    - kids
+    - teen
+    - youth
+    - minor
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes: []
+  vision_labels:
+  - child
+  - teenager
+  - young model
+  - under
+  - users
+  - audiences
+  - from
+  - children
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - 'on made-for-kids content: personalized ads, third-party trackers, ads inciting children to purchase,
+    or misleading/deceptive claims.'
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: minors.parental_consent_for_childrens_data
+  category_id: minors
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ftc_minors_coppa
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.minors.coppa_parental_consent
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - collecting personal information (incl. persistent identifiers) from under-13 children for behavioral
+    advertising/profiling without notice and verifiable parental consent.
+  forbidden_terms:
+  - collecting
+  - personal
+  - incl
+  - persistent
+  - identifiers
+  - under-13
+  - children
+  - behavioral
+  - profiling
+  - notice
+  - verifiable
+  - parental
+  - coppa
+  - rule
+  - operator
+  - website
+  - online
+  - service
+  forbidden_phrases:
+  - under 13
+  - under 18
+  - for children
+  - kids only
+  forbidden_patterns:
+  - pattern: \bunder\s*(?:the\s*)?(age\s*of\s*)?(13|16|18)\b
+    confidence: 0.85
+    note: age gate
+  - pattern: \b(for|aimed\s+at)\s+(kids|children|teens?)\b
+    confidence: 0.85
+    note: child-directed
+  requires_context:
+    terms:
+    - child
+    - children
+    - kids
+    - teen
+    - youth
+    - minor
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - support for internal operations not used for behavioral advertising or profiling.
+    - other limited 312.5(c) exceptions (one-time response, safety, etc.).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Support for internal operations not used for behavioral advertising or profiling.
+    - Other limited 312.5(c) exceptions (one-time response, safety, etc.).
+  vision_labels:
+  - child
+  - teenager
+  - young model
+  - under
+  - users
+  - audiences
+  - from
+  - children
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - collecting personal information (incl. persistent identifiers) from under-13 children for behavioral
+    advertising/profiling without notice and verifiable parental consent.
+  eval_non_compliant_hits: 3
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: minors.personalized_targeting_of_minors_restricted
+  category_id: minors
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_minors_personalization
+  - meta_minors_targeting
+  - tiktok_minors_targeting
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - google.minors.no_personalized_ads_under_18
+  - meta.minors.teen_targeting_limited
+  - tiktok.minors.targeting_limited_under_18
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - personalized advertising (predefined audiences, remarketing, customer match, custom segments) served
+    to users under 18.
+  - ads reaching under-18 audiences using interests, behaviors, gender, off-platform activity, or zip/sub-city
+    ("pin drop") targeting.
+  - detailed (interest/behavior) targeting of under-18 audiences, or use of restricted objectives (e.g.
+    sales – tiktok shop) reaching under-18s.
+  forbidden_terms:
+  - personalized
+  - predefined
+  - remarketing
+  - customer
+  - match
+  - custom
+  - segments
+  - served
+  - eligible
+  - kind
+  - serving
+  - advertiser-curated
+  - uploading
+  - reaching
+  - under-18
+  - interests
+  - behaviors
+  - gender
+  forbidden_phrases:
+  - under 13
+  - under 18
+  - for children
+  - kids only
+  forbidden_patterns:
+  - pattern: \bunder\s*(?:the\s*)?(age\s*of\s*)?(13|16|18)\b
+    confidence: 0.85
+    note: age gate
+  - pattern: \b(for|aimed\s+at)\s+(kids|children|teens?)\b
+    confidence: 0.85
+    note: child-directed
+  requires_context:
+    terms:
+    - child
+    - children
+    - kids
+    - teen
+    - youth
+    - minor
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - age and location targeting only.
+    - awareness objectives (reach, r&f, topview) not relying on detailed targeting.
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Age and location targeting only.
+    - Awareness objectives (Reach, R&F, TopView) not relying on detailed targeting.
+  vision_labels:
+  - child
+  - teenager
+  - young model
+  - under
+  - users
+  - audiences
+  - from
+  - children
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - personalized advertising (predefined audiences, remarketing, customer match, custom segments) served
+    to users under 18.
+  - ads reaching under-18 audiences using interests, behaviors, gender, off-platform activity, or zip/sub-city
+    ("pin drop") targeting.
+  - detailed (interest/behavior) targeting of under-18 audiences, or use of restricted objectives (e.g.
+    sales – tiktok shop) reaching under-18s.
+  eval_non_compliant_hits: 6
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

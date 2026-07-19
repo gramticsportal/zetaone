@@ -1,0 +1,324 @@
+schema_version: 1.0.0
+category_id: political
+jurisdiction: US
+phase: A
+review_status: approved
+pack_count: 3
+qc_note: Denoised and approved by curate_and_approve_patterns.py
+packs:
+- canonical_id: political.authorization_and_disclaimer_required
+  category_id: political
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_political_authorization
+  - meta_political_authorization
+  - fec_political_disclaimer
+  source_files:
+  - google_ads_us.yaml
+  - meta_ads_us.yaml
+  - regulators_us.yaml
+  clause_ids:
+  - google.political.compliance_verification
+  - google.political.paid_for_by
+  - meta.political.authorization_disclaimer
+  - fec.political.disclaimer
+  modalities:
+  - text
+  - image
+  - video
+  - audio
+  - landing_page
+  detection_summaries:
+  - election ads run by unverified advertisers, missing a "paid for by" disclosure, or not complying with
+    election laws / silence periods.
+  - social-issue/electoral/political ads run without meta authorization or without a verified "paid for
+    by" disclaimer.
+  - political/express-advocacy/solicitation/electioneering communications (including paid internet ads)
+    lacking a clear and conspicuous disclaimer stating who paid for and, where required, authorized the
+    communication.
+  forbidden_terms:
+  - election
+  - political
+  - social-issue
+  - express-advocacy
+  - solicitation
+  - electioneering
+  forbidden_phrases:
+  - paid for by
+  - authorized by
+  - not authorized by
+  - vote for
+  - political advertisement
+  forbidden_patterns:
+  - pattern: \bpaid\s+for\s+by\b
+    confidence: 0.95
+    note: paid-for-by disclaimer cue
+  - pattern: \b(vote|elect)\s+for\s+\w+
+    confidence: 0.85
+    note: vote/elect for
+  - pattern: \bauthorized\s+by\b
+    confidence: 0.8
+    note: authorization disclaimer
+  requires_context:
+    terms:
+    - vote
+    - elect
+    - election
+    - candidate
+    - campaign
+    - ballot
+    - pac
+    - paid for by
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - verified election advertisers with a 'paid for by' disclosure.
+    - authorized advertisers with a verified 'paid for by' disclaimer.
+    - news publishers identified by meta.
+    - small items (bumper stickers, pins) where a disclaimer is impracticable (11 cfr 110.11(f)).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Verified election advertisers with a 'Paid for by' disclosure.
+    - Authorized advertisers with a verified 'Paid for by' disclaimer.
+    - News publishers identified by Meta.
+    - Small items (bumper stickers, pins) where a disclaimer is impracticable (11 CFR 110.11(f)).
+  vision_labels:
+  - campaign poster
+  - election badge
+  vision_min_confidence: 0.65
+  embedding_prototypes:
+  - election ads run by unverified advertisers, missing a "paid for by" disclosure, or not complying with
+    election laws / silence periods.
+  - social-issue/electoral/political ads run without meta authorization or without a verified "paid for
+    by" disclaimer.
+  - political/express-advocacy/solicitation/electioneering communications (including paid internet ads)
+    lacking a clear and conspicuous disclaimer stating who paid for and, where required, authorized the
+    communication.
+  eval_non_compliant_hits: 21
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Vision-only political hits
+    need OCR/context; min confidence 0.65 Phase A auto-mined from US ontology corpus + eval. Curate before
+    Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: political.paid_political_ads_prohibited
+  category_id: political
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - linkedin_political_prohibited
+  - tiktok_political_prohibited
+  source_files:
+  - linkedin_ads_us.yaml
+  - tiktok_ads_us.yaml
+  clause_ids:
+  - linkedin.political.prohibited
+  - tiktok.political.prohibited
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  - audio
+  detection_summaries:
+  - political ads advocating for/against candidates, parties, ballot propositions, laws or regulations;
+    political fundraising; or ads exploiting a sensitive political issue.
+  - any paid political advertising — promoting/opposing candidates, parties, or issues; ads by political
+    figures/entities; election appeals — outside the narrow official-election-authority exception.
+  forbidden_terms:
+  - political
+  - advocating
+  - against
+  - candidates
+  - parties
+  - propositions
+  - regulations
+  - fundraising
+  - exploiting
+  - sensitive
+  - particular
+  - party
+  - proposition
+  - opposing
+  - figures
+  - election
+  - appeals
+  - outside
+  forbidden_phrases:
+  - political advertisement
+  - vote for
+  - elect
+  - campaign contribution
+  - paid for by
+  - authorized by
+  forbidden_patterns:
+  - pattern: \bpaid\s+for\s+by\b
+    confidence: 0.95
+    note: paid-for-by disclaimer cue
+  - pattern: \b(vote|elect)\s+for\s+\w+
+    confidence: 0.85
+    note: vote/elect for
+  - pattern: \bauthorized\s+by\b
+    confidence: 0.8
+    note: authorization disclaimer
+  requires_context:
+    terms:
+    - vote
+    - elect
+    - election
+    - candidate
+    - campaign
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - official entities overseeing elections (election-process information).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Official entities overseeing elections (election-process information).
+  vision_labels:
+  - campaign poster
+  - election badge
+  - political
+  - election
+  - paid
+  - that
+  - must
+  - disclaimer
+  vision_min_confidence: 0.65
+  embedding_prototypes:
+  - political ads advocating for/against candidates, parties, ballot propositions, laws or regulations;
+    political fundraising; or ads exploiting a sensitive political issue.
+  - any paid political advertising — promoting/opposing candidates, parties, or issues; ads by political
+    figures/entities; election appeals — outside the narrow official-election-authority exception.
+  eval_non_compliant_hits: 19
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise
+- canonical_id: political.synthetic_content_disclosure
+  category_id: political
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - google_political_synthetic
+  source_files:
+  - google_ads_us.yaml
+  clause_ids:
+  - google.political.synthetic_content
+  modalities:
+  - image
+  - video
+  - audio
+  detection_summaries:
+  - election ads with synthetic/digitally altered images, video, or audio that inauthentically depict
+    real or realistic people/events, without the required altered/synthetic-content disclosure.
+  forbidden_terms:
+  - election
+  - synthetic
+  - digitally
+  - altered
+  - video
+  - audio
+  - inauthentically
+  - depict
+  - realistic
+  - events
+  - disclose
+  - specifically
+  - ai-generated
+  - saying
+  - something
+  - never
+  - said
+  - synthetic-content
+  forbidden_phrases:
+  - ai generated
+  - synthetic media
+  - deepfake
+  - digitally altered
+  - vote for
+  - paid for by
+  - authorized by
+  - political advertisement
+  forbidden_patterns:
+  - pattern: \bpaid\s+for\s+by\b
+    confidence: 0.95
+    note: paid-for-by disclaimer cue
+  - pattern: \b(vote|elect)\s+for\s+\w+
+    confidence: 0.85
+    note: vote/elect for
+  - pattern: \bauthorized\s+by\b
+    confidence: 0.8
+    note: authorization disclaimer
+  requires_context:
+    terms:
+    - vote
+    - election
+    - candidate
+    - campaign
+    - ballot
+    - pac
+    - paid for by
+    - synthetic
+    - digitally
+    - altered
+    - video
+    - audio
+    - inauthentically
+    - depict
+    - real
+    note: 'Gate: prefer match when context terms appear near hit'
+  exceptions:
+    terms:
+    - inconsequential edits (resizing, cropping, color correction).
+    - results may vary
+    - for entertainment
+    - informational only
+    - no real money
+    phrases: []
+    patterns: []
+    notes:
+    - Inconsequential edits (resizing, cropping, color correction).
+  vision_labels:
+  - campaign poster
+  - election badge
+  - political
+  - election
+  - paid
+  - that
+  - must
+  - disclaimer
+  vision_min_confidence: 0.65
+  embedding_prototypes:
+  - election ads with synthetic/digitally altered images, video, or audio that inauthentically depict
+    real or realistic people/events, without the required altered/synthetic-content disclosure.
+  eval_non_compliant_hits: 1
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
+    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
+    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  qc:
+    cleaned: true
+    has_phrases: true
+    has_patterns: true
+    has_terms: true
+    approval_rule: approved if phrases or patterns present after denoise

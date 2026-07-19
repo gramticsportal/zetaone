@@ -1131,11 +1131,19 @@ def _model_to_dict(obj: Any, exclude: set[str] | None = None) -> dict[str, Any]:
     if obj is None:
         return {}
     exclude = exclude or set()
+    mapper = obj.__mapper__
     d = {}
     for c in obj.__table__.columns:
         if c.name in exclude:
             continue
-        val = getattr(obj, c.name)
+        # Column name and mapped attribute can differ (e.g. Asset.meta maps
+        # the "metadata" column; plain getattr would hit SQLAlchemy's
+        # Base.metadata registry instead of the JSON column).
+        try:
+            attr_key = mapper.get_property_by_column(c).key
+        except Exception:
+            attr_key = c.name
+        val = getattr(obj, attr_key)
         if hasattr(val, "hex"):
             d[c.name] = str(val)
         elif hasattr(val, "isoformat"):

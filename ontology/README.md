@@ -82,6 +82,14 @@ benchmarks. Full detail: [`ONTOLOGY_MAP.md`](ONTOLOGY_MAP.md).
 | `examples/eval_precedents.yaml` | **44 real-world** eval rows derived from verified enforcement precedents (all `non_compliant`, `test` split) |
 | `examples/load_eval.py` | Loader merging seed + precedent eval files for validate/coverage |
 | `tools/build_eval_precedents.py` | Regenerate `eval_precedents.yaml` from curated precedent list |
+| `examples/eval_harvested.yaml` | **Verbatim** ad copy quoted in enforcement PDFs and BBB decisions, with source doc + page per row (opt-in: `ZATAONE_EVAL_INCLUDE_HARVESTED=1`) |
+| `corpus/selfreg_us.yaml` | US advertising self-regulation — NAD, CARU, DSSRC clauses + rules |
+| `precedents/bbb_selfreg.yaml` | NAD / NARB / CARU / DSSRC decisions as precedents (generated, each source_url fetched) |
+| `tools/harvest_enforcement_ads.py` | Stage 1 — pull quoted ad copy out of precedent complaints / consent orders |
+| `tools/harvest_nad_decisions.py` | Stage 1 — same, from BBB National Programs decisions |
+| `tools/classify_harvest_candidates.py` | Stage 2 — Gemini triage: advertiser copy vs. the document's own legal prose |
+| `tools/promote_harvest.py` | Stage 3 — promote reviewed candidates into `eval_harvested.yaml` |
+| `tools/check_links.py` | Audit source-link health (dead / unreachable / bot-blocked / stale) |
 | `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.11) |
 | `precedents/` | Phase 2 enforcement-precedent layer (Policy → Canonical Rule → Precedent → Evidence → Verdict) |
 | `policy_timeline.yaml` | Per-clause policy diff timeline: introduced / modified / deprecated + official change history |
@@ -389,6 +397,51 @@ Coverage dimensions: **domain** (category), **platform** (source), **jurisdictio
 Health sources: Meta Ad Standards (Health & Wellness, deceptive practices), Google
 Healthcare & Medicines, TikTok Healthcare & Pharmaceuticals, FTC Health Products
 Compliance Guidance, FDA prescription-drug advertising (21 CFR 202.1, "fair balance").
+
+## Enforcement-ad harvest (eval data pipeline)
+
+`eval_seed.yaml` is synthetic and `eval_precedents.yaml` is hand-written
+reconstructions, so both are written in *our* vocabulary rather than the vocabulary
+real advertisers use. The harvest pipeline closes that gap by lifting the advertiser's
+actual wording out of the complaints and consent orders the precedents already cite:
+
+```bash
+# 1. quote extraction (high recall) — federal/state enforcement PDFs, and BBB decisions
+python3.11 ontology/tools/harvest_enforcement_ads.py
+python3.11 ontology/tools/harvest_nad_decisions.py
+
+# 2. ad copy vs. the document's own prose
+GEMINI_API_KEY=... python3.11 ontology/tools/classify_harvest_candidates.py
+GEMINI_API_KEY=... python3.11 ontology/tools/classify_harvest_candidates.py \
+    --in  ontology/examples/nad_candidates.yaml \
+    --out ontology/examples/nad_curated.yaml \
+    --csv ontology/examples/nad_curated.csv
+
+# 3. tick keep? in harvest_curated.csv / nad_curated.csv, then merge both into the eval set
+python3.11 ontology/tools/promote_harvest.py
+```
+
+Each stage is separately cached, so re-running is cheap. Rows carry their source PDF
+and page in `note`, and `labeled_by` distinguishes `expert` (a human ticked keep?) from
+`model` (Gemini triage only, admitted via `--accept-llm`). The file is excluded from
+eval runs unless `ZATAONE_EVAL_INCLUDE_HARVESTED=1`, so unreviewed rows cannot quietly
+move benchmark numbers.
+
+Why it matters — recall by where the example came from, same engine throughout:
+
+| slice | rows | caught |
+|---|---|---|
+| synthetic seed + hand-written reconstructions | 234 | 74% |
+| verbatim federal/state enforcement copy | 183 | 43% |
+| verbatim BBB self-regulatory copy | 1,797 | 39% |
+
+Real ad copy is roughly half as detectable as the material the corpus used to be scored
+on, and the two independent verbatim sources agree closely — so that gap is a property
+of real advertising language, not of one harvest.
+
+Note the resulting class balance: 2,214 non-compliant against 190 compliant. Tuning for
+recall on that ratio will push the matcher to over-fire, and specificity is already the
+weakest number (0.268). Compliant counter-examples should land before matcher work.
 
 ## Corpus versioning
 

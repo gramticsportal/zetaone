@@ -58,9 +58,9 @@ BACKFILL: dict[str, dict] = {
         "why_this_matters": "Dark-pattern finance ad case on false 'pre-approved' credit offers.",
         "retrieval_keywords": ["Credit Karma", "pre-approved", "dark patterns", "credit cards", "FTC"],
     },
-    "prec.ftc.walmart_made_in_usa_2022": {
-        "why_this_matters": "Made in USA origin-claim enforcement applicable to product marketing ads.",
-        "retrieval_keywords": ["Walmart", "Made in USA", "origin claims", "deceptive advertising", "FTC"],
+    "prec.ftc.walmart_bamboo_greenwashing_2022": {
+        "why_this_matters": "Greenwashing and fiber-content enforcement — unqualified environmental and material-composition claims in product advertising require substantiation.",
+        "retrieval_keywords": ["Walmart", "bamboo", "rayon", "greenwashing", "environmental claims", "ecofriendly", "FTC"],
     },
     "prec.ftc.devry_education_claims_2016": {
         "why_this_matters": "Education earnings-outcome advertising case for employment statistics in ads.",

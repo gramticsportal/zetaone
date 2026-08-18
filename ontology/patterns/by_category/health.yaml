@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 8
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: health.disease_cure_treatment_claims
   category_id: health
@@ -30,21 +30,14 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - non-approved products implying they prevent, cure, or treat a disease, or that they are as effective
-    as prescription drugs.
-  - claims to cure/heal/eliminate incurable disease or terminal illness, or sensational exaggerated health
-    claims (health clickbait).
-  - express or implied disease cure/treatment/prevention claims for non-drug products (net-impression
-    test).
+  - non-approved products implying they prevent, cure, or treat a disease, or that they are as effective as prescription drugs.
+  - claims to cure/heal/eliminate incurable disease or terminal illness, or sensational exaggerated health claims (health clickbait).
+  - express or implied disease cure/treatment/prevention claims for non-drug products (net-impression test).
   forbidden_terms:
   - cure
   - heal
-  - eliminate
   - non-approved
-  - prevent
-  - treat
   - disease
-  - effective
   - prescription
   - drugs
   - doesn't
@@ -113,16 +106,11 @@ packs:
   - claims
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - non-approved products implying they prevent, cure, or treat a disease, or that they are as effective
-    as prescription drugs.
-  - claims to cure/heal/eliminate incurable disease or terminal illness, or sensational exaggerated health
-    claims (health clickbait).
-  - express or implied disease cure/treatment/prevention claims for non-drug products (net-impression
-    test).
+  - non-approved products implying they prevent, cure, or treat a disease, or that they are as effective as prescription drugs.
+  - claims to cure/heal/eliminate incurable disease or terminal illness, or sensational exaggerated health claims (health clickbait).
+  - express or implied disease cure/treatment/prevention claims for non-drug products (net-impression test).
   eval_non_compliant_hits: 14
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -145,21 +133,18 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - asserting or implying a person's physical/mental health or medical condition (e.g. "struggling with
-    depression?").
+  - asserting or implying a person's physical/mental health or medical condition (e.g. "struggling with depression?").
   forbidden_terms:
   - asserting
   - person's
   - physical
   - mental
-  - health
   - medical
   - condition
   - struggling
   - depression
   - asserts
   - implies
-  - personal
   - attributes
   - includes
   - direct
@@ -236,12 +221,9 @@ packs:
   - claims
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - asserting or implying a person's physical/mental health or medical condition (e.g. "struggling with
-    depression?").
+  - asserting or implying a person's physical/mental health or medical condition (e.g. "struggling with depression?").
   eval_non_compliant_hits: 1
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -271,15 +253,11 @@ packs:
   - conspicuously
   - disclose
   - limitations
-  - significant
   - safety
   - risks
   - misleading
   - fails
-  - light
-  - consumers
   - customarily
-  - product
   - natural
   - sleep
   - zero
@@ -356,9 +334,7 @@ packs:
   embedding_prototypes:
   - failure to clearly and conspicuously disclose material limitations or significant safety risks.
   eval_non_compliant_hits: 2
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -381,10 +357,8 @@ packs:
   - image
   - video
   detection_summaries:
-  - diet/weight-loss/cosmetic ads that generate negative self-perception, body shaming, before-and-after
-    transformation imagery (except fitness), or close-ups pinching fat.
+  - diet/weight-loss/cosmetic ads that generate negative self-perception, body shaming, before-and-after transformation imagery (except fitness), or close-ups pinching fat.
   forbidden_terms:
-  - diet
   - weight-loss
   - cosmetic
   - generate
@@ -399,7 +373,6 @@ packs:
   - attempt
   - declare
   - there
-  - perfect
   - can't
   - weight
   forbidden_phrases:
@@ -477,12 +450,9 @@ packs:
   - claims
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - diet/weight-loss/cosmetic ads that generate negative self-perception, body shaming, before-and-after
-    transformation imagery (except fitness), or close-ups pinching fat.
+  - diet/weight-loss/cosmetic ads that generate negative self-perception, body shaming, before-and-after transformation imagery (except fitness), or close-ups pinching fat.
   eval_non_compliant_hits: 2
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -512,29 +482,22 @@ packs:
   - image
   - video
   detection_summaries:
-  - offering prescription drugs without a prescription, or promoting prescription drug services without
-    required certification/application.
-  - prescription/otc/pharmacy promotion in the us without the required fda approval/certification, third-party
-    pharmacy certification, or 18+ targeting.
+  - offering prescription drugs without a prescription, or promoting prescription drug services without required certification/application.
+  - prescription/otc/pharmacy promotion in the us without the required fda approval/certification, third-party pharmacy certification, or 18+ targeting.
   forbidden_terms:
   - offering
   - prescription
   - drugs
   - drug
-  - application
   - locations
   - aren't
-  - licensed
   - restricts
-  - online
   - prescribing
   - dispensing
   - sale
   - pharmacy
   - approval
-  - third-party
   - healthcare
-  - highly
   forbidden_phrases:
   - fda approved
   - clinically proven
@@ -607,14 +570,10 @@ packs:
   - claims
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - offering prescription drugs without a prescription, or promoting prescription drug services without
-    required certification/application.
-  - prescription/otc/pharmacy promotion in the us without the required fda approval/certification, third-party
-    pharmacy certification, or 18+ targeting.
+  - offering prescription drugs without a prescription, or promoting prescription drug services without required certification/application.
+  - prescription/otc/pharmacy promotion in the us without the required fda approval/certification, third-party pharmacy certification, or 18+ targeting.
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -639,24 +598,19 @@ packs:
   - audio
   - landing_page
   detection_summaries:
-  - prescription-drug product-claim ads lacking fair balance of risk vs benefit, or missing the major
-    statement / adequate provision.
+  - prescription-drug product-claim ads lacking fair balance of risk vs benefit, or missing the major statement / adequate provision.
   forbidden_terms:
   - prescription-drug
   - product-claim
   - fair
-  - balance
   - benefit
-  - major
   - adequate
   - provision
-  - product
   - present
   - benefits
   - risks
   - prescription
   - drug
-  - balanced
   - fashion
   - broadcast
   - include
@@ -729,12 +683,9 @@ packs:
   - claims
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - prescription-drug product-claim ads lacking fair balance of risk vs benefit, or missing the major
-    statement / adequate provision.
+  - prescription-drug product-claim ads lacking fair balance of risk vs benefit, or missing the major statement / adequate provision.
   eval_non_compliant_hits: 1
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -763,8 +714,7 @@ packs:
   - landing_page
   detection_summaries:
   - unapproved/dangerous substances, prescription opioid painkillers, or speculative/experimental treatments.
-  - cbd products beyond the narrow us exception (non-topical, >=0.3% thc, no legitscript cert, under-25
-    targeting).
+  - cbd products beyond the narrow us exception (non-topical, >=0.3% thc, no legitscript cert, under-25 targeting).
   forbidden_terms:
   - unapproved
   - dangerous
@@ -857,12 +807,9 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - unapproved/dangerous substances, prescription opioid painkillers, or speculative/experimental treatments.
-  - cbd products beyond the narrow us exception (non-topical, >=0.3% thc, no legitscript cert, under-25
-    targeting).
+  - cbd products beyond the narrow us exception (non-topical, >=0.3% thc, no legitscript cert, under-25 targeting).
   eval_non_compliant_hits: 7
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -890,26 +837,18 @@ packs:
   - landing_page
   detection_summaries:
   - clinical-trial recruitment creating misleading expectations or implying the tested product is safe.
-  - health benefit/safety claims lacking competent and reliable scientific evidence; drug benefits beyond
-    fda-approved use.
+  - health benefit/safety claims lacking competent and reliable scientific evidence; drug benefits beyond fda-approved use.
   forbidden_terms:
   - clinical-trial
   - recruitment
   - creating
   - misleading
   - expectations
-  - tested
-  - product
   - safe
-  - clinical
   - trial
-  - create
-  - health
   - benefit
   - safety
   - competent
-  - reliable
-  - scientific
   - evidence
   forbidden_phrases:
   - fda approved
@@ -931,6 +870,9 @@ packs:
   - pattern: \bclinically\s+proven\b
     confidence: 0.8
     note: clinical proof claim
+  - pattern: \b(?:helps?|supports?|promotes?|boosts?|improves?|enhances?|maintains?|restores?|maximizes?)\s+(?:to\s+)?(?:\w+\s+){0,3}?\b(?:health|healthy|immun\w+|energy|metabolis\w+|digest\w+|cognitive|memory|focus|attentiveness|joint|heart|brain|blood|sleep|mood|weight|muscle|bone|skin|vision|liver|recovery|performance|levels?)\b
+    confidence: 0.72
+    note: structure/function claim
   requires_context:
     terms:
     - pain
@@ -953,6 +895,27 @@ packs:
     - clinical-trial
     - recruitment
     - creating
+    - energy
+    - immune
+    - immunity
+    - metabolism
+    - focus
+    - memory
+    - cognitive
+    - sleep
+    - joint
+    - digestion
+    - digestive
+    - weight
+    - muscle
+    - bone
+    - skin
+    - mood
+    - stress
+    - vision
+    - recovery
+    - wellness
+    - supplement
     - misleading
     - expectations
     - tested
@@ -982,12 +945,9 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - clinical-trial recruitment creating misleading expectations or implying the tested product is safe.
-  - health benefit/safety claims lacking competent and reliable scientific evidence; drug benefits beyond
-    fda-approved use.
+  - health benefit/safety claims lacking competent and reliable scientific evidence; drug benefits beyond fda-approved use.
   eval_non_compliant_hits: 12
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

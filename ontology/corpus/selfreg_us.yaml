@@ -1,0 +1,417 @@
+# US advertising self-regulation: BBB National Programs (NAD, CARU, DSSRC).
+#
+# These bodies are not government agencies, but they set and enforce the operative
+# truth-in-advertising standards for US national advertising, and they refer
+# non-compliant advertisers to the FTC or state AGs. Their case volume dwarfs federal
+# enforcement: ~2,200 published decisions vs. the handful of FTC actions per year.
+#
+# Typed as `regulator` because schema v1 freezes source_type to [platform, regulator],
+# and the UK ASA — likewise self-regulatory — is already modeled that way (asa_uk).
+#
+# Every quote below is verbatim from the linked primary document.
+
+sources:
+  - id: nad_us
+    type: regulator
+    name: BBB National Programs — National Advertising Division (NAD)
+    jurisdiction: [US]
+    url: https://bbbprograms.org/programs/all-programs/national-advertising-division
+    status: active
+    retrieved_at: 2026-08-12
+    last_verified_at: 2026-08-12
+
+  - id: caru_us
+    type: regulator
+    name: BBB National Programs — Children's Advertising Review Unit (CARU)
+    jurisdiction: [US]
+    url: https://bbbprograms.org/programs/children/caru
+    status: active
+    retrieved_at: 2026-08-12
+    last_verified_at: 2026-08-12
+
+  - id: dssrc_us
+    type: regulator
+    name: BBB National Programs — Direct Selling Self-Regulatory Council (DSSRC)
+    jurisdiction: [US]
+    url: https://bbbprograms.org/programs/advertising/dssrc
+    status: active
+    retrieved_at: 2026-08-12
+    last_verified_at: 2026-08-12
+
+clauses:
+  # --- NAD -------------------------------------------------------------------
+  - id: nad.misleading.truthful_accurate
+    source_id: nad_us
+    category_id: misleading
+    text: >
+      NAD is charged with independent responsibility for monitoring and reviewing national
+      advertising for truthfulness and accuracy.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2026-03-16
+    version: NAD-NARB-Procedures-2026-03-16
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: NAD is charged with independent responsibility for monitoring and reviewing national advertising for truthfulness and accuracy.
+      source_url: https://bbbprograms.org/getmedia/133fded6-5046-44de-a30e-f0890377480c/NAD-NARB-Procedures.pdf
+      section: NAD/NARB Procedures > Section 2.1(B) Advertising Monitoring
+      retrieved_at: 2026-08-12
+
+  - id: nad.misleading.substantiation_or_discontinue
+    source_id: nad_us
+    category_id: misleading
+    text: >
+      If NAD decides that some or all the advertising claims at issue are misleading or not
+      substantiated and therefore require modification or discontinuance, the advertiser
+      shall submit an Advertiser's Statement.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2026-03-16
+    version: NAD-NARB-Procedures-2026-03-16
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: If NAD decides that some or all the advertising claims at issue are misleading or not substantiated and therefore require modification or discontinuance, the advertiser shall, within 5 business days of receipt of the decision, submit an Advertiser's Statement.
+      source_url: https://bbbprograms.org/getmedia/133fded6-5046-44de-a30e-f0890377480c/NAD-NARB-Procedures.pdf
+      section: NAD/NARB Procedures > Section 5.1(A) Advertiser's Statement
+      retrieved_at: 2026-08-12
+
+  # --- CARU ------------------------------------------------------------------
+  - id: caru.minors.substantiation_child_claims
+    source_id: caru_us
+    category_id: minors
+    text: >
+      Advertisers should have adequate substantiation for all objective claims conveyed by
+      the Ad.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-01-01
+    version: CARU-Advertising-Guidelines-2021
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [minors]
+    evidence:
+      quote: Advertisers should have adequate substantiation for all objective claims conveyed by the Ad.
+      source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+      section: CARU Advertising Guidelines > Deception > a. General Principles (3)
+      retrieved_at: 2026-08-12
+
+  - id: caru.minors.product_benefit_claims
+    source_id: caru_us
+    category_id: minors
+    text: >
+      Presentations should not mislead Children about benefits from use of the product. Such
+      benefits may include, but are not limited to, the acquisition of strength, status,
+      popularity, growth, proficiency, or intelligence.
+    modalities: [text, image, video, audio]
+    jurisdiction: [US]
+    effective_date: 2022-01-01
+    version: CARU-Advertising-Guidelines-2021
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [minors]
+    evidence:
+      quote: Presentations should not mislead Children about benefits from use of the product. Such benefits may include, but are not limited to, the acquisition of strength, status, popularity, growth, proficiency, or intelligence.
+      source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+      section: CARU Advertising Guidelines > Deception > b. Product or Service Presentations and Claims (2)
+      retrieved_at: 2026-08-12
+
+  - id: caru.minors.material_disclosures_clear
+    source_id: caru_us
+    category_id: minors
+    text: >
+      All disclosures material to Children should be Clear, taking into account Children's
+      limited vocabularies and level of language skills.
+    modalities: [text, image, video, audio, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-01-01
+    version: CARU-Advertising-Guidelines-2021
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [minors]
+    evidence:
+      quote: All disclosures material to Children should be Clear, taking into account Children's limited vocabularies and level of language skills.
+      source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+      section: CARU Advertising Guidelines > Deception > c. Material Disclosures (1)
+      retrieved_at: 2026-08-12
+
+  - id: caru.minors.endorser_material_connection
+    source_id: caru_us
+    category_id: minors
+    text: >
+      Advertisers should ensure that their Endorsers Clearly and Conspicuously disclose that
+      they have a material connection to the Advertiser (i.e., a connection that is not
+      expected by ordinary Children).
+    modalities: [text, image, video, audio]
+    jurisdiction: [US]
+    effective_date: 2022-01-01
+    version: CARU-Advertising-Guidelines-2021
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [minors]
+    evidence:
+      quote: Advertisers should ensure that their Endorsers Clearly and Conspicuously disclose that they have a material connection to the Advertiser (i.e., a connection that is not expected by ordinary Children).
+      source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+      section: CARU Advertising Guidelines > Deception > d. Endorsers and Influencers (5)
+      retrieved_at: 2026-08-12
+
+  - id: caru.minors.ad_content_blurring
+    source_id: caru_us
+    category_id: minors
+    text: >
+      Advertisements must be easily identifiable as Advertising. Therefore, Advertising
+      should not be presented in a manner that blurs the distinction between Advertising and
+      non-Advertising content.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-01-01
+    version: CARU-Advertising-Guidelines-2021
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [minors]
+    evidence:
+      quote: Advertisements must be easily identifiable as Advertising. Therefore, Advertising should not be presented in a manner that blurs the distinction between Advertising and non-Advertising content.
+      source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+      section: CARU Advertising Guidelines > Deception > e. Blurring of Advertising and Content (1)
+      retrieved_at: 2026-08-12
+
+  # --- DSSRC -----------------------------------------------------------------
+  - id: dssrc.finance.earnings_substantiation
+    source_id: dssrc_us
+    category_id: financial
+    text: >
+      All earnings claims should be supported by substantiation demonstrating that the
+      earnings communicated in the claim are accurate as to the individual or individuals
+      depicted in the claim. Atypical earnings claims should also be accompanied by a clear
+      and conspicuous disclosure regarding the income that can be generally expected by the
+      typical salesforce member in the depicted scenario.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-06-02
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: All earnings claims should be supported by substantiation demonstrating that the earnings communicated in the claim are accurate as to the individual or individuals depicted in the claim. Atypical earnings claims should also be accompanied by a clear and conspicuous disclosure regarding the income that can be generally expected by the typical salesforce member in the depicted scenario.
+      source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+      section: DSSRC Guidance on Earnings Claims > Section 7
+      retrieved_at: 2026-08-12
+
+  - id: dssrc.finance.prohibited_income_phrases
+    source_id: dssrc_us
+    category_id: financial
+    text: >
+      Some words and phrases are prohibited when made to a general audience of prospective or
+      current salesforce members, including "quit your job," "be set for life," "unlimited
+      income," "full-time income," "replacement income," and "career-level income." Terms
+      such as "passive income" and "residual income" are prohibited when they convey that
+      income can be continuously earned with little or no ongoing effort.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-06-02
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: >-
+        Such words and phrases include statements such as "quit your job," "be set for life," "make more money than you ever have imagined or thought possible," "unlimited income," "full-time income," "replacement income," "career-level income," or any substantially similar statements or representations. Other terms, such as "passive income" and "residual income," are prohibited when they convey that income can be continuously earned by salesforce members with little or no ongoing effort.
+      source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+      section: DSSRC Guidance on Earnings Claims > Section 6
+      retrieved_at: 2026-08-12
+
+  - id: dssrc.finance.lavish_lifestyle_claims
+    source_id: dssrc_us
+    category_id: financial
+    text: >
+      Lavish lifestyle claims either expressly state or imply through visual images or
+      otherwise that participation in a direct selling business is likely to result in the
+      ability of the participants to live a lavish or extravagant lifestyle.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-06-02
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: Lavish lifestyle claims either expressly state or imply through visual images or otherwise that participation in a direct selling business is likely to result in the ability of the participants to live a lavish or extravagant lifestyle.
+      source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+      section: DSSRC Guidance on Earnings Claims > Section 5
+      retrieved_at: 2026-08-12
+
+  - id: dssrc.finance.company_responsible_for_salesforce
+    source_id: dssrc_us
+    category_id: financial
+    text: >
+      A direct selling company is responsible for the earnings claims made by its salesforce
+      members.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2022-06-02
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    status: active
+    last_verified_at: 2026-08-12
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [financial]
+    evidence:
+      quote: A direct selling company is responsible for the earnings claims made by its salesforce members.
+      source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+      section: DSSRC Guidance on Earnings Claims > Section 4
+      retrieved_at: 2026-08-12
+
+rules:
+  - id: nad_truth_and_substantiation
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids:
+      - nad.misleading.truthful_accurate
+      - nad.misleading.substantiation_or_discontinue
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, audio, landing_page]
+    priority: 90
+    detection: >
+      National advertising claims that are misleading or lack substantiation, and so would be
+      recommended for modification or discontinuance on NAD review.
+    exceptions:
+      - Claims the advertiser can substantiate with competent and reliable evidence.
+      - Puffery a reasonable consumer would not take as an objective claim.
+    status: active
+
+  - id: caru_child_claim_substantiation
+    canonical_id: misleading.unsubstantiated_objective_claims
+    clause_ids:
+      - caru.minors.substantiation_child_claims
+      - caru.minors.product_benefit_claims
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, audio]
+    priority: 92
+    detection: >
+      Child-directed advertising making objective product or benefit claims — strength,
+      status, popularity, proficiency, intelligence — without adequate substantiation.
+    exceptions:
+      - Fantasy treatments that do not create unattainable performance expectations.
+    status: active
+
+  - id: caru_child_material_disclosure
+    canonical_id: misleading.missing_or_inconsistent_material_info
+    clause_ids:
+      - caru.minors.material_disclosures_clear
+    category_id: minors
+    severity: medium
+    modalities: [text, image, video, audio, landing_page]
+    priority: 85
+    detection: >
+      Child-directed advertising whose material disclosures are absent, or worded beyond a
+      child's vocabulary and language skills.
+    status: active
+
+  - id: caru_child_endorser_disclosure
+    canonical_id: misleading.false_affiliation_or_endorsement
+    clause_ids:
+      - caru.minors.endorser_material_connection
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, audio]
+    priority: 90
+    detection: >
+      Influencer or endorser content directed to children that does not clearly and
+      conspicuously disclose a material connection to the advertiser.
+    status: active
+
+  - id: caru_ad_content_blurring
+    canonical_id: minors.child_directed_content_ad_restrictions
+    clause_ids:
+      - caru.minors.ad_content_blurring
+    category_id: minors
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 90
+    detection: >
+      Child-directed advertising presented so it blurs into editorial, game or program
+      content and is not identifiable as advertising.
+    exceptions:
+      - Formats so clearly commercial that children recognize them without a disclosure.
+    status: active
+
+  - id: dssrc_earnings_claims_substantiation
+    canonical_id: finance.performance_claims_substantiation
+    clause_ids:
+      - dssrc.finance.earnings_substantiation
+      - dssrc.finance.company_responsible_for_salesforce
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 93
+    detection: >
+      Direct-selling or business-opportunity earnings claims — by the company or its
+      salesforce — without substantiation, or atypical earnings shown without disclosing
+      generally expected income.
+    exceptions:
+      - Earnings substantiated as generally expected for the depicted scenario.
+    status: active
+
+  - id: dssrc_income_and_lifestyle_claims
+    canonical_id: finance.misleading_or_unbalanced_claims
+    clause_ids:
+      - dssrc.finance.prohibited_income_phrases
+      - dssrc.finance.lavish_lifestyle_claims
+    category_id: financial
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 93
+    detection: >
+      Prohibited income phrasing (quit your job, unlimited income, financial freedom, passive
+      income) or lavish-lifestyle depictions — mansions, jets, yachts, exotic cars — implying
+      participation yields extravagant living.
+    exceptions:
+      - Time flexibility framed as supplemental income on a flexible schedule.
+    status: active

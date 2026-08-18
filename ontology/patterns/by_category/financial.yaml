@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 11
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: finance.credit_advertising_trigger_terms
   category_id: financial
@@ -26,29 +26,21 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - personal-loan ads under 61-day repayment, or missing required min/max repayment period, max apr, and
-    a representative cost example.
-  - credit ads stating terms not actually available, omitting the apr (as "annual percentage rate"), or
-    stating a triggering term without the required additional disclosures (downpayment, repayment terms,
-    apr).
+  - personal-loan ads under 61-day repayment, or missing required min/max repayment period, max apr, and a representative cost example.
+  - credit ads stating terms not actually available, omitting the apr (as "annual percentage rate"), or stating a triggering term without the required additional disclosures (downpayment, repayment terms, apr).
   forbidden_terms:
   - personal-loan
   - repayment
   - period
   - representative
   - cost
-  - personal
-  - require
   - full
   - days
   - longer
-  - terms
   - actually
-  - available
   - omitting
   - annual
   - percentage
-  - rate
   - triggering
   forbidden_phrases:
   - guaranteed returns
@@ -112,15 +104,10 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - personal-loan ads under 61-day repayment, or missing required min/max repayment period, max apr, and
-    a representative cost example.
-  - credit ads stating terms not actually available, omitting the apr (as "annual percentage rate"), or
-    stating a triggering term without the required additional disclosures (downpayment, repayment terms,
-    apr).
+  - personal-loan ads under 61-day repayment, or missing required min/max repayment period, max apr, and a representative cost example.
+  - credit ads stating terms not actually available, omitting the apr (as "annual percentage rate"), or stating a triggering term without the required additional disclosures (downpayment, repayment terms, apr).
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -151,10 +138,8 @@ packs:
   - landing_page
   detection_summaries:
   - cryptocurrency-related ads without required certification or non-compliant with state/local regulations.
-  - cryptocurrency trading platforms / monetization / staking / swapping ads run without prior written
-    permission and a recognized regulatory license.
-  - crypto ads outside the us allowance (unlicensed, no certification, no disclaimers, under-18) or prohibited
-    types (icos, crypto atms, mining devices).
+  - cryptocurrency trading platforms / monetization / staking / swapping ads run without prior written permission and a recognized regulatory license.
+  - crypto ads outside the us allowance (unlicensed, no certification, no disclaimers, under-18) or prohibited types (icos, crypto atms, mining devices).
   forbidden_terms:
   - crypto
   - bitcoin
@@ -167,7 +152,6 @@ packs:
   - allows
   - categories
   - advertised
-  - limited
   - circumstances
   - cryptocurrency
   - trading
@@ -248,14 +232,10 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - cryptocurrency-related ads without required certification or non-compliant with state/local regulations.
-  - cryptocurrency trading platforms / monetization / staking / swapping ads run without prior written
-    permission and a recognized regulatory license.
-  - crypto ads outside the us allowance (unlicensed, no certification, no disclaimers, under-18) or prohibited
-    types (icos, crypto atms, mining devices).
+  - cryptocurrency trading platforms / monetization / staking / swapping ads run without prior written permission and a recognized regulatory license.
+  - crypto ads outside the us allowance (unlicensed, no certification, no disclaimers, under-18) or prohibited types (icos, crypto atms, mining devices).
   eval_non_compliant_hits: 9
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -282,12 +262,9 @@ packs:
   - landing_page
   detection_summaries:
   - services that guarantee financial return, guarantee foreclosure prevention, or guarantee loan modification.
-  - get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial offers (implied guaranteed/outsized
-    returns).
+  - get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial offers (implied guaranteed/outsized returns).
   forbidden_terms:
   - risk-free
-  - guarantee
-  - financial
   - foreclosure
   - prevention
   - modification
@@ -297,7 +274,6 @@ packs:
   - mortgages
   - peer-to-peer
   - get-rich-quick
-  - offers
   - pyramid
   - schemes
   - too-good-to-be-true
@@ -357,12 +333,9 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - services that guarantee financial return, guarantee foreclosure prevention, or guarantee loan modification.
-  - get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial offers (implied guaranteed/outsized
-    returns).
+  - get-rich-quick offers, pyramid schemes, or too-good-to-be-true financial offers (implied guaranteed/outsized returns).
   eval_non_compliant_hits: 9
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -395,12 +368,9 @@ packs:
   - landing_page
   detection_summaries:
   - financial-services ads run without completing required location-specific licensing/registration verification.
-  - restricted financial products/services advertised without meeting linkedin's financial-services restrictions
-    (incl. 18+ targeting).
-  - financial-product ads not targeted 18+, or run without required authorization / identity verification
-    / legally-required disclosures.
-  - financial-services ads run without being licensed by local/regional authorities, without required
-    disclaimers, or not restricted to 18+.
+  - restricted financial products/services advertised without meeting linkedin's financial-services restrictions (incl. 18+ targeting).
+  - financial-product ads not targeted 18+, or run without required authorization / identity verification / legally-required disclosures.
+  - financial-services ads run without being licensed by local/regional authorities, without required disclaimers, or not restricted to 18+.
   forbidden_terms:
   - financial-services
   - completing
@@ -408,7 +378,6 @@ packs:
   - licensing
   - registration
   - advertise
-  - financial
   - locations
   - providing
   - type
@@ -490,16 +459,11 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - financial-services ads run without completing required location-specific licensing/registration verification.
-  - restricted financial products/services advertised without meeting linkedin's financial-services restrictions
-    (incl. 18+ targeting).
-  - financial-product ads not targeted 18+, or run without required authorization / identity verification
-    / legally-required disclosures.
-  - financial-services ads run without being licensed by local/regional authorities, without required
-    disclaimers, or not restricted to 18+.
+  - restricted financial products/services advertised without meeting linkedin's financial-services restrictions (incl. 18+ targeting).
+  - financial-product ads not targeted 18+, or run without required authorization / identity verification / legally-required disclosures.
+  - financial-services ads run without being licensed by local/regional authorities, without required disclaimers, or not restricted to 18+.
   eval_non_compliant_hits: 0
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -522,12 +486,10 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - loan-modification/foreclosure ads that guarantee outcomes, charge upfront fees (non-law-firm), seek
-    title transfer, or discourage lender contact.
+  - loan-modification/foreclosure ads that guarantee outcomes, charge upfront fees (non-law-firm), seek title transfer, or discourage lender contact.
   forbidden_terms:
   - loan-modification
   - foreclosure
-  - guarantee
   - outcomes
   - charge
   - upfront
@@ -609,12 +571,9 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - loan-modification/foreclosure ads that guarantee outcomes, charge upfront fees (non-law-firm), seek
-    title transfer, or discourage lender contact.
+  - loan-modification/foreclosure ads that guarantee outcomes, charge upfront fees (non-law-firm), seek title transfer, or discourage lender contact.
   eval_non_compliant_hits: 1
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -642,20 +601,14 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - financial ads with misleading, deceptive, or unsupported competitive claims, or missing required disclosures
-    / privacy policy / contact info.
-  - untrue/omitted material facts, or benefits discussed without fair and balanced treatment of material
-    risks/limitations (investment adviser ads).
-  - communications that are not fair and balanced, omit material facts, make false/exaggerated/promissory
-    claims, or lack balanced risk vs benefit.
+  - financial ads with misleading, deceptive, or unsupported competitive claims, or missing required disclosures / privacy policy / contact info.
+  - untrue/omitted material facts, or benefits discussed without fair and balanced treatment of material risks/limitations (investment adviser ads).
+  - communications that are not fair and balanced, omit material facts, make false/exaggerated/promissory claims, or lack balanced risk vs benefit.
   forbidden_terms:
-  - financial
   - misleading
   - deceptive
   - unsupported
   - competitive
-  - privacy
-  - contact
   - info
   - trading
   - exchanges
@@ -730,16 +683,11 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - financial ads with misleading, deceptive, or unsupported competitive claims, or missing required disclosures
-    / privacy policy / contact info.
-  - untrue/omitted material facts, or benefits discussed without fair and balanced treatment of material
-    risks/limitations (investment adviser ads).
-  - communications that are not fair and balanced, omit material facts, make false/exaggerated/promissory
-    claims, or lack balanced risk vs benefit.
+  - financial ads with misleading, deceptive, or unsupported competitive claims, or missing required disclosures / privacy policy / contact info.
+  - untrue/omitted material facts, or benefits discussed without fair and balanced treatment of material risks/limitations (investment adviser ads).
+  - communications that are not fair and balanced, omit material facts, make false/exaggerated/promissory claims, or lack balanced risk vs benefit.
   eval_non_compliant_hits: 9
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -762,8 +710,7 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - dwelling-secured credit ads with misleading "fixed" rates, misleading comparisons, false government
-    endorsement, misuse of the current lender's name, debt-elimination claims, or misuse of "counselor."
+  - dwelling-secured credit ads with misleading "fixed" rates, misleading comparisons, false government endorsement, misuse of the current lender's name, debt-elimination claims, or misuse of "counselor."
   forbidden_terms:
   - dwelling-secured
   - misleading
@@ -779,7 +726,6 @@ packs:
   - dwelling
   - misleadingly
   - advertise
-  - guarantee
   - we'll
   - stop
   - foreclosure
@@ -844,12 +790,9 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - dwelling-secured credit ads with misleading "fixed" rates, misleading comparisons, false government
-    endorsement, misuse of the current lender's name, debt-elimination claims, or misuse of "counselor."
+  - dwelling-secured credit ads with misleading "fixed" rates, misleading comparisons, false government endorsement, misuse of the current lender's name, debt-elimination claims, or misuse of "counselor."
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -876,11 +819,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - false/misleading profit or earnings representations, or risk-free/low-risk claims, for a money-making
-    opportunity without a reasonable basis and written substantiation held at the time of the claim.
+  - false/misleading profit or earnings representations, or risk-free/low-risk claims, for a money-making opportunity without a reasonable basis and written substantiation held at the time of the claim.
   - performance results included/excluded or time periods presented in a manner that is not fair and balanced.
-  - predicting/projecting performance, implying past performance will recur, or making exaggerated/unwarranted
-    claims, opinions, or forecasts.
+  - predicting/projecting performance, implying past performance will recur, or making exaggerated/unwarranted claims, opinions, or forecasts.
   forbidden_terms:
   - 'false'
   - misleading
@@ -890,7 +831,6 @@ packs:
   - risk-free
   - low-risk
   - money-making
-  - opportunity
   - reasonable
   - basis
   - written
@@ -898,7 +838,6 @@ packs:
   - deceptive
   - trade
   - concerning
-  - performance
   - included
   forbidden_phrases:
   - guaranteed returns
@@ -968,15 +907,11 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - false/misleading profit or earnings representations, or risk-free/low-risk claims, for a money-making
-    opportunity without a reasonable basis and written substantiation held at the time of the claim.
+  - false/misleading profit or earnings representations, or risk-free/low-risk claims, for a money-making opportunity without a reasonable basis and written substantiation held at the time of the claim.
   - performance results included/excluded or time periods presented in a manner that is not fair and balanced.
-  - predicting/projecting performance, implying past performance will recur, or making exaggerated/unwarranted
-    claims, opinions, or forecasts.
+  - predicting/projecting performance, implying past performance will recur, or making exaggerated/unwarranted claims, opinions, or forecasts.
   eval_non_compliant_hits: 7
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -1011,22 +946,14 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - 'prohibited/heavily-restricted financial products: binary options, credit repair, us personal loans
-    with apr ≥36%, or unlicensed complex speculative products (cfds, spread betting, forex).'
-  - 'promotion of linkedin-prohibited financial products: payday loans, reverse mortgages, p2p lending,
-    binary options, penny auctions, penny stocks, or products to facilitate illegal purposes.'
-  - 'promotion of meta-prohibited financial products: payday loans, paycheck advances, bail bonds, short-term
-    loans ≤90 days, penny auctions, binary options, icos, contracts for difference, or misleading student-loan
-    consolidation/forgiveness/refinancing.'
-  - 'us-prohibited financial products: bail bonds, cfds/spread betting/penny stocks/binary options/mini-bonds,
-    credit repair, payday/pawnbroker loans, penny auctions, precious metals trading, single securities,
-    unaccredited digital banks.'
+  - 'prohibited/heavily-restricted financial products: binary options, credit repair, us personal loans with apr ≥36%, or unlicensed complex speculative products (cfds, spread betting, forex).'
+  - 'promotion of linkedin-prohibited financial products: payday loans, reverse mortgages, p2p lending, binary options, penny auctions, penny stocks, or products to facilitate illegal purposes.'
+  - 'promotion of meta-prohibited financial products: payday loans, paycheck advances, bail bonds, short-term loans ≤90 days, penny auctions, binary options, icos, contracts for difference, or misleading student-loan consolidation/forgiveness/refinancing.'
+  - 'us-prohibited financial products: bail bonds, cfds/spread betting/penny stocks/binary options/mini-bonds, credit repair, payday/pawnbroker loans, penny auctions, precious metals trading, single securities, unaccredited digital banks.'
   forbidden_terms:
   - heavily-restricted
-  - financial
   - binary
   - repair
-  - personal
   - unlicensed
   - complex
   - speculative
@@ -1039,7 +966,6 @@ packs:
   - sites
   - blogs
   - applies
-  - offer
   forbidden_phrases:
   - guaranteed returns
   - get rich
@@ -1105,20 +1031,12 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - 'prohibited/heavily-restricted financial products: binary options, credit repair, us personal loans
-    with apr ≥36%, or unlicensed complex speculative products (cfds, spread betting, forex).'
-  - 'promotion of linkedin-prohibited financial products: payday loans, reverse mortgages, p2p lending,
-    binary options, penny auctions, penny stocks, or products to facilitate illegal purposes.'
-  - 'promotion of meta-prohibited financial products: payday loans, paycheck advances, bail bonds, short-term
-    loans ≤90 days, penny auctions, binary options, icos, contracts for difference, or misleading student-loan
-    consolidation/forgiveness/refinancing.'
-  - 'us-prohibited financial products: bail bonds, cfds/spread betting/penny stocks/binary options/mini-bonds,
-    credit repair, payday/pawnbroker loans, penny auctions, precious metals trading, single securities,
-    unaccredited digital banks.'
+  - 'prohibited/heavily-restricted financial products: binary options, credit repair, us personal loans with apr ≥36%, or unlicensed complex speculative products (cfds, spread betting, forex).'
+  - 'promotion of linkedin-prohibited financial products: payday loans, reverse mortgages, p2p lending, binary options, penny auctions, penny stocks, or products to facilitate illegal purposes.'
+  - 'promotion of meta-prohibited financial products: payday loans, paycheck advances, bail bonds, short-term loans ≤90 days, penny auctions, binary options, icos, contracts for difference, or misleading student-loan consolidation/forgiveness/refinancing.'
+  - 'us-prohibited financial products: bail bonds, cfds/spread betting/penny stocks/binary options/mini-bonds, credit repair, payday/pawnbroker loans, penny auctions, precious metals trading, single securities, unaccredited digital banks.'
   eval_non_compliant_hits: 12
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -1141,10 +1059,8 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - financial ads missing clearly/immediately-visible disclosures (physical address, all fees, accreditation
-    links).
+  - financial ads missing clearly/immediately-visible disclosures (physical address, all fees, accreditation links).
   forbidden_terms:
-  - financial
   - clearly
   - immediately-visible
   - physical
@@ -1152,9 +1068,7 @@ packs:
   - fees
   - accreditation
   - links
-  - provide
   - business
-  - associated
   - pre-approved
   - passive
   - guaranteed
@@ -1223,12 +1137,9 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - financial ads missing clearly/immediately-visible disclosures (physical address, all fees, accreditation
-    links).
+  - financial ads missing clearly/immediately-visible disclosures (physical address, all fees, accreditation links).
   eval_non_compliant_hits: 0
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -1251,8 +1162,7 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - testimonials/endorsements without required disclosures (client status, compensation, material conflicts
-    of interest).
+  - testimonials/endorsements without required disclosures (client status, compensation, material conflicts of interest).
   forbidden_terms:
   - testimonials
   - endorsements
@@ -1263,13 +1173,11 @@ packs:
   - include
   - testimonial
   - adviser
-  - provide
   - unless
   - best
   - advisor
   - ever
   - tripled
-  - savings
   - guys
   - crypto
   forbidden_phrases:
@@ -1334,12 +1242,9 @@ packs:
   - loans
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - testimonials/endorsements without required disclosures (client status, compensation, material conflicts
-    of interest).
+  - testimonials/endorsements without required disclosures (client status, compensation, material conflicts of interest).
   eval_non_compliant_hits: 9
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 4
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: privacy.data_collection_disclosure_required
   category_id: privacy
@@ -19,14 +19,11 @@ packs:
   modalities:
   - landing_page
   detection_summaries:
-  - landing pages that collect/share/use data without a clear privacy-policy disclosure, or distribute
-    malicious/undisclosed/unwanted software.
+  - landing pages that collect/share/use data without a clear privacy-policy disclosure, or distribute malicious/undisclosed/unwanted software.
   forbidden_terms:
   - landing
   - pages
   - collect
-  - share
-  - data
   - privacy-policy
   - distribute
   - malicious
@@ -68,12 +65,9 @@ packs:
   vision_labels: []
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - landing pages that collect/share/use data without a clear privacy-policy disclosure, or distribute
-    malicious/undisclosed/unwanted software.
+  - landing pages that collect/share/use data without a clear privacy-policy disclosure, or distribute malicious/undisclosed/unwanted software.
   eval_non_compliant_hits: 2
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -93,20 +87,16 @@ packs:
   modalities:
   - landing_page
   detection_summaries:
-  - selling/sharing personal information of a consumer known to be under 16 without the required affirmative
-    opt-in (consumer 13–15, or parent for under 13).
+  - selling/sharing personal information of a consumer known to be under 16 without the required affirmative opt-in (consumer 13–15, or parent for under 13).
   forbidden_terms:
   - selling
   - sharing
-  - personal
-  - consumer
   - known
   - affirmative
   - opt-in
   - parent
   - business
   - sell
-  - share
   - actual
   - knowledge
   - sells
@@ -142,12 +132,9 @@ packs:
   vision_labels: []
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - selling/sharing personal information of a consumer known to be under 16 without the required affirmative
-    opt-in (consumer 13–15, or parent for under 13).
+  - selling/sharing personal information of a consumer known to be under 16 without the required affirmative opt-in (consumer 13–15, or parent for under 13).
   eval_non_compliant_hits: 1
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -167,22 +154,17 @@ packs:
   modalities:
   - landing_page
   detection_summaries:
-  - selling/sharing personal information for cross-context behavioral advertising without a "do not sell
-    or share" link, without honoring opt-out preference signals (gpc), or after a consumer has opted out.
+  - selling/sharing personal information for cross-context behavioral advertising without a "do not sell or share" link, without honoring opt-out preference signals (gpc), or after a consumer has opted out.
   forbidden_terms:
   - selling
   - sharing
-  - personal
   - cross-context
   - behavioral
   - sell
-  - share
   - link
   - honoring
   - opt-out
-  - preference
   - signals
-  - consumer
   - right
   - time
   - direct
@@ -218,12 +200,9 @@ packs:
   vision_labels: []
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - selling/sharing personal information for cross-context behavioral advertising without a "do not sell
-    or share" link, without honoring opt-out preference signals (gpc), or after a consumer has opted out.
+  - selling/sharing personal information for cross-context behavioral advertising without a "do not sell or share" link, without honoring opt-out preference signals (gpc), or after a consumer has opted out.
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -252,15 +231,11 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - use of advertiser-curated audiences (customer match, remarketing, lookalike, custom segments) to target
-    sensitive interest categories (health, sexual orientation, race, religion, financial hardship, etc.).
-  - 'targeting based on sensitive data/categories: political opinion, race/ ethnicity, health, genetic/biometric
-    data, religion, criminal record, sexual orientation, trade union membership, or income.'
-  - ad copy or targeting that asserts or implies a person's sensitive personal attributes (race, religion,
-    health, sexual orientation, financial status, etc.), incl. "are you...?" / "people like you" phrasing.
+  - use of advertiser-curated audiences (customer match, remarketing, lookalike, custom segments) to target sensitive interest categories (health, sexual orientation, race, religion, financial hardship, etc.).
+  - 'targeting based on sensitive data/categories: political opinion, race/ ethnicity, health, genetic/biometric data, religion, criminal record, sexual orientation, trade union membership, or income.'
+  - ad copy or targeting that asserts or implies a person's sensitive personal attributes (race, religion, health, sexual orientation, financial status, etc.), incl. "are you...?" / "people like you" phrasing.
   forbidden_terms:
   - advertiser-curated
-  - customer
   - match
   - remarketing
   - lookalike
@@ -269,12 +244,9 @@ packs:
   - sensitive
   - interest
   - categories
-  - health
   - sexual
   - fall
-  - within
   - unable
-  - data
   - political
   - opinion
   forbidden_phrases:
@@ -311,16 +283,11 @@ packs:
   vision_labels: []
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - use of advertiser-curated audiences (customer match, remarketing, lookalike, custom segments) to target
-    sensitive interest categories (health, sexual orientation, race, religion, financial hardship, etc.).
-  - 'targeting based on sensitive data/categories: political opinion, race/ ethnicity, health, genetic/biometric
-    data, religion, criminal record, sexual orientation, trade union membership, or income.'
-  - ad copy or targeting that asserts or implies a person's sensitive personal attributes (race, religion,
-    health, sexual orientation, financial status, etc.), incl. "are you...?" / "people like you" phrasing.
+  - use of advertiser-curated audiences (customer match, remarketing, lookalike, custom segments) to target sensitive interest categories (health, sexual orientation, race, religion, financial hardship, etc.).
+  - 'targeting based on sensitive data/categories: political opinion, race/ ethnicity, health, genetic/biometric data, religion, criminal record, sexual orientation, trade union membership, or income.'
+  - ad copy or targeting that asserts or implies a person's sensitive personal attributes (race, religion, health, sexual orientation, financial status, etc.), incl. "are you...?" / "people like you" phrasing.
   eval_non_compliant_hits: 14
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

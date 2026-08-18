@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 3
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: ip.counterfeit_goods_prohibited
   category_id: ip_trademark
@@ -28,13 +28,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - ad or website/app selling or promoting counterfeit goods — products with a trademark/logo identical
-    to or substantially indistinguishable from another's, mimicking brand features to pass as genuine
-    (incl. "knock off", "replica", "fake", etc.).
-  - ads or landing pages promoting/selling counterfeits, knockoffs, or replicas that copy another company's
-    trademark (name/logo) or distinctive features to imitate a genuine product.
-  - ads that purchase/sell/trade/promote/solicit counterfeit goods — goods under a trademark identical
-    or substantially similar to a registered mark without the owner's permission.
+  - ad or website/app selling or promoting counterfeit goods — products with a trademark/logo identical to or substantially indistinguishable from another's, mimicking brand features to pass as genuine (incl. "knock off", "replica", "fake", etc.).
+  - ads or landing pages promoting/selling counterfeits, knockoffs, or replicas that copy another company's trademark (name/logo) or distinctive features to imitate a genuine product.
+  - ads that purchase/sell/trade/promote/solicit counterfeit goods — goods under a trademark identical or substantially similar to a registered mark without the owner's permission.
   forbidden_terms:
   - website
   - selling
@@ -90,17 +86,11 @@ packs:
   - rights
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - ad or website/app selling or promoting counterfeit goods — products with a trademark/logo identical
-    to or substantially indistinguishable from another's, mimicking brand features to pass as genuine
-    (incl. "knock off", "replica", "fake", etc.).
-  - ads or landing pages promoting/selling counterfeits, knockoffs, or replicas that copy another company's
-    trademark (name/logo) or distinctive features to imitate a genuine product.
-  - ads that purchase/sell/trade/promote/solicit counterfeit goods — goods under a trademark identical
-    or substantially similar to a registered mark without the owner's permission.
+  - ad or website/app selling or promoting counterfeit goods — products with a trademark/logo identical to or substantially indistinguishable from another's, mimicking brand features to pass as genuine (incl. "knock off", "replica", "fake", etc.).
+  - ads or landing pages promoting/selling counterfeits, knockoffs, or replicas that copy another company's trademark (name/logo) or distinctive features to imitate a genuine product.
+  - ads that purchase/sell/trade/promote/solicit counterfeit goods — goods under a trademark identical or substantially similar to a registered mark without the owner's permission.
   eval_non_compliant_hits: 11
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -129,12 +119,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - ads that infringe trademark rights — e.g. a direct competitor using the mark, or use in a confusing,
-    deceptive, or misleading way — following a valid trademark-owner complaint.
-  - ads using a third party's copyright or trademark, or likely to confuse people about the source/sponsorship/affiliation
-    of goods or services, or using music without the necessary licenses.
-  - ad creative or landing page that infringes a third party's copyright or trademark, or uses content
-    (images, music, video, trademarks) without the necessary rights/licenses/permissions.
+  - ads that infringe trademark rights — e.g. a direct competitor using the mark, or use in a confusing, deceptive, or misleading way — following a valid trademark-owner complaint.
+  - ads using a third party's copyright or trademark, or likely to confuse people about the source/sponsorship/affiliation of goods or services, or using music without the necessary licenses.
+  - ad creative or landing page that infringes a third party's copyright or trademark, or uses content (images, music, video, trademarks) without the necessary rights/licenses/permissions.
   forbidden_terms:
   - infringe
   - trademark
@@ -151,7 +138,6 @@ packs:
   - display
   - video
   - abide
-  - protect
   - third
   - party's
   forbidden_phrases:
@@ -196,16 +182,11 @@ packs:
   - rights
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - ads that infringe trademark rights — e.g. a direct competitor using the mark, or use in a confusing,
-    deceptive, or misleading way — following a valid trademark-owner complaint.
-  - ads using a third party's copyright or trademark, or likely to confuse people about the source/sponsorship/affiliation
-    of goods or services, or using music without the necessary licenses.
-  - ad creative or landing page that infringes a third party's copyright or trademark, or uses content
-    (images, music, video, trademarks) without the necessary rights/licenses/permissions.
+  - ads that infringe trademark rights — e.g. a direct competitor using the mark, or use in a confusing, deceptive, or misleading way — following a valid trademark-owner complaint.
+  - ads using a third party's copyright or trademark, or likely to confuse people about the source/sponsorship/affiliation of goods or services, or using music without the necessary licenses.
+  - ad creative or landing page that infringes a third party's copyright or trademark, or uses content (images, music, video, trademarks) without the necessary rights/licenses/permissions.
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -228,8 +209,7 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - ads promoting/selling/circulating unauthorized or pirated copies of copyrighted works (movies, tv,
-    video games, music, books, etc.).
+  - ads promoting/selling/circulating unauthorized or pirated copies of copyrighted works (movies, tv, video games, music, books, etc.).
   forbidden_terms:
   - selling
   - circulating
@@ -285,12 +265,9 @@ packs:
   - rights
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - ads promoting/selling/circulating unauthorized or pirated copies of copyrighted works (movies, tv,
-    video games, music, books, etc.).
+  - ads promoting/selling/circulating unauthorized or pirated copies of copyrighted works (movies, tv, video games, music, books, etc.).
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

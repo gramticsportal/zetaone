@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 2
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: atc.alcohol_age_and_location_targeting_required
   category_id: alcohol
@@ -25,13 +25,10 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - alcohol ads targeting below the legal drinking age, targeting disallowed locations, or promoting harmful/illegal/excessive
-    consumption or health/ social benefits.
-  - alcohol ads targeting under-18 (or below local legal drinking age), or run in countries/regions where
-    alcohol promotion is prohibited.
+  - alcohol ads targeting below the legal drinking age, targeting disallowed locations, or promoting harmful/illegal/excessive consumption or health/ social benefits.
+  - alcohol ads targeting under-18 (or below local legal drinking age), or run in countries/regions where alcohol promotion is prohibited.
   forbidden_terms:
   - beer
-  - wine
   - liquor
   - cocktail
   - alcohol
@@ -42,7 +39,6 @@ packs:
   - illegal
   - excessive
   - consumption
-  - health
   - follows
   - industry
   - minors
@@ -93,14 +89,10 @@ packs:
   - must
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - alcohol ads targeting below the legal drinking age, targeting disallowed locations, or promoting harmful/illegal/excessive
-    consumption or health/ social benefits.
-  - alcohol ads targeting under-18 (or below local legal drinking age), or run in countries/regions where
-    alcohol promotion is prohibited.
+  - alcohol ads targeting below the legal drinking age, targeting disallowed locations, or promoting harmful/illegal/excessive consumption or health/ social benefits.
+  - alcohol ads targeting under-18 (or below local legal drinking age), or run in countries/regions where alcohol promotion is prohibited.
   eval_non_compliant_hits: 6
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -124,8 +116,7 @@ packs:
   - audio
   - landing_page
   detection_summaries:
-  - alcohol ads missing mandatory statements (responsible advertiser, class/ type, distilled-spirits alcohol
-    content) or containing prohibited false/ misleading/label-inconsistent/health claims.
+  - alcohol ads missing mandatory statements (responsible advertiser, class/ type, distilled-spirits alcohol content) or containing prohibited false/ misleading/label-inconsistent/health claims.
   forbidden_terms:
   - alcohol
   - mandatory
@@ -139,7 +130,6 @@ packs:
   - ttb's
   - regulations
   - parts
-  - apply
   - advertisements
   - media
   - whiskey
@@ -185,12 +175,9 @@ packs:
   - must
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - alcohol ads missing mandatory statements (responsible advertiser, class/ type, distilled-spirits alcohol
-    content) or containing prohibited false/ misleading/label-inconsistent/health claims.
+  - alcohol ads missing mandatory statements (responsible advertiser, class/ type, distilled-spirits alcohol content) or containing prohibited false/ misleading/label-inconsistent/health claims.
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

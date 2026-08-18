@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 3
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: political.authorization_and_disclaimer_required
   category_id: political
@@ -30,13 +30,9 @@ packs:
   - audio
   - landing_page
   detection_summaries:
-  - election ads run by unverified advertisers, missing a "paid for by" disclosure, or not complying with
-    election laws / silence periods.
-  - social-issue/electoral/political ads run without meta authorization or without a verified "paid for
-    by" disclaimer.
-  - political/express-advocacy/solicitation/electioneering communications (including paid internet ads)
-    lacking a clear and conspicuous disclaimer stating who paid for and, where required, authorized the
-    communication.
+  - election ads run by unverified advertisers, missing a "paid for by" disclosure, or not complying with election laws / silence periods.
+  - social-issue/electoral/political ads run without meta authorization or without a verified "paid for by" disclaimer.
+  - political/express-advocacy/solicitation/electioneering communications (including paid internet ads) lacking a clear and conspicuous disclaimer stating who paid for and, where required, authorized the communication.
   forbidden_terms:
   - election
   - political
@@ -45,7 +41,6 @@ packs:
   - solicitation
   - electioneering
   forbidden_phrases:
-  - paid for by
   - authorized by
   - not authorized by
   - vote for
@@ -93,18 +88,11 @@ packs:
   - election badge
   vision_min_confidence: 0.65
   embedding_prototypes:
-  - election ads run by unverified advertisers, missing a "paid for by" disclosure, or not complying with
-    election laws / silence periods.
-  - social-issue/electoral/political ads run without meta authorization or without a verified "paid for
-    by" disclaimer.
-  - political/express-advocacy/solicitation/electioneering communications (including paid internet ads)
-    lacking a clear and conspicuous disclaimer stating who paid for and, where required, authorized the
-    communication.
+  - election ads run by unverified advertisers, missing a "paid for by" disclosure, or not complying with election laws / silence periods.
+  - social-issue/electoral/political ads run without meta authorization or without a verified "paid for by" disclaimer.
+  - political/express-advocacy/solicitation/electioneering communications (including paid internet ads) lacking a clear and conspicuous disclaimer stating who paid for and, where required, authorized the communication.
   eval_non_compliant_hits: 21
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Vision-only political hits
-    need OCR/context; min confidence 0.65 Phase A auto-mined from US ontology corpus + eval. Curate before
-    Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Vision-only political hits need OCR/context; min confidence 0.65 Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -131,14 +119,11 @@ packs:
   - landing_page
   - audio
   detection_summaries:
-  - political ads advocating for/against candidates, parties, ballot propositions, laws or regulations;
-    political fundraising; or ads exploiting a sensitive political issue.
-  - any paid political advertising — promoting/opposing candidates, parties, or issues; ads by political
-    figures/entities; election appeals — outside the narrow official-election-authority exception.
+  - political ads advocating for/against candidates, parties, ballot propositions, laws or regulations; political fundraising; or ads exploiting a sensitive political issue.
+  - any paid political advertising — promoting/opposing candidates, parties, or issues; ads by political figures/entities; election appeals — outside the narrow official-election-authority exception.
   forbidden_terms:
   - political
   - advocating
-  - against
   - candidates
   - parties
   - propositions
@@ -159,7 +144,6 @@ packs:
   - vote for
   - elect
   - campaign contribution
-  - paid for by
   - authorized by
   forbidden_patterns:
   - pattern: \bpaid\s+for\s+by\b
@@ -201,14 +185,10 @@ packs:
   - disclaimer
   vision_min_confidence: 0.65
   embedding_prototypes:
-  - political ads advocating for/against candidates, parties, ballot propositions, laws or regulations;
-    political fundraising; or ads exploiting a sensitive political issue.
-  - any paid political advertising — promoting/opposing candidates, parties, or issues; ads by political
-    figures/entities; election appeals — outside the narrow official-election-authority exception.
+  - political ads advocating for/against candidates, parties, ballot propositions, laws or regulations; political fundraising; or ads exploiting a sensitive political issue.
+  - any paid political advertising — promoting/opposing candidates, parties, or issues; ads by political figures/entities; election appeals — outside the narrow official-election-authority exception.
   eval_non_compliant_hits: 19
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -230,8 +210,7 @@ packs:
   - video
   - audio
   detection_summaries:
-  - election ads with synthetic/digitally altered images, video, or audio that inauthentically depict
-    real or realistic people/events, without the required altered/synthetic-content disclosure.
+  - election ads with synthetic/digitally altered images, video, or audio that inauthentically depict real or realistic people/events, without the required altered/synthetic-content disclosure.
   forbidden_terms:
   - election
   - synthetic
@@ -257,7 +236,6 @@ packs:
   - deepfake
   - digitally altered
   - vote for
-  - paid for by
   - authorized by
   - political advertisement
   forbidden_patterns:
@@ -310,12 +288,9 @@ packs:
   - disclaimer
   vision_min_confidence: 0.65
   embedding_prototypes:
-  - election ads with synthetic/digitally altered images, video, or audio that inauthentically depict
-    real or realistic people/events, without the required altered/synthetic-content disclosure.
+  - election ads with synthetic/digitally altered images, video, or audio that inauthentically depict real or realistic people/events, without the required altered/synthetic-content disclosure.
   eval_non_compliant_hits: 1
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

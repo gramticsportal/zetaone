@@ -20,7 +20,7 @@ sources:
     type: regulator
     name: US Food and Drug Administration
     jurisdiction: [US]
-    url: https://www.fda.gov/drugs/prescription-drug-advertising
+    url: https://www.fda.gov/drugs/information-consumers-and-patients-drugs/prescription-drug-advertising
     status: active
     retrieved_at: 2026-06-24
     last_verified_at: 2026-06-24

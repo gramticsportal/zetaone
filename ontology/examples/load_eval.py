@@ -19,6 +19,19 @@ EVAL_FILES_CLEAN = (
     "eval_precedents.yaml",
 )
 
+# Verbatim ad copy harvested from enforcement documents, plus the synthetic compliant
+# minimal pairs built from it. Off by default: most harvested rows are still model-triaged
+# rather than human-confirmed, so folding them in silently would move every benchmark
+# number. Set ZATAONE_EVAL_INCLUDE_HARVESTED=1 to include.
+#
+# The two load together on purpose. The harvested rows are almost entirely non-compliant,
+# so loading them alone skews the set ~12:1 toward positives and inflates any metric that
+# rewards firing. The pairs are what keep it honest.
+HARVESTED_FILES = (
+    "eval_harvested.yaml",
+    "eval_compliant_pairs.yaml",
+)
+
 
 def load_yaml(path: str) -> dict:
     with open(path) as f:
@@ -33,9 +46,10 @@ def load_eval_examples(root: str | None = None) -> list[dict]:
 
 def _eval_files() -> tuple[str, ...]:
     profile = (os.environ.get("ZATAONE_EVAL_PROFILE") or "full").strip().lower()
-    if profile in ("clean", "denoised"):
-        return EVAL_FILES_CLEAN
-    return EVAL_FILES
+    files = EVAL_FILES_CLEAN if profile in ("clean", "denoised") else EVAL_FILES
+    if (os.environ.get("ZATAONE_EVAL_INCLUDE_HARVESTED") or "").strip().lower() in ("1", "true", "yes"):
+        files = files + HARVESTED_FILES
+    return files
 
 
 def load_eval_with_sources(root: str | None = None) -> tuple[list[dict], dict[str, str]]:

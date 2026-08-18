@@ -4,9 +4,20 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from functools import lru_cache
 from typing import Any
 
-from zataone.policy_engine.hybrid.pack_loader import PatternPack
+from zataone.policy_engine.hybrid.pack_loader import (
+    PatternPack,
+    load_qualifiers,
+    resolve_patterns_root,
+)
+
+# How far from the trigger a qualifier may sit and still license it. Ad copy in the corpus
+# has a median length of 49 characters and a 95th percentile of 149, so for nearly all
+# single ads this is the whole text. It matters on landing pages, where it stops a footer
+# disclaimer from licensing a headline claim it is nowhere near.
+QUALIFIER_WINDOW = 240
 
 
 @dataclass
@@ -17,18 +28,29 @@ class LexicalHit:
     span_start: int | None = None
     span_end: int | None = None
     pattern_note: str | None = None
+    # Qualifier class that licensed this hit, if any. Populated so an audit trail can show
+    # why a trigger did not become a violation, not just that it didn't.
+    licensed_by: str | None = None
+
+
+@lru_cache(maxsize=8192)
+def _boundary_re(needle: str) -> re.Pattern[str]:
+    """Match `needle` only as a whole token.
+
+    Plain substring matching made the pack term "elect" flag "in select areas" and
+    "ELECTROLYTES: 2 1/2X THE LEADING SPORTS DRINK" as paid political advertising. \\b is
+    the wrong tool here because triggers include things like "#ad" and "100%", where the
+    edge character is not a word character and \\b would never match; lookarounds for word
+    characters give the same protection without caring what the trigger starts with.
+    """
+    return re.compile(rf"(?<!\w){re.escape(needle)}(?!\w)", re.IGNORECASE)
 
 
 def _find_span(text: str, needle: str) -> tuple[int | None, int | None]:
     if not needle:
         return None, None
-    idx = text.find(needle)
-    if idx < 0:
-        # case-insensitive fallback
-        idx = text.lower().find(needle.lower())
-    if idx < 0:
-        return None, None
-    return idx, idx + len(needle)
+    m = _boundary_re(needle).search(text)
+    return (m.start(), m.end()) if m else (None, None)
 
 
 def _has_exception(text_l: str, pack: PatternPack) -> bool:
@@ -44,11 +66,48 @@ def _context_ok(text_l: str, pack: PatternPack) -> bool:
     return any(t in text_l for t in pack.requires_context_terms if t)
 
 
-def match_lexical(text: str, pack: PatternPack) -> list[LexicalHit]:
+def _licensed_by(text: str, hit: LexicalHit, pack: PatternPack) -> str | None:
+    """Return the qualifier class licensing this hit, or None.
+
+    Absolute packs are never licensed: no disclaimer makes a disease-cure claim or a
+    counterfeit-goods ad lawful, so they short-circuit before any pattern runs.
+    """
+    if pack.is_absolute:
+        return None
+    root = resolve_patterns_root()
+    if root is None:
+        return None
+    classes, _ = load_qualifiers(root.parent)
+    if hit.span_start is None:
+        window = text
+    else:
+        lo = max(0, hit.span_start - QUALIFIER_WINDOW)
+        hi = min(len(text), (hit.span_end or hit.span_start) + QUALIFIER_WINDOW)
+        window = text[lo:hi]
+    for class_id in pack.qualifier_classes:
+        for pattern in classes.get(class_id, []):
+            if pattern.search(window):
+                return class_id
+    return None
+
+
+def match_lexical(
+    text: str,
+    pack: PatternPack,
+    *,
+    drop_licensed: bool = True,
+) -> list[LexicalHit]:
     """
     Match pack against document text.
-    Order: exceptions → context gate → phrases → regex → terms.
+    Order: exceptions → context gate → phrases → regex → terms → qualifier gate.
     Prefer phrase/regex; terms only if no stronger hit (or as supplement with lower conf).
+
+    A trigger on its own does not make a violation. 85% of the compliant minimal pairs
+    contain the same trigger as the violation they pair with, so the qualifier gate is what
+    actually separates them: a hit survives only if the disclosure, scope or substantiation
+    that would license the claim is missing. Pass drop_licensed=False to keep licensed hits
+    with `licensed_by` set, which is what the audit trail and eval harness use to show why
+    something was cleared.
     """
     if not text or not text.strip():
         return []
@@ -61,8 +120,10 @@ def match_lexical(text: str, pack: PatternPack) -> list[LexicalHit]:
     hits: list[LexicalHit] = []
 
     for phrase in pack.forbidden_phrases:
-        if phrase and phrase in text_l:
-            start, end = _find_span(text_l, phrase)
+        if not phrase:
+            continue
+        start, end = _find_span(text_l, phrase)
+        if start is not None:
             hits.append(
                 LexicalHit(
                     matcher="phrase",
@@ -98,13 +159,9 @@ def match_lexical(text: str, pack: PatternPack) -> list[LexicalHit]:
         for term in pack.forbidden_terms:
             if not term or len(term) < 3 and "%" not in term:
                 continue
-            # word-ish boundary for short tokens
-            if len(term) <= 4 and "%" not in term:
-                if not re.search(rf"\b{re.escape(term)}\b", text_l):
-                    continue
-            elif term not in text_l:
-                continue
             start, end = _find_span(text_l, term)
+            if start is None:
+                continue
             hits.append(
                 LexicalHit(
                     matcher="term",
@@ -126,7 +183,10 @@ def match_lexical(text: str, pack: PatternPack) -> list[LexicalHit]:
             continue
         seen.add(key)
         uniq.append(h)
-    return uniq
+
+    for h in uniq:
+        h.licensed_by = _licensed_by(text, h, pack)
+    return [h for h in uniq if not h.licensed_by] if drop_licensed else uniq
 
 
 def match_vision(

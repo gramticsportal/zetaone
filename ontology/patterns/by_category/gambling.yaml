@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 4
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: gambling.no_minors_targeting
   category_id: gambling
@@ -32,18 +32,14 @@ packs:
   - online gambling/gaming ads targeting people under 18.
   - gambling ads shown to / directed at minors, or featuring underage people.
   forbidden_terms:
-  - gambling
   - minors
   - unapproved
   - countries
-  - online
   - gambling-promoting
   - approved
   - never
   - gaming
   - allow
-  - shown
-  - directed
   - featuring
   - underage
   - restricted
@@ -100,9 +96,7 @@ packs:
   - online gambling/gaming ads targeting people under 18.
   - gambling ads shown to / directed at minors, or featuring underage people.
   eval_non_compliant_hits: 6
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -132,16 +126,12 @@ packs:
   - landing_page
   detection_summaries:
   - online gambling ads served without valid google certification / license in approved countries.
-  - online/real-money gambling ads without meta authorization or without evidence of a license / lawful
-    status in the targeted territory, or in unsupported markets.
-  - gambling ads without tiktok certification / license in a legal market, or promoting unlicensed/illegal
-    gambling services.
+  - online/real-money gambling ads without meta authorization or without evidence of a license / lawful status in the targeted territory, or in unsupported markets.
+  - gambling ads without tiktok certification / license in a legal market, or promoting unlicensed/illegal gambling services.
   forbidden_terms:
   - casino
   - wager
   - slots
-  - online
-  - gambling
   - served
   - valid
   - license
@@ -212,14 +202,10 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - online gambling ads served without valid google certification / license in approved countries.
-  - online/real-money gambling ads without meta authorization or without evidence of a license / lawful
-    status in the targeted territory, or in unsupported markets.
-  - gambling ads without tiktok certification / license in a legal market, or promoting unlicensed/illegal
-    gambling services.
+  - online/real-money gambling ads without meta authorization or without evidence of a license / lawful status in the targeted territory, or in unsupported markets.
+  - gambling ads without tiktok certification / license in a legal market, or promoting unlicensed/illegal gambling services.
   eval_non_compliant_hits: 7
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -248,7 +234,6 @@ packs:
   - gambling ad landing pages lacking responsible-gambling information.
   - gambling ads lacking risk warnings, legally mandated disclaimers/taglines, or addiction-resource links.
   forbidden_terms:
-  - gambling
   - landing
   - pages
   - responsible-gambling
@@ -315,9 +300,7 @@ packs:
   - gambling ad landing pages lacking responsible-gambling information.
   - gambling ads lacking risk warnings, legally mandated disclaimers/taglines, or addiction-resource links.
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -343,14 +326,11 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - social-casino / free-to-play ads (run without authorization) that offer a chance to win money/coins/anything
-    of monetary value, or target under-18.
-  - permitted gambling-like/social game ads that involve real money/financial rewards or imply players
-    can win real money.
+  - social-casino / free-to-play ads (run without authorization) that offer a chance to win money/coins/anything of monetary value, or target under-18.
+  - permitted gambling-like/social game ads that involve real money/financial rewards or imply players can win real money.
   forbidden_terms:
   - social-casino
   - free-to-play
-  - offer
   - chance
   - coins
   - anything
@@ -363,9 +343,7 @@ packs:
   - long
   - permitted
   - gambling-like
-  - game
   - involve
-  - financial
   forbidden_phrases:
   - real money
   - cash prizes
@@ -416,14 +394,10 @@ packs:
   - online
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - social-casino / free-to-play ads (run without authorization) that offer a chance to win money/coins/anything
-    of monetary value, or target under-18.
-  - permitted gambling-like/social game ads that involve real money/financial rewards or imply players
-    can win real money.
+  - social-casino / free-to-play ads (run without authorization) that offer a chance to win money/coins/anything of monetary value, or target under-18.
+  - permitted gambling-like/social game ads that involve real money/financial rewards or imply players can win real money.
   eval_non_compliant_hits: 4
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

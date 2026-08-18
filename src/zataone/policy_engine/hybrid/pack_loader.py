@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +35,13 @@ class PatternPack:
     embedding_prototypes: list[str] = field(default_factory=list)
     modalities: list[str] = field(default_factory=list)
     detection_summaries: list[str] = field(default_factory=list)
+    # Qualifier classes that license this pack's triggers. Empty means absolute: no
+    # disclaimer makes the conduct lawful, so a hit is never cleared.
+    qualifier_classes: list[str] = field(default_factory=list)
+
+    @property
+    def is_absolute(self) -> bool:
+        return not self.qualifier_classes
 
     @property
     def severity_float(self) -> float:
@@ -64,6 +73,42 @@ def resolve_patterns_root(ontology_root: Path | None = None) -> Path | None:
     return None
 
 
+@lru_cache(maxsize=8)
+def load_qualifiers(patterns_root: Path) -> tuple[dict[str, list[re.Pattern[str]]], dict[str, list[str]]]:
+    """Return (class_id -> compiled patterns, pack canonical_id -> required class ids).
+
+    Compiled once and cached: the packs are small enough to score exhaustively on every
+    request, so the only thing worth avoiding is recompiling regexes in the hot path.
+    """
+    path = patterns_root / "qualifiers.yaml"
+    if not path.is_file():
+        logger.warning("hybrid pack_loader: qualifiers.yaml not found; gate disabled")
+        return {}, {}
+    doc = yaml.safe_load(path.open(encoding="utf-8")) or {}
+
+    compiled: dict[str, list[re.Pattern[str]]] = {}
+    for entry in doc.get("classes") or []:
+        cid = str(entry.get("id") or "")
+        if not cid:
+            continue
+        pats: list[re.Pattern[str]] = []
+        for raw in entry.get("patterns") or []:
+            try:
+                pats.append(re.compile(str(raw), re.IGNORECASE))
+            except re.error as exc:
+                logger.warning("qualifiers.yaml: bad pattern in %s: %s", cid, exc)
+        compiled[cid] = pats
+
+    requirements: dict[str, list[str]] = {}
+    for pack_id, classes in (doc.get("pack_requirements") or {}).items():
+        wanted = [str(c) for c in (classes or [])]
+        unknown = [c for c in wanted if c not in compiled]
+        if unknown:
+            logger.warning("qualifiers.yaml: %s references unknown classes %s", pack_id, unknown)
+        requirements[str(pack_id)] = [c for c in wanted if c in compiled]
+    return compiled, requirements
+
+
 def load_pattern_packs(
     *,
     ontology_root: Path | None = None,
@@ -74,6 +119,7 @@ def load_pattern_packs(
     if root is None:
         logger.warning("hybrid pack_loader: patterns/by_category not found")
         return {}
+    _, requirements = load_qualifiers(root.parent)
 
     packs: dict[str, PatternPack] = {}
     for path in sorted(root.glob("*.yaml")):
@@ -111,6 +157,7 @@ def load_pattern_packs(
                 detection_summaries=[
                     str(x) for x in (raw.get("detection_summaries") or [])
                 ],
+                qualifier_classes=requirements.get(cid, []),
             )
     logger.info("hybrid pack_loader: loaded %d packs from %s", len(packs), root)
     return packs

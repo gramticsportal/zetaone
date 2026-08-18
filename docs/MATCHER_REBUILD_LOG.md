@@ -97,10 +97,11 @@ Held-out test split, 720 pairs:
 | | recall | precision | F1 | fires only on lawful copy |
 |---|---|---|---|---|
 | baseline | 28.9% | 42.0% | 0.342 | 16.2% |
-| now | 33.6% | 57.6% | 0.425 | 6.7% |
+| after gate + triggers | 33.6% | 57.6% | 0.425 | 6.7% |
+| after bug fixes (current) | 39.9% | 60.3% | 0.480 | — |
 
-Latency ~1.3 ms/ad (was 147 µs). Slower because of the added regexes, still ~750 ads/sec
-per core, and speed was never the constraint.
+Latency ~400 µs/ad (was 147 µs baseline), ~2,500 ads/sec per core. Speed was never the
+constraint.
 
 A stricter threshold for single-token triggers looked obviously right but moved F1 the
 wrong way at every setting above zero on dev, so the knob was removed rather than kept at a
@@ -108,6 +109,50 @@ tuned constant. That sweep is recorded in the tool's comments.
 
 `ZATAONE_EVAL_INCLUDE_HARVESTED=1 python3.11 ontology/validate.py` passes; 17 hybrid/pack
 tests pass.
+
+### 7. Session 2 — audit, and three bugs it exposed
+
+`ontology/tools/audit_missed_violations.py` → `ontology/examples/missed_violations_audit.csv`
+
+Sampled 200 of the no-trigger misses and had them labelled. **66% are genuinely assessable
+claims; 34% are extraction noise** — 18.5% fragments ("keep up with all of this", "control
+who can see"), 15.5% not claims at all (product names, headings). So roughly a third of the
+apparent recall gap is harvester debris, and the realistic ceiling is nearer 66% of the
+missing rows than 100%. Labels were spot-checked and are broadly sound, though the model
+slightly over-calls `not_a_claim` on taglines.
+
+Spot-checking also caught three real bugs, all found by asking why rows the audit called
+assessable had not fired:
+
+- `\b(?:no\.?\s*1|#\s*1|...)` could never match "#1 Horse Book Club": `#` is not a word
+  character, so `\b#` fails after a space. Now uses a lookbehind. Same class of bug as the
+  `elect`/"select" one, in a regex rather than a term.
+- `\s+` did not span the ellipses that enforcement exhibits use for elided text, so
+  "faster . . . antiplatelet response than enteric coated aspirin" was missed. The gap now
+  admits punctuation.
+- **The costly one.** `basis_of_comparison` contained `\bthan\s+[A-Z][\w-]+`, intended to
+  treat a named rival as a stated basis. Every pattern in `qualifiers.yaml` compiles with
+  `re.IGNORECASE`, so `[A-Z]` matched lowercase too and "than enteric coated aspirin"
+  counted as a basis — licensing most comparatives and driving gate false-clears from 2 to
+  51. Removed rather than made case-sensitive: naming the rival is not a basis for a
+  *quantified* claim, which still needs the evidence.
+
+Fixing those took test-split recall 33.6% → 39.9%, precision 57.6% → 60.3%, F1 0.425 →
+0.480, and gate false-clears 51 → 19. Latency also fell to ~400 µs/ad.
+
+### 8. Embedding channel feasibility (TF-IDF lower bound)
+
+Char n-gram TF-IDF kNN, index built only from dev-split violations, evaluated on the test
+pairs the lexical layer misses entirely (427 rows). Result is **weak**: at a usable
+false-positive rate (3.3% of lawful twins, sim >= 0.60) it recovers only 8% of missed
+violations. But violations rank strictly closer to known violations than their own lawful
+twin 71.7% of the time, against 50% for no signal — so there is real signal in the ranking,
+just not at a usable absolute threshold.
+
+Two caveats before drawing conclusions: this is surface-level TF-IDF and therefore a lower
+bound on what real embeddings would do, and it was measured over misses that are ~34%
+extraction noise, which depresses it further. **Re-run this over only the assessable rows
+before deciding.**
 
 ## Where it stands
 
@@ -124,18 +169,25 @@ the gate is not the bottleneck, trigger coverage is. Sampling those misses shows
 
 ## Next steps
 
-1. **Feasibility check for the embedding channel, before building it.** A TF-IDF
-   nearest-neighbour proxy over dev-split violations, evaluated on the test pairs the
-   lexical layer misses entirely, gives a cheap lower bound on what embeddings would
-   recover. This was mid-run when work stopped. If it separates violation from lawful twin
-   at all, real embeddings will do better; if it does not, reconsider before adding a
-   dependency. No new packages needed — `sklearn` and `numpy` are installed.
+Steps 1 and 2 from the first session are done (sections 7 and 8 above). Resume here:
 
-2. **Quantify how much of the 59.3% is harvest noise.** Sample ~100 no-trigger misses and
-   label whether each is a genuine standalone claim. This sets the real recall ceiling.
-   Without it we will chase recall that is not achievable and may not be desirable.
+1. **Drop or quarantine the 34% extraction noise in `eval_harvested.yaml`.** The audit
+   labelled a 200-row sample; extend it to all 1,160 no-trigger misses, then either remove
+   the fragments and non-claims or mark them so `eval_matcher_pairs.py` can exclude them.
+   Measured recall will rise without any matcher change, and every downstream number
+   becomes trustworthy. Do this first — it is cheap and it conditions everything else.
 
-3. **Then decide on the embedding channel.** If built: exhaustive cosine over the ~2,000
+2. **Re-run the TF-IDF feasibility check over assessable rows only.** The 8% recovery
+   figure was computed over misses that are a third noise, so it understates the ceiling by
+   an unknown margin. If it stays weak on clean rows, real embeddings are unlikely to be
+   worth the dependency and the effort belongs in triggers instead.
+
+3. **Keep hunting trigger bugs the way section 7 did.** Three real bugs came out of asking
+   why individual assessable misses did not fire, and that had a bigger payoff than any
+   threshold tuning in this project so far (F1 +0.055 in one pass). The audit CSV is a ready
+   queue of such cases.
+
+4. **Then decide on the embedding channel.** If built: exhaustive cosine over the ~2,000
    violation texts (3 MB, no ANN index — approximate search would cost determinism to solve
    a problem this corpus does not have), run only when the lexical layer clears the text, so
    it costs nothing on flagged traffic. Keep it **advisory**: it may route to human review,

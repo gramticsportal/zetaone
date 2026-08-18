@@ -40,7 +40,12 @@ classes:
       # set to be brands/users/customers, which missed most real category comparisons.
       - \bamong\s+(?:\w+[\s-]){0,4}\w+
       - \bthan\s+(?:the\s+)?(?:leading|previous|original|standard|conventional|typical|our)\b
-      - \bthan\s+[A-Z][\w-]+
+      # A "than <Capitalised rival>" pattern was here and had to go. Every pattern in this
+      # file compiles case-insensitively, so [A-Z] matched lowercase too and "than enteric
+      # coated aspirin" counted as a stated basis — which licensed most comparatives and
+      # drove gate false-clears from 2 to 51. Naming the rival also is not a basis for a
+      # *quantified* claim: "5X greater absorption than enteric coated aspirin" still needs
+      # the clinical data, and only the evidence patterns above should clear it.
       - \bin (?:its|the) (?:class|category|segment)\b
       - \bin (?:specific |independent )?(?:benchmark|lab|laboratory|third[\s-]party)\s+test(?:s|ing)?\b
 

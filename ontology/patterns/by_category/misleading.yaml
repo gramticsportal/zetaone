@@ -676,7 +676,10 @@ packs:
   - pattern: \b(?:up\s+to\s+)?\d+(?:\.\d+)?\s*(?:x|×|%|-fold|\s+times)\s+(?:more|less|faster|greater|better|longer|stronger|cleaner|higher|lower)\b
     confidence: 0.85
     note: quantified comparative claim
-  - pattern: \b(?:more|less|better|faster|stronger|cleaner|safer|longer|greater|higher|healthier)\s+(?:\w+\s+){0,3}?than\b
+  # The gap allows punctuation because harvested copy keeps the ellipses that stand in for
+  # elided text in enforcement exhibits: "faster . . . antiplatelet response than enteric
+  # coated aspirin" is one claim, and \s+ alone does not span the dots.
+  - pattern: \b(?:more|less|better|faster|stronger|cleaner|safer|longer|greater|higher|healthier)[\s.,…]+(?:\w+[\s.,…]+){0,3}?than\b
     confidence: 0.8
     note: comparative claim against an unnamed or named rival
   - pattern: \bthan\s+(?:any\s+other|all\s+other|the\s+leading|every\s+other|ordinary|regular)\b
@@ -685,7 +688,9 @@ packs:
   - pattern: \b(?:outperforms?|outlasts?|beats?|surpasses?)\b
     confidence: 0.8
     note: direct superiority verb
-  - pattern: \b(?:no\.?\s*1|#\s*1|number\s+one)\b
+  # Lookbehind rather than \b: "#" is not a word character, so \b# can never match after a
+  # space, and "#1 Horse Book Club" slipped through the original form entirely.
+  - pattern: (?<!\w)(?:no\.?\s*1|#\s*1|number\s+one)\b
     confidence: 0.85
     note: ranking claim
   - pattern: \b(?:the\s+)?(?!best\s+(?:part|of\s+all|yet)\b)(?:best|fastest|strongest|safest|cleanest|longest[\s-]lasting|most\s+effective|most\s+powerful|most\s+advanced|unsurpassed|unmatched|unbeatable|unrivall?ed|superior|ultimate|optimal)\b

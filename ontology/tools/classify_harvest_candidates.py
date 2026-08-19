@@ -146,9 +146,9 @@ def classify_batch(batch: list[dict], model: str, key: str) -> dict[str, dict]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--in", dest="infile", default=str(ONTOLOGY / "examples" / "harvest_candidates.yaml"))
-    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest_curated.yaml"))
-    parser.add_argument("--csv", default=str(ONTOLOGY / "examples" / "harvest_curated.csv"))
+    parser.add_argument("--in", dest="infile", default=str(ONTOLOGY / "examples" / "harvest" / "harvest_candidates.yaml"))
+    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest" / "harvest_curated.yaml"))
+    parser.add_argument("--csv", default=str(ONTOLOGY / "examples" / "harvest" / "harvest_curated.csv"))
     parser.add_argument("--batch-size", type=int, default=20)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--limit", type=int, help="only classify the first N candidates")

@@ -1,12 +1,18 @@
-"""Load evaluation examples from seed + precedent-derived files."""
+"""Load evaluation examples from seed + precedent-derived files.
+
+Live eval lives in `examples/eval/`. Harvest candidates, quarantine dumps, and
+audit CSVs live in `examples/harvest/` and are never loaded here.
+"""
 from __future__ import annotations
 
-import glob
 import os
 
 import yaml
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+EVAL_SUBDIR = "eval"
+HARVEST_SUBDIR = "harvest"
 
 EVAL_FILES = (
     "eval_seed.yaml",
@@ -33,6 +39,14 @@ HARVESTED_FILES = (
 )
 
 
+def eval_dir(root: str | None = None) -> str:
+    return os.path.join(root or ROOT, "examples", EVAL_SUBDIR)
+
+
+def harvest_dir(root: str | None = None) -> str:
+    return os.path.join(root or ROOT, "examples", HARVEST_SUBDIR)
+
+
 def load_yaml(path: str) -> dict:
     with open(path) as f:
         return yaml.safe_load(f) or {}
@@ -54,12 +68,11 @@ def _eval_files() -> tuple[str, ...]:
 
 def load_eval_with_sources(root: str | None = None) -> tuple[list[dict], dict[str, str]]:
     """Return (examples, example_id -> source filename)."""
-    base = root or ROOT
-    examples_dir = os.path.join(base, "examples")
+    eval_root = eval_dir(root)
     out: list[dict] = []
     sources: dict[str, str] = {}
     for fname in _eval_files():
-        path = os.path.join(examples_dir, fname)
+        path = os.path.join(eval_root, fname)
         if os.path.isfile(path):
             for e in load_yaml(path).get("examples", []) or []:
                 out.append(e)

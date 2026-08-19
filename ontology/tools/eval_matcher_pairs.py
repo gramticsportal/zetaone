@@ -47,7 +47,7 @@ def split_of(example_id: str) -> str:
 
 
 def load_pairs() -> list[tuple[dict, dict]]:
-    examples = ONTOLOGY / "examples"
+    examples = ONTOLOGY / "examples" / "eval"
     bad = {
         e["id"]: e
         for e in (yaml.safe_load((examples / "eval_harvested.yaml").read_text()) or {}).get("examples", [])

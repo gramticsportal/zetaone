@@ -66,7 +66,7 @@ def _tokenize(text: str, *, min_len: int = 4, max_terms: int = 25) -> list[str]:
 
 
 def _load_eval_examples(ontology_root: Path) -> list[dict[str, Any]]:
-    path = ontology_root / "examples" / "eval_seed.yaml"
+    path = ontology_root / "examples" / "eval" / "eval_seed.yaml"
     if not path.is_file():
         return []
     import yaml

@@ -378,8 +378,8 @@ def main() -> int:
     parser.add_argument("--precedent", action="append", help="restrict to specific precedent id(s)")
     parser.add_argument("--offline", action="store_true", help="use cached documents only")
     parser.add_argument("--workers", type=int, default=6)
-    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest_candidates.yaml"))
-    parser.add_argument("--csv", default=str(ONTOLOGY / "examples" / "harvest_candidates.csv"))
+    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest" / "harvest_candidates.yaml"))
+    parser.add_argument("--csv", default=str(ONTOLOGY / "examples" / "harvest" / "harvest_candidates.csv"))
     args = parser.parse_args()
 
     precedents = load_precedents()

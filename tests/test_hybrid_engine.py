@@ -145,3 +145,47 @@ def test_nlp_bow_scores_health_prototype():
     assert hit is not None
     assert hit["score"] >= 0.22
     assert hit["backend"] == "bow"
+
+
+def test_green_guides_and_made_in_usa_gate():
+    from zataone.policy_engine.hybrid.lexical import match_lexical
+    from zataone.policy_engine.hybrid.pack_loader import load_pattern_packs
+
+    packs = load_pattern_packs(approved_only=True)
+    env = packs["misleading.environmental_benefit_claims"]
+    origin = packs["misleading.origin_claims"]
+
+    bio_hits = match_lexical("100% biodegradable bags for everyday trash.", env)
+    assert bio_hits, "unqualified biodegradable should fire"
+
+    bio_cleared = match_lexical(
+        "Biodegradable in industrial composting facilities where available.",
+        env,
+        drop_licensed=False,
+    )
+    assert bio_cleared and all(h.licensed_by for h in bio_cleared)
+
+    usa_hits = match_lexical("Proudly Made in USA.", origin)
+    assert usa_hits, "unqualified Made in USA should fire"
+
+    usa_cleared = match_lexical(
+        "Made in USA of U.S. and imported parts.",
+        origin,
+        drop_licensed=False,
+    )
+    assert usa_cleared and all(h.licensed_by for h in usa_cleared)
+
+
+def test_n_times_comparative_and_preapproved_triggers():
+    from zataone.policy_engine.hybrid.lexical import match_lexical
+    from zataone.policy_engine.hybrid.pack_loader import load_pattern_packs
+
+    packs = load_pattern_packs(approved_only=True)
+    obj = packs["misleading.unsubstantiated_objective_claims"]
+    missing = packs["misleading.missing_or_inconsistent_material_info"]
+    perf = packs["finance.performance_claims_substantiation"]
+
+    assert match_lexical("Two times gentler on skin than ordinary soap.", obj)
+    assert match_lexical("Preferred 2-to-1 over the leading brand.", obj)
+    assert match_lexical("You're pre-approved for this offer.", missing)
+    assert match_lexical("Earn thousands per week in personal income.", perf)

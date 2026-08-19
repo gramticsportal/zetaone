@@ -850,6 +850,9 @@ packs:
   - pattern: \bguaranteed\s+(returns?|profits?|income)\b
     confidence: 0.9
     note: guaranteed returns
+  - pattern: \bthousands?\s+(?:per|a)\s+week\b
+    confidence: 0.85
+    note: high weekly earnings claim
   - pattern: \b(double|triple)\s+your\s+(money|investment)\b
     confidence: 0.9
     note: unrealistic return claim
@@ -876,6 +879,7 @@ packs:
     - misleading
     - profit
     - earnings
+    - income
     - representations
     - risk-free
     - low-risk

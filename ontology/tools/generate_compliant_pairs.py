@@ -41,6 +41,7 @@ import yaml
 
 ONTOLOGY = Path(__file__).resolve().parent.parent
 EXAMPLES = ONTOLOGY / "examples"
+EVAL = EXAMPLES / "eval"
 CACHE = ONTOLOGY.parent / ".cache" / "compliant_pairs"
 
 TECHNIQUES = [
@@ -176,7 +177,7 @@ def existing_content() -> set[str]:
     seen: set[str] = set()
     for name in ("eval_seed.yaml", "eval_seed_clean.yaml", "eval_precedents.yaml",
                  "eval_harvested.yaml"):
-        path = EXAMPLES / name
+        path = EVAL / name
         if not path.exists():
             continue
         for ex in (yaml.safe_load(path.read_text()) or {}).get("examples", []) or []:
@@ -189,8 +190,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument("--source", default=str(EXAMPLES / "eval_harvested.yaml"))
-    parser.add_argument("--out", default=str(EXAMPLES / "eval_compliant_pairs.yaml"))
+    parser.add_argument("--source", default=str(EVAL / "eval_harvested.yaml"))
+    parser.add_argument("--out", default=str(EVAL / "eval_compliant_pairs.yaml"))
     parser.add_argument(
         "--max-per-precedent",
         type=int,

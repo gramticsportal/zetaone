@@ -2,8 +2,8 @@
 """Denoise ontology eval seed for cleaner local metrics.
 
 Writes:
-  - ontology/examples/eval_seed_clean.yaml  (NC+C only; drop borderline + low-quality stubs)
-  - ontology/examples/denoise_report.yaml   (what changed and why)
+  - ontology/examples/eval/eval_seed_clean.yaml  (NC+C only; drop borderline + low-quality stubs)
+  - ontology/examples/harvest/denoise_report.yaml   (what changed and why)
 
 Does NOT modify the 44-precedent file. Does not rewrite original eval_seed.yaml
 (keep full set for authoring); loaders can opt into the clean file.
@@ -21,9 +21,9 @@ from collections import Counter
 import yaml
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SEED = os.path.join(ROOT, "examples", "eval_seed.yaml")
-OUT_CLEAN = os.path.join(ROOT, "examples", "eval_seed_clean.yaml")
-OUT_REPORT = os.path.join(ROOT, "examples", "denoise_report.yaml")
+SEED = os.path.join(ROOT, "examples", "eval", "eval_seed.yaml")
+OUT_CLEAN = os.path.join(ROOT, "examples", "eval", "eval_seed_clean.yaml")
+OUT_REPORT = os.path.join(ROOT, "examples", "harvest", "denoise_report.yaml")
 
 # Placeholder / stub creatives that are not usable as gold text for lexical eval
 _STUB_RE = re.compile(
@@ -96,6 +96,7 @@ def main() -> int:
         )
         yaml.safe_dump({"examples": kept}, f, sort_keys=False, allow_unicode=True)
 
+    os.makedirs(os.path.dirname(OUT_REPORT), exist_ok=True)
     with open(OUT_REPORT, "w") as f:
         yaml.safe_dump(report, f, sort_keys=False, allow_unicode=True)
 

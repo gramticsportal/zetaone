@@ -1,6 +1,6 @@
 # Evaluation examples harvested verbatim from enforcement documents.
-# Denoised: fragment / not_a_claim rows moved to eval_harvested_quarantined.yaml
-# after harvest_quality_audit.csv. Re-run: python3.11 ontology/tools/quarantine_harvest_junk.py
+# Denoised: fragment / not_a_claim rows moved to harvest/eval_harvested_quarantined.yaml
+# after harvest/harvest_quality_audit.csv. Re-run: python3.11 ontology/tools/quarantine_harvest_junk.py
 # Total: 1589 assessable  (quarantined 391)
 
 examples:

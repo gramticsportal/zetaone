@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build ontology/examples/eval_precedents.yaml from curated enforcement precedents.
+"""Build ontology/examples/eval/eval_precedents.yaml from curated enforcement precedents.
 
 Each row is non_compliant ad copy (verbatim or minimal reconstruction from
 official evidence) linked to the precedent's violated_clause_ids.
@@ -304,7 +304,7 @@ def main() -> int:
         print(f"ERROR: unknown precedent ids: {missing}", file=sys.stderr)
         return 1
 
-    out_path = os.path.join(ROOT, "examples", "eval_precedents.yaml")
+    out_path = os.path.join(ROOT, "examples", "eval", "eval_precedents.yaml")
     doc = {
         "examples": examples,
     }

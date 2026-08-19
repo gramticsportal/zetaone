@@ -10,6 +10,8 @@
 #   misleading.false_affiliation_or_endorsement
 #   misleading.clickbait_or_fake_ui
 #   misleading.before_after_distortion
+#   misleading.environmental_benefit_claims   (FTC Green Guides — no platform mapping yet)
+#   misleading.origin_claims                  (FTC Made in USA — no platform mapping yet)
 
 mappings:
   - canonical_id: misleading.exaggerated_results

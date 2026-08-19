@@ -213,8 +213,8 @@ def main() -> int:
     parser.add_argument("--since", type=int, help="only decisions published in this year or later")
     parser.add_argument("--delay", type=float, default=0.4, help="seconds between fetches")
     parser.add_argument("--refresh-index", action="store_true")
-    parser.add_argument("--out-candidates", default=str(ONTOLOGY / "examples" / "nad_candidates.yaml"))
-    parser.add_argument("--out-csv", default=str(ONTOLOGY / "examples" / "nad_candidates.csv"))
+    parser.add_argument("--out-candidates", default=str(ONTOLOGY / "examples" / "harvest" / "nad_candidates.yaml"))
+    parser.add_argument("--out-csv", default=str(ONTOLOGY / "examples" / "harvest" / "nad_candidates.csv"))
     parser.add_argument("--out-precedents", default=str(ONTOLOGY / "precedents" / "bbb_selfreg.yaml"))
     args = parser.parse_args()
 

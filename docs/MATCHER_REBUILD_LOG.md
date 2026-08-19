@@ -14,7 +14,7 @@ matcher was performing below chance.
 
 ### 1. Compliant minimal pairs
 
-`ontology/tools/generate_compliant_pairs.py` → `ontology/examples/eval_compliant_pairs.yaml`
+`ontology/tools/generate_compliant_pairs.py` → `ontology/examples/eval/eval_compliant_pairs.yaml`
 
 1,405 pairs, capped at 2 per precedent. Each is the closest lawful version of a real
 deceptive ad. The instruction that matters is the one telling Gemini to *keep the risky
@@ -112,7 +112,7 @@ tests pass.
 
 ### 7. Session 2 — audit, and three bugs it exposed
 
-`ontology/tools/audit_missed_violations.py` → `ontology/examples/missed_violations_audit.csv`
+`ontology/tools/audit_missed_violations.py` → `ontology/examples/harvest/missed_violations_audit.csv`
 
 Sampled 200 of the no-trigger misses and had them labelled. **66% are genuinely assessable
 claims; 34% are extraction noise** — 18.5% fragments ("keep up with all of this", "control
@@ -193,16 +193,49 @@ evidence* in the product pipeline (topic routing). It is not a recall net for th
 
 `gramtics/main` was not merged (still diverged: document-upload and other commits).
 
+## Session 3 — remaining triggers + Green Guides / Made in USA (2026-08-19)
+
+Steps 1 and 3 of the prior next-steps list. MiniLM stayed off the deterministic path.
+
+### Trigger hunting on remaining assessable misses
+
+Added lexical handles for miss clusters that still had no trigger:
+
+- N-times comparatives (`two times gentler`), hyphenated `2-to-1`, `nothing … faster`, `largest`/`biggest` on `misleading.unsubstantiated_objective_claims`
+- `pre-approved` on `misleading.missing_or_inconsistent_material_info` (licensed by `approval_contingency`)
+- structure/function verbs `increase`/`stimulate` and targets `glucose`/`carb`/`appetite`/`airways`/`cold` on `health.unsubstantiated_health_claims`
+- `thousands per week` plus `income` context on `finance.performance_claims_substantiation`
+
+### Green Guides + Made in USA clauses, then gated packs that cite them
+
+Quotes from FTC business-guidance pages (eCFR was CAPTCHA-blocked). No invented URLs.
+
+Clauses in `ontology/corpus/regulators_us.yaml`:
+
+- `ftc.misleading.green_general`
+- `ftc.misleading.biodegradable`
+- `ftc.misleading.recyclable`
+- `ftc.misleading.made_in_usa`
+
+Rules `ftc_green_guides` / `ftc_made_in_usa` create canonicals `misleading.environmental_benefit_claims` and `misleading.origin_claims`. Packs 52 → 54. New qualifier classes `environmental_qualification` and `origin_qualification` so unqualified "biodegradable" / "Made in USA" fire and "recyclable where facilities exist" / "Made in USA of U.S. and imported parts" clear.
+
+Held-out pair test (590 pairs):
+
+| | recall | precision | F1 |
+|---|---|---|---|
+| gated matcher (cleaned, prior) | 46.8% | 61.9% | 0.533 |
+| after trigger hunt + Green Guides / MUSA | 49.8% | 62.7% | 0.555 |
+
+No-trigger misses 52.9% → 46.8%. Gate false-clears 3.4% of test pairs. All-pairs (1,159) recall 48.8% / precision 62.8% / F1 0.550.
+
+`python3.11 ontology/validate.py` OK (172 clauses, 54 canonicals). Hybrid tests 15 passed.
+
 ## Next steps
 
-1. **Hunt remaining trigger gaps on assessable misses** — same method as section 7, now
-   against the cleaned set. Highest-leverage matcher work left.
-2. **Human-spot the quarantine file** — `not_a_claim` over-calls some product-name claims
-   (bamboo textile). Promote those back if they are real.
-3. **Corpus: Green Guides + Made in USA clauses**, then write triggers that have something
-   to cite.
-4. **Do not add TF-IDF, ANN, or kNN** for pair-eval recall. The semantic measurement closed
-   that question.
+1. ~~Hunt remaining trigger gaps on assessable misses~~ done this session; remaining miss is still mostly no-trigger (46.8% of test violations).
+2. **Human-spot the quarantine file** — `not_a_claim` over-calls some product-name claims (bamboo textile). Promote those back if they are real.
+3. ~~Corpus: Green Guides + Made in USA clauses~~ done this session.
+4. **Do not add TF-IDF, ANN, or kNN** for pair-eval recall. The semantic measurement closed that question. MiniLM stays review-only.
 
 ## Files
 
@@ -215,13 +248,15 @@ New:
 - `ontology/tools/eval_semantic_channel.py`
 - `ontology/patterns/qualifiers.yaml`
 - `src/zataone/extractors/semantic_text_extractor.py`
-- `ontology/examples/eval_harvested_quarantined.yaml` (not loaded)
-- `ontology/examples/eval_compliant_pairs_quarantined.yaml` (not loaded)
+- `ontology/examples/harvest/eval_harvested_quarantined.yaml` (not loaded)
+- `ontology/examples/harvest/eval_compliant_pairs_quarantined.yaml` (not loaded)
 
 Modified:
 - `src/zataone/policy_engine/hybrid/lexical.py` — gate, word boundaries, `licensed_by`
 - `src/zataone/policy_engine/hybrid/pack_loader.py` — `load_qualifiers`, `qualifier_classes`
-- `ontology/patterns/by_category/*.yaml` — purge (all 11), new triggers (misleading, health)
+- `ontology/corpus/regulators_us.yaml` — Green Guides + Made in USA clauses and rules
+- `ontology/patterns/by_category/*.yaml` — purge (all 11), new triggers (misleading, health, financial), env/origin packs
+- `ontology/patterns/qualifiers.yaml` — environmental_qualification, origin_qualification
 - `ontology/examples/load_eval.py` — pairs load alongside harvested
 
 Note: `/tmp/packs_pre_purge` and `/tmp/packs_final` were scratch copies during tuning and

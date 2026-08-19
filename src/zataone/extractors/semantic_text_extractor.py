@@ -86,7 +86,7 @@ _MAX_EXEMPLARS_PER_REG = 80
 def _harvest_path() -> Path | None:
     here = Path(__file__).resolve()
     for parent in here.parents:
-        candidate = parent / "ontology" / "examples" / "eval_harvested.yaml"
+        candidate = parent / "ontology" / "examples" / "eval" / "eval_harvested.yaml"
         if candidate.is_file():
             return candidate
     return None

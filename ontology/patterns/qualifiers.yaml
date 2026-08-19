@@ -254,6 +254,37 @@ classes:
       - \bfull refund\b
       - \bcancel (?:any ?time|within)\b
 
+  - id: environmental_qualification
+    description: >
+      An environmental claim states the specific benefit, disposal path, or
+      limited facility availability the Green Guides require.
+    patterns:
+      - \brecyclable (?:only |where |in (?:your |the )?(?:area|community|communities))\b
+      - \bmay not be recyclable\b
+      - \bcheck (?:locally|local(?:ly)? recycling)\b
+      - \bwhere (?:facilities|available|accepted|recycling)\b
+      - \b(?:industrial|municipal|commercial|home)[\s-]compost
+      - \bcompost(?:ed|able|ing)? (?:in|at|only)\b
+      - \bbreaks?\s+down (?:in|within)\s+(?:about\s+)?(?:one|1|a|\d+)\s+(?:year|month)
+      - \bwithin (?:about )?(?:one|1|a)\s+year\b
+      - \bafter customary disposal\b
+      - \bmade (?:with|from)\s+\d+\s*%\s+recycled\b
+      - \b\d+\s*%\s+recycled (?:content|material)\b
+      - \bspecific environmental (?:benefit|attribute)\b
+
+  - id: origin_qualification
+    description: >
+      A U.S.-origin claim states the foreign content or processing that keeps
+      it from being an unqualified Made in USA claim.
+    patterns:
+      - \b(?:of|from|with)\s+(?:u\.?s\.?\s+and\s+)?imported(?:\s+and\s+domestic)?\s+parts\b
+      - \b(?:domestic|u\.?s\.?)\s+and\s+imported\b
+      - \bimported\s+and\s+domestic\b
+      - \bmade in (?:the )?(?:usa|u\.?s\.?a?\.?|united states)\s+(?:of|from|with)\b
+      - \bassembled in (?:the )?(?:usa|u\.?s\.?a?\.?|united states)\b
+      - \b\d+\s*%\s+(?:u\.?s\.?|usa|american|domestic)\s+content\b
+      - \bfrom imported parts\b
+
 # Which qualifier classes license which pack. Any one match clears the hit.
 # Packs deliberately omitted are absolute — see the note at the top of this file.
 pack_requirements:
@@ -263,6 +294,8 @@ pack_requirements:
   misleading.before_after_distortion: [typicality, hedged_claim]
   misleading.false_affiliation_or_endorsement: [material_connection]
   misleading.missing_or_inconsistent_material_info: [conditional_scope, approval_contingency]
+  misleading.environmental_benefit_claims: [environmental_qualification, substantiation]
+  misleading.origin_claims: [origin_qualification]
 
   health.unsubstantiated_health_claims: [substantiation, structure_function_disclaimer, typicality, hedged_claim]
   health.negative_self_perception_body_image: [typicality, hedged_claim]

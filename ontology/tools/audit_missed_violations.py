@@ -149,7 +149,7 @@ def run_batch(batch: list[dict], model: str, key: str) -> dict[str, dict]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--limit", type=int, help="sample this many rows instead of auditing all")
-    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest_quality_audit.csv"))
+    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest" / "harvest_quality_audit.csv"))
     parser.add_argument("--batch-size", type=int, default=25)
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--seed", type=int, default=11)
@@ -162,7 +162,7 @@ def main() -> int:
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
     packs = list(load_pattern_packs().values())
-    rows = yaml.safe_load((ONTOLOGY / "examples" / "eval_harvested.yaml").read_text())["examples"]
+    rows = yaml.safe_load((ONTOLOGY / "examples" / "eval" / "eval_harvested.yaml").read_text())["examples"]
 
     def fires(text: str) -> bool:
         return any(match_lexical(text, p, drop_licensed=False) for p in packs)

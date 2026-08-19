@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Promote reviewed harvest candidates into ontology/examples/eval_harvested.yaml.
+"""Promote reviewed harvest candidates into ontology/examples/eval/eval_harvested.yaml.
 
 The pipeline is: harvest_enforcement_ads.py (recall) -> classify_harvest_candidates.py
-(triage) -> a human ticking the keep? column of harvest_curated.csv -> this tool.
+(triage) -> a human ticking the keep? column of harvest/harvest_curated.csv -> this tool.
 
 Provenance is the reason this exists. eval_precedents.yaml holds hand-written
 reconstructions of what an ad probably said; these rows are the advertiser's actual
@@ -36,6 +36,8 @@ import yaml
 
 ONTOLOGY = Path(__file__).resolve().parent.parent
 EXAMPLES = ONTOLOGY / "examples"
+EVAL = EXAMPLES / "eval"
+HARVEST = EXAMPLES / "harvest"
 
 KEEP_VALUES = {"y", "yes", "1", "x", "keep", "true", "t"}
 REJECT_VALUES = {"n", "no", "0", "drop", "false", "f", "reject"}
@@ -76,7 +78,7 @@ def load_ontology() -> tuple[set[str], set[str], dict[str, dict]]:
 def load_existing_content() -> set[str]:
     seen: set[str] = set()
     for name in EXISTING_EVAL:
-        path = EXAMPLES / name
+        path = EVAL / name
         if not path.exists():
             continue
         doc = yaml.safe_load(path.read_text()) or {}
@@ -124,16 +126,16 @@ def main() -> int:
     parser.add_argument(
         "--curated",
         nargs="+",
-        default=[str(EXAMPLES / "harvest_curated.yaml"), str(EXAMPLES / "nad_curated.yaml")],
+        default=[str(HARVEST / "harvest_curated.yaml"), str(HARVEST / "nad_curated.yaml")],
         help="one or more classified harvest files; rows are merged and de-duplicated",
     )
     parser.add_argument(
         "--decisions",
         nargs="*",
-        default=[str(EXAMPLES / "harvest_curated.csv"), str(EXAMPLES / "nad_curated.csv")],
+        default=[str(HARVEST / "harvest_curated.csv"), str(HARVEST / "nad_curated.csv")],
         help="matching review CSVs; a keep?/reject in any of them applies",
     )
-    parser.add_argument("--out", default=str(EXAMPLES / "eval_harvested.yaml"))
+    parser.add_argument("--out", default=str(EVAL / "eval_harvested.yaml"))
     parser.add_argument(
         "--accept-llm",
         action="store_true",

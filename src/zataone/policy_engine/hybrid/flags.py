@@ -33,7 +33,7 @@ def hybrid_nlp_enabled() -> bool:
 def hybrid_all_packs() -> bool:
     """
     Evaluate every approved pattern pack (skip BM25-style shortlist).
-    Default ON — 52 packs are cheap; shortlist under-filtered financial FNs.
+    Default ON — 54 packs are cheap; shortlist under-filtered financial FNs.
     Rollback: ZATAONE_HYBRID_ALL_PACKS=0.
     """
     return _env_bool("ZATAONE_HYBRID_ALL_PACKS", default=True)

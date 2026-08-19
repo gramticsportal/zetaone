@@ -162,6 +162,140 @@ clauses:
       section: "Advertising FAQ's: A Guide for Small Business"
       retrieved_at: 2026-06-24
 
+  # ===================== FTC: Green Guides (16 CFR Part 260) =====================
+  - id: ftc.misleading.green_general
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      Marketers should not make broad, unqualified general environmental benefit
+      claims like "green" or "eco-friendly." Broad claims are difficult to
+      substantiate, if not impossible. Marketers should qualify general claims
+      with specific environmental benefits. Qualifications for any claims should
+      be clear, prominent, and specific.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2012-10-01
+    version: "ftc-green-guides-2012"
+    status: active
+    last_verified_at: 2026-08-19
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Marketers should not make broad, unqualified general environmental
+        benefit claims like "green" or "eco-friendly." Broad claims are
+        difficult to substantiate, if not impossible. Marketers should qualify
+        general claims with specific environmental benefits. Qualifications for
+        any claims should be clear, prominent, and specific.
+      source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+      section: "Environmental Claims: Summary of the Green Guides > General Environmental Benefit Claims"
+      retrieved_at: 2026-08-19
+
+  - id: ftc.misleading.biodegradable
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      Marketers may make an unqualified degradable claim only if they can prove
+      that the entire product or package will completely break down and return
+      to nature within a reasonably short period of time after customary
+      disposal. For solid waste products that period is one year. Items destined
+      for landfills, incinerators, or recycling facilities will not degrade
+      within a year, so unqualified biodegradable claims for them should not be
+      made.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2012-10-01
+    version: "ftc-green-guides-2012"
+    status: active
+    last_verified_at: 2026-08-19
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Marketers may make an unqualified degradable claim only if they can
+        prove that the "entire product or package will completely break down
+        and return to nature within a reasonably short period of time after
+        customary disposal." The "reasonably short period of time" for complete
+        decomposition of solid waste products? One year. Items destined for
+        landfills, incinerators, or recycling facilities will not degrade
+        within a year, so unqualified biodegradable claims for them shouldn't
+        be made.
+      source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+      section: "Environmental Claims: Summary of the Green Guides > Degradable"
+      retrieved_at: 2026-08-19
+
+  - id: ftc.misleading.recyclable
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      Marketers should qualify recyclable claims when recycling facilities are
+      not available to at least 60 percent of the consumers or communities
+      where a product is sold. The lower the level of access to appropriate
+      facilities, the more a marketer should emphasize the limited availability
+      of recycling for the product.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2012-10-01
+    version: "ftc-green-guides-2012"
+    status: active
+    last_verified_at: 2026-08-19
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        Marketers should qualify recyclable claims when recycling facilities
+        are not available to at least 60 percent of the consumers or
+        communities where a product is sold. The lower the level of access to
+        appropriate facilities, the more a marketer should emphasize the
+        limited availability of recycling for the product.
+      source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+      section: "Environmental Claims: Summary of the Green Guides > Recyclable"
+      retrieved_at: 2026-08-19
+
+  # ===================== FTC: Made in USA (16 CFR Part 323) =====================
+  - id: ftc.misleading.made_in_usa
+    source_id: ftc_us
+    category_id: misleading
+    text: >
+      For a product to be called Made in USA, or claimed to be of domestic
+      origin without qualifications or limits on the claim, the product must
+      be all or virtually all made in the U.S. All or virtually all means the
+      final assembly or processing occurs in the United States, all significant
+      processing occurs in the United States, and all or virtually all
+      ingredients or components are made and sourced in the United States.
+    modalities: [text, image, video, landing_page]
+    jurisdiction: [US]
+    effective_date: 2021-08-01
+    version: "ftc-musa-labeling-rule-2021"
+    status: active
+    last_verified_at: 2026-08-19
+    last_reviewed_by: ai
+    applicability:
+      countries: [US]
+      audience: [all]
+      industries: [all]
+    evidence:
+      quote: >-
+        For a product to be called Made in USA, or claimed to be of domestic
+        origin without qualifications or limits on the claim, the product must
+        be "all or virtually all" made in the U.S. "All or virtually all" means
+        that the final assembly or processing of the product occurs in the
+        United States, all significant processing that goes into the product
+        occurs in the United States, and all or virtually all ingredients or
+        components of the product are made and sourced in the United States.
+      source_url: https://www.ftc.gov/business-guidance/resources/complying-made-usa-standard
+      section: "Complying with the Made in USA Standard > The Standard for Unqualified Made In USA Claims"
+      retrieved_at: 2026-08-19
+
   # ===================== FTC: Health =====================
   - id: ftc.health.truthful_substantiated
     source_id: ftc_us
@@ -1078,6 +1212,40 @@ rules:
       adequate substantiation before dissemination.
     exceptions:
       - "Claims backed by competent and reliable evidence held before dissemination."
+    status: active
+
+  - id: ftc_green_guides
+    canonical_id: misleading.environmental_benefit_claims
+    clause_ids:
+      - ftc.misleading.green_general
+      - ftc.misleading.biodegradable
+      - ftc.misleading.recyclable
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Unqualified environmental benefit claims (green, eco-friendly,
+      biodegradable, recyclable, compostable) that the FTC Green Guides treat
+      as deceptive without a specific substantiated benefit or qualification
+      as to disposal path or facility availability.
+    exceptions:
+      - "General environmental claims qualified with a specific, substantiated benefit."
+      - "Recyclable/compostable/degradable claims qualified for limited facility access or customary disposal."
+    status: active
+
+  - id: ftc_made_in_usa
+    canonical_id: misleading.origin_claims
+    clause_ids: [ftc.misleading.made_in_usa]
+    category_id: misleading
+    severity: high
+    modalities: [text, image, video, landing_page]
+    priority: 95
+    detection: >
+      Unqualified Made in USA / American-made origin claims for products that
+      are not all or virtually all made in the United States.
+    exceptions:
+      - "Qualified origin claims (assembled in USA of imported parts; made in USA of U.S. and imported parts)."
     status: active
 
   # --- Health ---

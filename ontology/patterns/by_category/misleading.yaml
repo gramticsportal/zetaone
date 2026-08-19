@@ -3,7 +3,7 @@ category_id: misleading
 jurisdiction: US
 phase: A
 review_status: approved
-pack_count: 7
+pack_count: 9
 qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: misleading.before_after_distortion
@@ -583,6 +583,9 @@ packs:
   - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
     confidence: 0.8
     note: absolute certainty claim
+  - pattern: \bpre[\s-]?approved\b
+    confidence: 0.85
+    note: pre-approval claim (needs approval_contingency)
   requires_context: {}
   exceptions:
     terms:
@@ -705,7 +708,7 @@ packs:
   - pattern: (?<!\w)(?:no\.?\s*1|#\s*1|number\s+one)\b
     confidence: 0.85
     note: ranking claim
-  - pattern: \b(?:the\s+)?(?!best\s+(?:part|of\s+all|yet)\b)(?:best|fastest|strongest|safest|cleanest|longest[\s-]lasting|most\s+effective|most\s+powerful|most\s+advanced|unsurpassed|unmatched|unbeatable|unrivall?ed|superior|ultimate|optimal)\b
+  - pattern: \b(?:the\s+)?(?!best\s+(?:part|of\s+all|yet)\b)(?:best|fastest|strongest|safest|cleanest|largest|biggest|longest[\s-]lasting|most\s+effective|most\s+powerful|most\s+advanced|unsurpassed|unmatched|unbeatable|unrivall?ed|superior|ultimate|optimal)\b
     confidence: 0.75
     note: superlative claim
   - pattern: \bup\s+to\s+(?:\$\s*)?\d[\d,.]*\s*(?:%|percent|x|×|mbps|gbps|hours?|days?|weeks?|months?|years?|times|lbs?|pounds?)?\b
@@ -717,9 +720,15 @@ packs:
   - pattern: \b(?:twice|2|two|\d+)\s+as\s+(?:fast|effective|strong|long|powerful|likely|good)\b
     confidence: 0.85
     note: N-times-as comparative
-  - pattern: \b(?:preferred\s+)?\d+\s*(?:to|-)\s*1\b
+  - pattern: \b(?:twice|two|\d+)\s+times?\s+(?:as\s+)?(?:\w+er|more\s+\w+)\b
+    confidence: 0.85
+    note: N-times comparative (two times gentler)
+  - pattern: \b(?:preferred\s+)?\d+\s*[-–]?\s*to\s*[-–]?\s*1\b
     confidence: 0.8
     note: preference or odds ratio
+  - pattern: \bnothing\s+(?:\w+\s+){0,4}(?:faster|better|stronger)\b
+    confidence: 0.8
+    note: nothing-X-faster superiority
   - pattern: \b(?:vs\.?|versus)\s+(?:the\s+)?(?:other|leading|big)\b
     confidence: 0.8
     note: versus-the-field comparative
@@ -769,3 +778,100 @@ packs:
     has_patterns: true
     has_terms: true
     approval_rule: approved if phrases or patterns present after denoise
+
+- canonical_id: misleading.environmental_benefit_claims
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ftc_green_guides
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.misleading.green_general
+  - ftc.misleading.biodegradable
+  - ftc.misleading.recyclable
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - Unqualified environmental benefit claims (green, eco-friendly, biodegradable, recyclable)
+    that the FTC Green Guides treat as deceptive without qualification or proof.
+  forbidden_terms: []
+  forbidden_phrases:
+  - eco-friendly
+  - environmentally friendly
+  - environmentally sustainable
+  forbidden_patterns:
+  - pattern: \b(?:100\s*%\s+)?biodegradable\b
+    confidence: 0.85
+    note: biodegradable claim
+  - pattern: \b(?:100\s*%\s+|fully\s+)?recyclable\b
+    confidence: 0.8
+    note: recyclable claim
+  - pattern: \b(?:eco[\s-]?friendly|environmentally\s+(?:friendly|sustainable)|green\s+product)\b
+    confidence: 0.8
+    note: general environmental benefit claim
+  - pattern: \bcompostable\b
+    confidence: 0.8
+    note: compostable claim
+  - pattern: \bnon[\s-]?toxic\b
+    confidence: 0.7
+    note: non-toxic environmental claim
+  requires_context: {}
+  exceptions:
+    terms: []
+    phrases: []
+    patterns: []
+    notes:
+    - Qualified with the specific benefit, disposal path, or facility availability the Green Guides require.
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - unqualified biodegradable or recyclable claims
+  - eco-friendly or green marketing without a specific substantiated benefit
+
+- canonical_id: misleading.origin_claims
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ftc_made_in_usa
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.misleading.made_in_usa
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - Unqualified Made in USA / American-made origin claims that require the product to be
+    all or virtually all made in the United States.
+  forbidden_terms: []
+  forbidden_phrases:
+  - made in usa
+  - made in the usa
+  - american-made
+  - proudly made in usa
+  forbidden_patterns:
+  - pattern: \bmade\s+in\s+(?:the\s+)?(?:usa|u\.?s\.?a\.?|united\s+states)\b
+    confidence: 0.9
+    note: Made in USA claim
+  - pattern: \b(?:american[\s-]?made|built\s+in\s+(?:usa|america)|manufactured\s+in\s+(?:the\s+)?(?:usa|u\.?s\.?a\.?))\b
+    confidence: 0.85
+    note: American-origin claim
+  requires_context: {}
+  exceptions:
+    terms: []
+    phrases: []
+    patterns: []
+    notes:
+    - Qualified origin (assembled in USA of imported parts; made in USA from imported and domestic components).
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - unqualified Made in USA origin claims

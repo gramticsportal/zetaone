@@ -3,7 +3,7 @@
 
 Reads:
   ontology/corpus/*_us.yaml
-  ontology/examples/eval_seed.yaml (+ eval_precedents if present)
+  ontology/examples/eval/eval_seed.yaml (+ eval_precedents if present)
   ontology/tools/vision_queries_mined.yaml (optional)
 
 Writes:
@@ -300,7 +300,7 @@ def _dedupe(items: list[str], *, limit: int | None = None) -> list[str]:
 def _load_eval_examples() -> list[dict[str, Any]]:
     examples: list[dict[str, Any]] = []
     for name in ("eval_seed.yaml", "eval_precedents.yaml"):
-        path = ROOT / "examples" / name
+        path = ROOT / "examples" / "eval" / name
         if not path.is_file():
             continue
         data = _load_yaml(path)

@@ -55,8 +55,8 @@ Text eval / pack comparison should use **example `content` strings only** (hybri
 
 | Part | File | Size | Labels | Quality |
 |------|------|------|--------|---------|
-| **A. Golden / precedents** | `ontology/examples/eval_precedents.yaml` | **44** | All `non_compliant` | **High** — tied to real enforcement cases; copy may be reconstructed |
-| **B. Synthetic seed** | `ontology/examples/eval_seed.yaml` | **570** | 190 NC / 190 C / 190 borderline | **Noisy** — authored grid by category; `labeled_by: expert` = seed authoring, not multi-reviewed gold |
+| **A. Golden / precedents** | `ontology/examples/eval/eval_precedents.yaml` | **44** | All `non_compliant` | **High** — tied to real enforcement cases; copy may be reconstructed |
+| **B. Synthetic seed** | `ontology/examples/eval/eval_seed.yaml` | **570** | 190 NC / 190 C / 190 borderline | **Noisy** — authored grid by category; `labeled_by: expert` = seed authoring, not multi-reviewed gold |
 
 **Clean convenience filter (not true label denoise):**  
 `eval_seed_clean.yaml` = seed **without borderline** (380). Load with `ZATAONE_EVAL_PROFILE=clean`.  

@@ -53,7 +53,7 @@ import yaml
 
 ONTOLOGY = Path(__file__).resolve().parent.parent
 PACKS_DIR = ONTOLOGY / "patterns" / "by_category"
-EXAMPLES = ONTOLOGY / "examples"
+EXAMPLES = ONTOLOGY / "examples" / "eval"
 
 # Occurrences needed before a verdict is trustworthy. Below this the prior dominates and
 # the z-score is near zero anyway, but being explicit keeps the purge auditable.

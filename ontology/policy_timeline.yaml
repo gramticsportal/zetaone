@@ -8760,3 +8760,67 @@ timeline:
     section: Ads Content Policies > Deceptive & Fraudulent Content > Deceptive marketing
     official: true
     corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: ftc.misleading.green_general
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-green-guides-2012
+  current_status: active
+  events:
+  - date: 2012-10-01
+    event_type: introduced
+    version: ftc-green-guides-2012
+    summary: FTC Green Guides general environmental benefit claims ingested from the
+      official summary (unqualified "green" / "eco-friendly" claims).
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+    section: 'Environmental Claims: Summary of the Green Guides > General Environmental Benefit Claims'
+    official: true
+    corpus_note: Ingested 2026-08-19 from the FTC Green Guides summary page.
+- clause_id: ftc.misleading.biodegradable
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-green-guides-2012
+  current_status: active
+  events:
+  - date: 2012-10-01
+    event_type: introduced
+    version: ftc-green-guides-2012
+    summary: FTC Green Guides degradable/biodegradable standard ingested (unqualified
+      claim requires complete breakdown within one year after customary disposal).
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+    section: 'Environmental Claims: Summary of the Green Guides > Degradable'
+    official: true
+    corpus_note: Ingested 2026-08-19 from the FTC Green Guides summary page.
+- clause_id: ftc.misleading.recyclable
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-green-guides-2012
+  current_status: active
+  events:
+  - date: 2012-10-01
+    event_type: introduced
+    version: ftc-green-guides-2012
+    summary: FTC Green Guides recyclable-claim qualification ingested (qualify when
+      facilities are not available to at least 60 percent of consumers or communities).
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+    section: 'Environmental Claims: Summary of the Green Guides > Recyclable'
+    official: true
+    corpus_note: Ingested 2026-08-19 from the FTC Green Guides summary page.
+- clause_id: ftc.misleading.made_in_usa
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-musa-labeling-rule-2021
+  current_status: active
+  events:
+  - date: 2021-08-01
+    event_type: introduced
+    version: ftc-musa-labeling-rule-2021
+    summary: FTC Made in USA Labeling Rule ingested (unqualified claim requires the
+      product to be all or virtually all made in the United States).
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/complying-made-usa-standard
+    section: Complying with the Made in USA Standard > The Standard for Unqualified Made In USA Claims
+    official: true
+    corpus_note: Ingested 2026-08-19 from the FTC Made in USA compliance guide.

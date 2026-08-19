@@ -130,7 +130,7 @@ def build_ontology_policy_pack(
 
 
 def _load_eval_examples(root: Path) -> list:
-    path = root / "examples" / "eval_seed.yaml"
+    path = root / "examples" / "eval" / "eval_seed.yaml"
     if not path.is_file():
         return []
     data = yaml.safe_load(path.open(encoding="utf-8")) or {}

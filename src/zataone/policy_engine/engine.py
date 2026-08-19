@@ -373,8 +373,11 @@ class PolicyEngine:
             if regulation_name:
                 for signal in embedding_signals_by_regulation.get(regulation_name, []):
                     signal_id = str(getattr(signal, "signal_id", "unknown"))
+                    embedding_type = (signal.raw_data or {}).get(
+                        "type", "image_embedding_similarity"
+                    )
                     evidence_data = _make_evidence_data(
-                        "image_embedding_similarity",
+                        embedding_type,
                         {
                             "score": (signal.raw_data or {}).get("score", 0.0),
                             "model": (signal.raw_data or {}).get("model", "siglip"),
@@ -387,7 +390,7 @@ class PolicyEngine:
                         ViolationSchema(
                             signal_id=signal_id,
                             rule_id=rule_id,
-                            violation_type="image_embedding_similarity",
+                            violation_type=embedding_type,
                             severity=severity_float,
                             evidence_data=evidence_data,
                         )
@@ -446,7 +449,12 @@ class PolicyEngine:
     def _embedding_by_regulation(signals: list[Any]) -> dict[str, list[Any]]:
         embedding_signals_by_regulation: dict[str, list[Any]] = {}
         for s in signals:
-            if not hasattr(s, "raw_data") or (s.raw_data or {}).get("type") != "image_embedding_similarity":
+            if not hasattr(s, "raw_data"):
+                continue
+            if (s.raw_data or {}).get("type") not in (
+                "image_embedding_similarity",
+                "text_embedding_similarity",
+            ):
                 continue
             reg = (s.raw_data or {}).get("regulation")
             if reg:

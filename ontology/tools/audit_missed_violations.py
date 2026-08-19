@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
-"""Judge whether the violations the matcher misses are actually judgeable.
+"""Judge whether harvested violations are actually judgeable claims.
 
-59% of harvested violations match no trigger at all, and that number is the main argument
-for adding a semantic recall channel. But it is only a fair argument if those rows are
-really violations. The harvester pulled verbatim spans out of enforcement documents, and
-some of what it kept are sentence fragments — "curved and stretchy fit", "has your back
-every day", "gel without the light" — which no reviewer could call deceptive in isolation,
-because the deception lived in the surrounding paragraph the harvester discarded.
+The harvester pulled verbatim spans out of enforcement documents, and some of what it kept
+are sentence fragments — "curved and stretchy fit", "has your back every day", "gel without
+the light" — which no reviewer could call deceptive in isolation, because the deception
+lived in the surrounding paragraph the harvester discarded. A first pass over the rows the
+matcher misses found 34% of them in that state.
 
-Chasing those rows would mean tuning the matcher toward noise, and any recall ceiling
-computed over them is wrong. So before building anything, this splits the misses into:
+It audits **every** harvested row, not only the missed ones, and that is the whole point.
+Auditing just the misses and deleting the junk found there would remove noise exclusively
+from the rows the matcher fails on, leaving whatever junk it happens to catch in place as
+true positives. Recall would jump because the eval set had been trimmed to flatter it. The
+rows the matcher catches have to face the same judge as the rows it misses.
+
+Splits rows into:
 
   assessable_claim  a self-contained advertising claim a reviewer could rule on
   fragment          truncated or context-dependent; not judgeable on its own
   not_a_claim       narrative, legal or descriptive text that is not an ad claim at all
 
 The realistic recall ceiling is the assessable share, not 100%. Rows labelled fragment or
-not_a_claim are candidates for removal from the eval set, which would raise measured recall
+not_a_claim are candidates for removal from the eval set, which raises measured recall
 without changing a line of matcher code — worth knowing before attributing that gap to the
 engine.
 
@@ -24,7 +28,8 @@ Requires GEMINI_API_KEY (or GOOGLE_API_KEY). Writes a CSV so the labels can be s
 by hand; the model is triaging here, not deciding.
 
 Usage:
-    python3.11 ontology/tools/audit_missed_violations.py --limit 150
+    python3.11 ontology/tools/audit_missed_violations.py               # every row
+    python3.11 ontology/tools/audit_missed_violations.py --limit 200   # sample, for a look
 """
 
 from __future__ import annotations
@@ -143,8 +148,8 @@ def run_batch(batch: list[dict], model: str, key: str) -> dict[str, dict]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--limit", type=int, default=150, help="how many misses to sample")
-    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "missed_violations_audit.csv"))
+    parser.add_argument("--limit", type=int, help="sample this many rows instead of auditing all")
+    parser.add_argument("--out", default=str(ONTOLOGY / "examples" / "harvest_quality_audit.csv"))
     parser.add_argument("--batch-size", type=int, default=25)
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--seed", type=int, default=11)
@@ -159,16 +164,19 @@ def main() -> int:
     packs = list(load_pattern_packs().values())
     rows = yaml.safe_load((ONTOLOGY / "examples" / "eval_harvested.yaml").read_text())["examples"]
 
-    missed = [
-        r for r in rows
-        if not any(match_lexical(r["content"], p, drop_licensed=False) for p in packs)
-    ]
-    print(f"harvested violations: {len(rows)}   matching no trigger: {len(missed)} ({len(missed)/len(rows):.1%})")
+    def fires(text: str) -> bool:
+        return any(match_lexical(text, p, drop_licensed=False) for p in packs)
 
-    random.seed(args.seed)
-    sample = random.sample(missed, min(args.limit, len(missed)))
+    missed = sum(1 for r in rows if not fires(r["content"]))
+    print(f"harvested violations: {len(rows)}   matching no trigger: {missed} ({missed / len(rows):.1%})")
+
+    if args.limit:
+        random.seed(args.seed)
+        sample = random.sample(rows, min(args.limit, len(rows)))
+    else:
+        sample = rows
     batches = [sample[i : i + args.batch_size] for i in range(0, len(sample), args.batch_size)]
-    print(f"auditing a sample of {len(sample)} in {len(batches)} batches\n", flush=True)
+    print(f"auditing {len(sample)} rows in {len(batches)} batches\n", flush=True)
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         results = list(pool.map(lambda b: run_batch(b, model, key), batches))
@@ -177,28 +185,40 @@ def main() -> int:
         verdicts.update(chunk)
 
     counts: Counter[str] = Counter()
+    by_outcome: dict[str, Counter[str]] = {"fires": Counter(), "misses": Counter()}
     with open(args.out, "w", newline="") as fh:
         writer = csv.writer(fh)
-        writer.writerow(["id", "label", "reason", "content"])
+        writer.writerow(["id", "label", "matcher", "reason", "content"])
         for row in sample:
             verdict = verdicts.get(row["id"])
             if not verdict:
                 counts["<no verdict>"] += 1
                 continue
+            outcome = "fires" if fires(row["content"]) else "misses"
             counts[verdict["label"]] += 1
-            writer.writerow([row["id"], verdict["label"], verdict.get("reason", ""), row["content"]])
+            by_outcome[outcome][verdict["label"]] += 1
+            writer.writerow(
+                [row["id"], verdict["label"], outcome, verdict.get("reason", ""), row["content"]]
+            )
 
     judged = sum(counts[label] for label in LABELS)
-    print("sample composition:")
+    print("composition:")
     for label, count in counts.most_common():
-        print(f"  {label:18s} {count:4d}  {count / max(1, len(sample)):5.1%}")
+        print(f"  {label:18s} {count:5d}  {count / max(1, len(sample)):5.1%}")
+
+    # If junk were spread evenly, cleaning would not move recall much; if it clusters in the
+    # misses, part of the recall gap was never the matcher's fault. Either way the cleaning
+    # has to be applied to both groups, which is why the whole set is audited.
+    print("\nassessable share, split by whether the matcher fires:")
+    for outcome, counter in by_outcome.items():
+        total = sum(counter.values())
+        if total:
+            print(f"  {outcome:7s} {counter['assessable_claim'] / total:5.1%} assessable  (n={total})")
 
     if judged:
-        assessable = counts["assessable_claim"] / judged
         print(
-            f"\nOf the violations the matcher misses, {assessable:.0%} are genuinely assessable "
-            f"claims.\nThe rest are fragments or non-claims: real recall is understated, and the "
-            f"ceiling\nis lower than 100% because part of the gap is extraction noise, not engine error."
+            f"\n{counts['assessable_claim'] / judged:.0%} of harvested rows are genuinely "
+            f"assessable claims; the rest are extraction noise."
         )
     print(f"\nwrote {args.out} — spot-check before acting on it")
     return 0

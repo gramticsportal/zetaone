@@ -1,6 +1,6 @@
 # Matcher rebuild — state and next steps
 
-Working log, paused 2026-08-12. Everything below is in the working tree, uncommitted.
+Working log. Matcher rebuild + harvest cleanup + semantic-channel measurement.
 
 ## Why this happened
 
@@ -154,55 +154,55 @@ bound on what real embeddings would do, and it was measured over misses that are
 extraction noise, which depresses it further. **Re-run this over only the assessable rows
 before deciding.**
 
-## Where it stands
+## Where it stands (2026-08-18)
 
-59.3% of violations still match no trigger at all. That is now the entire recall problem —
-the gate is not the bottleneck, trigger coverage is. Sampling those misses shows two kinds:
+### Harvest cleanup
 
-- Reachable with better patterns or a semantic channel: "Helps patients with diabetes",
-  "Improves your energy levels", "Unsurpassed HD picture quality", "Scientifically
-  Formulated to Maximize Sports Performance".
-- Not reachable and arguably not valid eval rows: "curved and stretchy fit", "has your back
-  every day", "gel without the light". These are fragments the harvester pulled out of
-  enforcement documents; they are not self-evidently deceptive in isolation. Some of the
-  remaining gap is data quality, not engine quality.
+Full audit of all 1,980 harvested rows (`harvest_quality_audit.csv`): 80.1% assessable,
+10.4% not-a-claim, 9.3% fragment. Junk is heavier among misses (26%) than hits (11%), which
+is why both sides had to be quarantined — deleting only misses would have inflated recall.
+
+Kept 1,589 harvested + 1,159 pairs. Quarantine files are not loaded.
+
+Held-out test after cleaning (590 pairs):
+
+| | recall | precision | F1 |
+|---|---|---|---|
+| baseline (dirty) | 28.9% | 42.0% | 0.342 |
+| gated matcher (dirty) | 39.9% | 60.3% | 0.480 |
+| gated matcher (cleaned) | 43.9% | 61.1% | 0.511 |
+
+Gate false-clears remain low (3.2% of test pairs). Remaining miss is still no-trigger (52.9%).
+
+### Semantic channel — do not use it to recover pair misses
+
+Brought `semantic_text_extractor.py` over from `gramtics` (cherry-pick of the extractor,
+not a full merge). Pointed default exemplars at harvested copy, capped at 80/regulation.
+Wired behind `ZATAONE_ENABLE_SEMANTIC_TEXT` (off by default). Policy engine still refuses
+to block on ML-only signals.
+
+Measured MiniLM against a *dev-only* index on the held-out test pairs. At every threshold,
+false positives on the lawful twin exceed recovery of the miss. Missed violations score
+*below* their own twin 67.7% of the time — worse than chance. Combined recall at 0.50
+rises 43.9% → 54.4% while FP-rate jumps 28% → 46%.
+
+That is the pair design doing its job: 85% of twins share the trigger wording, so an
+embedding of "what this ad is about" cannot see the qualifier that makes one lawful.
+TF-IDF/kNN would fail the same way. The channel is still worth keeping as *supporting
+evidence* in the product pipeline (topic routing). It is not a recall net for this matcher.
+
+`gramtics/main` was not merged (still diverged: document-upload and other commits).
 
 ## Next steps
 
-Steps 1 and 2 from the first session are done (sections 7 and 8 above). Resume here:
-
-1. **Drop or quarantine the 34% extraction noise in `eval_harvested.yaml`.** The audit
-   labelled a 200-row sample; extend it to all 1,160 no-trigger misses, then either remove
-   the fragments and non-claims or mark them so `eval_matcher_pairs.py` can exclude them.
-   Measured recall will rise without any matcher change, and every downstream number
-   becomes trustworthy. Do this first — it is cheap and it conditions everything else.
-
-2. **Re-run the TF-IDF feasibility check over assessable rows only.** The 8% recovery
-   figure was computed over misses that are a third noise, so it understates the ceiling by
-   an unknown margin. If it stays weak on clean rows, real embeddings are unlikely to be
-   worth the dependency and the effort belongs in triggers instead.
-
-3. **Keep hunting trigger bugs the way section 7 did.** Three real bugs came out of asking
-   why individual assessable misses did not fire, and that had a bigger payoff than any
-   threshold tuning in this project so far (F1 +0.055 in one pass). The audit CSV is a ready
-   queue of such cases.
-
-4. **Then decide on the embedding channel.** If built: exhaustive cosine over the ~2,000
-   violation texts (3 MB, no ANN index — approximate search would cost determinism to solve
-   a problem this corpus does not have), run only when the lexical layer clears the text, so
-   it costs nothing on flagged traffic. Keep it **advisory**: it may route to human review,
-   never block. Then every blocking decision stays pure string-and-integer logic with a
-   cited clause and a span, and the determinism claim survives float drift across hardware.
-
-4. **Corpus gaps found along the way.** No clauses exist for FTC Green Guides
-   (biodegradable, eco-friendly, recyclable) or Made in USA, and violations of both appear
-   in the harvested data — "renders plastic products biodegradable", "Made in the USA since
-   1947". Triggers were deliberately not written for these, since there is no clause to
-   cite. Adding the clauses is a corpus task, not a matcher task.
-
-5. **Re-mine once categories have data.** Mining was skipped for alcohol, discrimination,
-   drugs, gambling, ip_trademark, political and privacy — all have fewer than 40 examples
-   per side. Their 962 untested triggers are carried on trust.
+1. **Hunt remaining trigger gaps on assessable misses** — same method as section 7, now
+   against the cleaned set. Highest-leverage matcher work left.
+2. **Human-spot the quarantine file** — `not_a_claim` over-calls some product-name claims
+   (bamboo textile). Promote those back if they are real.
+3. **Corpus: Green Guides + Made in USA clauses**, then write triggers that have something
+   to cite.
+4. **Do not add TF-IDF, ANN, or kNN** for pair-eval recall. The semantic measurement closed
+   that question.
 
 ## Files
 
@@ -210,8 +210,13 @@ New:
 - `ontology/tools/generate_compliant_pairs.py`
 - `ontology/tools/mine_discriminative_triggers.py`
 - `ontology/tools/eval_matcher_pairs.py`
+- `ontology/tools/audit_missed_violations.py`
+- `ontology/tools/quarantine_harvest_junk.py`
+- `ontology/tools/eval_semantic_channel.py`
 - `ontology/patterns/qualifiers.yaml`
-- `ontology/examples/eval_compliant_pairs.yaml`
+- `src/zataone/extractors/semantic_text_extractor.py`
+- `ontology/examples/eval_harvested_quarantined.yaml` (not loaded)
+- `ontology/examples/eval_compliant_pairs_quarantined.yaml` (not loaded)
 
 Modified:
 - `src/zataone/policy_engine/hybrid/lexical.py` — gate, word boundaries, `licensed_by`

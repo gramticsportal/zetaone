@@ -19,6 +19,11 @@ def embedding_enabled() -> bool:
     return _env_bool("ZATAONE_ENABLE_EMBEDDING", default=False)
 
 
+def semantic_text_enabled() -> bool:
+    """Sentence-embedding text sensor. Off by default; never blocks on its own."""
+    return _env_bool("ZATAONE_ENABLE_SEMANTIC_TEXT", default=False)
+
+
 def ocr_enabled() -> bool:
     """
     Local OCR (Tesseract). Default OFF — Gemini VLM supplies ocr_text for images.

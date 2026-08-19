@@ -537,6 +537,220 @@ async def post_assets_image(
     return {"status": "processing", "asset_id": str(asset_id), "pipeline_mode": resolve_pipeline_mode(pm), "jurisdiction": jurisdiction}
 
 
+@router.post("/assets/document")
+async def post_assets_document(
+    file: UploadFile = File(...),
+    per_page: bool = Form(False),
+    auth: AuthContext = Depends(get_auth_context),
+    x_domain: str | None = Header(None, alias="X-Domain"),
+    x_pipeline_mode: str | None = Header(None, alias="X-Pipeline-Mode"),
+    x_jurisdiction: str | None = Header(None, alias="X-Jurisdiction"),
+) -> dict[str, Any]:
+    """
+    Run compliance check on an uploaded document (.txt/.pdf/.docx).
+
+    Default (per_page=false): the whole document is scored as ONE text asset —
+    a single overall verdict, same as pasting the text.
+    per_page=true: one verdict per page plus a document rollup (worst page wins).
+
+    Synchronous either way. Page count is capped (ZATAONE_DOC_MAX_PAGES,
+    default 2 for now). File kind is sniffed from content, not the filename.
+    Sentence-level detail lives in violation evidence spans.
+    """
+    from zataone.services.document_ingest_service import (
+        DocumentParserUnavailableError,
+        UnsupportedDocumentError,
+        aggregate_page_verdicts,
+        extract_pages,
+        sniff_document_kind,
+    )
+
+    x_tenant_id = str(auth.tenant_id) if auth.tenant_id else None
+    domain = _resolve_domain(x_domain)
+    jurisdiction = _JR().normalize(x_jurisdiction)
+    pm = _pipeline_mode_header(x_pipeline_mode)
+
+    try:
+        data = await file.read()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to read file: {e}") from e
+
+    try:
+        kind = sniff_document_kind(data, file.filename)
+        pages = extract_pages(data, kind)
+    except UnsupportedDocumentError as e:
+        raise HTTPException(status_code=415, detail=str(e)) from e
+    except DocumentParserUnavailableError as e:
+        raise HTTPException(status_code=501, detail=str(e)) from e
+
+    page_count = len(pages)
+
+    if not per_page:
+        # Single-score mode (default): whole document = one text asset,
+        # exactly like the pasted-text approach.
+        full_text = "\n\n".join(p for p in pages if p.strip()).strip()
+        if not full_text:
+            raise HTTPException(status_code=415, detail="No extractable text in document")
+
+        asset = SimpleNamespace(
+            asset_id=None,
+            content=full_text,
+            type="text",
+            metadata={
+                "source": "document_upload",
+                "document_filename": file.filename,
+                "document_kind": kind,
+                "page_count": page_count,
+                "per_page": False,
+            },
+        )
+        asset_id = uuid.uuid4()
+        session = get_session_factory()()
+        try:
+            IngestionService().create_asset_stub(
+                session, asset, asset_id=asset_id, tenant_id=x_tenant_id
+            )
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            raise HTTPException(status_code=500, detail=str(e)) from e
+        finally:
+            session.close()
+
+        def _run_doc_pipeline() -> dict[str, Any]:
+            return _get_pipeline(domain, jurisdiction).run(
+                asset,
+                tenant_id=x_tenant_id,
+                persist=True,
+                existing_asset_id=asset_id,
+                pipeline_mode=pm,
+            )
+
+        try:
+            result = await asyncio.to_thread(_run_doc_pipeline)
+        except Exception as e:
+            session = get_session_factory()()
+            try:
+                IngestionService().set_asset_status(session, asset_id, "failed")
+            finally:
+                session.close()
+            raise HTTPException(status_code=500, detail=str(e)) from e
+
+        formatted = _format_verdict_response(result)
+        return {
+            "mode": "single",
+            "asset_id": str(asset_id),
+            "document": {
+                "filename": file.filename,
+                "kind": kind,
+                "page_count": page_count,
+                "status": formatted.get("status", ""),
+                "risk_score": formatted.get("risk_score", 0.0),
+            },
+            **formatted,
+            "pipeline_mode": resolve_pipeline_mode(pm),
+            "jurisdiction": jurisdiction,
+        }
+
+    page_results: list[dict[str, Any]] = []
+
+    for page_number, page_text in enumerate(pages, start=1):
+        if not page_text.strip():
+            page_results.append(
+                {
+                    "page_number": page_number,
+                    "asset_id": None,
+                    "status": "COMPLIANT",
+                    "verdict": "no_extractable_text",
+                    "risk_score": 0.0,
+                    "violation_count": 0,
+                    "violations": [],
+                }
+            )
+            continue
+
+        asset = SimpleNamespace(
+            asset_id=None,
+            content=page_text,
+            type="text",
+            metadata={
+                "source": "document_upload",
+                "document_filename": file.filename,
+                "document_kind": kind,
+                "page_number": page_number,
+                "page_count": page_count,
+            },
+        )
+        asset_id = uuid.uuid4()
+        session = get_session_factory()()
+        try:
+            IngestionService().create_asset_stub(
+                session, asset, asset_id=asset_id, tenant_id=x_tenant_id
+            )
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            raise HTTPException(status_code=500, detail=str(e)) from e
+        finally:
+            session.close()
+
+        def _run_page_pipeline() -> dict[str, Any]:
+            return _get_pipeline(domain, jurisdiction).run(
+                asset,
+                tenant_id=x_tenant_id,
+                persist=True,
+                existing_asset_id=asset_id,
+                pipeline_mode=pm,
+            )
+
+        try:
+            result = await asyncio.to_thread(_run_page_pipeline)
+            formatted = _format_verdict_response(result)
+            violations = formatted.get("violations") or []
+            page_results.append(
+                {
+                    "page_number": page_number,
+                    "asset_id": str(asset_id),
+                    "status": formatted.get("status", ""),
+                    "verdict": formatted.get("verdict", ""),
+                    "risk_score": formatted.get("risk_score", 0.0),
+                    "violation_count": len(violations),
+                    "violations": violations,
+                }
+            )
+        except Exception as e:
+            session = get_session_factory()()
+            try:
+                IngestionService().set_asset_status(session, asset_id, "failed")
+            finally:
+                session.close()
+            page_results.append(
+                {
+                    "page_number": page_number,
+                    "asset_id": str(asset_id),
+                    "status": "REVIEW_REQUIRED",
+                    "verdict": "page_processing_failed",
+                    "risk_score": 0.0,
+                    "violation_count": 0,
+                    "violations": [],
+                    "error": str(e)[:500],
+                }
+            )
+
+    rollup = aggregate_page_verdicts(page_results)
+    return {
+        "mode": "per_page",
+        "document": {
+            "filename": file.filename,
+            "kind": kind,
+            **rollup,
+        },
+        "pages": page_results,
+        "pipeline_mode": resolve_pipeline_mode(pm),
+        "jurisdiction": jurisdiction,
+    }
+
+
 @router.post("/assets/audio")
 async def post_assets_audio(
     background_tasks: BackgroundTasks,

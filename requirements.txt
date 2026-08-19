@@ -21,3 +21,5 @@ protobuf
 faster-whisper
 nltk
 langdetect
+pypdf
+python-docx

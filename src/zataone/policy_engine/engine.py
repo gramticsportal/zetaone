@@ -445,16 +445,17 @@ class PolicyEngine:
             or "text" in rd
         )
 
+    _EMBEDDING_SIGNAL_TYPES = frozenset(
+        {"image_embedding_similarity", "text_embedding_similarity"}
+    )
+
     @staticmethod
     def _embedding_by_regulation(signals: list[Any]) -> dict[str, list[Any]]:
         embedding_signals_by_regulation: dict[str, list[Any]] = {}
         for s in signals:
             if not hasattr(s, "raw_data"):
                 continue
-            if (s.raw_data or {}).get("type") not in (
-                "image_embedding_similarity",
-                "text_embedding_similarity",
-            ):
+            if (s.raw_data or {}).get("type") not in PolicyEngine._EMBEDDING_SIGNAL_TYPES:
                 continue
             reg = (s.raw_data or {}).get("regulation")
             if reg:

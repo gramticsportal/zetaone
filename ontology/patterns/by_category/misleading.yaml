@@ -275,6 +275,18 @@ packs:
   - pattern: \b(?:total|complete|permanent|lifetime|unlimited|maximum)\s+\w+
     confidence: 0.65
     note: absolute scope claim
+  - pattern: \bno\s+diet\s+or\s+exercise\b
+    confidence: 0.9
+    note: effortless weight-loss claim
+  - pattern: \bwill\s+(?:significantly\s+)?(?:reduce|relieve|eliminate|reverse|restore|increase)\b
+    confidence: 0.8
+    note: promised physiological change
+  - pattern: \bspeeds?\s+(?:up\s+)?recovery\b
+    confidence: 0.8
+    note: recovery-speed claim
+  - pattern: \bwithout\s+pain\b
+    confidence: 0.7
+    note: pain-free outcome claim
   requires_context: {}
   exceptions:
     terms:
@@ -699,6 +711,27 @@ packs:
   - pattern: \bup\s+to\s+(?:\$\s*)?\d[\d,.]*\s*(?:%|percent|x|×|mbps|gbps|hours?|days?|weeks?|months?|years?|times|lbs?|pounds?)?\b
     confidence: 0.75
     note: up-to claim (needs typical-result basis)
+  # Remaining assessable misses after harvest cleanup: ratio comparatives, "unlike
+  # ordinary", and unconditioned free offers. "free" is licensed by conditional_scope
+  # ("free shipping on orders over $50") so the bare token is recall, not a verdict.
+  - pattern: \b(?:twice|2|two|\d+)\s+as\s+(?:fast|effective|strong|long|powerful|likely|good)\b
+    confidence: 0.85
+    note: N-times-as comparative
+  - pattern: \b(?:preferred\s+)?\d+\s*(?:to|-)\s*1\b
+    confidence: 0.8
+    note: preference or odds ratio
+  - pattern: \b(?:vs\.?|versus)\s+(?:the\s+)?(?:other|leading|big)\b
+    confidence: 0.8
+    note: versus-the-field comparative
+  - pattern: \bunlike\s+(?:ordinary|regular|other|typical)\b
+    confidence: 0.8
+    note: unlike-ordinary superiority
+  - pattern: \b(?:buy\s+one,?\s+get\s+one\s+free|bogo)\b
+    confidence: 0.85
+    note: BOGO offer
+  - pattern: (?<!\w)(?:free|\$\s*0)\b
+    confidence: 0.7
+    note: free or zero-price offer
   requires_context: {}
   exceptions:
     terms:

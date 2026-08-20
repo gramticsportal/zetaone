@@ -31,12 +31,12 @@ flowchart TB
   end
 
   subgraph policy["Policy layer"]
-    C["157 clauses · 11 categories"]
-    Ru["128 rules"]
+    C["172 clauses · 11 categories"]
+    Ru["137 rules"]
   end
 
   subgraph unify["Unification"]
-    CR["52 canonical rules"]
+    CR["54 canonical rules"]
     M["37 cross-source mappings"]
   end
 
@@ -62,6 +62,8 @@ flowchart TB
 ```
 
 **Flow:** policies → clauses & rules → canonical rules → mappings, evals, precedents → validation & benchmarks.
+
+Current release: **Ad Corpus v0.12** (includes FTC Green Guides and Made-in-USA). Live matcher uses the **54 approved pattern packs** in `ontology/patterns/by_category/` plus the US policy pack from `ontology/corpus/*_us.yaml`. Harvest dumps under `ontology/examples/harvest/` are not eval and are not loaded at runtime.
 
 Docs: [`ontology/README.md`](ontology/README.md) · full architecture map [`ontology/ONTOLOGY_MAP.md`](ontology/ONTOLOGY_MAP.md)
 
@@ -294,7 +296,7 @@ Recent work extends the deterministic core without changing the verdict contract
 | `ZATAONE_HYBRID_NLP` | Embedding NLP scorer (BoW/MiniLM/…) | `false` |
 | `ZATAONE_HYBRID_ALL_PACKS` | Score all approved packs (no shortlist) | `true` |
 | `ZATAONE_ENABLE_OCR` | Local Tesseract OCR | `false` |
-| `ZATAONE_ENABLE_VISION` | Local Grounding DINO | `false` |
+| `ZATAONE_ENABLE_VISION` | Local Grounding DINO (`modality/vision.py` must export `GROUNDING_DINO_AVAILABLE`) | `false` |
 | `ZATAONE_POLICY_ENGINE_ENABLED` | Run deterministic rule path on Full | `true` |
 | `ZATAONE_VERDICT_AUTHORITY` | `advisory` = LLM display; `deterministic` = rules display | `advisory` |
 | `ZATAONE_ONTOLOGY_PACK` | Load ontology US pack | `true` |
@@ -650,26 +652,39 @@ Step-by-step: **[docs/deploy-gcp-step-by-step.md](docs/deploy-gcp-step-by-step.m
 
 **Image build (`cloudbuild.yaml` + `docker/Dockerfile`):**
 
-- **Hugging Face models** (optional DINO / SigLIP / MiniLM) are **pre-downloaded during the Docker build** via `docker/preload_models.py` into `/app/.cache/huggingface`. Runtime defaults use **Gemini VLM** for images (local OCR/DINO off).
-- **Cloud Build** uses a larger worker (`options.machineType`, e.g. `E2_HIGHCPU_32`) so the preload step has enough RAM.
+- **Hugging Face models** (optional DINO / SigLIP / MiniLM) are **pre-downloaded during the Docker build** via `docker/preload_models.py` into `/app/.cache/huggingface`. Runtime defaults use **Gemini VLM** for images (local OCR/DINO off). `ZATAONE_ENABLE_VISION` stays off unless you explicitly turn DINO on.
+- **Cloud Build** uses a larger worker (`options.machineType`, e.g. `E2_HIGHCPU_32`) so the preload step has enough RAM. `.gcloudignore` excludes `.cache/`, `.env`, `data/objects/`, and `ontology/examples/harvest/` so Cloud Build does not upload local harvest or enforcement caches (that path previously produced a 360MB source tarball).
 - Optional Hub auth (higher rate limits during build): pass **`_HF_TOKEN`** in substitutions (see `cloudbuild.yaml`).
+- Do **not** deploy the `:latest` tag. Tag each build with a dated name and roll out by **digest**. Cloud Run production size is **1 CPU / 2Gi** (temporarily raise to 2 CPU / 4Gi only while testing a new image).
+- `gcloud builds submit` may print `FAILED_PRECONDITION` when `cloudbuild.yaml` uses `CLOUD_LOGGING_ONLY`. Check `gcloud builds describe BUILD_ID` — the image can still be `SUCCESS` in Artifact Registry.
 
-**Rebuild and roll out a new image** (run from repo root; deploy only runs if the build succeeds):
+**Rebuild and roll out a new image** (run from repo root; deploy only after the build is `SUCCESS`):
 
 ```bash
 export PROJECT_ID=your-gcp-project-id
 export REGION=us-central1
+export IMAGE_TAG="main-$(date +%Y%m%d-%H%M%S)"
 # Optional: export HF_TOKEN=hf_...
 
 gcloud builds submit --config cloudbuild.yaml \
-  --substitutions=_REGION="${REGION}",_HF_TOKEN="${HF_TOKEN:-}" . \
-  && gcloud run services update zataone-api \
-    --project="${PROJECT_ID}" \
-    --region="${REGION}" \
-    --image="${REGION}-docker.pkg.dev/${PROJECT_ID}/zataone/zataone-api:latest"
+  --substitutions="_REGION=${REGION},_HF_TOKEN=${HF_TOKEN:-},_IMAGE_TAG=${IMAGE_TAG}" .
+
+# If the CLI errors after submit, confirm SUCCESS then continue:
+# gcloud builds list --project="$PROJECT_ID" --limit=1
+
+DIGEST=$(gcloud artifacts docker images describe \
+  "${REGION}-docker.pkg.dev/${PROJECT_ID}/zataone/zataone-api:${IMAGE_TAG}" \
+  --format='value(image_summary.digest)')
+
+gcloud run services update zataone-api \
+  --project="${PROJECT_ID}" \
+  --region="${REGION}" \
+  --image="${REGION}-docker.pkg.dev/${PROJECT_ID}/zataone/zataone-api@${DIGEST}" \
+  --cpu=1 \
+  --memory=2Gi
 ```
 
-**Runtime notes:** Set **`DATABASE_URL`** to the Cloud SQL Unix socket form, attach the instance on the service, set **`CORS_ORIGINS`** for your UI origin, and **`HF_TOKEN`** on Cloud Run if you still want Hub access for edge cases. The Dockerfile sets **`ZATAONE_DISABLE_CORE_STUB_EXTRACTORS=true`** so domain extractors are used on Cloud Run.
+**Runtime notes:** Set **`DATABASE_URL`** to the Cloud SQL Unix socket form, attach the instance on the service, set **`CORS_ORIGINS`** for your UI origin, and **`HF_TOKEN`** on Cloud Run if you still want Hub access for edge cases. The Dockerfile sets **`ZATAONE_DISABLE_CORE_STUB_EXTRACTORS=true`** so domain extractors are used on Cloud Run. Do not empty `src/zataone/extractors/modality/vision.py` — the domain vision extractor imports `GROUNDING_DINO_AVAILABLE` at module load even when DINO is off.
 
 **Web UI:** `web/policylens.html` (**PolicyLens**) is served at **`/ui/policylens.html`**; `web/reviewlens.html` (**ReviewLens**, human review queue) at **`/ui/reviewlens.html`**. Set **`GEMINI_*`** and **`CORS_ORIGINS`** on the Cloud Run service for advisory review from the browser (see *Advisory review* above). On Cloud Run also set **`ZATAONE_OBJECT_STORE_BUCKET`** so stored media survives instance recycling. **`/ui/sentrilens.html`** redirects to PolicyLens.
 
@@ -698,7 +713,7 @@ The canonical compliance ontology (schema, categories, cross-source mappings, ev
 | Phase | Focus | Status |
 |-------|-------|--------|
 | **Foundation** | PostgreSQL, ingestion API, extractors, policy engine, PolicyLens UI | In progress |
-| **Explainability** | Document layer, policy corpus, BM25 retrieval, DSL pilot, graph metadata | Shipped (flags default off) |
+| **Explainability** | Document layer, US ontology pack, hybrid lexical packs, graph metadata | Shipped (hybrid + ontology pack default on; embedding NLP off) |
 | **Full cycle** | Media persistence (ObjectStore), human review workflow + ReviewLens UI, per-violation labels, revision chains (`parent_asset_id`), fail-to-review degradation, stuck-asset reaper, policy pack hash stamping | Shipped |
 | **MVP** | Additional policy packs, hardened auth, audit exports | Planned |
 | **Scale** | Multi-tenancy, webhooks, video pipeline, 10+ packs | Planned |

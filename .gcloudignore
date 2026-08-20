@@ -3,6 +3,10 @@
 .gcloudignore
 .venv
 venv/
+.cache/
+data/objects/
+.env
+ontology/examples/harvest/
 __pycache__/
 .pytest_cache/
 .mypy_cache/

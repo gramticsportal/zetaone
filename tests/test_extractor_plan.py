@@ -83,3 +83,11 @@ def test_embedding_when_flag_on(monkeypatch):
     config = {"extractors": {"enabled": ["embedding", "ocr", "vision"]}}
     selected = select_extractors_for_asset(extractors, asset, config)
     assert len(selected) == 1
+
+
+def test_modality_vision_exports_dino_flag():
+    """Domain VisionExtractor imports this at module load; an empty vision.py 500s Cloud Run."""
+    from zataone.extractors.modality import vision as vision_mod
+
+    assert hasattr(vision_mod, "GROUNDING_DINO_AVAILABLE")
+    assert callable(getattr(vision_mod, "detect_grounding_dino", None))

@@ -3,8 +3,13 @@
 
 Reads:
   ontology/corpus/*_us.yaml
-  ontology/examples/eval/eval_seed.yaml (+ eval_precedents if present)
+  ontology/examples/eval/eval_{seed,precedents,harvested}.yaml — TRAIN split only
   ontology/tools/vision_queries_mined.yaml (optional)
+
+Mining reads the train split and nothing else. Non-compliant rows are tokenised straight
+into `forbidden_terms`, so every row this tool sees is memorised; scoring the resulting
+packs against those same rows measures the miner, not the matcher. Splits are grouped by
+source enforcement action — see ontology/tools/build_eval_splits.py.
 
 Writes:
   ontology/patterns/_inventory.yaml
@@ -297,14 +302,41 @@ def _dedupe(items: list[str], *, limit: int | None = None) -> list[str]:
     return out
 
 
+# Files worth mining terms from. Harvested rows are verbatim wording from enforcement
+# documents, which is better mining material than the synthetic seed, so they are read
+# here even though the runtime loader keeps them opt-in.
+_MINE_FILES = (
+    "eval_seed.yaml",
+    "eval_precedents.yaml",
+    "eval_harvested.yaml",
+)
+
+# Splits mining may read. Test is excluded on purpose and should stay excluded: this
+# function tokenizes non-compliant rows straight into `forbidden_terms`, so any row it
+# sees is memorised rather than predicted, and scoring against it afterwards measures
+# recall of the mining step. Override only to reproduce a historical pack build.
+_MINE_SPLITS = ("train",)
+
+
 def _load_eval_examples() -> list[dict[str, Any]]:
+    import os
+
+    raw = os.environ.get("ZATAONE_MINE_SPLITS") or ""
+    wanted = {s.strip().lower() for s in raw.split(",") if s.strip()} or set(_MINE_SPLITS)
+
     examples: list[dict[str, Any]] = []
-    for name in ("eval_seed.yaml", "eval_precedents.yaml"):
+    skipped = 0
+    for name in _MINE_FILES:
         path = ROOT / "examples" / "eval" / name
         if not path.is_file():
             continue
         data = _load_yaml(path)
-        examples.extend(data.get("examples") or [])
+        for ex in data.get("examples") or []:
+            if str(ex.get("split") or "").lower() in wanted:
+                examples.append(ex)
+            else:
+                skipped += 1
+    print(f"  mining eval rows: {len(examples)} from splits {sorted(wanted)} ({skipped} withheld)")
     return examples
 
 

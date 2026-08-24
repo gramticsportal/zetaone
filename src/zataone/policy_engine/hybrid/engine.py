@@ -10,9 +10,12 @@ from typing import Any
 from zataone.policy_engine.hybrid.flags import (
     ALWAYS_INCLUDE_CATEGORIES,
     hybrid_all_packs,
+    hybrid_min_confidence,
     hybrid_nlp_enabled,
     hybrid_retrieval_top_k,
+    semantic_classifier_enabled,
 )
+from zataone.policy_engine.ml.semantic_classifier import SemanticClassifier
 from zataone.policy_engine.hybrid.lexical import match_lexical, match_vision
 from zataone.policy_engine.hybrid.nlp import HybridNLPScorer
 from zataone.policy_engine.hybrid.pack_loader import (
@@ -45,6 +48,9 @@ class HybridEvalResult:
     shortlisted_canonical_ids: list[str] = field(default_factory=list)
     nlp_backend: str | None = None
     packs_evaluated: int = 0
+    # Learned tier: a score, and whether it wants a human to look. Never a verdict.
+    semantic_score: float | None = None
+    semantic_review_recommended: bool = False
 
 
 class HybridEngine:
@@ -60,7 +66,16 @@ class HybridEngine:
         self._packs: dict[str, PatternPack] = load_pattern_packs(approved_only=True)
         self._rule_to_canonical = build_rule_to_canonical(self._packs)
         self._nlp: HybridNLPScorer | None = None
+        self._semantic: SemanticClassifier | None = None
         self._last_result = HybridEvalResult()
+        if semantic_classifier_enabled():
+            clf = SemanticClassifier()
+            self._semantic = clf if clf.available else None
+            if self._semantic is None:
+                logger.warning(
+                    "semantic classifier enabled but no artifact found; "
+                    "run ontology/tools/train_semantic_classifier.py"
+                )
         if hybrid_nlp_enabled():
             try:
                 self._nlp = HybridNLPScorer()
@@ -198,6 +213,9 @@ class HybridEngine:
                 continue
 
             lexical_hits = match_lexical(text, pack)
+            min_conf = hybrid_min_confidence()
+            if min_conf > 0:
+                lexical_hits = [h for h in lexical_hits if h.confidence >= min_conf]
             vision_hits = match_vision(vision, pack)
             nlp_hit = None
             if self._nlp is not None and hybrid_nlp_enabled():
@@ -232,6 +250,7 @@ class HybridEngine:
                     raw_data={
                         "matcher": hit.matcher,
                         "matched_text": hit.matched_text,
+                        "source_text": hit.source_text,
                         "canonical_id": pack.canonical_id,
                         "category_id": pack.category_id,
                         "clause_ids": pack.clause_ids,
@@ -253,11 +272,13 @@ class HybridEngine:
                             "rule_name": pack.canonical_id,
                             "matched_text": hit.matched_text,
                             "matched_term": hit.matched_text,
+                            "source_text": hit.source_text,
                             "confidence": hit.confidence,
                             "signal_confidence": hit.confidence,
                             "matcher": hit.matcher,
                             "canonical_id": pack.canonical_id,
                             "category_id": pack.category_id,
+                            "priority": pack.priority,
                             "clause_ids": list(pack.clause_ids),
                             "hybrid": True,
                             "document_excerpt": text[:2000],
@@ -361,7 +382,50 @@ class HybridEngine:
                         )
                     )
 
+        # Most authoritative finding first: a statutory rule (FTC/FDA/SEC at 90-95) should
+        # lead over a platform guideline (54-72) that fired on the same creative, then by
+        # severity, then by how much the matcher trusts the hit. Reviewers and the LLM
+        # advisory both read this list top-down.
+        violations.sort(
+            key=lambda v: (
+                int((v.evidence_data or {}).get("priority") or 60),
+                float(v.severity or 0.0),
+                float((v.evidence_data or {}).get("confidence") or 0.0),
+            ),
+            reverse=True,
+        )
+
+        # The learned tier runs only where the packs found nothing — that is the population
+        # it was trained to help with, and it keeps tier 2 off half the traffic. It cannot
+        # raise a violation: an unmatched claim it dislikes goes to a human, not to a
+        # verdict. Models stay sensors.
+        semantic_score: float | None = None
+        review_recommended = False
+        if self._semantic is not None and not violations and text.strip():
+            semantic_score = self._semantic.score(text)
+            threshold = float(self._semantic.meta.get("threshold") or 0.5)
+            if semantic_score is not None and semantic_score >= threshold:
+                review_recommended = True
+                hybrid_signals.append(
+                    HybridSignal(
+                        signal_id=str(uuid.uuid4()),
+                        signal_type="semantic_classifier_score",
+                        source_model="semantic_classifier",
+                        confidence=semantic_score,
+                        raw_data={
+                            "score": semantic_score,
+                            "threshold": threshold,
+                            "review_recommended": True,
+                            "top_features": self._semantic.explain(text, top_k=6),
+                            "model_meta": self._semantic.meta,
+                            "note": "no deterministic rule matched; recommends human review",
+                        },
+                    )
+                )
+
         result = HybridEvalResult(
+            semantic_score=semantic_score,
+            semantic_review_recommended=review_recommended,
             violations=violations,
             signals=hybrid_signals,
             shortlisted_canonical_ids=shortlist,

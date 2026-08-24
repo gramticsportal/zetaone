@@ -40,7 +40,7 @@ flowchart LR
 | **Policy** | What is the verbatim rule text? | `corpus/*.yaml` — clauses with evidence |
 | **Canonical Rule** | Which clauses express the same obligation? | `mappings.yaml`, `rule.canonical_id` |
 | **Precedent** | How was this enforced in practice? | `precedents/*.yaml` — cases + evidence |
-| **Evaluation** | What labels ground truth metrics? | `examples/eval_seed.yaml` |
+| **Evaluation** | What labels ground truth metrics? | `examples/eval/eval_seed.yaml` |
 | **Verdict** | What is the compliance outcome? | Runtime output of the inference pipeline |
 
 **Why this split matters:**
@@ -70,7 +70,7 @@ flowchart TB
     CAT["categories.yaml"]
     CORP["corpus/*.yaml"]
     MAP["mappings.yaml"]
-    EVAL["examples/eval_seed.yaml"]
+    EVAL["examples/eval/eval_seed.yaml"]
   end
 
   subgraph SIDECARS["Sidecars (schema unchanged)"]
@@ -200,8 +200,8 @@ erDiagram
 | Rule | `corpus/*.yaml` | **128** |
 | Mapping | `mappings.yaml` | **37** cross-source entries |
 | Canonical rule (unique ids) | `mappings.yaml` + corpus rules | **52** |
-| Example (seed) | `examples/eval_seed.yaml` | **570** |
-| Example (precedent) | `examples/eval_precedents.yaml` | **44** |
+| Example (seed) | `examples/eval/eval_seed.yaml` | **570** |
+| Example (precedent) | `examples/eval/eval_precedents.yaml` | **44** |
 | Example (total) | merged via `load_eval.py` | **614** |
 | Precedent | `precedents/*.yaml` | **128** |
 
@@ -364,8 +364,8 @@ Mapping fields: `canonical_id`, `category_id`, `clause_ids[]`, `relation`
 
 | File | Role | Count |
 |------|------|------:|
-| `examples/eval_seed.yaml` | Synthetic seed (balanced labels) | **570** |
-| `examples/eval_precedents.yaml` | Real-world rows from enforcement precedents | **44** |
+| `examples/eval/eval_seed.yaml` | Synthetic seed (balanced labels) | **570** |
+| `examples/eval/eval_precedents.yaml` | Real-world rows from enforcement precedents | **44** |
 | **Total** (merged by `load_eval.py`) | | **614** |
 
 ### Seed set (`eval_seed.yaml`)
@@ -654,9 +654,9 @@ ontology/
 │   └── hud_expansion.yaml   # HUD Facebook housing charge
 │
 ├── examples/
-│   ├── eval_seed.yaml       ← 570 synthetic seed eval examples
-│   ├── eval_precedents.yaml ← 44 precedent-derived eval (test holdout)
-│   └── load_eval.py         ← merges seed + precedent eval for validate/coverage
+│   ├── load_eval.py         ← merges eval/*.yaml for validate/coverage
+│   ├── eval/                ← live eval set (seed, precedents, harvested, pairs)
+│   └── harvest/             ← harvest/classify/quarantine working files (not eval)
 │
 ├── policy_versions.yaml     ← 11 policy metadata entries (version/effective/status)
 ├── policy_timeline.yaml     ← 157 per-clause lifecycle events
@@ -688,7 +688,7 @@ ontology/
 | `policy_versions.yaml` | Official policy version/effective/status metadata per source. |
 | `policy_timeline.yaml` | Per-clause introduced/modified/deprecated event log. |
 | `precedents/*.yaml` | Real-world enforcement linking policy to outcomes. |
-| `examples/eval_seed.yaml` | Ground-truth labeled ads for benchmarking. |
+| `examples/eval/eval_seed.yaml` | Ground-truth labeled ads for benchmarking. |
 | `validate.py` | Gate: all references must resolve; evidence required. |
 | `benchmark/` | Coverage stats and retrieval regression tests. |
 | `tools/` | Generators and maintenance scripts (precedents, timeline). |
@@ -855,7 +855,7 @@ architecture_layers:
   - policy      # corpus/*.yaml clauses
   - canonical   # mappings.yaml + rule.canonical_id
   - precedent   # precedents/*.yaml
-  - evaluation  # examples/eval_seed.yaml
+  - evaluation  # examples/eval/eval_seed.yaml
   - verdict     # runtime pipeline output
 
 key_files:
@@ -863,7 +863,7 @@ key_files:
   categories: ontology/categories.yaml
   corpus_glob: ontology/corpus/*.yaml
   mappings: ontology/mappings.yaml
-  eval: ontology/examples/eval_seed.yaml
+  eval: ontology/examples/eval/eval_seed.yaml
   precedents_glob: ontology/precedents/*.yaml
   corpus_version: ontology/corpus_version.yaml
   policy_versions: ontology/policy_versions.yaml

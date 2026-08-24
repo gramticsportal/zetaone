@@ -2,7 +2,8 @@
 # Constants used by ad_compliance extractors and pipeline
 
 # Registered extractors (modality filter still applies per asset type).
-# embedding/vlm/asr off unless ZATAONE_ENABLE_EMBEDDING / ZATAONE_ENABLE_PIPELINE_VLM.
+# OCR / Grounding DINO default OFF (ZATAONE_ENABLE_OCR / ZATAONE_ENABLE_VISION).
+# Image Full path uses Gemini VLM structured packet instead.
 # Short names: ocr, vision, embedding, vlm, asr, text
 extractors:
   enabled: [ocr, vision]

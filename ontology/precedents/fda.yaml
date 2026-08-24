@@ -34,7 +34,7 @@ precedents:
   last_verified_at: '2026-06-27'
 - precedent_id: prec.fda.opioid_marketing_2020
   source: U.S. Food and Drug Administration + FTC (warning letters)
-  source_url: https://www.fda.gov/news-events/press-announcements/fda-and-ftc-warn-companies-selling-fraudulent-covid-19-products
+  source_url: https://www.ftc.gov/news-events/news/press-releases/2020/03/ftc-fda-send-warning-letters-seven-companies-about-unsupported-claims-products-can-treat-or-prevent
   date: 2020-03-09
   title: FDA/FTC joint warning letters — fraudulent COVID-19 treatment claims
   summary: 'The FDA and FTC issued joint warning letters to seven companies for selling fraudulent COVID-19 products — including teas, essential oils, and colloidal silver — with claims that the products could treat or prevent COVID-19. The agencies demanded immediate cessation of unlawful claims.
@@ -55,9 +55,9 @@ precedents:
   jurisdiction: US
   retrieved_at: 2026-06-27
   evidence:
-  - quote: The U.S. Food and Drug Administration and the Federal Trade Commission issued warning letters to seven companies for selling fraudulent COVID-19 products, as part of the agency's effort to protect consumers.
-    source_url: https://www.fda.gov/news-events/press-announcements/fda-and-ftc-warn-companies-selling-fraudulent-covid-19-products
-    section: FDA Press Announcement, March 9, 2020
+  - quote: The Federal Trade Commission and U.S. Food and Drug Administration (FDA) have sent warning letters to seven companies allegedly selling unapproved products that may violate federal law by making deceptive or scientifically unsupported claims about their ability to treat coronavirus (COVID-19).
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2020/03/ftc-fda-send-warning-letters-seven-companies-about-unsupported-claims-products-can-treat-or-prevent
+    section: FTC Press Release, March 9, 2020
   why_this_matters: FDA/FTC joint opioid COVID fraud warning letter campaign on deceptive health ads.
   retrieval_keywords:
   - opioid

@@ -20,6 +20,7 @@ from __future__ import annotations
 import logging
 import re
 import uuid
+from pathlib import Path
 from typing import Any
 
 from zataone.extractors.base import BaseExtractor
@@ -29,9 +30,19 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
-# Regulation names must match EMBEDDING_RULE_MAP keys so signals route to rules.
-# Multiple exemplars per regulation; the max cosine similarity is kept.
-REGULATION_EXEMPLARS: dict[str, list[str]] = {
+# Harvest category_ids → regulation names used by EMBEDDING_RULE_MAP *values*.
+_CATEGORY_TO_REGULATION = {
+    "misleading": "misleading_claims",
+    "health": "medical_health_claims",
+    "financial": "financial_products_and_guarantees",
+    "gambling": "gambling",
+    "drugs": "tobacco_nicotine",
+    "privacy": "fraud_scams_deceptive",
+}
+
+# Toy fallbacks for categories with no harvested copy (weapons, crypto). Used only
+# when a regulation has nothing in eval_harvested.yaml.
+_FALLBACK_EXEMPLARS: dict[str, list[str]] = {
     "misleading_claims": [
         "guaranteed results with no effort required",
         "this product works instantly for everyone",
@@ -64,6 +75,64 @@ REGULATION_EXEMPLARS: dict[str, list[str]] = {
         "buy bitcoin cryptocurrency trading guaranteed profits",
     ],
 }
+
+# Backward-compatible name: tests and callers that pass exemplars explicitly never
+# hit this. Default construction loads harvested copy via load_harvest_exemplars().
+REGULATION_EXEMPLARS = _FALLBACK_EXEMPLARS
+
+_MAX_EXEMPLARS_PER_REG = 80
+
+
+def _harvest_path() -> Path | None:
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        candidate = parent / "ontology" / "examples" / "eval" / "eval_harvested.yaml"
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def load_harvest_exemplars(
+    *,
+    harvest_path: Path | None = None,
+    exclude_ids: set[str] | None = None,
+    max_per_regulation: int = _MAX_EXEMPLARS_PER_REG,
+) -> dict[str, list[str]]:
+    """Verbatim enforcement copy, grouped by regulation, longest-first.
+
+    Falls back to the hand-written toys only for regulations the harvest does not
+    cover (weapons, crypto). Cap keeps startup encoding cheap; 80 phrases per
+    bucket is well past the point of diminishing returns for MiniLM.
+    """
+    from collections import defaultdict
+
+    import yaml
+
+    out: dict[str, list[str]] = defaultdict(list)
+    path = harvest_path or _harvest_path()
+    skip = exclude_ids or set()
+    if path and path.is_file():
+        rows = (yaml.safe_load(path.read_text()) or {}).get("examples") or []
+        for row in rows:
+            if row.get("id") in skip:
+                continue
+            text = (row.get("content") or "").strip()
+            if len(text) < 15:
+                continue
+            for cat in row.get("category_ids") or []:
+                reg = _CATEGORY_TO_REGULATION.get(cat)
+                if reg:
+                    out[reg].append(text)
+        for reg, texts in list(out.items()):
+            # Longest first: short fragments survived the quality audit less often,
+            # and MiniLM is more stable on a full claim than on a slogan.
+            uniq = sorted(set(texts), key=len, reverse=True)
+            out[reg] = uniq[:max_per_regulation]
+    for reg, phrases in _FALLBACK_EXEMPLARS.items():
+        if not out.get(reg):
+            out[reg] = list(phrases)
+    return dict(out)
+
 
 _SENTENCE_SPLIT_RE = re.compile(r"[.!?\n]+")
 
@@ -132,7 +201,7 @@ class SemanticTextExtractor(BaseExtractor):
     ) -> None:
         self._similarity_threshold = similarity_threshold
         self._model_name = model_name
-        self._exemplars = exemplars or REGULATION_EXEMPLARS
+        self._exemplars = exemplars if exemplars is not None else load_harvest_exemplars()
         self._encoder = encoder  # injectable for tests
         self._exemplar_cache: tuple[list[str], Any] | None = None
 

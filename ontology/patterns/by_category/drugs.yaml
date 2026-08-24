@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 4
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: atc.cbd_restricted_with_certification
   category_id: drugs
@@ -25,10 +25,8 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - cbd ads outside ca/co/pr, without google certification, or for non-topical/ ingestible cbd (supplements,
-    food additives, inhalants), or thc >0.3%.
-  - cbd/cannabinoid ads without meta written authorization + active legitscript certification, outside
-    the us, to under-18, or making health/medical claims.
+  - cbd ads outside ca/co/pr, without google certification, or for non-topical/ ingestible cbd (supplements, food additives, inhalants), or thc >0.3%.
+  - cbd/cannabinoid ads without meta written authorization + active legitscript certification, outside the us, to under-18, or making health/medical claims.
   forbidden_terms:
   - outside
   - non-topical
@@ -37,7 +35,6 @@ packs:
   - food
   - additives
   - inhalants
-  - topical
   - hemp-derived
   - cannabidiol
   - less
@@ -47,7 +44,6 @@ packs:
   - targets
   - cannabinoid
   - written
-  - active
   forbidden_phrases:
   - e-cigarette
   - smoke free
@@ -91,14 +87,10 @@ packs:
   - drugs
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - cbd ads outside ca/co/pr, without google certification, or for non-topical/ ingestible cbd (supplements,
-    food additives, inhalants), or thc >0.3%.
-  - cbd/cannabinoid ads without meta written authorization + active legitscript certification, outside
-    the us, to under-18, or making health/medical claims.
+  - cbd ads outside ca/co/pr, without google certification, or for non-topical/ ingestible cbd (supplements, food additives, inhalants), or thc >0.3%.
+  - cbd/cannabinoid ads without meta written authorization + active legitscript certification, outside the us, to under-18, or making health/medical claims.
   eval_non_compliant_hits: 4
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -127,12 +119,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - ads for recreational drugs / mind-altering "high"-inducing substances, drug-use facilitation, or instructional
-    drug content.
-  - ads promoting illicit/recreational drugs or thc/cannabis products with psychoactive components (>0.3%
-    thc).
-  - ads/landing pages promoting or providing access to illegal/controlled/ recreational drugs, prescription-drug
-    abuse, or drug paraphernalia.
+  - ads for recreational drugs / mind-altering "high"-inducing substances, drug-use facilitation, or instructional drug content.
+  - ads promoting illicit/recreational drugs or thc/cannabis products with psychoactive components (>0.3% thc).
+  - ads/landing pages promoting or providing access to illegal/controlled/ recreational drugs, prescription-drug abuse, or drug paraphernalia.
   forbidden_terms:
   - cannabis
   - marijuana
@@ -196,16 +185,11 @@ packs:
   - drugs
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - ads for recreational drugs / mind-altering "high"-inducing substances, drug-use facilitation, or instructional
-    drug content.
-  - ads promoting illicit/recreational drugs or thc/cannabis products with psychoactive components (>0.3%
-    thc).
-  - ads/landing pages promoting or providing access to illegal/controlled/ recreational drugs, prescription-drug
-    abuse, or drug paraphernalia.
+  - ads for recreational drugs / mind-altering "high"-inducing substances, drug-use facilitation, or instructional drug content.
+  - ads promoting illicit/recreational drugs or thc/cannabis products with psychoactive components (>0.3% thc).
+  - ads/landing pages promoting or providing access to illegal/controlled/ recreational drugs, prescription-drug abuse, or drug paraphernalia.
   eval_non_compliant_hits: 4
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -228,8 +212,7 @@ packs:
   - video
   - audio
   detection_summaries:
-  - cigarette/smokeless-tobacco advertising not in black-text-on-white format, or audio/video ads exceeding
-    the words-only / static-text limits.
+  - cigarette/smokeless-tobacco advertising not in black-text-on-white format, or audio/video ads exceeding the words-only / static-text limits.
   forbidden_terms:
   - cigarette
   - smokeless-tobacco
@@ -248,7 +231,6 @@ packs:
   - smokeless
   - tobacco
   - black
-  - text
   forbidden_phrases:
   - e-cigarette
   - smoke free
@@ -290,12 +272,9 @@ packs:
   - drugs
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - cigarette/smokeless-tobacco advertising not in black-text-on-white format, or audio/video ads exceeding
-    the words-only / static-text limits.
+  - cigarette/smokeless-tobacco advertising not in black-text-on-white format, or audio/video ads exceeding the words-only / static-text limits.
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -324,11 +303,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - ads for tobacco, tobacco components/paraphernalia, or products that simulate smoking (e-cigarettes,
-    herbal cigarettes).
+  - ads for tobacco, tobacco components/paraphernalia, or products that simulate smoking (e-cigarettes, herbal cigarettes).
   - ads promoting tobacco/nicotine products, e-cigarettes/vapes, or related paraphernalia.
-  - ads/landing pages showing, promoting, or selling tobacco, nicotine, e-cigarettes/vapes, paraphernalia,
-    or smoking venues.
+  - ads/landing pages showing, promoting, or selling tobacco, nicotine, e-cigarettes/vapes, paraphernalia, or smoking venues.
   forbidden_terms:
   - cigarette
   - vape
@@ -345,8 +322,6 @@ packs:
   - containing
   - form
   - component
-  - part
-  - product
   - directly
   - facilitate
   - vapes
@@ -395,15 +370,11 @@ packs:
   - drugs
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - ads for tobacco, tobacco components/paraphernalia, or products that simulate smoking (e-cigarettes,
-    herbal cigarettes).
+  - ads for tobacco, tobacco components/paraphernalia, or products that simulate smoking (e-cigarettes, herbal cigarettes).
   - ads promoting tobacco/nicotine products, e-cigarettes/vapes, or related paraphernalia.
-  - ads/landing pages showing, promoting, or selling tobacco, nicotine, e-cigarettes/vapes, paraphernalia,
-    or smoking venues.
+  - ads/landing pages showing, promoting, or selling tobacco, nicotine, e-cigarettes/vapes, paraphernalia, or smoking venues.
   eval_non_compliant_hits: 7
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

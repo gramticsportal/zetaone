@@ -30,7 +30,7 @@ python ontology/tools/mine_pattern_candidates.py
 python ontology/tools/curate_and_approve_patterns.py
 ```
 
-Inputs: `ontology/corpus/*_us.yaml`, `examples/eval_*.yaml`, optional `tools/vision_queries_mined.yaml`.
+Inputs: `ontology/corpus/*_us.yaml`, `examples/eval/eval_*.yaml`, optional `tools/vision_queries_mined.yaml`.
 
 **QC (2026-07-15):** all **52** packs `approved` after denoise + smoke tests (7/7).  
 Political `vision_min_confidence` raised to **0.65**. Academic-slide FP case no longer phrase/regex-hits political/misleading.

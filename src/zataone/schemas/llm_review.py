@@ -96,8 +96,11 @@ def build_review_context(
         instructions = (
             "Full pipeline with rule engine ON. deterministic_verdict and violations are audit inputs; "
             "your recommended_compliance_status and recommended_verdict are the user-visible outcome. "
-            "Synthesize signals, advisory_vlm.inspection, violations, and policy_context. "
-            "Set agreement_with_deterministic to diverges when you disagree with the rule engine. "
+            "Synthesize signals, violations, policy_context, and the FULL advisory_vlm packet "
+            "(inspection summary plus advisory_vlm.structured: scene_description, ocr_text, "
+            "ad_claims_text, objects, is_advertisement). "
+            "Rule hits were matched mainly on ad_claims_text/ocr_text/objects — use scene_description "
+            "for context. Set agreement_with_deterministic to diverges when you disagree with the rule engine. "
             "Cite signal ids only when present in signals."
         )
 

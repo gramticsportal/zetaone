@@ -11,6 +11,7 @@ import sys
 
 GROUNDING_DINO_ID = "IDEA-Research/grounding-dino-base"
 SIGLIP_ID = "google/siglip-base-patch16-224"
+MINILM_ID = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 def _kwargs():
@@ -38,13 +39,24 @@ def preload_siglip() -> None:
     del p, m
 
 
+def preload_minilm() -> None:
+    """Phase B hybrid NLP — bake MiniLM so Cloud Run cold starts skip Hub download."""
+    from transformers import AutoModel, AutoTokenizer
+
+    kw = _kwargs()
+    print("Preloading MiniLM:", MINILM_ID, flush=True)
+    t = AutoTokenizer.from_pretrained(MINILM_ID, **kw)
+    m = AutoModel.from_pretrained(MINILM_ID, **kw)
+    del t, m
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "which",
         nargs="?",
         default="all",
-        choices=("all", "dino", "siglip"),
+        choices=("all", "dino", "siglip", "minilm"),
         help="Which model(s) to download (default: all)",
     )
     args = ap.parse_args()
@@ -52,6 +64,8 @@ def main() -> int:
         preload_dino()
     if args.which in ("all", "siglip"):
         preload_siglip()
+    if args.which in ("all", "minilm"):
+        preload_minilm()
     cache = os.environ.get("HF_HOME") or os.environ.get("TRANSFORMERS_CACHE", "")
     print("Model preload step done. Cache:", cache, flush=True)
     return 0

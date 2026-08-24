@@ -27,6 +27,9 @@ PRECEDENT_OUTCOME = {
     "warning_letter", "consent_order", "settlement", "civil_penalty", "fine",
     "suspension", "court_order", "injunction", "marketing_denial", "refund",
     "no_action", "guidance",
+    # Self-regulatory bodies (NAD/CARU/DSSRC) recommend rather than order; calling that
+    # a consent_order would overstate what the decision actually is.
+    "self_regulatory_recommendation",
 }
 PRECEDENT_STATUS = {"final", "proposed", "on_appeal", "rescinded", "vacated"}
 PRECEDENT_CONFIDENCE = {"verified", "unverified"}

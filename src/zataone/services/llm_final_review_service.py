@@ -104,23 +104,34 @@ def _resolve_review_mode(meta: dict[str, Any]) -> str:
         return "full_signals_vlm_policy"
     return "advisory_second_read"
 
-_VLM_SYSTEM = """You support an advisory compliance workflow. You do not set or override policy.
-Describe what is visible in the image in ways that help a separate text model reason about the asset.
-Be factual; do not invent on-image text—say when text is illegible or uncertain."""
+_VLM_SYSTEM = """You extract structured evidence from an image for an ad-compliance system.
+You do NOT decide compliance. Be factual; do not invent on-image text—use notes when illegible.
+Return ONLY a single JSON object (no markdown fences, no prose outside JSON)."""
 
 _VLM_PROMPT_FOCUS = (
-    "Read the image for compliance-relevant cues: visible copy/headlines/disclaimers/fine print and their "
-    "placement; brands and endorsements; imagery (people, demographics, before/after, urgency); salience "
-    "(what draws the eye vs buried); contrast/readability; possible tension with a strict legal reading. "
-    "Observations only—no final verdict."
+    "Fill every field. ocr_text = all readable on-image text (headlines, body, CTAs, fine print). "
+    "ad_claims_text = promotional claims, offers, guarantees, health/finance promises, CTAs "
+    "(best input for rule matching; omit pure UI chrome). "
+    "objects = notable objects/logos/people with optional bbox [x,y,w,h] in pixels if clear. "
+    "scene_description = neutral visual summary for a later judge (not for regex matching). "
+    "is_advertisement = whether this looks like an ad/promo creative. Observations only—no verdict."
 )
+
+_VLM_JSON_SCHEMA_HINT = """{
+  "is_advertisement": true,
+  "ocr_text": "string — all visible text, reading order",
+  "ad_claims_text": "string — claims/offers/CTAs/disclaimers for policy matching",
+  "objects": [{"label": "lowercase name", "confidence": 0.0, "bbox": [x, y, w, h]}],
+  "scene_description": "string — neutral scene for LLM judge",
+  "notes": "string — uncertainty / illegible regions"
+}"""
 
 
 def _vlm_max_output_tokens() -> int:
     v = (os.environ.get("GEMINI_VLM_MAX_TOKENS") or "").strip()
     if v.isdigit():
         return max(256, min(4096, int(v)))
-    return 1200
+    return 2048
 
 
 def _fast_combined_max_tokens() -> int:
@@ -199,35 +210,68 @@ def run_gemini_vlm_inspection(
     det: dict[str, Any],
 ) -> tuple[str | None, str | None, dict[str, Any]]:
     """
-    Gemini vision pass only. Safe to run in parallel with deterministic extraction.
+    Gemini vision pass → structured JSON packet.
+
+    Returns (inspection_summary_for_llm, error, status) where status includes
+    ``structured`` (normalized packet) and ``inspection`` (LLM-facing summary).
     """
-    vlm_summary: str | None = None
+    from zataone.document.vlm_packet import (
+        inspection_summary_for_llm,
+        normalize_vlm_structured,
+        parse_vlm_json,
+    )
+
+    vlm_raw: str | None = None
     vlm_error: str | None = None
+    structured: dict[str, Any] | None = None
+    inspection: str | None = None
     try:
         vlm_user = _build_vlm_user_prompt(domain=domain, det=det)
-        vlm_summary = gemini_mod.gemini_vision_image(
+        vlm_raw = gemini_mod.gemini_vision_image(
             image_bytes,
             vlm_user,
             system_prompt=_VLM_SYSTEM,
             model=os.environ.get("GEMINI_VLM_MODEL") or None,
             max_output_tokens=_vlm_max_output_tokens(),
+            temperature=0.1,
         )
+        parsed = parse_vlm_json(vlm_raw)
+        if parsed is not None:
+            structured = normalize_vlm_structured(parsed)
+            inspection = inspection_summary_for_llm(structured) or None
+        else:
+            # Fallback: treat free text as scene/ocr blob for matcher+LLM
+            fallback_text = (vlm_raw or "").strip()
+            structured = normalize_vlm_structured(
+                {
+                    "ocr_text": fallback_text[:20000],
+                    "ad_claims_text": "",
+                    "objects": [],
+                    "scene_description": fallback_text[:8000],
+                    "notes": "vlm_json_parse_failed",
+                }
+            )
+            inspection = fallback_text[:8000] or None
+            vlm_error = "json_parse_failed"
     except Exception as e:
         vlm_error = str(e)[:800]
         logger.exception("Gemini vision summary failed")
-        vlm_summary = None
+        vlm_raw = None
 
     status: dict[str, Any] = {
         "vlm_eligible": True,
         "file_bytes_received": bool(image_bytes),
         "vlm_called": True,
-        "vlm_succeeded": bool((vlm_summary or "").strip()),
+        "vlm_succeeded": bool(inspection or structured),
         "vlm_error": vlm_error,
-        "inspection": (vlm_summary or "").strip() or None,
+        "inspection": inspection,
+        "structured": structured,
+        "raw_response": (vlm_raw or "")[:12000] or None,
+        "prompt_focus": _VLM_PROMPT_FOCUS,
         "skipped": False,
         "skipped_reason": None,
     }
-    return vlm_summary, vlm_error, status
+    return inspection, vlm_error, status
 
 
 def run_fast_combined_image_review(
@@ -319,6 +363,7 @@ def run_advisory_synthesis_in_memory(
     inspection = (vlm_status or {}).get("inspection")
     advisory_vlm = {
         "inspection": inspection,
+        "structured": (vlm_status or {}).get("structured"),
         "prompt_focus": _VLM_PROMPT_FOCUS,
         "skipped": bool((vlm_status or {}).get("skipped")),
         "skipped_reason": (vlm_status or {}).get("skipped_reason"),
@@ -383,13 +428,14 @@ def _build_vlm_user_prompt(*, domain: str, det: dict[str, Any]) -> str:
     status = det.get("status", "")
     verdict = det.get("verdict", "")
     risk = det.get("risk_score", "")
-    return f"""Pipeline context (authoritative for logic; you assist interpretation only):
+    return f"""Pipeline context (for orientation only; you do not judge compliance):
 - Compliance domain: {domain}
-- Deterministic outcome: status={status!r}, verdict={verdict!r}, risk_score={risk!r}
+- Deterministic outcome (may be pending): status={status!r}, verdict={verdict!r}, risk_score={risk!r}
 
 {_VLM_PROMPT_FOCUS}
 
-Respond in clear sections or bullet points (plain text, not JSON). If the image is not an ad or is blank, say so briefly."""
+Return ONLY this JSON shape (values filled from the image):
+{_VLM_JSON_SCHEMA_HINT}"""
 
 
 def _llm_enabled() -> bool:

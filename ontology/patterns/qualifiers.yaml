@@ -1,0 +1,333 @@
+schema_version: 1.0.0
+jurisdiction: US
+# Qualifier gate: the layer that decides whether a fired trigger is actually a violation.
+#
+# Triggers alone cannot answer that. In the compliant minimal pairs, 85% of lawful ads
+# contain the same trigger as the violation they are paired with — "guaranteed" appears in
+# both "guaranteed weight loss" and "satisfaction guaranteed or your money back". What
+# separates them is not vocabulary but whether the qualifier that licenses the claim is
+# present. Discriminative mining confirmed this the hard way: scoring every n-gram in the
+# corpus surfaced no usable new trigger beyond "free" and "proven", because the pairs share
+# vocabulary by construction. No bag-of-words feature can separate them. The gate can.
+#
+# So a trigger means "this claim needs a licence", and the classes below are the licences.
+# A pack listed in pack_requirements clears its hit when any of its listed classes matches
+# near the trigger. A pack NOT listed is absolute: no qualifier licenses it, because no
+# disclaimer makes "cures cancer" or a counterfeit-goods ad lawful.
+#
+# Patterns are matched case-insensitively within a window around the trigger (see
+# QUALIFIER_WINDOW in lexical.py), not across the whole document, so a disclaimer at the
+# bottom of a landing page cannot license a claim in the headline.
+
+classes:
+  - id: substantiation
+    description: Competent and reliable evidence identified, with its scope stated.
+    patterns:
+      - \b(?:in|from|based on|according to)\s+(?:an?\s+)?[^.]{0,40}?\b(?:stud(?:y|ies)|trials?|research|survey|test(?:s|ing)?|clinical)\b
+      - \b\d+[\s-]?(?:day|week|month|year)[\s-]+(?:stud(?:y|ies)|trial|test)\b
+      - \bpeer[\s-]reviewed\b
+      - \bdata on file\b
+      - \bclinically (?:proven|shown|tested)\s+to\s+[^.]{0,60}?\bin\s+a\b
+
+  - id: basis_of_comparison
+    description: Superiority or ranking claims state what the comparison rests on.
+    patterns:
+      - \b(?:based on|according to|measured by|as measured|by)\s+[^.]{0,45}\b(?:sales|revenue|volume|share|survey|ranking|units?)\b
+      - \b(?:compared (?:to|with)|versus|vs\.?)\s+\w+
+      - \bper serving\b
+      # Naming the comparison set is itself the basis: "longer than Advil among OTC pain
+      # relievers", "25% less sugar than the leading yogurt". The earlier form required the
+      # set to be brands/users/customers, which missed most real category comparisons.
+      - \bamong\s+(?:\w+[\s-]){0,4}\w+
+      - \bthan\s+(?:the\s+)?(?:leading|previous|original|standard|conventional|typical|our)\b
+      # A "than <Capitalised rival>" pattern was here and had to go. Every pattern in this
+      # file compiles case-insensitively, so [A-Z] matched lowercase too and "than enteric
+      # coated aspirin" counted as a stated basis — which licensed most comparatives and
+      # drove gate false-clears from 2 to 51. Naming the rival also is not a basis for a
+      # *quantified* claim: "5X greater absorption than enteric coated aspirin" still needs
+      # the clinical data, and only the evidence patterns above should clear it.
+      - \bin (?:its|the) (?:class|category|segment)\b
+      - \bin (?:specific |independent )?(?:benchmark|lab|laboratory|third[\s-]party)\s+test(?:s|ing)?\b
+
+  - id: typicality
+    description: Results presented as achievable are disclosed as atypical.
+    patterns:
+      - \bresults?\s+(?:may|will|can)?\s*vary\b
+      - \bnot typical\b
+      - \bindividual results\b
+      - \byour results (?:may|will|could) (?:differ|vary)\b
+      - \btypical results?\b
+      - \bresults? (?:are )?not guaranteed\b
+
+  - id: conditional_scope
+    description: An offer states the conditions that bound it.
+    patterns:
+      - \b(?:terms|conditions|restrictions|exclusions)\s+(?:and conditions\s+)?(?:may\s+)?apply\b
+      - \bsee (?:site|website|details|store|offer details|terms)\b
+      - \bwhile supplies last\b
+      - \b(?:on|for|with) (?:orders|purchases) (?:over|of|above|totaling)\b
+      - \b(?:select|participating|qualifying|eligible)\s+\w+
+      - \bwhen you\s+\w+
+      - \brequires?\s+(?:a\s+)?(?:new|qualifying|eligible|purchase|\d+)
+      - \bfor new (?:customers|members|subscribers|accounts)\b
+      - \bafter (?:mail[\s-]in )?rebate\b
+      - \b(?:limited|applies) to\b
+      - \bexclud(?:es|ing)\b
+      - \bwith (?:qualifying|eligible|purchase|trade[\s-]in)\b
+      - \bplus (?:tax|shipping|fees|applicable)\b
+      - \bmin(?:imum)?\.?\s+(?:purchase|balance|deposit|order)\b
+      - \bfirst[\s-](?:time |year )?\w{0,12}\s?(?:only|customers)\b
+      - \bin select\b
+
+  - id: approval_contingency
+    description: A pre-qualification or pre-approval is disclosed as not final.
+    patterns:
+      - \bsubject to (?:final |credit )?(?:approval|verification|underwriting|review)\b
+      - \bif (?:you )?qualif(?:y|ied)\b
+      - \b(?:qualified|eligible) (?:applicants|borrowers|buyers|customers)\b
+      - \bpending (?:final )?(?:approval|verification)\b
+      - \bbased on creditworthiness\b
+      - \bnot (?:a )?(?:guarantee|commitment|offer) (?:of|to)\b
+      - \byou (?:may|might) not qualify\b
+
+  - id: structure_function_disclaimer
+    description: FDCA structure/function disclaimer for supplements.
+    patterns:
+      - \bnot intended to (?:diagnose|treat|cure|prevent)\b
+      - \b(?:has|have) not been evaluated by the (?:fda|food and drug)\b
+      - \bthese statements have not been evaluated\b
+
+  - id: hedged_claim
+    description: >
+      The claim is framed as assistance toward an outcome rather than a promise of it.
+      This is the standard lawful form for supplement structure/function copy — "may help
+      support a healthy metabolism", "designed to support skin health when used alongside a
+      balanced diet" — and it is the difference between those and "cures diabetes".
+    patterns:
+      - \bmay\s+(?:help|support|assist|aid|contribute|reduce|improve)\b
+      - \bcan\s+help\b
+      - \bdesigned to\s+(?:help|support)\b
+      - \bhelps?\s+(?:to\s+)?support\b
+      - \bwhen (?:used|combined|taken|paired)\s+(?:in conjunction\s+)?with\b
+      - \bas part of a\b
+      - \bworks?\s+(?:towards?|to help)\b
+      - \bintended to (?:help|support)\b
+
+  - id: risk_disclosure
+    description: Investment, health or safety risk disclosed alongside the benefit.
+    patterns:
+      - \b(?:investing|investment|trading|it) involves risk\b
+      - \bpast performance\b
+      - \byou (?:may|could|can) lose\b
+      - \bnot (?:fdic|ncua|sipc)[\s-]?insured\b
+      - \bmay lose value\b
+      - \bnot guaranteed\b
+      - \bcapital at risk\b
+      - \bside effects\b
+      - \bsee (?:full )?(?:prescribing information|important safety information)\b
+      - \b(?:ask|talk to|consult) your (?:doctor|physician|healthcare)\b
+      - \brisk of\b
+
+  - id: material_connection
+    description: Endorser's connection to the advertiser is disclosed.
+    patterns:
+      - '#ad\b'
+      - '#sponsored\b'
+      - \bpaid (?:partnership|promotion|sponsorship)\b
+      - \bsponsored (?:by|post|content|ad)\b
+      - \bin partnership with\b
+      - \bi (?:was|am) (?:paid|compensated|given)\b
+      - \bbrand ambassador\b
+      - \baffiliate link\b
+      - \bmaterial connection\b
+      - \b(?:paid )?advertisement\b
+      - \bcompensated (?:endorse|review|for)\b
+
+  - id: credit_terms_disclosure
+    description: TILA/Reg Z terms triggered by a credit trigger term.
+    patterns:
+      - \bapr\b
+      - \bannual percentage rate\b
+      - \bfinance charge\b
+      - \bterms? of repayment\b
+      - \bdown payment\b
+      - \bamount financed\b
+      - \bnumber of payments\b
+      - \btotal of payments\b
+
+  - id: licensing
+    description: Registration or licence status stated.
+    patterns:
+      - \blicensed (?:in|by|with|and)\b
+      - \bregistered (?:with|in|investment)\b
+      - \bmember\s+(?:finra|sipc|nfa|fdic)\b
+      - \bnmls\b
+      - \b(?:sec|finra|state)[\s-]registered\b
+      - \blicen[cs]e (?:no|number|#)\b
+      - \bwhere (?:licensed|available|legal)\b
+
+  - id: political_authorization
+    description: FECA authorization/disclaimer statement.
+    patterns:
+      - \bpaid for by\b
+      - \bauthorized by\b
+      - \bnot authorized by any candidate\b
+
+  - id: synthetic_disclosure
+    description: Synthetic or dramatized content is labelled.
+    patterns:
+      - \b(?:ai|artificially|digitally|synthetically)[\s-]generated\b
+      - \bcreated (?:with|using) ai\b
+      - \bdramatization\b
+      - \bsimulated\b
+      - \bactor portrayal\b
+      - \bparody\b
+
+  - id: privacy_notice
+    description: Collection and use of data is disclosed.
+    patterns:
+      - \bprivacy (?:policy|notice|statement)\b
+      - \bhow we use your (?:data|information)\b
+      - \bcookie (?:policy|notice|settings)\b
+      - \bwe collect\b
+
+  - id: privacy_optout
+    description: Opt-out or do-not-sell mechanism offered.
+    patterns:
+      - \bdo not sell\b
+      - \bopt[\s-]out\b
+      - \byour privacy choices\b
+      - \blimit the use of\b
+      - \bunsubscribe\b
+      - \bmanage (?:your )?preferences\b
+
+  - id: parental_consent
+    description: Parent or guardian involvement required before acting.
+    patterns:
+      - \bparental (?:consent|permission|approval)\b
+      - '\bparents?(?: or guardians?)? (?:must|should|permission|approval)\b'
+      - \bask a (?:parent|grown[\s-]?up|guardian)\b
+      - \bwith your parent\b
+      - \bverifiable consent\b
+
+  - id: age_gating
+    description: Age restriction stated or verification required.
+    patterns:
+      - \b(?:21|18)\s?\+\b
+      - \bmust be (?:at least )?(?:21|18|of legal)\b
+      - \bage[\s-]verif(?:y|ied|ication)\b
+      - \bof legal (?:drinking |purchase )?age\b
+      - \bfor adults? (?:21|18)\b
+
+  - id: responsible_drinking
+    description: Responsible-consumption statement.
+    patterns:
+      - \b(?:drink|enjoy|please drink) responsibly\b
+      - \b(?:don'?t|never) drink and drive\b
+      - \bdesignated driver\b
+
+  - id: responsible_gambling
+    description: Responsible-gambling statement or helpline.
+    patterns:
+      - \b(?:gamble|play|bet) responsibly\b
+      - \b1[\s-]?800[\s-]?gambler\b
+      - \bproblem gambling\b
+      - \bself[\s-]exclusion\b
+      - \bknow when to stop\b
+
+  - id: no_real_money
+    description: Social casino clarifies no real-money wagering or prizes.
+    patterns:
+      - \bno real money\b
+      - '\bfor (?:entertainment|amusement)(?: purposes)? only\b'
+      - \bdoes not offer real money\b
+      - \bpractice play\b
+      - \bno (?:cash )?prizes\b
+
+  - id: refund_terms
+    description: A guarantee is backed by a stated refund or return right.
+    patterns:
+      - \bor your money back\b
+      - \bmoney[\s-]back guarantee\b
+      - \brefund(?:ed|able)?\b
+      - \b\d+[\s-]day (?:return|money|trial|guarantee)\b
+      - \bfull refund\b
+      - \bcancel (?:any ?time|within)\b
+
+  - id: environmental_qualification
+    description: >
+      An environmental claim states the specific benefit, disposal path, or
+      limited facility availability the Green Guides require.
+    patterns:
+      - \brecyclable (?:only |where |in (?:your |the )?(?:area|community|communities))\b
+      - \bmay not be recyclable\b
+      - \bcheck (?:locally|local(?:ly)? recycling)\b
+      - \bwhere (?:facilities|available|accepted|recycling)\b
+      - \b(?:industrial|municipal|commercial|home)[\s-]compost
+      - \bcompost(?:ed|able|ing)? (?:in|at|only)\b
+      - \bbreaks?\s+down (?:in|within)\s+(?:about\s+)?(?:one|1|a|\d+)\s+(?:year|month)
+      - \bwithin (?:about )?(?:one|1|a)\s+year\b
+      - \bafter customary disposal\b
+      - \bmade (?:with|from)\s+\d+\s*%\s+recycled\b
+      - \b\d+\s*%\s+recycled (?:content|material)\b
+      - \bspecific environmental (?:benefit|attribute)\b
+
+  - id: origin_qualification
+    description: >
+      A U.S.-origin claim states the foreign content or processing that keeps
+      it from being an unqualified Made in USA claim.
+    patterns:
+      - \b(?:of|from|with)\s+(?:u\.?s\.?\s+and\s+)?imported(?:\s+and\s+domestic)?\s+parts\b
+      - \b(?:domestic|u\.?s\.?)\s+and\s+imported\b
+      - \bimported\s+and\s+domestic\b
+      - \bmade in (?:the )?(?:usa|u\.?s\.?a?\.?|united states)\s+(?:of|from|with)\b
+      - \bassembled in (?:the )?(?:usa|u\.?s\.?a?\.?|united states)\b
+      - \b\d+\s*%\s+(?:u\.?s\.?|usa|american|domestic)\s+content\b
+      - \bfrom imported parts\b
+
+# Which qualifier classes license which pack. Any one match clears the hit.
+# Packs deliberately omitted are absolute — see the note at the top of this file.
+pack_requirements:
+  misleading.unsubstantiated_objective_claims: [substantiation, basis_of_comparison, conditional_scope]
+  misleading.exaggerated_results: [typicality, substantiation, basis_of_comparison, conditional_scope, hedged_claim]
+  misleading.guaranteed_outcomes: [typicality, refund_terms, conditional_scope, approval_contingency]
+  misleading.before_after_distortion: [typicality, hedged_claim]
+  misleading.false_affiliation_or_endorsement: [material_connection]
+  misleading.missing_or_inconsistent_material_info: [conditional_scope, approval_contingency]
+  misleading.environmental_benefit_claims: [environmental_qualification, substantiation]
+  misleading.origin_claims: [origin_qualification]
+
+  health.unsubstantiated_health_claims: [substantiation, structure_function_disclaimer, typicality, hedged_claim]
+  health.negative_self_perception_body_image: [typicality, hedged_claim]
+  health.material_risk_safety_disclosure: [risk_disclosure]
+  health.rx_fair_balance_risk_disclosure: [risk_disclosure]
+  health.prescription_drug_promotion_restricted: [risk_disclosure, licensing]
+
+  finance.guaranteed_returns_or_risk_free: [risk_disclosure]
+  finance.performance_claims_substantiation: [risk_disclosure, substantiation, typicality]
+  finance.misleading_or_unbalanced_claims: [risk_disclosure, conditional_scope]
+  finance.credit_advertising_trigger_terms: [credit_terms_disclosure]
+  finance.required_cost_and_risk_disclosures: [credit_terms_disclosure, risk_disclosure]
+  finance.mortgage_advertising_prohibited_acts: [credit_terms_disclosure, approval_contingency]
+  finance.testimonials_endorsements_disclosure: [material_connection, typicality]
+  finance.licensing_registration_required: [licensing]
+  finance.crypto_restricted: [licensing, risk_disclosure]
+  finance.loan_modification_foreclosure_restricted: [licensing, approval_contingency]
+
+  political.authorization_and_disclaimer_required: [political_authorization]
+  political.synthetic_content_disclosure: [synthetic_disclosure]
+
+  privacy.data_collection_disclosure_required: [privacy_notice]
+  privacy.opt_out_of_sale_or_sharing_for_targeted_ads: [privacy_optout]
+  privacy.minor_opt_in_for_sale_or_sharing: [privacy_optout, parental_consent]
+
+  minors.parental_consent_for_childrens_data: [parental_consent]
+  minors.personalized_targeting_of_minors_restricted: [parental_consent, age_gating]
+
+  gambling.responsible_gambling_required: [responsible_gambling]
+  gambling.realmoney_requires_license_and_authorization: [licensing, age_gating]
+  gambling.social_casino_no_real_money: [no_real_money]
+
+  atc.alcohol_age_and_location_targeting_required: [age_gating]
+  atc.alcohol_mandatory_and_prohibited_statements: [responsible_drinking, age_gating]
+  atc.cbd_restricted_with_certification: [licensing, structure_function_disclaimer]

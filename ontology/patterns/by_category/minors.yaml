@@ -4,7 +4,7 @@ jurisdiction: US
 phase: A
 review_status: approved
 pack_count: 4
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: minors.age_restricted_products_not_shown_to_minors
   category_id: minors
@@ -28,15 +28,12 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - sensitive categories (gambling, alcohol, adult, dating, body modification/ weight loss, shocking content)
-    served to users under 18.
-  - restricted-topic ads (alcohol, financial products, weight-loss products/ services) shown to people
-    under 18.
+  - sensitive categories (gambling, alcohol, adult, dating, body modification/ weight loss, shocking content) served to users under 18.
+  - restricted-topic ads (alcohol, financial products, weight-loss products/ services) shown to people under 18.
   - age-restricted categories (e.g. alcohol) targeted to minors / users below the legal age.
   forbidden_terms:
   - sensitive
   - categories
-  - gambling
   - alcohol
   - adult
   - dating
@@ -95,15 +92,11 @@ packs:
   - children
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - sensitive categories (gambling, alcohol, adult, dating, body modification/ weight loss, shocking content)
-    served to users under 18.
-  - restricted-topic ads (alcohol, financial products, weight-loss products/ services) shown to people
-    under 18.
+  - sensitive categories (gambling, alcohol, adult, dating, body modification/ weight loss, shocking content) served to users under 18.
+  - restricted-topic ads (alcohol, financial products, weight-loss products/ services) shown to people under 18.
   - age-restricted categories (e.g. alcohol) targeted to minors / users below the legal age.
   eval_non_compliant_hits: 8
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -126,16 +119,13 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - 'on made-for-kids content: personalized ads, third-party trackers, ads inciting children to purchase,
-    or misleading/deceptive claims.'
+  - 'on made-for-kids content: personalized ads, third-party trackers, ads inciting children to purchase, or misleading/deceptive claims.'
   forbidden_terms:
   - made-for-kids
   - personalized
-  - third-party
   - trackers
   - inciting
   - children
-  - purchase
   - misleading
   - deceptive
   - kids
@@ -188,12 +178,9 @@ packs:
   - children
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - 'on made-for-kids content: personalized ads, third-party trackers, ads inciting children to purchase,
-    or misleading/deceptive claims.'
+  - 'on made-for-kids content: personalized ads, third-party trackers, ads inciting children to purchase, or misleading/deceptive claims.'
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -216,11 +203,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - collecting personal information (incl. persistent identifiers) from under-13 children for behavioral
-    advertising/profiling without notice and verifiable parental consent.
+  - collecting personal information (incl. persistent identifiers) from under-13 children for behavioral advertising/profiling without notice and verifiable parental consent.
   forbidden_terms:
   - collecting
-  - personal
   - incl
   - persistent
   - identifiers
@@ -235,8 +220,6 @@ packs:
   - rule
   - operator
   - website
-  - online
-  - service
   forbidden_phrases:
   - under 13
   - under 18
@@ -282,12 +265,9 @@ packs:
   - children
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - collecting personal information (incl. persistent identifiers) from under-13 children for behavioral
-    advertising/profiling without notice and verifiable parental consent.
+  - collecting personal information (incl. persistent identifiers) from under-13 children for behavioral advertising/profiling without notice and verifiable parental consent.
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -316,22 +296,17 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - personalized advertising (predefined audiences, remarketing, customer match, custom segments) served
-    to users under 18.
-  - ads reaching under-18 audiences using interests, behaviors, gender, off-platform activity, or zip/sub-city
-    ("pin drop") targeting.
-  - detailed (interest/behavior) targeting of under-18 audiences, or use of restricted objectives (e.g.
-    sales – tiktok shop) reaching under-18s.
+  - personalized advertising (predefined audiences, remarketing, customer match, custom segments) served to users under 18.
+  - ads reaching under-18 audiences using interests, behaviors, gender, off-platform activity, or zip/sub-city ("pin drop") targeting.
+  - detailed (interest/behavior) targeting of under-18 audiences, or use of restricted objectives (e.g. sales – tiktok shop) reaching under-18s.
   forbidden_terms:
   - personalized
   - predefined
   - remarketing
-  - customer
   - match
   - custom
   - segments
   - served
-  - eligible
   - kind
   - serving
   - advertiser-curated
@@ -386,16 +361,11 @@ packs:
   - children
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - personalized advertising (predefined audiences, remarketing, customer match, custom segments) served
-    to users under 18.
-  - ads reaching under-18 audiences using interests, behaviors, gender, off-platform activity, or zip/sub-city
-    ("pin drop") targeting.
-  - detailed (interest/behavior) targeting of under-18 audiences, or use of restricted objectives (e.g.
-    sales – tiktok shop) reaching under-18s.
+  - personalized advertising (predefined audiences, remarketing, customer match, custom segments) served to users under 18.
+  - ads reaching under-18 audiences using interests, behaviors, gender, off-platform activity, or zip/sub-city ("pin drop") targeting.
+  - detailed (interest/behavior) targeting of under-18 audiences, or use of restricted objectives (e.g. sales – tiktok shop) reaching under-18s.
   eval_non_compliant_hits: 6
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true

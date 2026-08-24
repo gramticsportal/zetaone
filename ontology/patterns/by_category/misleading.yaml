@@ -3,8 +3,8 @@ category_id: misleading
 jurisdiction: US
 phase: A
 review_status: approved
-pack_count: 7
-qc_note: Denoised and approved by curate_and_approve_patterns.py
+pack_count: 9
+qc_note: Triggers filtered by discriminative log-odds against compliant minimal pairs (mine_discriminative_triggers.py); policy-prose terms removed.
 packs:
 - canonical_id: misleading.before_after_distortion
   category_id: misleading
@@ -88,9 +88,7 @@ packs:
   - side-by-side before-and-after imagery implying transformation/weight loss.
   - before-and-after transformation imagery in paid ads.
   eval_non_compliant_hits: 2
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -118,8 +116,7 @@ packs:
   - video
   detection_summaries:
   - fake/non-clickable ui elements mimicking interactive ctas.
-  - clickbait/sensationalist tactics; fake ui elements (buttons, fields, alerts) or ads not clearly identifiable
-    as ads.
+  - clickbait/sensationalist tactics; fake ui elements (buttons, fields, alerts) or ads not clearly identifiable as ads.
   forbidden_terms:
   - fake
   - non-clickable
@@ -129,7 +126,6 @@ packs:
   - ctas
   - functionality
   - tricks
-  - customers
   - clicking
   - believing
   - inactive
@@ -178,12 +174,9 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - fake/non-clickable ui elements mimicking interactive ctas.
-  - clickbait/sensationalist tactics; fake ui elements (buttons, fields, alerts) or ads not clearly identifiable
-    as ads.
+  - clickbait/sensationalist tactics; fake ui elements (buttons, fields, alerts) or ads not clearly identifiable as ads.
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -226,8 +219,7 @@ packs:
   - landing_page
   detection_summaries:
   - inaccurate or improbable results presented as the likely outcome a user can expect.
-  - deceptive or exaggerated claims about the success/effectiveness of a product or service to mislead
-    users into purchasing or sharing info.
+  - deceptive or exaggerated claims about the success/effectiveness of a product or service to mislead users into purchasing or sharing info.
   - false/misleading language, unrealistic/exaggerated/magical claims, or bait-and-switch product presentation.
   - deceptive/untrue/misleading ads or promotions; unrealistic claims or guarantees of winnings.
   - false/misleading claims, offers, functionality, or manipulated creative.
@@ -249,10 +241,8 @@ packs:
   - making
   - entice
   - even
-  - possible
   - deceptive
   - exaggerated
-  - success
   forbidden_phrases:
   - scientifically proven
   - clinically proven
@@ -273,6 +263,30 @@ packs:
   - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
     confidence: 0.8
     note: absolute certainty claim
+  - pattern: \b(?:eliminates?|erases?|removes?|reverses?|restores?|repairs?|rebuilds?|melts?|burns?\s+away|flushes?|detoxifies)\b
+    confidence: 0.7
+    note: efficacy verb
+  - pattern: \b(?:you(?:\s+will|'|’)?ll|you\s+will|will\s+(?:easily|quickly|instantly)|guaranteed\s+to)\s+\w+
+    confidence: 0.8
+    note: certainty of outcome for the reader
+  - pattern: \b(?:instantly|immediately|overnight|effortlessly|in\s+(?:as\s+little\s+as\s+|just\s+|only\s+)?\d+\s*(?:seconds?|minutes?|hours?|days?|weeks?|months?))\b
+    confidence: 0.7
+    note: speed-of-result claim
+  - pattern: \b(?:total|complete|permanent|lifetime|unlimited|maximum)\s+\w+
+    confidence: 0.65
+    note: absolute scope claim
+  - pattern: \bno\s+diet\s+or\s+exercise\b
+    confidence: 0.9
+    note: effortless weight-loss claim
+  - pattern: \bwill\s+(?:significantly\s+)?(?:reduce|relieve|eliminate|reverse|restore|increase)\b
+    confidence: 0.8
+    note: promised physiological change
+  - pattern: \bspeeds?\s+(?:up\s+)?recovery\b
+    confidence: 0.8
+    note: recovery-speed claim
+  - pattern: \bwithout\s+pain\b
+    confidence: 0.7
+    note: pain-free outcome claim
   requires_context: {}
   exceptions:
     terms:
@@ -299,15 +313,12 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - inaccurate or improbable results presented as the likely outcome a user can expect.
-  - deceptive or exaggerated claims about the success/effectiveness of a product or service to mislead
-    users into purchasing or sharing info.
+  - deceptive or exaggerated claims about the success/effectiveness of a product or service to mislead users into purchasing or sharing info.
   - false/misleading language, unrealistic/exaggerated/magical claims, or bait-and-switch product presentation.
   - deceptive/untrue/misleading ads or promotions; unrealistic claims or guarantees of winnings.
   - false/misleading claims, offers, functionality, or manipulated creative.
   eval_non_compliant_hits: 5
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -335,13 +346,9 @@ packs:
   - video
   - landing_page
   detection_summaries:
-  - implying support/affiliation with a brand, org, or government entity when false; impersonation; misrepresenting
-    identity or qualifications.
-  - misuse of a famous person's image, or misrepresenting an entity, news outlet, or association to imply
-    endorsement or affiliation.
+  - implying support/affiliation with a brand, org, or government entity when false; impersonation; misrepresenting identity or qualifications.
+  - misuse of a famous person's image, or misrepresenting an entity, news outlet, or association to imply endorsement or affiliation.
   forbidden_terms:
-  - support
-  - brand
   - government
   - 'false'
   - impersonation
@@ -404,14 +411,10 @@ packs:
   - misleading
   vision_min_confidence: 0.55
   embedding_prototypes:
-  - implying support/affiliation with a brand, org, or government entity when false; impersonation; misrepresenting
-    identity or qualifications.
-  - misuse of a famous person's image, or misrepresenting an entity, news outlet, or association to imply
-    endorsement or affiliation.
+  - implying support/affiliation with a brand, org, or government entity when false; impersonation; misrepresenting identity or qualifications.
+  - misuse of a famous person's image, or misrepresenting an entity, news outlet, or association to imply endorsement or affiliation.
   eval_non_compliant_hits: 4
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -445,23 +448,18 @@ packs:
   - instant
   - 100%
   - promises
-  - within
   - timeframe
-  - qualifying
   - can't
   - promise
   - health-related
   - time
   - absolute
-  - terms
   - region
-  - brand
   - right
   - away
   - seconds
   - feature
   forbidden_phrases:
-  - results may vary
   - or your money back
   - guaranteed overnight
   - results in days
@@ -512,9 +510,7 @@ packs:
   - promises of specific results within a specific timeframe with no qualifying or disclaimer language.
   - absolute/guaranteed terms about results, time, region, or brand (e.g. "right away", "in 10 seconds").
   eval_non_compliant_hits: 3
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -551,21 +547,17 @@ packs:
   - video
   detection_summaries:
   - ad promise/product/offer does not match the landing page.
-  - omitting material pricing info, hidden/unexpected charges, or promoting offers unavailable from the
-    destination.
+  - omitting material pricing info, hidden/unexpected charges, or promoting offers unavailable from the destination.
   - cloaking or post-submission url/landing-page changes to evade review.
   - inconsistency between ad creative and landing page (stronger claims/ guarantees on the destination).
   - offers/deals not available or missing vital pricing/payment/expense info.
   forbidden_terms:
   - promise
-  - product
-  - offer
   - match
   - landing
   - page
   - accurately
   - reflect
-  - sold
   - same
   - omitting
   - pricing
@@ -573,7 +565,6 @@ packs:
   - hidden
   - unexpected
   - charges
-  - offers
   - unavailable
   forbidden_phrases:
   - scientifically proven
@@ -592,6 +583,9 @@ packs:
   - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
     confidence: 0.8
     note: absolute certainty claim
+  - pattern: \bpre[\s-]?approved\b
+    confidence: 0.85
+    note: pre-approval claim (needs approval_contingency)
   requires_context: {}
   exceptions:
     terms:
@@ -618,15 +612,12 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - ad promise/product/offer does not match the landing page.
-  - omitting material pricing info, hidden/unexpected charges, or promoting offers unavailable from the
-    destination.
+  - omitting material pricing info, hidden/unexpected charges, or promoting offers unavailable from the destination.
   - cloaking or post-submission url/landing-page changes to evade review.
   - inconsistency between ad creative and landing page (stronger claims/ guarantees on the destination).
   - offers/deals not available or missing vital pricing/payment/expense info.
   eval_non_compliant_hits: 2
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
@@ -661,12 +652,9 @@ packs:
   - landing_page
   detection_summaries:
   - unsubstantiated superiority/objective claims or claims lacking evidence.
-  - misleading/deceptive product descriptions; unsubstantiated claims or absolute superlatives without
-    evidence.
-  - objective claims (express or implied) made without a reasonable basis / adequate substantiation before
-    dissemination.
-  - objective product-effect claims that are not realistic or substantiated by evidence; ai-exaggerated
-    effects.
+  - misleading/deceptive product descriptions; unsubstantiated claims or absolute superlatives without evidence.
+  - objective claims (express or implied) made without a reasonable basis / adequate substantiation before dissemination.
+  - objective product-effect claims that are not realistic or substantiated by evidence; ai-exaggerated effects.
   forbidden_terms:
   - unsubstantiated
   - superiority
@@ -675,16 +663,13 @@ packs:
   - stores
   - truthful
   - accurate
-  - support
   - best
   - misleading
   - deceptive
-  - product
   - descriptions
   - absolute
   - superlatives
   - description
-  - features
   - benefits
   forbidden_phrases:
   - scientifically proven
@@ -703,6 +688,59 @@ packs:
   - pattern: \b(100\s*%|one\s*hundred\s*percent)\b
     confidence: 0.8
     note: absolute certainty claim
+  - pattern: \b(?:up\s+to\s+)?\d+(?:\.\d+)?\s*(?:x|×|%|-fold|\s+times)\s+(?:more|less|faster|greater|better|longer|stronger|cleaner|higher|lower)\b
+    confidence: 0.85
+    note: quantified comparative claim
+  # The gap allows punctuation because harvested copy keeps the ellipses that stand in for
+  # elided text in enforcement exhibits: "faster . . . antiplatelet response than enteric
+  # coated aspirin" is one claim, and \s+ alone does not span the dots.
+  - pattern: \b(?:more|less|better|faster|stronger|cleaner|safer|longer|greater|higher|healthier)[\s.,…]+(?:\w+[\s.,…]+){0,3}?than\b
+    confidence: 0.8
+    note: comparative claim against an unnamed or named rival
+  - pattern: \bthan\s+(?:any\s+other|all\s+other|the\s+leading|every\s+other|ordinary|regular)\b
+    confidence: 0.85
+    note: superiority over the whole field
+  - pattern: \b(?:outperforms?|outlasts?|beats?|surpasses?)\b
+    confidence: 0.8
+    note: direct superiority verb
+  # Lookbehind rather than \b: "#" is not a word character, so \b# can never match after a
+  # space, and "#1 Horse Book Club" slipped through the original form entirely.
+  - pattern: (?<!\w)(?:no\.?\s*1|#\s*1|number\s+one)\b
+    confidence: 0.85
+    note: ranking claim
+  - pattern: \b(?:the\s+)?(?!best\s+(?:part|of\s+all|yet)\b)(?:best|fastest|strongest|safest|cleanest|largest|biggest|longest[\s-]lasting|most\s+effective|most\s+powerful|most\s+advanced|unsurpassed|unmatched|unbeatable|unrivall?ed|superior|ultimate|optimal)\b
+    confidence: 0.75
+    note: superlative claim
+  - pattern: \bup\s+to\s+(?:\$\s*)?\d[\d,.]*\s*(?:%|percent|x|×|mbps|gbps|hours?|days?|weeks?|months?|years?|times|lbs?|pounds?)?\b
+    confidence: 0.75
+    note: up-to claim (needs typical-result basis)
+  # Remaining assessable misses after harvest cleanup: ratio comparatives, "unlike
+  # ordinary", and unconditioned free offers. "free" is licensed by conditional_scope
+  # ("free shipping on orders over $50") so the bare token is recall, not a verdict.
+  - pattern: \b(?:twice|2|two|\d+)\s+as\s+(?:fast|effective|strong|long|powerful|likely|good)\b
+    confidence: 0.85
+    note: N-times-as comparative
+  - pattern: \b(?:twice|two|\d+)\s+times?\s+(?:as\s+)?(?:\w+er|more\s+\w+)\b
+    confidence: 0.85
+    note: N-times comparative (two times gentler)
+  - pattern: \b(?:preferred\s+)?\d+\s*[-–]?\s*to\s*[-–]?\s*1\b
+    confidence: 0.8
+    note: preference or odds ratio
+  - pattern: \bnothing\s+(?:\w+\s+){0,4}(?:faster|better|stronger)\b
+    confidence: 0.8
+    note: nothing-X-faster superiority
+  - pattern: \b(?:vs\.?|versus)\s+(?:the\s+)?(?:other|leading|big)\b
+    confidence: 0.8
+    note: versus-the-field comparative
+  - pattern: \bunlike\s+(?:ordinary|regular|other|typical)\b
+    confidence: 0.8
+    note: unlike-ordinary superiority
+  - pattern: \b(?:buy\s+one,?\s+get\s+one\s+free|bogo)\b
+    confidence: 0.85
+    note: BOGO offer
+  - pattern: (?<!\w)(?:free|\$\s*0)\b
+    confidence: 0.7
+    note: free or zero-price offer
   requires_context: {}
   exceptions:
     terms:
@@ -729,19 +767,111 @@ packs:
   vision_min_confidence: 0.55
   embedding_prototypes:
   - unsubstantiated superiority/objective claims or claims lacking evidence.
-  - misleading/deceptive product descriptions; unsubstantiated claims or absolute superlatives without
-    evidence.
-  - objective claims (express or implied) made without a reasonable basis / adequate substantiation before
-    dissemination.
-  - objective product-effect claims that are not realistic or substantiated by evidence; ai-exaggerated
-    effects.
+  - misleading/deceptive product descriptions; unsubstantiated claims or absolute superlatives without evidence.
+  - objective claims (express or implied) made without a reasonable basis / adequate substantiation before dissemination.
+  - objective product-effect claims that are not realistic or substantiated by evidence; ai-exaggerated effects.
   eval_non_compliant_hits: 26
-  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary.
-    Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US
-    ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
+  notes: Phase A QC approved via curate_and_approve_patterns.py. Prefer phrase/regex hits; terms are secondary. Political vision_min_confidence elevated to reduce FP (campaign poster). Phase A auto-mined from US ontology corpus + eval. Curate before Phase B wiring (review_status → curated/approved).
   qc:
     cleaned: true
     has_phrases: true
     has_patterns: true
     has_terms: true
     approval_rule: approved if phrases or patterns present after denoise
+
+- canonical_id: misleading.environmental_benefit_claims
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ftc_green_guides
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.misleading.green_general
+  - ftc.misleading.biodegradable
+  - ftc.misleading.recyclable
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - Unqualified environmental benefit claims (green, eco-friendly, biodegradable, recyclable)
+    that the FTC Green Guides treat as deceptive without qualification or proof.
+  forbidden_terms: []
+  forbidden_phrases:
+  - eco-friendly
+  - environmentally friendly
+  - environmentally sustainable
+  forbidden_patterns:
+  - pattern: \b(?:100\s*%\s+)?biodegradable\b
+    confidence: 0.85
+    note: biodegradable claim
+  - pattern: \b(?:100\s*%\s+|fully\s+)?recyclable\b
+    confidence: 0.8
+    note: recyclable claim
+  - pattern: \b(?:eco[\s-]?friendly|environmentally\s+(?:friendly|sustainable)|green\s+product)\b
+    confidence: 0.8
+    note: general environmental benefit claim
+  - pattern: \bcompostable\b
+    confidence: 0.8
+    note: compostable claim
+  - pattern: \bnon[\s-]?toxic\b
+    confidence: 0.7
+    note: non-toxic environmental claim
+  requires_context: {}
+  exceptions:
+    terms: []
+    phrases: []
+    patterns: []
+    notes:
+    - Qualified with the specific benefit, disposal path, or facility availability the Green Guides require.
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - unqualified biodegradable or recyclable claims
+  - eco-friendly or green marketing without a specific substantiated benefit
+
+- canonical_id: misleading.origin_claims
+  category_id: misleading
+  severity: high
+  review_status: approved
+  source_rule_ids:
+  - ftc_made_in_usa
+  source_files:
+  - regulators_us.yaml
+  clause_ids:
+  - ftc.misleading.made_in_usa
+  modalities:
+  - text
+  - image
+  - video
+  - landing_page
+  detection_summaries:
+  - Unqualified Made in USA / American-made origin claims that require the product to be
+    all or virtually all made in the United States.
+  forbidden_terms: []
+  forbidden_phrases:
+  - made in usa
+  - made in the usa
+  - american-made
+  - proudly made in usa
+  forbidden_patterns:
+  - pattern: \bmade\s+in\s+(?:the\s+)?(?:usa|u\.?s\.?a\.?|united\s+states)\b
+    confidence: 0.9
+    note: Made in USA claim
+  - pattern: \b(?:american[\s-]?made|built\s+in\s+(?:usa|america)|manufactured\s+in\s+(?:the\s+)?(?:usa|u\.?s\.?a\.?))\b
+    confidence: 0.85
+    note: American-origin claim
+  requires_context: {}
+  exceptions:
+    terms: []
+    phrases: []
+    patterns: []
+    notes:
+    - Qualified origin (assembled in USA of imported parts; made in USA from imported and domestic components).
+  vision_labels: []
+  vision_min_confidence: 0.55
+  embedding_prototypes:
+  - unqualified Made in USA origin claims

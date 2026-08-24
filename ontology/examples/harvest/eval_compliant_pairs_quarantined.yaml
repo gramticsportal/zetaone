@@ -1,0 +1,2720 @@
+# Compliant twins of quarantined harvested rows. Not loaded.
+# Total: 246
+
+examples:
+- id: harv_ev_ftc_walmart_bamboo_greenwashing_2022_0066_compliant
+  content: Protect-A-Bed Bamboo-Derived Rayon Waterproof Mattress Protector
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_walmart_bamboo_greenwashing_2022_0066; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_walmart_bamboo_greenwashing_2022_0067_compliant
+  content: Protect-A-Bed Bamboo-Derived Rayon Waterproof Pillow Protector
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_walmart_bamboo_greenwashing_2022_0067; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_omics_deceptive_publishing_2019_0108_compliant
+  content: Journal List with editorial review process.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_omics_deceptive_publishing_2019_0108; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_ftc_omics_deceptive_publishing_2019_0109_compliant
+  content: OMICS Editorial Review Process
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_omics_deceptive_publishing_2019_0109; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_ftc_facebook_privacy_2019_0202_compliant
+  content: Review and edit the privacy of certain key pieces of information.
+  modality: text
+  label: compliant
+  category_ids:
+  - privacy
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_facebook_privacy_2019_0202; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_facebook_privacy_2019_0207_compliant
+  content: Control who can see some of your content.
+  modality: text
+  label: compliant
+  category_ids:
+  - privacy
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_facebook_privacy_2019_0207; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_intuit_turbotax_free_2022_0237_compliant
+  content: Movie Credits Version 2 - for eligible filers.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_intuit_turbotax_free_2022_0237; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_herbalife_mlm_2016_0368_compliant
+  content: Take steps to improve your financial situation / future / life.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_herbalife_mlm_2016_0368; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_opendoor_ibuying_2022_0439_compliant
+  content: our best estimate of full market value, based on our proprietary data and algorithms.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_opendoor_ibuying_2022_0439; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_publishers_clearing_house_2023_0473_compliant
+  content: Official Entry Form for Sweepstakes Registration
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  - gambling
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_publishers_clearing_house_2023_0473; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_publishers_clearing_house_2023_0480_compliant
+  content: submit entry; no purchase necessary to enter.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  - gambling
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_publishers_clearing_house_2023_0480; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_ftc_google_youtube_coppa_2019_0515_compliant
+  content: Insights on content for families online.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  - privacy
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_ftc_google_youtube_coppa_2019_0515; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nyag_4kapps_healthcare_2024_0555_compliant
+  content: Contact us for pricing and availability information.
+  modality: text
+  label: compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nyag_4kapps_healthcare_2024_0555; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_caag_cri_genetics_2024_0566_compliant
+  content: our products are designed to be high quality.
+  modality: text
+  label: compliant
+  category_ids:
+  - health
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caag_cri_genetics_2024_0566; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_examines_claims_for_kimberly_clark_s_huggies_lit_2015_9063ee_0006_compliant
+  content: draws more mess away in laboratory testing.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_examines_claims_for_kimberly_clark_s_huggies_lit_2015_9063ee_0006; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_for_sunpill_to_ftc_2007_7f9742_0008_compliant
+  content: Sunpill is a dietary supplement designed to support skin health when used in conjunction with traditional sun protection methods.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_for_sunpill_to_ftc_2007_7f9742_0008; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_for_ba_sports_nutrition_s_bod_2017_9c9085_0040_compliant
+  content: no artificial flavors, no artificial sweeteners, no artificial colors
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_for_ba_sports_nutrition_s_bod_2017_9c9085_0040; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_claims_for_cross_brands_sea_s_2018_8b7c07_0043_compliant
+  content: IR GUARD infrared protection for skin exposed to sunlight
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_claims_for_cross_brands_sea_s_2018_8b7c07_0043; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_claims_for_cross_brands_sea_s_2018_8b7c07_0044_compliant
+  content: helps protect against free radical damage caused by long term exposure to IR-A waves
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_claims_for_cross_brands_sea_s_2018_8b7c07_0044; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_cosmederm_bioscience_discontinue_chal_2015_8e3cd9_0055_compliant
+  content: shown to be more effective than hydrocortisone 1% at reducing itch in a company-sponsored study
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_cosmederm_bioscience_discontinue_chal_2015_8e3cd9_0055; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_euro_pro_modify_discontinue_certain_c_2012_0a1ad7_0063_compliant
+  content: Best in Class Runtime for its category, based on internal testing
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_euro_pro_modify_discontinue_certain_c_2012_0a1ad7_0063; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_euro_pro_dyson_participate_in_nad_forum_2007_66cbe5_0147_compliant
+  content: Exhausts cleaner air than the average room air, based on internal testing.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_euro_pro_dyson_participate_in_nad_forum_2007_66cbe5_0147; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_supported_petco_s_claim_that_it_is_setting_2020_004318_0153_compliant
+  content: Committed to better health for the pets we love, through our quality products and services.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_supported_petco_s_claim_that_it_is_setting_2020_004318_0153; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_verizon_5g_claims_2020_7b7eeb_0188_compliant
+  content: Up to almost 2 gigs here in Los Angeles.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_verizon_5g_claims_2020_7b7eeb_0188; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_p_g_colgate_palmolive_participate_in_nad_forum_2007_328736_0227_compliant
+  content: over 70 publications & research presentations, some of which are company-sponsored.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_p_g_colgate_palmolive_participate_in_nad_forum_2007_328736_0227; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_dermadoctor_discontinue_claims_compar_2013_76c013_0257_compliant
+  content: Photodynamic Therapy Laser Lotion-inspired formula.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_dermadoctor_discontinue_claims_compar_2013_76c013_0257; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_at_t_modify_discontinue_certain_claim_2018_2a9db7_0261_compliant
+  content: More for your stream like a boss with eligible plans.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_at_t_modify_discontinue_certain_claim_2018_2a9db7_0261; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_zero_technologies_discontinue_demonst_2014_56d754_0378_compliant
+  content: Think your water filter is good? Compare it to ours.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_zero_technologies_discontinue_demonst_2014_56d754_0378; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_bausch_lomb_ad_claims_2013_77e289_0403_compliant
+  content: CLAIK has been associated with one PQ-Aldox MPS, OPTI-FREE RepleniSH, in some independent studies. In one report, this solution was being used in a percentage of CLAIK cases.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_bausch_lomb_ad_claims_2013_77e289_0403; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_kauai_coffee_modify_discontinue_certa_2017_07b4ad_0422_compliant
+  content: Billions of K-CUPS go into America’s landfills each year.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_kauai_coffee_modify_discontinue_certa_2017_07b4ad_0422; technique: scope_narrowed; retained_trigger: False; synthetic'
+- id: harv_ev_narb_narb_recommends_directv_discontinue_worry_free_relia_2018_a8508a_0425_compliant
+  content: My signal may go out occasionally.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_directv_discontinue_worry_free_relia_2018_a8508a_0425; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_bell_commits_to_discontinue_certain_claims_for_virux_2014_c644ef_0429_compliant
+  content: 'Virux Viral Infections #42 is a homeopathic remedy for symptoms of viral infections.'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_bell_commits_to_discontinue_certain_claims_for_virux_2014_c644ef_0429; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_optimmuner_plus_ftc_fda_2020_8d260a_0443_compliant
+  content: Based on generally accepted scientific principles in the field of immunology.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_optimmuner_plus_ftc_fda_2020_8d260a_0443; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_discontinuance_and_modification_of_ce_2019_0f9d29_0457_compliant
+  content: Ahalogy launches its Influencer Marketing Platform with third-party verification capabilities.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_discontinuance_and_modification_of_ce_2019_0f9d29_0457; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_discontinuance_and_modification_of_ce_2019_0f9d29_0458_compliant
+  content: Ahalogy, a leading company in helping brands connect consumer passion to purchase, has announced a solution for verifying influencer marketing impressions, traffic and other key engagement measures.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_discontinuance_and_modification_of_ce_2019_0f9d29_0458; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_for_gerber_toddler_products__2012_e8cc76_0472_compliant
+  content: immune system support – or that they are made from real fruit and vegetable purees.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_for_gerber_toddler_products__2012_e8cc76_0472; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_shark_discontinue_preference_claims_f_2017_87de5d_0475_compliant
+  content: two out of three consumers surveyed expressed a preference.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_shark_discontinue_preference_claims_f_2017_87de5d_0475; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_chrysler_can_support_most_awarded_claim_fo_2012_0cedeb_0518_compliant
+  content: A pioneer in the premium SUV category.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_chrysler_can_support_most_awarded_claim_fo_2012_0cedeb_0518; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_caru_caru_recommends_conagra_modify_broadcast_advertising_2010_339d88_0525_compliant
+  content: You can win Krazy Combo Ka$h, good for all kinds of prizes. Many will enter, few will win. Odds of winning depend on the number of eligible entries received. Ask a parent’s permission before going online.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_conagra_modify_broadcast_advertising_2010_339d88_0525; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_choice_home_warranty_modify_discontin_2020_dd3734_0529_compliant
+  content: Starting at about a dollar a day for basic coverage.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_choice_home_warranty_modify_discontin_2020_dd3734_0529; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_comparative_fda_approved_label_indications_2019_4bac3c_0533_compliant
+  content: Allergies with sinus congestion and pressure? You won’t find relief here, but our product can help with other allergy symptoms.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_comparative_fda_approved_label_indications_2019_4bac3c_0533; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_comparative_fda_approved_label_indications_2019_4bac3c_0542_compliant
+  content: Temporary relief for sinus congestion and pressure.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_comparative_fda_approved_label_indications_2019_4bac3c_0542; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_for_usb_flexperks_visa_follo_2009_ee915b_0546_compliant
+  content: Accepted at half as many places as some other major credit cards.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_for_usb_flexperks_visa_follo_2009_ee915b_0546; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_panel_recommends_unilever_discontinues_certain__2014_e03314_0551_compliant
+  content: Doesn’t Your Skin Deserve The ‘Proven Best Care’ for everyday moisturizing?
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_panel_recommends_unilever_discontinues_certain__2014_e03314_0551; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_refers_advertising_claims_made_by_neurocore_to__2020_4637f2_0570_compliant
+  content: I was looking for a drug-free alternative or at least supplement to my current low dose of medications.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_refers_advertising_claims_made_by_neurocore_to__2020_4637f2_0570; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_dssrc_dssrc_income_and_incentive_trip_claims_to_ftc_2019_179633_0573_compliant
+  content: Our program may help you earn supplemental income to cover groceries, credit card debts, private school tuition, bills, vacations, cars, homes, tithe more, hobbies/sports for kids, etc. Individual results may vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_dssrc_income_and_incentive_trip_claims_to_ftc_2019_179633_0573; technique: typicality_disclosed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_skyline_discontinue_certain_performan_2019_7763b5_0588_compliant
+  content: Skyline pepper spray can be carried in many jurisdictions. Check local laws.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_skyline_discontinue_certain_performan_2019_7763b5_0588; technique: disclosure_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_french_s_discontinue_facebook_commerc_2017_aa7d13_0613_compliant
+  content: why our ketchup tastes great, according to our internal taste tests
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_french_s_discontinue_facebook_commerc_2017_aa7d13_0613; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_examines_advertising_for_ecc_online_apprentice_p_2009_006328_0627_compliant
+  content: work for free for a while (unpaid internship)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_examines_advertising_for_ecc_online_apprentice_p_2009_006328_0627; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_viewsonic_discontinue_certain_claims__2017_cca61a_0647_compliant
+  content: superior color performance claims (compared to previous models).
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_viewsonic_discontinue_certain_claims__2017_cca61a_0647; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_dannon_company_general_mills_participate_in_nad_foru_2009_8f44d5_0684_compliant
+  content: Light & Fit 0% Plus Yogurt, a good source of protein.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_dannon_company_general_mills_participate_in_nad_foru_2009_8f44d5_0684; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_for_brain_research_labs_proce_2014_a13dbe_0741_compliant
+  content: Clinically shown to support memory and brain power, results may vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_for_brain_research_labs_proce_2014_a13dbe_0741; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_bayer_healthcare_can_support_certain_claim_2011_72ee36_0748_compliant
+  content: PLUS Bone Density Builder for healthy bones.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_bayer_healthcare_can_support_certain_claim_2011_72ee36_0748; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_cover_three_discontinue_claims_that_b_2020_ee5b93_0758_compliant
+  content: Support your body's natural recovery. Cover Three helps you feel your best.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_cover_three_discontinue_claims_that_b_2020_ee5b93_0758; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_comcast_discontinue_claims_challenged_2017_4d9aae_0761_compliant
+  content: During rain, storms, hail or high winds, some consumers may experience service interruptions.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_comcast_discontinue_claims_challenged_2017_4d9aae_0761; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_landfill_waste_biodegradability_2020_2a8bed_0770_compliant
+  content: It promotes methane off-gassing, which may allow it to be re-captured for energy in appropriate facilities.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_landfill_waste_biodegradability_2020_2a8bed_0770; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_recommends_coty_discontinue_claims_that_sally_h_2017_99e27a_0778_compliant
+  content: Gel-like shine without the UV light.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_coty_discontinue_claims_that_sally_h_2017_99e27a_0778; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_recommends_coty_discontinue_claims_that_sally_h_2017_99e27a_0779_compliant
+  content: Up to 14 days of color & shine; results may vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_coty_discontinue_claims_that_sally_h_2017_99e27a_0779; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_epson_to_voluntarily_discontinue_loaded_and_ready_cl_2016_5ce56e_0782_compliant
+  content: Loaded and ready with enough ink for up to two years of typical printing in the box.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_epson_to_voluntarily_discontinue_loaded_and_ready_cl_2016_5ce56e_0782; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_for_amilife_edc_fidget_spinne_2017_45de49_0786_compliant
+  content: May help with anxiety, focusing, ADHD, autism for some users.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_for_amilife_edc_fidget_spinne_2017_45de49_0786; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_cambridge_institute_for_better_vision_2011_d86ab3_0793_compliant
+  content: Now his eye doctors tell us that his vision has stabilized. We're both extremely pleased! Individual results may vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_cambridge_institute_for_better_vision_2011_d86ab3_0793; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_rb_discontinue_certain_claims_for_muc_2014_a1e6eb_0796_compliant
+  content: Starts to release medicine in minutes.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_rb_discontinue_certain_claims_for_muc_2014_a1e6eb_0796; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_reckitt_discontinue_certain_claims_th_2013_4363d2_0806_compliant
+  content: Mediterranean Lavender with a hint of … Fungi (not present in product)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reckitt_discontinue_certain_claims_th_2013_4363d2_0806; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_reckitt_discontinue_certain_claims_th_2013_4363d2_0807_compliant
+  content: Sweet Citrus with a note of … E. coli (not present in product)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reckitt_discontinue_certain_claims_th_2013_4363d2_0807; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_recommends_unilever_discontinue_claims_made_in__2017_233bf6_0811_compliant
+  content: Let Your Senses Decide (individual results may vary)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_unilever_discontinue_claims_made_in__2017_233bf6_0811; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_recommends_healthy_directions_discontinue_certa_2013_49bc05_0815_compliant
+  content: formulated to work throughout your entire body, supporting joint comfort from your neck and shoulders to your toes
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_healthy_directions_discontinue_certa_2013_49bc05_0815; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_claims_for_rental_carpet_cle_2013_f1e4ed_0829_compliant
+  content: Why Settle for That When You Can Rent This? (based on typical consumer preference)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_claims_for_rental_carpet_cle_2013_f1e4ed_0829; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_claims_for_rental_carpet_cle_2013_f1e4ed_0830_compliant
+  content: Why use a brush like that, when you can use a brush like this? (based on typical consumer preference)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_claims_for_rental_carpet_cle_2013_f1e4ed_0830; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_for_dr_franks_s_joint_relief_2008_e6c113_0840_compliant
+  content: Dr. Frank’s Joint Comfort Support for Dogs and Cats
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_for_dr_franks_s_joint_relief_2008_e6c113_0840; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_matys_cough_products_claims_2020_27afd5_0885_compliant
+  content: Finding relief can be simple.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_matys_cough_products_claims_2020_27afd5_0885; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_social_media_post_implying_continual_g_glutathione_e_2020_92b78f_0893_compliant
+  content: Supporting your immunity is important.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_social_media_post_implying_continual_g_glutathione_e_2020_92b78f_0893; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_transfair_modify_language_accompanyin_2011_cef65a_0897_compliant
+  content: Fair Trade Product of the Week (as designated by TransFair USA)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_transfair_modify_language_accompanyin_2011_cef65a_0897; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_i_health_culturelle_probiotic_2018_e14a29_0923_compliant
+  content: One of the most clinically studied effective probiotics.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_i_health_culturelle_probiotic_2018_e14a29_0923; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_carma_laboratories_discontinue_certai_2018_fc75ec_0933_compliant
+  content: Less sore. More smile. When used as directed.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_carma_laboratories_discontinue_certai_2018_fc75ec_0933; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_comcast_discontinue_unqualified_faste_2012_8d6bad_0936_compliant
+  content: Fastest in the nation for certain broadband tiers, based on internal testing.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_comcast_discontinue_unqualified_faste_2012_8d6bad_0936; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_church_dwight_discontinue_certain_cla_2014_8f4e79_0952_compliant
+  content: Arm & Hammer Sensitive Skin 4x Concentrated for cleaning power.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_church_dwight_discontinue_certain_cla_2014_8f4e79_0952; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_vogue_change_product_names_for_certai_2015_24f501_0965_compliant
+  content: Renewing Shampoo with Argan Oil for hair that feels revitalized.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_vogue_change_product_names_for_certai_2015_24f501_0965; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_charter_discontinue_one_version_of_mo_2018_be3be9_0996_compliant
+  content: went out in the rain for a limited time
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_charter_discontinue_one_version_of_mo_2018_be3be9_0996; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_primal_nutrition_participates_in_nad_forum_2007_82a2a5_1024_compliant
+  content: Nothing else comes close in our taste tests.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_primal_nutrition_participates_in_nad_forum_2007_82a2a5_1024; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_silver_star_brands_discontinue_all_ch_2015_c558e6_1042_compliant
+  content: 'Native Remedies A+ TestCalmer: A dietary supplement to support focus.'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_silver_star_brands_discontinue_all_ch_2015_c558e6_1042; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_spectrum_disclose_limitations_to_comp_2019_eec8bd_1064_compliant
+  content: up to $300 annually (for eligible customers who meet specific criteria).
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_spectrum_disclose_limitations_to_comp_2019_eec8bd_1064; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_taboola_s_native_ad_widget_recommends_cl_2014_595fa8_1082_compliant
+  content: More in the News (Sponsored Content)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_taboola_s_native_ad_widget_recommends_cl_2014_595fa8_1082; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_taboola_s_native_ad_widget_recommends_cl_2014_595fa8_1083_compliant
+  content: Sponsored Content by Taboola (Advertisement)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_taboola_s_native_ad_widget_recommends_cl_2014_595fa8_1083; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_church_dwight_discontinue_scary_bleac_2016_b14ddc_1138_compliant
+  content: We observed care labels on thousands of white garments and noted that some had a warning symbol which means 'do not use chlorine bleach'.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_church_dwight_discontinue_scary_bleac_2016_b14ddc_1138; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_genomma_modify_current_broadcast_ad_f_2016_6a4ce1_1180_compliant
+  content: Compared with other OTC products to treat athlete’s foot, in a company-sponsored study.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_genomma_modify_current_broadcast_ad_f_2016_6a4ce1_1180; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_idea_village_modify_broadcast_ad_web_2012_931cd2_1201_compliant
+  content: You may qualify for a special offer! Press cancel on the next screen to view your offer.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_idea_village_modify_broadcast_ad_web_2012_931cd2_1201; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_kraft_heinz_can_support_certain_claims_for_2016_3fde25_1203_compliant
+  content: No wonder it tastes so good, with our blend of premium ingredients.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_kraft_heinz_can_support_certain_claims_for_2016_3fde25_1203; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_pg_charmin_ultra_claims_2016_f282f0_1208_compliant
+  content: Uses up to 4x less packaging material compared to our previous design.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_pg_charmin_ultra_claims_2016_f282f0_1208; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_schiff_nutrition_group_crn_participate_in_nad_forum_2009_a9659e_1212_compliant
+  content: A better, faster, and more powerful way to get your daily omega-3s than some fish oil supplements, as shown in a company-sponsored study.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_schiff_nutrition_group_crn_participate_in_nad_forum_2009_a9659e_1212; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_colgate_palmolive_discontinue_natural_2016_f580a6_1230_compliant
+  content: Meet our stewardship model for safe, effective, and naturally-derived ingredients.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_colgate_palmolive_discontinue_natural_2016_f580a6_1230; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_epson_america_discontinue_certain_cla_2018_c5c79b_1236_compliant
+  content: Up to 3x brighter colors in certain modes, compared to leading 1-chip DLP business and education projectors.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_epson_america_discontinue_certain_cla_2018_c5c79b_1236; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_iovate_can_support_challenged_claims_for_s_2015_89ccf2_1277_compliant
+  content: Scientifically shown to be 70% better than regular whey in a company-sponsored study.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_iovate_can_support_challenged_claims_for_s_2015_89ccf2_1277; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_reckitt_benckiser_modify_discontinue__2018_85cc4e_1280_compliant
+  content: pretty much every major symptom
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reckitt_benckiser_modify_discontinue__2018_85cc4e_1280; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_wellnx_modify_discontinue_certain_cla_2013_12b9df_1283_compliant
+  content: how fast do you want to lose weight, when combined with diet and exercise?
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_wellnx_modify_discontinue_certain_cla_2013_12b9df_1283; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_samsung_discontinue_certain_superiori_2012_d81ff6_1308_compliant
+  content: Blurry & Dark 2D (compared to 3D)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_samsung_discontinue_certain_superiori_2012_d81ff6_1308; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_charter_discontinue_one_commercial_re_2018_c516b3_1315_compliant
+  content: No popular sports channels (in basic package)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_charter_discontinue_one_commercial_re_2018_c516b3_1315; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_charter_discontinue_one_commercial_re_2018_c516b3_1316_compliant
+  content: even if they don’t find anything (additional charges may apply)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_charter_discontinue_one_commercial_re_2018_c516b3_1316; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_colgate_discontinue_certain_claims_fo_2012_f3fc62_1317_compliant
+  content: Same Ingredient as Strips (referring to hydrogen peroxide)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_colgate_discontinue_certain_claims_fo_2012_f3fc62_1317; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_colgate_discontinue_certain_claims_fo_2012_f3fc62_1318_compliant
+  content: Same Whitening Ingredient as Strips (referring to hydrogen peroxide)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_colgate_discontinue_certain_claims_fo_2012_f3fc62_1318; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_cec_modify_advertising_for_chuck_e_c_2014_b246a7_1333_compliant
+  content: awesome and super awesome (as described by customers)
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_cec_modify_advertising_for_chuck_e_c_2014_b246a7_1333; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_ragu_maker_mizkan_discontinue_taste_p_2017_79e6a3_1341_compliant
+  content: A majority of consumers in a taste test prefer Ragu Homestyle Traditional.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_ragu_maker_mizkan_discontinue_taste_p_2017_79e6a3_1341; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_claims_by_ba_sports_nutrition_2018_7e2eb6_1349_compliant
+  content: More Natural Better Sports Drink, compared to previous formula.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_claims_by_ba_sports_nutrition_2018_7e2eb6_1349; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_claims_by_ba_sports_nutrition_2018_7e2eb6_1350_compliant
+  content: More Natural Better Hydration, compared to previous formula.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_claims_by_ba_sports_nutrition_2018_7e2eb6_1350; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_matrixx_discontinue_claims_that_sugge_2013_9ac7cd_1369_compliant
+  content: Help prevent a monster of a cold from catching you.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_matrixx_discontinue_claims_that_sugge_2013_9ac7cd_1369; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_playmobil_modify_broadcast_advertisi_2012_6017df_1377_compliant
+  content: It’s beautiful! So many rooms! A grand playroom! A master bedroom and balcony! Lights that work! And two grand staircases! It’s so grand! (Some features sold separately)
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_playmobil_modify_broadcast_advertisi_2012_6017df_1377; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_declines_to_rely_on_crowd_sourced_data_to_suppor_2017_ed0030_1410_compliant
+  content: Why doesn’t Verizon offer unlimited data like some competitors?
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_declines_to_rely_on_crowd_sourced_data_to_suppor_2017_ed0030_1410; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_examines_advertising_for_hepcare_s_hepzone_sst_2008_8f4caf_1418_compliant
+  content: 'HepCare''s HepZone SST: A useful supplement for liver health.'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_examines_advertising_for_hepcare_s_hepzone_sst_2008_8f4caf_1418; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_your_baby_can_discontinue_certain_tes_2011_8a0901_1429_compliant
+  content: Early learning can be beneficial for infants.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_your_baby_can_discontinue_certain_tes_2011_8a0901_1429; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_your_baby_can_discontinue_certain_tes_2011_8a0901_1430_compliant
+  content: Nurturing a love of learning in babies can be a rewarding experience.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_your_baby_can_discontinue_certain_tes_2011_8a0901_1430; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_national_advertising_division_recommends_trek_narrow_2020_e9a39f_1465_compliant
+  content: up to 48x more effective in reducing tire punctures in laboratory testing compared to standard tubes.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_national_advertising_division_recommends_trek_narrow_2020_e9a39f_1465; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_alde_associates_discontinue_claims_th_2013_176551_1484_compliant
+  content: daniPro is a topical solution for nails.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_alde_associates_discontinue_claims_th_2013_176551_1484; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_finds_cyberdefender_acted_properly_in_discontinu_2012_7b4f14_1522_compliant
+  content: DoubleMySpeed.com PC Optimization Software, designed to help improve performance.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_cyberdefender_acted_properly_in_discontinu_2012_7b4f14_1522; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_bayer_cropscience_modify_discontinue__2016_43018f_1549_compliant
+  content: Bayer Advanced 3-in-1 Weed and Feed for Southern Lawns, for common weeds and grasses.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_bayer_cropscience_modify_discontinue__2016_43018f_1549; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_comcast_can_support_fiber_optic_network_cl_2011_6fac18_1556_compliant
+  content: Our Fiber Optic Network, in select areas.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_comcast_can_support_fiber_optic_network_cl_2011_6fac18_1556; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_sprint_discontinue_new_network_custom_2015_02f46f_1579_compliant
+  content: Built with significant upgrades.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_sprint_discontinue_new_network_custom_2015_02f46f_1579; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_beauty_science_group_modify_discontin_2017_6fcf87_1593_compliant
+  content: Created Hair La Vie to help women address concerns with hair loss, thinning, and damage.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_beauty_science_group_modify_discontin_2017_6fcf87_1593; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_narb_narb_recommends_reckitt_benckiser_discontinue_advert_2016_7a0c6d_1634_compliant
+  content: approved to kill … more types of germs than some other brands
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_reckitt_benckiser_discontinue_advert_2016_7a0c6d_1634; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_bp_discontinue_broadcast_demonstratio_2014_7609dd_1645_compliant
+  content: Proven stronger than Mobil 1 in independent lab tests under specific conditions.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_bp_discontinue_broadcast_demonstratio_2014_7609dd_1645; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_sbiomed_can_support_certain_claims_for_hos_2015_0effe2_1654_compliant
+  content: Kills many types of microorganisms when used as directed.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_sbiomed_can_support_certain_claims_for_hos_2015_0effe2_1654; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_moon_juice_discontinues_challenged_claims_mesosilver_2015_21e061_1661_compliant
+  content: MesoSilver Colloidal Silver Dietary Supplement
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_moon_juice_discontinues_challenged_claims_mesosilver_2015_21e061_1661; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_lg_electronics_discontinue_line_claim_2012_455f02_1670_compliant
+  content: HEY…SAMSUNG, CONSIDER THE DIFFERENCES IN 3D TECHNOLOGY.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_lg_electronics_discontinue_line_claim_2012_455f02_1670; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_recommends_lg_electronics_discontinue_line_claim_2012_455f02_1671_compliant
+  content: HEY…SAMSUNG, RECHARGEABLE GLASSES, WHAT'S NEXT, A DIFFERENT APPROACH TO CONVENIENCE?
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_lg_electronics_discontinue_line_claim_2012_455f02_1671; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_epson_america_texas_instruments_participate_in_nad_f_2009_c0b3c1_1701_compliant
+  content: May be perceived as very distracting to some viewers.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_epson_america_texas_instruments_participate_in_nad_f_2009_c0b3c1_1701; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_sprint_discontinue_certain_claims_mad_2018_550b3b_1722_compliant
+  content: Compare our prices to the Twice the Price Store and see the savings.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_sprint_discontinue_certain_claims_mad_2018_550b3b_1722; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_mane_choice_modify_product_name_disco_2017_b818c0_1782_compliant
+  content: Manetabolism Plus, Laid Back Effortless Growth-Supporting Edge Control & The Multi-Vitamin Scalp Nourishing Oil
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_mane_choice_modify_product_name_disco_2017_b818c0_1782; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_agkidzone_take_steps_to_better_prote_2009_f56fc7_1799_compliant
+  content: 'Get Permission: If you’re under 13, we require a parent/guardian''s permission to proceed.'
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_agkidzone_take_steps_to_better_prote_2009_f56fc7_1799; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_agkidzone_take_steps_to_better_prote_2009_f56fc7_1800_compliant
+  content: Click yes or no if you are a parent/guardian, to confirm your role.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_agkidzone_take_steps_to_better_prote_2009_f56fc7_1800; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_from_north_american_green_to__2009_1d1d5c_1813_compliant
+  content: Cotton Fiber Reinforced Matrix for enhanced biodegradability.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_from_north_american_green_to__2009_1d1d5c_1813; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_examines_advertising_from_indoor_tanning_associa_2008_0a20bd_1845_compliant
+  content: 'TANNING CAUSES MELANOMA: HYPE. Consult a doctor for health advice.'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_examines_advertising_from_indoor_tanning_associa_2008_0a20bd_1845; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_north_american_herb_spice_to_ftc_2007_d2bf36_1858_compliant
+  content: Ingredients studied in scientific studies published in Antiviral Research.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_north_american_herb_spice_to_ftc_2007_d2bf36_1858; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_advertising_claims_made_by_lab_door_to_ft_2017_e9157e_1865_compliant
+  content: Enables consumers to identify and purchase products based on provided information.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_advertising_claims_made_by_lab_door_to_ft_2017_e9157e_1865; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_vitanergy_can_support_certain_ingredient_b_2012_9d8bae_1981_compliant
+  content: Helping support prostate health and urinary comfort.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_vitanergy_can_support_certain_ingredient_b_2012_9d8bae_1981; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_miller_lite_can_claim_more_taste_than_bud_light_and__2018_de0ccd_1989_compliant
+  content: In blind taste tests, more consumers agree that Miller Lite has more taste than Bud Light.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_miller_lite_can_claim_more_taste_than_bud_light_and__2018_de0ccd_1989; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_miller_lite_can_claim_more_taste_than_bud_light_and__2018_de0ccd_1990_compliant
+  content: More taste than Bud Light, as preferred by consumers in taste tests.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_miller_lite_can_claim_more_taste_than_bud_light_and__2018_de0ccd_1990; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_millercoors_modify_certain_claims_for_2010_b2865a_2071_compliant
+  content: Taste protection offered by the Taste Protector Cap and Lid, designed to help preserve flavor.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_millercoors_modify_certain_claims_for_2010_b2865a_2071; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_following_at_t_challenge_t_mobile_says_disputed_clai_2018_7b052e_2107_compliant
+  content: your favorite movies and shows, available on our platform.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_following_at_t_challenge_t_mobile_says_disputed_clai_2018_7b052e_2107; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_reynolds_modify_certain_advertising_c_2012_07a293_2147_compliant
+  content: SECURE . . . FOR MANY USES, when used as directed.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reynolds_modify_certain_advertising_c_2012_07a293_2147; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_reynolds_modify_certain_advertising_c_2012_07a293_2148_compliant
+  content: HELPS KEEP FRUITS & VEGETABLES JUICY.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reynolds_modify_certain_advertising_c_2012_07a293_2148; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_for_vital_pharmaceuticals_re_2008_21caa0_2159_compliant
+  content: Mood, Energy & Fat Loss Matrix for healthy adults!
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_for_vital_pharmaceuticals_re_2008_21caa0_2159; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_coca_cola_can_support_certain_claims_for_m_2009_0a6788_2204_compliant
+  content: I think you’re the father of one of my kids. (This is a dramatic statement and not an ad claim, so it cannot be made lawful.)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_coca_cola_can_support_certain_claims_for_m_2009_0a6788_2204; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_reviews_like_gated_facebook_campaign_recommends__2011_26c055_2217_compliant
+  content: Save up to 70 percent on select items.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_like_gated_facebook_campaign_recommends__2011_26c055_2217; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_charter_can_support_certain_comparative_ad_2013_4de62a_2286_compliant
+  content: Your business might find it challenging to stay ahead of the competition without the right tools.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_charter_can_support_certain_comparative_ad_2013_4de62a_2286; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_sun_products_discontinue_certain_clai_2014_ed9635_2291_compliant
+  content: Comparison based on pretreating and washing with all Stainlifters vs. just washing with the leading value detergent and leading booster combined, in company-sponsored testing.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_sun_products_discontinue_certain_clai_2014_ed9635_2291; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_philips_oral_health_discontinue_chall_2017_914556_2297_compliant
+  content: Experience the unique sound of sonic technology.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_philips_oral_health_discontinue_chall_2017_914556_2297; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_by_charter_following_directv_2017_20b089_2321_compliant
+  content: commercial included the claims that a DirecTV customer’s experience was limited
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_by_charter_following_directv_2017_20b089_2321; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_reviews_advertising_claims_for_golf_clubs_follow_2013_6de119_2343_compliant
+  content: across a broad range of player abilities
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_reviews_advertising_claims_for_golf_clubs_follow_2013_6de119_2343; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_h_h_gregg_acted_properly_in_discontinue_ad_2012_2ed929_2367_compliant
+  content: LG 30.7 Cu. Ft. Stainless Steel French Door Refrigerator. Was $3299.99. Now $2999.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_h_h_gregg_acted_properly_in_discontinue_ad_2012_2ed929_2367; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_skechers_modify_broadcast_advertisin_2009_d3f069_2372_compliant
+  content: HyDee's the girl who knows what's cool in school, in her opinion.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_skechers_modify_broadcast_advertisin_2009_d3f069_2372; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_presence_of_baby_experts_in_prego_commerci_2017_9b7ce4_2376_compliant
+  content: We took lifelong pasta enthusiasts and gave one Prego Traditional and one Ragu Traditional. This is what happened in our taste test.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_presence_of_baby_experts_in_prego_commerci_2017_9b7ce4_2376; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_refers_claims_for_aubio_s_cold_sore_treatment_ge_2018_c98ea1_2405_compliant
+  content: Apply at the first sign of a cold sore for best results.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_refers_claims_for_aubio_s_cold_sore_treatment_ge_2018_c98ea1_2405; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_mattel_more_clearly_disclose_content_2010_75d6ca_2457_compliant
+  content: Oh no, Buzz and Woody are caught in the claw in Pizza Planet! (Toy story characters sold separately)
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_mattel_more_clearly_disclose_content_2010_75d6ca_2457; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_recommends_skechers_discontinue_claims_for_girl_2012_2d77bc_2524_compliant
+  content: everything a girl wants in a fun shoe!
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_recommends_skechers_discontinue_claims_for_girl_2012_2d77bc_2524; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_p_g_took_necessary_action_in_discontinuing_2013_387d61_2542_compliant
+  content: more effective than a mop and bucket for certain cleaning tasks.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_p_g_took_necessary_action_in_discontinuing_2013_387d61_2542; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_eli_nutrition_discontinue_certain_cha_2018_5634ba_2548_compliant
+  content: Ingredients like zinc, which has been shown in studies to be protective.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_eli_nutrition_discontinue_certain_cha_2018_5634ba_2548; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_fillerina_skincare_products_discontin_2020_cca78d_2621_compliant
+  content: Results may last up to 4 months with consistent use.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_fillerina_skincare_products_discontin_2020_cca78d_2621; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_sumo_logic_discontinues_express_implied_claims_chall_2014_cb462f_2644_compliant
+  content: Sumo Logic has assisted companies such as Salesforce.com, Autodesk, and Accenture with their data analytics needs.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_sumo_logic_discontinues_express_implied_claims_chall_2014_cb462f_2644; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_sumo_logic_discontinues_express_implied_claims_chall_2014_cb462f_2645_compliant
+  content: 'Machine Data Analytics: Sumo Logic vs. Splunk Comparison'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_sumo_logic_discontinues_express_implied_claims_chall_2014_cb462f_2645; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_t_mobile_discontinue_certain_claims_i_2015_ba6228_2667_compliant
+  content: up to $650 per phone with eligible trade-in and new line activation
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_t_mobile_discontinue_certain_claims_i_2015_ba6228_2667; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_finds_church_dwight_can_support_certain_claims_f_2017_c29cb4_2680_compliant
+  content: Dramatization reflects cleaning after 24 hours, results may vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_finds_church_dwight_can_support_certain_claims_f_2017_c29cb4_2680; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_examines_advertising_for_rexall_sundown_s_osteo__2007_e03399_2683_compliant
+  content: Osteo Bi-Flex Advanced Double Strength, referring to ingredient concentration per serving compared to standard Osteo Bi-Flex.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_examines_advertising_for_rexall_sundown_s_osteo__2007_e03399_2683; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_at_t_discontinue_implied_reliability__2019_d385f5_2695_compliant
+  content: Sorry guys, it went out again. (Depicts a common experience, not a claim about network reliability.)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_at_t_discontinue_implied_reliability__2019_d385f5_2695; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nad_novus_comparative_claims_2013_ed37b1_2699_compliant
+  content: TBCC performance is consistently similar to or worse than sulfates in certain conditions.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_novus_comparative_claims_2013_ed37b1_2699; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_novus_comparative_claims_2013_ed37b1_2700_compliant
+  content: Some of the studies MicroNutrients promotes are suspect. Others show poor performance of TBCC in specific applications.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_novus_comparative_claims_2013_ed37b1_2700; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_recommends_lutimax_nutraceuticals_discontinue_al_2014_c1d1e1_2723_compliant
+  content: Preclinical studies suggest that luteolin may possess pharmacological activities, including antioxidant, anti-inflammatory, antimicrobial, and anticancer activities, though further research is needed to confirm these effects in humans.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_lutimax_nutraceuticals_discontinue_al_2014_c1d1e1_2723; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_att_supplemental_coverage_space_2024_3bd5ec_2727_compliant
+  content: An Epic Bad Golf Day can happen, but our coverage helps.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_att_supplemental_coverage_space_2024_3bd5ec_2727; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_deel_payroll_hris_2024_53b711_2773_compliant
+  content: Network of 200+ local legal hiring experts around the world -- ? Yes, Rippling X No (based on publicly available information)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_deel_payroll_hris_2024_53b711_2773; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_tmobile_tvision_claims_2021_42d325_2785_compliant
+  content: only what you want from our available channel packages
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_tmobile_tvision_claims_2021_42d325_2785; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_butterball_all_natural_claims_2021_da87ba_2789_compliant
+  content: Embracing Sustainable Practices is a goal for every Butterball Grower
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_butterball_all_natural_claims_2021_da87ba_2789; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_fast_track_swift_cases_october_2021_e93e2c_2797_compliant
+  content: don't flop with our proven case management system
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_fast_track_swift_cases_october_2021_e93e2c_2797; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_shark_air_purifiers_2022_b8f8cf_2804_compliant
+  content: can leave behind smoke, carbon dust, virus carriers, and mold, if not properly filtered.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_shark_air_purifiers_2022_b8f8cf_2804; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_brave_data_sharing_2022_984bf5_2836_compliant
+  content: Shields much of what can destruct your privacy.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_brave_data_sharing_2022_984bf5_2836; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_zarbee_natural_brand_name_claims_2021_3bff14_2838_compliant
+  content: can help . . . close some nutritional gaps in your diet.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_zarbee_natural_brand_name_claims_2021_3bff14_2838; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_aao_claims_2021_badc79_2841_compliant
+  content: some things are best left to the professionals, like eye care.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_aao_claims_2021_badc79_2841; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_aao_claims_2021_badc79_2842_compliant
+  content: Happy Eyes Now and Happy Bones Now Advertisement. Individual results may vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_aao_claims_2021_badc79_2842; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_spectrum_mobile_pricing_disparaging_claims_2022_a5f372_2886_compliant
+  content: AT&T IS SELLING IT. CONSIDER YOUR OPTIONS.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_spectrum_mobile_pricing_disparaging_claims_2022_a5f372_2886; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_nuwave_oxypure_air_purifier_claims_2021_827d41_2899_compliant
+  content: Effectively reduces many common indoor air pollutants.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nuwave_oxypure_air_purifier_claims_2021_827d41_2899; technique: scope_narrowed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_goose_creek_2023_97e3f9_2923_compliant
+  content: Our candles offer a strong fragrance experience compared to some other store brands.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_goose_creek_2023_97e3f9_2923; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_air_methods_air_ambulance_transport_claims_2021_53101b_2945_compliant
+  content: Living shouldn't require a membership to access air ambulance transport.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_air_methods_air_ambulance_transport_claims_2021_53101b_2945; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_air_methods_air_ambulance_transport_claims_2021_53101b_2947_compliant
+  content: Patient care decisions should never be made on the basis of membership for air ambulance transport.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_air_methods_air_ambulance_transport_claims_2021_53101b_2947; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_shizhan_sun_2024_125984_2956_compliant
+  content: I haven't been employed in 2 years.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_shizhan_sun_2024_125984_2956; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_jjci_neutrogena_product_claims_2021_33b79a_2981_compliant
+  content: used most often for themselves and their own families by dermatologists surveyed.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_jjci_neutrogena_product_claims_2021_33b79a_2981; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_zarbees_cough_product_claims_2021_106d81_3001_compliant
+  content: Cough & Throat Relief + Mucus for occasional coughs.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_zarbees_cough_product_claims_2021_106d81_3001; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_zarbees_cough_product_claims_2021_106d81_3002_compliant
+  content: Complete Nighttime Cough Syrup + Immune support for occasional coughs.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_zarbees_cough_product_claims_2021_106d81_3002; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_spectrum_mobile_speed_boost_2023_977a6b_3026_compliant
+  content: Unlimited Data. Unlimited Talk & Text. Reliable Coverage. Nationwide 5G. Secure WiFi. Speed Boost on eligible plans.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_spectrum_mobile_speed_boost_2023_977a6b_3026; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_duckduckgo_privacy_claims_2022_502ff6_3028_compliant
+  content: a quick and easy step you can take to enhance your privacy online.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_duckduckgo_privacy_claims_2022_502ff6_3028; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_duckduckgo_privacy_claims_2022_502ff6_3029_compliant
+  content: many products from Google and Facebook.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_duckduckgo_privacy_claims_2022_502ff6_3029; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_comcast_xfinity_speed_claims_2022_b4a0a0_3039_compliant
+  content: Many people enjoy going fast.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_comcast_xfinity_speed_claims_2022_b4a0a0_3039; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_plxpharma_claims_2021_c01db0_3045_compliant
+  content: faster antiplatelet response than enteric coated aspirin, as shown in clinical trials.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_plxpharma_claims_2021_c01db0_3045; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_aso_2x_faster_2024_086055_3055_compliant
+  content: up to 2x faster for certain applications.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_aso_2x_faster_2024_086055_3055; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_march_fast_track_swift_cases_2022_67ef8b_3079_compliant
+  content: one of the biggest games of the year.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_march_fast_track_swift_cases_2022_67ef8b_3079; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_sharkninja_comparative_claims_2022_866a3f_3088_compliant
+  content: hair as well as its unique styling features
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_sharkninja_comparative_claims_2022_866a3f_3088; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_bestcompany_com_moderated_reviews_claim_2022_bcbcf3_3119_compliant
+  content: Our reviews are moderated to ensure fairness and are based on merit.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_bestcompany_com_moderated_reviews_claim_2022_bcbcf3_3119; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_coldest_water_material_connections_tiktok_2021_9bc493_3149_compliant
+  content: 'How Can I Promote the Coldest Water? (Disclosure: Affiliates may receive compensation for promotions.)'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_coldest_water_material_connections_tiktok_2021_9bc493_3149; technique: material_connection_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_kimberly_clark_huggies_2024_4879ef_3150_compliant
+  content: Curved and stretchy fit for comfort.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_kimberly_clark_huggies_2024_4879ef_3150; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_salonpas_pain_relief_claims_2021_408bcd_3157_compliant
+  content: Salonpas demonstrated improved range of motion in a company-sponsored study.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_salonpas_pain_relief_claims_2021_408bcd_3157; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_twilio_cdp_claim_2022_4c5efb_3170_compliant
+  content: IDC report on 2020 market share rankings for Customer Data Platforms is now available, showing Twilio as a leader.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_twilio_cdp_claim_2022_4c5efb_3170; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_verizon_americas_most_awarded_network_claim_2021_ac0135_3179_compliant
+  content: Everyone deserves a great network experience.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_verizon_americas_most_awarded_network_claim_2021_ac0135_3179; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_mint_mobile_unlimited_2023_b8aaba_3186_compliant
+  content: Many customers are finding better value with Mint Mobile.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_mint_mobile_unlimited_2023_b8aaba_3186; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_cox_internet_2023_ffb380_3188_compliant
+  content: Consider if your current internet provider meets your needs.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_cox_internet_2023_ffb380_3188; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_frontier_whole_home_wifi_2023_03a2eb_3206_compliant
+  content: 'Whole Home Wi-Fi Guarantee: terms and conditions apply.'
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_frontier_whole_home_wifi_2023_03a2eb_3206; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_google_fiber_superior_speed_2022_5b64ae_3228_compliant
+  content: faster in every direction compared to standard broadband connections.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_google_fiber_superior_speed_2022_5b64ae_3228; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_t_mobile_americas_most_reliable_5g_claims_2021_85287a_3235_compliant
+  content: America’s most reliable 5G network, based on independent third-party data.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_t_mobile_americas_most_reliable_5g_claims_2021_85287a_3235; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_nad_t_mobile_americas_most_reliable_5g_claims_2021_85287a_3236_compliant
+  content: Verizon’s strategy may involve reallocating bandwidth from their 4G network.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_t_mobile_americas_most_reliable_5g_claims_2021_85287a_3236; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_dr_squatch_no_harmful_ingredients_2023_43e74a_3239_compliant
+  content: I’m choosing to never go back to aluminum deodorant again!
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_dr_squatch_no_harmful_ingredients_2023_43e74a_3239; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_dr_squatch_no_harmful_ingredients_2023_43e74a_3240_compliant
+  content: Consider avoiding showers with neon goop that looks like a sports drink.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_dr_squatch_no_harmful_ingredients_2023_43e74a_3240; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_hismile_comparative_efficacy_2024_089a57_3242_compliant
+  content: You may not need all the features from the big boy brands, which can sometimes feel like a used car salesman trying to sell you features you don’t need.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_hismile_comparative_efficacy_2024_089a57_3242; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_one_health_certified_2023_e9814a_3247_compliant
+  content: Prompt treatment of sick animals is a recommended practice.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_one_health_certified_2023_e9814a_3247; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_one_health_certified_2023_e9814a_3248_compliant
+  content: Producers are encouraged to commit to the betterment of human, animal, and environmental health.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_one_health_certified_2023_e9814a_3248; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_shark_detect_pro_2024_a4394c_3273_compliant
+  content: Offers performance comparable to a full-sized Shark cordless stick for everyday messes.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_shark_detect_pro_2024_a4394c_3273; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_4patriots_long_term_survival_food_kits_2022_87d73f_3282_compliant
+  content: Real Survival Food Reviews, from Customers who purchased the product.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_4patriots_long_term_survival_food_kits_2022_87d73f_3282; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_pg_olay_ultra_moisture_bar_2015_39676f_3289_compliant
+  content: Avoid the bad habit of dry skin with Olay Ultra Moisture bar.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_pg_olay_ultra_moisture_bar_2015_39676f_3289; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_verizon_appeals_2023_9618f6_3295_compliant
+  content: If you experience connectivity issues, you may need a better network.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_verizon_appeals_2023_9618f6_3295; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_nanoceutical_claims_2021_8e278f_3310_compliant
+  content: Explore conditions that may be associated with low glutathione levels.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_nanoceutical_claims_2021_8e278f_3310; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nad_nanoceutical_claims_2021_8e278f_3312_compliant
+  content: Explore factors associated with low glutathione levels.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nad_nanoceutical_claims_2021_8e278f_3312; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_safe_catch_tuna_mercury_testing_claims_2021_8ddf06_3321_compliant
+  content: Why test every tuna for mercury levels?
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_safe_catch_tuna_mercury_testing_claims_2021_8ddf06_3321; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_spectrum_download_speeds_claim_2022_701543_3336_compliant
+  content: Our download speeds are designed to help you keep up with all of this.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_spectrum_download_speeds_claim_2022_701543_3336; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_xfinity_home_internet_2023_de75e3_3345_compliant
+  content: Everyone is online during the day, which can sometimes impact speeds.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_xfinity_home_internet_2023_de75e3_3345; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_xfinity_home_internet_2023_de75e3_3346_compliant
+  content: Well if you just switch, maybe you won’t have to be vampires.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_xfinity_home_internet_2023_de75e3_3346; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_dssrc_elomir_2023_556488_3361_compliant
+  content: Feeling emotional? Overwhelmed? Anxious? Foggy head? Feeling heavy? Our product may help.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_elomir_2023_556488_3361; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_dssrc_globallee_health_related_product_earnings_claims_2021_776b52_3366_compliant
+  content: Our program offers a Fast Track to Success for those who apply themselves. Individual results vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_globallee_health_related_product_earnings_claims_2021_776b52_3366; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_dssrc_tastefully_simple_earnings_claims_2022_151063_3380_compliant
+  content: What would you do with potential extra income each month? Individual results will vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_tastefully_simple_earnings_claims_2022_151063_3380; technique: typicality_disclosed; retained_trigger: False; synthetic'
+- id: harv_ev_dssrc_rootwellness_health_related_product_claims_2021_a48735_3397_compliant
+  content: ROOT Testimonial Tuesday -- Individuals share their experiences with ROOT products. Consult a healthcare professional for specific health concerns.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_rootwellness_health_related_product_claims_2021_a48735_3397; technique: qualification_added; retained_trigger: False; synthetic'
+- id: harv_ev_nad_narb_doterra_health_claims_2021_72ab1d_3420_compliant
+  content: Benefits for the . . . mind, as part of an aromatherapy practice.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_narb_doterra_health_claims_2021_72ab1d_3420; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_narb_air_methods_appeal_2022_6e1e76_3437_compliant
+  content: patients’ out-of-pocket expenses to an average of $200*, which includes copays and deductibles for in-network services.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_air_methods_appeal_2022_6e1e76_3437; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_narb_att_fiber_internet_service_appeal_2022_30de3f_3438_compliant
+  content: upload content out to the world with fast fiber internet speeds.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_att_fiber_internet_service_appeal_2022_30de3f_3438; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_narb_narb_smile_prep_2023_f23221_3439_compliant
+  content: extensive five-point analysis of each company’s effectiveness, affordability, convenience, appearance and customer support, based on publicly available information.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_narb_narb_smile_prep_2023_f23221_3439; technique: substantiation_cited; retained_trigger: True; synthetic'
+- id: harv_ev_caru_mcdonalds_happy_meal_2020_c341ec_3470_compliant
+  content: I am so excited to find out what’s in here! (Ask a parent before opening)
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_mcdonalds_happy_meal_2020_c341ec_3470; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_caru_club_libby_lu_2020_ddeee9_3475_compliant
+  content: Parents, you can forward to a friend.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_caru_club_libby_lu_2020_ddeee9_3475; technique: scope_narrowed; retained_trigger: True; synthetic'
+- id: harv_ev_caru_mattel_children_privacy_2020_fc5c0e_3483_compliant
+  content: I verify that I am 18 years old or have parental consent.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_mattel_children_privacy_2020_fc5c0e_3483; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_primark_gender_restrictive_2022_d2704d_3486_compliant
+  content: Grateful, humble and optimistic. (Available in a range of styles for all kids.)
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_primark_gender_restrictive_2022_d2704d_3486; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_nuorganic_cosmetics_2025_8661ce_3528_compliant
+  content: Visibly longer lashes with regular use of our cosmetic serum.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_nuorganic_cosmetics_2025_8661ce_3528; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_nad_olly_kids_chillax_2025_9eb76e_3529_compliant
+  content: Supports a calm mood in kids while helping them relax, as part of a healthy routine.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_olly_kids_chillax_2025_9eb76e_3529; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_total_wireless_2025_69bee3_3543_compliant
+  content: Total Wireless has your back with reliable service every day, in covered areas.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_total_wireless_2025_69bee3_3543; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_certified_beef_2025_213a0a_3545_compliant
+  content: Adheres to industry best practices in animal handling, animal care, and responsible antibiotic use.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_certified_beef_2025_213a0a_3545; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_dssrc_thrive_life_2_2025_653d79_3586_compliant
+  content: I’m in Cancun right now, this is actually the sixth trip that I’ve earned as a top performer. Individual results vary.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_thrive_life_2_2025_653d79_3586; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_dish_network_2025_058cbb_3603_compliant
+  content: I want to save up to 30 dollars a month on TV like many DISH customers who choose eligible packages.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_dish_network_2025_058cbb_3603; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_mrbeast_feastables_2025_1cce94_3605_compliant
+  content: Blue Wave $10K sweepstakes. No purchase necessary to enter or win.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_mrbeast_feastables_2025_1cce94_3605; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_att_guarantee_2025_f4de76_3611_compliant
+  content: If there's an issue with your service, we'll work to make it right within our service guarantee terms.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_att_guarantee_2025_f4de76_3611; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_guideline_arr_2025_8300bd_3613_compliant
+  content: nearly $140 million ARR in projected annual recurring revenue.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_guideline_arr_2025_8300bd_3613; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_galderma_2025_2d09d0_3616_compliant
+  content: Itch relief that can be significant for many users.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_galderma_2025_2d09d0_3616; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_plant_paper_2025_691132_3627_compliant
+  content: Plant Paper is not intended to diagnose, treat, cure, or prevent urinary tract infections, vulvar irritation, or hemorrhoids.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_plant_paper_2025_691132_3627; technique: claim_removed; retained_trigger: False; synthetic'
+- id: harv_ev_dssrc_mwr_life_2025_6f5221_3630_compliant
+  content: The opportunity for earning a great living exists, but individual results will vary. See our Income Disclosure Statement for details.
+  modality: text
+  label: compliant
+  category_ids:
+  - financial
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_dssrc_mwr_life_2025_6f5221_3630; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_rascals_referral_2025_64deb1_3633_compliant
+  content: Based on all reviews of Rascals diapers, training pants and wipes across websites globally, including incentivized and organic reviews. Incentivized reviews are clearly marked.
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_rascals_referral_2025_64deb1_3633; technique: disclosure_added; retained_trigger: True; synthetic'
+- id: harv_ev_caru_horizon_ai_2025_d0d818_3647_compliant
+  content: AI-Powered Smart Baby Monitor Solution. Always supervise your child directly.
+  modality: text
+  label: compliant
+  category_ids:
+  - minors
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_caru_horizon_ai_2025_d0d818_3647; technique: qualification_added; retained_trigger: True; synthetic'
+- id: harv_ev_nad_freshpet_2026_0a4722_3676_compliant
+  content: We eat fresh, real food as much as possible at home, so of course, we want the same for Benji. That’s why we give him Freshpet Fresh from the Kitchen Home Cooked Chicken Recipe. (Individual results may vary.)
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_freshpet_2026_0a4722_3676; technique: typicality_disclosed; retained_trigger: True; synthetic'
+- id: harv_ev_nad_viome_2026_217344_3677_compliant
+  content: One of the first at-home tests of its kind
+  modality: text
+  label: compliant
+  category_ids:
+  - misleading
+  violated_clause_ids: []
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'compliant minimal pair of harv_ev_nad_viome_2026_217344_3677; technique: qualification_added; retained_trigger: True; synthetic'

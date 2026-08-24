@@ -18,12 +18,12 @@ flowchart TB
   end
 
   subgraph policy["Policy layer"]
-    C["157 clauses · 11 categories"]
-    Ru["128 rules"]
+    C["172 clauses · 11 categories"]
+    Ru["137 rules"]
   end
 
   subgraph unify["Unification"]
-    CR["52 canonical rules"]
+    CR["54 canonical rules"]
     M["37 cross-source mappings"]
   end
 
@@ -75,10 +75,23 @@ benchmarks. Full detail: [`ONTOLOGY_MAP.md`](ONTOLOGY_MAP.md).
 | `corpus/regulators_au.yaml` | ACCC / ACL (AU) — Misleading starter |
 | `corpus/regulators_us.yaml` | FTC + FDA + SEC + FINRA + CFPB + HUD + EEOC + FEC + CCPA/CPRA + TTB (US) clauses + rules (Misleading + Health + Financial + Housing/Employment + Political + Minors/COPPA + Privacy + Alcohol/Tobacco) |
 | `mappings.yaml` | Cross-source links: equivalent clauses → one `canonical_id` |
-| `examples/eval_seed.yaml` | Labeled evaluation dataset — **570 synthetic seed** examples (30 misleading + 60 per vertical × 9) |
-| `examples/eval_precedents.yaml` | **44 real-world** eval rows derived from verified enforcement precedents (all `non_compliant`, `test` split) |
-| `examples/load_eval.py` | Loader merging seed + precedent eval files for validate/coverage |
+| `patterns/` | **Phase A hybrid packs** — hierarchical regex/terms/exceptions by `canonical_id` (US corpus mined) |
+| `patterns/by_category/*.yaml` | Pattern packs per category (54 canonical → 11 files) |
+| `tools/mine_pattern_candidates.py` | Regenerate pattern packs from full US corpus + eval |
+| `examples/eval/eval_seed.yaml` | Labeled evaluation dataset — **570 synthetic seed** examples (30 misleading + 60 per vertical × 9) |
+| `examples/eval/eval_precedents.yaml` | **44 real-world** eval rows derived from verified enforcement precedents (all `non_compliant`, `test` split) |
+| `examples/load_eval.py` | Loader: default seed + precedents from `examples/eval/`; see Evaluation examples below |
 | `tools/build_eval_precedents.py` | Regenerate `eval_precedents.yaml` from curated precedent list |
+| `examples/eval/eval_harvested.yaml` | Verbatim ad copy from enforcement PDFs / BBB (opt-in: `ZATAONE_EVAL_INCLUDE_HARVESTED=1`) |
+| `examples/eval/eval_compliant_pairs.yaml` | Lawful twins of harvested rows (loaded with harvested; keeps the set honest) |
+| `examples/harvest/` | Harvest/classify/quarantine working files — **not eval** |
+| `corpus/selfreg_us.yaml` | US advertising self-regulation — NAD, CARU, DSSRC clauses + rules |
+| `precedents/bbb_selfreg.yaml` | NAD / NARB / CARU / DSSRC decisions as precedents (generated, each source_url fetched) |
+| `tools/harvest_enforcement_ads.py` | Stage 1 — pull quoted ad copy out of precedent complaints / consent orders |
+| `tools/harvest_nad_decisions.py` | Stage 1 — same, from BBB National Programs decisions |
+| `tools/classify_harvest_candidates.py` | Stage 2 — Gemini triage: advertiser copy vs. the document's own legal prose |
+| `tools/promote_harvest.py` | Stage 3 — promote reviewed candidates into `eval_harvested.yaml` |
+| `tools/check_links.py` | Audit source-link health (dead / unreachable / bot-blocked / stale) |
 | `corpus_version.yaml` | Frozen, versioned corpus releases (Ad Corpus v0.1 … v0.11) |
 | `precedents/` | Phase 2 enforcement-precedent layer (Policy → Canonical Rule → Precedent → Evidence → Verdict) |
 | `policy_timeline.yaml` | Per-clause policy diff timeline: introduced / modified / deprecated + official change history |
@@ -386,6 +399,67 @@ Coverage dimensions: **domain** (category), **platform** (source), **jurisdictio
 Health sources: Meta Ad Standards (Health & Wellness, deceptive practices), Google
 Healthcare & Medicines, TikTok Healthcare & Pharmaceuticals, FTC Health Products
 Compliance Guidance, FDA prescription-drug advertising (21 CFR 202.1, "fair balance").
+
+## Evaluation examples
+
+Only `examples/eval/eval_*.yaml` is the eval set. `load_eval.py` is the loader.
+
+| File | Loaded when | What |
+|---|---|---|
+| `eval_seed.yaml` | default | 570 expert seed rows (includes borderline) |
+| `eval_precedents.yaml` | always | 44 expert rows from verified enforcement |
+| `eval_seed_clean.yaml` | `ZATAONE_EVAL_PROFILE=clean` | seed without borderline/stubs |
+| `eval_harvested.yaml` | `ZATAONE_EVAL_INCLUDE_HARVESTED=1` | 1,589 verbatim harvested violations |
+| `eval_compliant_pairs.yaml` | same flag | 1,159 lawful twins of those rows |
+
+Pair-eval (`ontology/tools/eval_matcher_pairs.py`) reads harvested + twins directly.
+
+`examples/harvest/` holds harvest candidates, Gemini triage, quarantine dumps, and audit CSVs. Those are cached pipeline outputs so a harvest can be re-run or junk reviewed; they are not ground truth and `validate.py` does not load them.
+
+## Enforcement-ad harvest (eval data pipeline)
+
+`eval_seed.yaml` is synthetic and `eval_precedents.yaml` is hand-written
+reconstructions, so both are written in *our* vocabulary rather than the vocabulary
+real advertisers use. The harvest pipeline closes that gap by lifting the advertiser's
+actual wording out of the complaints and consent orders the precedents already cite:
+
+```bash
+# 1. quote extraction (high recall) — federal/state enforcement PDFs, and BBB decisions
+python3.11 ontology/tools/harvest_enforcement_ads.py
+python3.11 ontology/tools/harvest_nad_decisions.py
+
+# 2. ad copy vs. the document's own prose
+GEMINI_API_KEY=... python3.11 ontology/tools/classify_harvest_candidates.py
+GEMINI_API_KEY=... python3.11 ontology/tools/classify_harvest_candidates.py \
+    --in  ontology/examples/harvest/nad_candidates.yaml \
+    --out ontology/examples/harvest/nad_curated.yaml \
+    --csv ontology/examples/harvest/nad_curated.csv
+
+# 3. tick keep? in harvest/harvest_curated.csv / harvest/nad_curated.csv, then merge both into the eval set
+python3.11 ontology/tools/promote_harvest.py
+```
+
+Each stage is separately cached, so re-running is cheap. Rows carry their source PDF
+and page in `note`, and `labeled_by` distinguishes `expert` (a human ticked keep?) from
+`model` (Gemini triage only, admitted via `--accept-llm`). The file is excluded from
+eval runs unless `ZATAONE_EVAL_INCLUDE_HARVESTED=1`, so unreviewed rows cannot quietly
+move benchmark numbers.
+
+Why it matters — recall by where the example came from, same engine throughout:
+
+| slice | rows | caught |
+|---|---|---|
+| synthetic seed + hand-written reconstructions | 234 | 74% |
+| verbatim federal/state enforcement copy | 183 | 43% |
+| verbatim BBB self-regulatory copy | 1,797 | 39% |
+
+Real ad copy is roughly half as detectable as the material the corpus used to be scored
+on, and the two independent verbatim sources agree closely — so that gap is a property
+of real advertising language, not of one harvest.
+
+Note the resulting class balance: 2,214 non-compliant against 190 compliant. Tuning for
+recall on that ratio will push the matcher to over-fire, and specificity is already the
+weakest number (0.268). Compliant counter-examples should land before matcher work.
 
 ## Corpus versioning
 

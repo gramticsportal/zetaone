@@ -3,7 +3,7 @@
 # reproducible and benchmarkable alongside the evaluation dataset. Bump the
 # version and add a release entry whenever a category is completed/changed.
 
-current_version: "Ad Corpus v0.11"
+current_version: "Ad Corpus v0.12"
 
 releases:
   - version: "Ad Corpus v0.1"
@@ -287,3 +287,32 @@ releases:
       introduced/modified events), benchmark suite (coverage.py + 21 retrieval
       tests), precedents expanded 6→24 across FTC/SEC/FDA/EEOC/HUD files. Ten
       US verticals remain frozen; deepen platforms/jurisdictions/precedents over time.
+
+  - version: "Ad Corpus v0.12"
+    date: 2026-08-19
+    status: frozen
+    categories: [misleading, health, financial, discrimination, political, minors, privacy, alcohol, drugs, gambling, ip_trademark]
+    sources:
+      - meta_ads_us, google_ads_us, tiktok_ads_us, linkedin_ads_us
+      - x_ads_us, amazon_ads_us, snapchat_ads_us, pinterest_ads_us, reddit_ads_us, microsoft_ads_us
+      - meta_ads_eu, google_ads_eu
+      - ftc_us, fda_us, sec_us, finra_us, cfpb_us, hud_us, eeoc_us, fec_us, ccpa_ca, ttb_us
+      - asa_uk, competition_bureau_ca, accc_au
+    enrichment:
+      clauses_added:
+        - ftc.misleading.green_general
+        - ftc.misleading.biodegradable
+        - ftc.misleading.recyclable
+        - ftc.misleading.made_in_usa
+      canonical_rules_added:
+        - misleading.environmental_benefit_claims
+        - misleading.origin_claims
+      policy_timeline_clauses: 161
+    eval_examples: 570
+    schema_version: "1.0.0"
+    note: >
+      Adds FTC Green Guides (general environmental benefit, biodegradable,
+      recyclable) and Made in USA Labeling Rule clauses, plus gated lexical
+      packs that cite them. Quotes taken from FTC business-guidance summaries;
+      no invented URLs. Matcher packs 52 → 54. MiniLM remains off the
+      deterministic path.

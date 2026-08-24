@@ -11,6 +11,8 @@ from typing import Any
 
 import yaml
 
+from zataone.policy_engine.predicates import PREDICATES
+
 logger = logging.getLogger(__name__)
 
 _SEVERITY_FLOAT = {"low": 0.2, "medium": 0.4, "high": 0.7, "critical": 1.0}
@@ -38,6 +40,18 @@ class PatternPack:
     # Qualifier classes that license this pack's triggers. Empty means absolute: no
     # disclaimer makes the conduct lawful, so a hit is never cleared.
     qualifier_classes: list[str] = field(default_factory=list)
+    # Why this pack cannot be licensed, when that was an explicit decision rather than an
+    # unwritten one. None on a pack with no qualifier classes means the gate is off by
+    # omission — see load_qualifiers, which warns about exactly that case.
+    absolute_reason: str | None = None
+    # Highest `priority` among the corpus rules behind this pack. The corpus scores
+    # regulators above platforms (95 for FTC/FDA/SEC, 54-72 for platform policy) so that a
+    # statutory finding outranks a platform guideline when both fire.
+    priority: int = 60
+    # Whether negating this pack's trigger exonerates. False for most packs: "no
+    # prescription needed" negates a safeguard and states the violation. See the
+    # negation_sensitive section of qualifiers.yaml.
+    negation_sensitive: bool = False
 
     @property
     def is_absolute(self) -> bool:
@@ -74,6 +88,112 @@ def resolve_patterns_root(ontology_root: Path | None = None) -> Path | None:
 
 
 @lru_cache(maxsize=8)
+def load_class_predicates(patterns_root: Path) -> tuple[dict[str, list[str]], dict[str, list[str]]]:
+    """Return (alternative, mandatory) predicate names per qualifier class.
+
+    `predicates:` widens a class — another way to satisfy it, for phrasings the patterns
+    do not cover. `requires_predicates:` narrows it — the class licenses nothing unless
+    these hold, which is what a rule about a value rather than a word needs. Reg Z is the
+    motivating case: the pattern `\\bapr\\b` happily clears "ask about our APR!", and the
+    regulation is about the rate being stated.
+    """
+    path = patterns_root / "qualifiers.yaml"
+    if not path.is_file():
+        return {}, {}
+    doc = yaml.safe_load(path.open(encoding="utf-8")) or {}
+    alternative: dict[str, list[str]] = {}
+    mandatory: dict[str, list[str]] = {}
+    for entry in doc.get("classes") or []:
+        cid = str(entry.get("id") or "")
+        if not cid:
+            continue
+        alts = entry.get("predicates") or ([entry["predicate"]] if entry.get("predicate") else [])
+        known_alts = [str(n) for n in alts if str(n) in PREDICATES]
+        if known_alts:
+            alternative[cid] = known_alts
+        reqs = [str(n) for n in (entry.get("requires_predicates") or []) if str(n) in PREDICATES]
+        if reqs:
+            mandatory[cid] = reqs
+    return alternative, mandatory
+
+
+@lru_cache(maxsize=8)
+def load_confidence_table(patterns_root: Path) -> dict[str, dict[str, float]]:
+    """Return canonical_id -> matcher -> measured confidence.
+
+    Written by ontology/tools/calibrate_pack_confidence.py from the dev split. Absent
+    entries fall back to the shipped constants, so a missing file changes nothing.
+    """
+    path = patterns_root / "confidence.yaml"
+    if not path.is_file():
+        return {}
+    doc = yaml.safe_load(path.open(encoding="utf-8")) or {}
+    out: dict[str, dict[str, float]] = {}
+    for cid, matchers in (doc.get("packs") or {}).items():
+        if not isinstance(matchers, dict):
+            continue
+        out[str(cid)] = {
+            str(m): float(v) for m, v in matchers.items() if isinstance(v, (int, float))
+        }
+    return out
+
+
+@lru_cache(maxsize=8)
+def load_negation_sensitive(patterns_root: Path) -> frozenset[str]:
+    """Canonical ids where a negated trigger should be cleared rather than reported."""
+    path = patterns_root / "qualifiers.yaml"
+    if not path.is_file():
+        return frozenset()
+    doc = yaml.safe_load(path.open(encoding="utf-8")) or {}
+    return frozenset(
+        str(entry.get("id"))
+        for entry in (doc.get("negation_sensitive") or [])
+        if entry.get("id")
+    )
+
+
+@lru_cache(maxsize=8)
+def load_rule_priorities(ontology_root: Path) -> dict[str, int]:
+    """Return corpus rule_id -> priority.
+
+    Priority already exists on all 137 corpus rules and was not reaching the matcher, so
+    a Meta guideline and an FTC statute produced indistinguishable violations.
+    """
+    corpus = ontology_root / "corpus"
+    if not corpus.is_dir():
+        return {}
+    out: dict[str, int] = {}
+    for path in sorted(corpus.glob("*.yaml")):
+        try:
+            doc = yaml.safe_load(path.open(encoding="utf-8")) or {}
+        except Exception:  # a malformed corpus file must not take the matcher down
+            logger.exception("pack_loader: could not read %s for priorities", path.name)
+            continue
+        for rule in doc.get("rules") or []:
+            rid = str(rule.get("id") or "")
+            pri = rule.get("priority")
+            if rid and isinstance(pri, int):
+                out[rid] = pri
+    return out
+
+
+@lru_cache(maxsize=8)
+def load_absolute_reasons(patterns_root: Path) -> dict[str, str]:
+    """Return canonical_id -> stated reason it cannot be licensed."""
+    path = patterns_root / "qualifiers.yaml"
+    if not path.is_file():
+        return {}
+    doc = yaml.safe_load(path.open(encoding="utf-8")) or {}
+    out: dict[str, str] = {}
+    for key in ("absolute", "unmodelled"):
+        for entry in doc.get(key) or []:
+            cid = str(entry.get("id") or "")
+            if cid:
+                out[cid] = str(entry.get("reason") or key)
+    return out
+
+
+@lru_cache(maxsize=8)
 def load_qualifiers(patterns_root: Path) -> tuple[dict[str, list[re.Pattern[str]]], dict[str, list[str]]]:
     """Return (class_id -> compiled patterns, pack canonical_id -> required class ids).
 
@@ -99,6 +219,13 @@ def load_qualifiers(patterns_root: Path) -> tuple[dict[str, list[re.Pattern[str]
                 logger.warning("qualifiers.yaml: bad pattern in %s: %s", cid, exc)
         compiled[cid] = pats
 
+    for entry in doc.get("classes") or []:
+        cid = str(entry.get("id") or "")
+        names = entry.get("predicates") or ([entry["predicate"]] if entry.get("predicate") else [])
+        for name in names:
+            if str(name) not in PREDICATES:
+                logger.warning("qualifiers.yaml: %s names unknown predicate %r", cid, name)
+
     requirements: dict[str, list[str]] = {}
     for pack_id, classes in (doc.get("pack_requirements") or {}).items():
         wanted = [str(c) for c in (classes or [])]
@@ -120,6 +247,10 @@ def load_pattern_packs(
         logger.warning("hybrid pack_loader: patterns/by_category not found")
         return {}
     _, requirements = load_qualifiers(root.parent)
+    absolute_reasons = load_absolute_reasons(root.parent)
+    # root is ontology/patterns/by_category; the corpus sits at ontology/corpus.
+    priorities = load_rule_priorities(root.parent.parent)
+    negation_sensitive = load_negation_sensitive(root.parent)
 
     packs: dict[str, PatternPack] = {}
     for path in sorted(root.glob("*.yaml")):
@@ -158,7 +289,27 @@ def load_pattern_packs(
                     str(x) for x in (raw.get("detection_summaries") or [])
                 ],
                 qualifier_classes=requirements.get(cid, []),
+                absolute_reason=absolute_reasons.get(cid),
+                priority=max(
+                    (priorities[r] for r in (raw.get("source_rule_ids") or []) if r in priorities),
+                    default=60,
+                ),
+                negation_sensitive=cid in negation_sensitive,
             )
+
+    # A pack with no qualifier classes and no stated reason has its gate off by omission.
+    # It will fire on every trigger it sees, with no way to be cleared, and nothing in the
+    # data says whether that was intended.
+    unclassified = sorted(
+        cid for cid, p in packs.items() if not p.qualifier_classes and not p.absolute_reason
+    )
+    if unclassified:
+        logger.warning(
+            "hybrid pack_loader: %d pack(s) neither licensed nor declared absolute: %s",
+            len(unclassified),
+            ", ".join(unclassified),
+        )
+
     logger.info("hybrid pack_loader: loaded %d packs from %s", len(packs), root)
     return packs
 

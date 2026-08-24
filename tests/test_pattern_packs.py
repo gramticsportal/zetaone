@@ -9,6 +9,7 @@ if str(src) not in sys.path:
     sys.path.insert(0, str(src))
 
 import pytest
+import yaml
 
 from zataone.policy_engine.corpus.pattern_packs import (
     augment_rules_with_packs,
@@ -99,5 +100,15 @@ def test_real_pack_files_load():
     if not (ONTOLOGY_ROOT / "patterns" / "by_category").is_dir():
         pytest.skip("ontology/patterns not present")
     packs = load_pattern_packs(ONTOLOGY_ROOT)
-    assert len(packs) == 52
+    # Count the approved packs on disk rather than hardcoding a total: this assertion was
+    # pinned at 52 and started failing the moment the Green Guides packs took it to 54,
+    # which tells you nothing about whether loading works.
+    on_disk = sum(
+        1
+        for path in (ONTOLOGY_ROOT / "patterns" / "by_category").glob("*.yaml")
+        for pack in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("packs") or []
+        if str(pack.get("review_status") or "").lower() in ("approved", "curated")
+    )
+    assert len(packs) == on_disk
+    assert on_disk >= 52
     assert all(p.get("category_id") for p in packs)

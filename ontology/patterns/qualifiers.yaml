@@ -145,6 +145,10 @@ classes:
 
   - id: credit_terms_disclosure
     description: TILA/Reg Z terms triggered by a credit trigger term.
+    # Reg Z requires the rate itself, so the words below only license a credit claim once
+    # a numeric APR is actually present. Without this, "ask about our low APR!" — an
+    # advertisement, not a disclosure — cleared the gate on the bare word.
+    requires_predicates: [apr_figure_present]
     patterns:
       - \bapr\b
       - \bannual percentage rate\b
@@ -212,6 +216,9 @@ classes:
 
   - id: age_gating
     description: Age restriction stated or verification required.
+    # Widens the class: the patterns below only know the literals 21 and 18, so phrasings
+    # like "25 years or older" were missed. The predicate reads whatever age is stated.
+    predicates: [age_gate_18]
     patterns:
       - \b(?:21|18)\s?\+\b
       - \bmust be (?:at least )?(?:21|18|of legal)\b
@@ -331,3 +338,90 @@ pack_requirements:
   atc.alcohol_age_and_location_targeting_required: [age_gating]
   atc.alcohol_mandatory_and_prohibited_statements: [responsible_drinking, age_gating]
   atc.cbd_restricted_with_certification: [licensing, structure_function_disclaimer]
+
+# Packs that are absolute by decision, each with the reason it cannot be licensed.
+#
+# Absoluteness used to be inferred from absence — a pack missing from pack_requirements
+# was treated as absolute, which made "prohibited outright" and "nobody has written the
+# classes yet" the same state. They are not the same: the first is a legal finding, the
+# second is unfinished work that silently suppresses the gate. Listing them here separates
+# the two, and pack_loader warns about any pack in neither list.
+absolute:
+  - id: discrimination.discriminatory_ad_content_prohibited
+    reason: Excluding a protected class is unlawful under the FHA and Title VII; no disclosure cures it.
+  - id: discrimination.restricted_targeting_protected_class
+    reason: Restricted-category targeting is barred outright, not disclosable.
+  - id: atc.recreational_drugs_and_thc_prohibited
+    reason: Prohibited product category on every platform in scope.
+  - id: atc.tobacco_and_nicotine_ads_prohibited
+    reason: Prohibited product category; a warning label does not make the ad permitted.
+  - id: finance.prohibited_predatory_products
+    reason: Prohibited product category (payday, binary options, and similar).
+  - id: gambling.no_minors_targeting
+    reason: Targeting minors is prohibited; a responsible-gambling notice does not license it.
+  - id: health.disease_cure_treatment_claims
+    reason: >-
+      No disclaimer makes "cures cancer" lawful. Authorised drugs are handled by the pack's
+      exception terms (approved regulatory authorisation), not by a disclosure qualifier.
+  - id: health.health_privacy_sensitive_attributes
+    reason: Asserting a reader's health condition is prohibited regardless of disclosure.
+  - id: health.unapproved_or_dangerous_products
+    reason: Approval status is an exception, not something an advertiser can disclose their way past.
+  - id: ip.counterfeit_goods_prohibited
+    reason: Counterfeit goods are unlawful; disclosing the imitation does not cure it.
+  - id: ip.third_party_ip_infringement_prohibited
+    reason: Infringement is not licensed by acknowledging the rights holder.
+  - id: ip.unauthorized_copyrighted_works_prohibited
+    reason: Distributing unauthorised copies is unlawful outright.
+  - id: minors.age_restricted_products_not_shown_to_minors
+    reason: Serving age-restricted products to minors is prohibited, not disclosable.
+  - id: minors.child_directed_content_ad_restrictions
+    reason: Restrictions on child-directed inventory apply regardless of ad copy.
+  - id: political.paid_political_ads_prohibited
+    reason: TikTok and LinkedIn ban paid political advertising outright; a disclaimer changes nothing.
+  - id: privacy.sensitive_attribute_targeting_prohibited
+    reason: Targeting on sensitive attributes is barred; a privacy notice does not license it.
+  - id: misleading.clickbait_or_fake_ui
+    reason: Simulated interface elements deceive on sight; no adjacent text repairs them.
+
+# Packs where negating the trigger actually exonerates the advertiser.
+#
+# Off for every other pack, and that default is the whole point. Negation detection was
+# first applied globally, on the clinical NegEx assumption that a negated finding is an
+# absent finding. That assumption does not survive advertising law. Measured on the test
+# split, blanket negation suppressed nine real violations to rescue two false positives:
+#
+#   "no prescription needed"           the negation IS the offence
+#   "No risks or side effects"         the negation IS the false claim
+#   "We do not rent to families..."    the negation IS the discrimination
+#   "can't tell it from the genuine"   the negation IS the counterfeit claim
+#
+# In medicine "no fever" means the patient is well. In advertising "no prescription
+# required" means the advertiser is selling prescription drugs without one. Negation is
+# only exonerating where the trigger is a *claim of benefit* — saying a product does not
+# cure cancer is not a cure claim. Where the trigger is a safeguard, a requirement or an
+# act, negating it states the violation rather than withdrawing it.
+negation_sensitive:
+  - id: misleading.exaggerated_results
+    reason: Trigger asserts a result; denying the result is not the claim.
+  - id: misleading.guaranteed_outcomes
+    reason: Trigger asserts a guarantee; "we cannot guarantee" withdraws it.
+  - id: misleading.unsubstantiated_objective_claims
+    reason: Trigger asserts an objective fact; denial is not an assertion.
+  - id: misleading.before_after_distortion
+    reason: Trigger asserts a transformation; denial is not a depiction.
+  - id: health.disease_cure_treatment_claims
+    reason: >-
+      Trigger asserts treatment of a disease. "Not intended to cure any disease" is the
+      FDCA-required disclaimer, the opposite of the prohibited claim.
+  - id: health.unsubstantiated_health_claims
+    reason: Trigger asserts a health benefit; denial makes no benefit claim.
+
+# Packs that need a mechanism this layer does not have. Still absolute at runtime, but
+# recorded here so the gap is visible rather than looking like a settled decision.
+unmodelled:
+  - id: atc.tobacco_advertising_format_restrictions
+    reason: >-
+      21 CFR 1140.32 constrains presentation — black text on white, audio words only,
+      static video text. These are format properties, not vocabulary, so lexical matching
+      cannot express the rule and never fires it correctly. Needs a structural check.

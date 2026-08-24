@@ -85,7 +85,7 @@ def dump_file(path: Path, header: str, precedents: list[dict]) -> None:
             if ev.get("section"):
                 lines.append(f'        section: "{ev["section"]}"')
         lines.append("")
-    path.write_text("\n".join(lines).rstrip() + "\n")
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
 FTC_PHASE3 = [
@@ -819,7 +819,7 @@ PLATFORMS_PHASE3 = [
 def verify_clauses(precedents: list[dict]) -> None:
     clause_ids = set()
     for path in (ROOT / "corpus").glob("*.yaml"):
-        doc = yaml.safe_load(path.read_text()) or {}
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         for c in doc.get("clauses", []) or []:
             clause_ids.add(c["id"])
     for p in precedents:
@@ -830,7 +830,7 @@ def verify_clauses(precedents: list[dict]) -> None:
 
 def merge_precedents(path: Path, new_entries: list[dict]) -> list[dict]:
     if path.exists():
-        doc = yaml.safe_load(path.read_text()) or {}
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         existing = doc.get("precedents", []) or []
     else:
         existing = []

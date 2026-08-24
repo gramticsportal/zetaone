@@ -36,7 +36,8 @@ JUNK_LABELS = {"fragment", "not_a_claim"}
 
 def dump(path: Path, examples: list[dict], preamble: str) -> None:
     path.write_text(
-        preamble + yaml.safe_dump({"examples": examples}, sort_keys=False, allow_unicode=True, width=1000)
+        preamble + yaml.safe_dump({"examples": examples}, sort_keys=False, allow_unicode=True, width=1000),
+        encoding="utf-8",
     )
 
 
@@ -54,11 +55,11 @@ def main() -> int:
         print("audit has no fragment/not_a_claim rows; nothing to do")
         return 0
 
-    harvested = yaml.safe_load((EVAL / "eval_harvested.yaml").read_text())["examples"]
+    harvested = yaml.safe_load((EVAL / "eval_harvested.yaml").read_text(encoding="utf-8"))["examples"]
     keep_h = [e for e in harvested if e["id"] not in junk_ids]
     drop_h = [e for e in harvested if e["id"] in junk_ids]
 
-    pairs = yaml.safe_load((EVAL / "eval_compliant_pairs.yaml").read_text())["examples"]
+    pairs = yaml.safe_load((EVAL / "eval_compliant_pairs.yaml").read_text(encoding="utf-8"))["examples"]
     keep_p, drop_p = [], []
     for e in pairs:
         source = e["id"].removesuffix("_compliant")

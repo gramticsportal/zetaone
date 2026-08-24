@@ -91,7 +91,7 @@ def _host(url: str) -> str:
 
 def _load(path: Path) -> dict:
     try:
-        return yaml.safe_load(path.read_text()) or {}
+        return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     except yaml.YAMLError as exc:  # pragma: no cover - surfaced to the operator
         raise SystemExit(f"{path.name}: YAML parse error: {exc}") from exc
 
@@ -233,7 +233,8 @@ def main() -> int:
                 },
                 indent=2,
                 default=str,
-            )
+            ),
+            encoding="utf-8",
         )
         print(f"\nwrote {args.json}")
 

@@ -265,7 +265,7 @@ def load_precedents() -> dict[str, dict]:
     for path in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.yaml"))):
         if os.path.basename(path) == "README.md":
             continue
-        doc = yaml.safe_load(open(path)) or {}
+        doc = yaml.safe_load(open(path, encoding="utf-8")) or {}
         for p in doc.get("precedents", []) or []:
             pid = p.get("precedent_id")
             if pid:
@@ -317,7 +317,7 @@ def main() -> int:
         f"# Total: {len(examples)} examples (all non_compliant, all test split)\n"
     )
     body = yaml.dump(doc, sort_keys=False, allow_unicode=True, width=1000)
-    with open(out_path, "w") as f:
+    with open(out_path, "w", encoding="utf-8") as f:
         f.write(preamble + "\n" + body)
 
     print(f"Wrote {len(examples)} examples to {out_path}")

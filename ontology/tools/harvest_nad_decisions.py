@@ -157,8 +157,8 @@ def load_index(refresh: bool) -> list[dict]:
         body = fetch(INDEX_URL, timeout=120)
         if not body:
             raise SystemExit("could not fetch the decision index")
-        path.write_text(body)
-    return json.loads(path.read_text())["documents"]
+        path.write_text(body, encoding="utf-8")
+    return json.loads(path.read_text(encoding="utf-8"))["documents"]
 
 
 def program_of(doc: dict) -> str | None:
@@ -250,7 +250,7 @@ def main() -> int:
         cached = PAGES / f"{slug}.html"
 
         if cached.exists():
-            page = cached.read_text()
+            page = cached.read_text(encoding="utf-8")
             stats["cached"] += 1
         else:
             page = fetch(url) or ""
@@ -258,7 +258,7 @@ def main() -> int:
             if not page:
                 stats["failed"] += 1
                 continue
-            cached.write_text(page)
+            cached.write_text(page, encoding="utf-8")
             stats["fetched"] += 1
 
         title = re.sub(r"\s+", " ", html.unescape(TAG_RE.sub("", doc["title"]))).strip()
@@ -338,9 +338,10 @@ def main() -> int:
             print(f"  {index}/{len(docs)} processed, {len(candidates)} candidates", flush=True)
 
     Path(args.out_candidates).write_text(
-        yaml.safe_dump({"candidates": candidates}, sort_keys=False, allow_unicode=True, width=100)
+        yaml.safe_dump({"candidates": candidates}, sort_keys=False, allow_unicode=True, width=100),
+        encoding="utf-8",
     )
-    with open(args.out_csv, "w", newline="") as fh:
+    with open(args.out_csv, "w", newline="", encoding="utf-8") as fh:
         writer = csv.writer(fh)
         writer.writerow(["candidate_id", "content", "precedent_id", "canonical_ids", "document_url"])
         for row in candidates:
@@ -359,7 +360,8 @@ def main() -> int:
         f"# Total: {len(precedents)} precedents\n\n"
     )
     Path(args.out_precedents).write_text(
-        preamble + yaml.safe_dump({"precedents": precedents}, sort_keys=False, allow_unicode=True, width=1000)
+        preamble + yaml.safe_dump({"precedents": precedents}, sort_keys=False, allow_unicode=True, width=1000),
+        encoding="utf-8",
     )
 
     print("\n" + "  ".join(f"{k}={v}" for k, v in stats.items()))

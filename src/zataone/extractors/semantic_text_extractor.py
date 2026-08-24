@@ -112,7 +112,7 @@ def load_harvest_exemplars(
     path = harvest_path or _harvest_path()
     skip = exclude_ids or set()
     if path and path.is_file():
-        rows = (yaml.safe_load(path.read_text()) or {}).get("examples") or []
+        rows = (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("examples") or []
         for row in rows:
             if row.get("id") in skip:
                 continue

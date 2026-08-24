@@ -139,10 +139,10 @@ def run_batch(batch: list[dict], model: str, key: str) -> dict[str, dict]:
     CACHE.mkdir(parents=True, exist_ok=True)
     cached = CACHE / (hashlib.sha256((model + prompt).encode()).hexdigest()[:24] + ".json")
     if cached.exists():
-        out = json.loads(cached.read_text())
+        out = json.loads(cached.read_text(encoding="utf-8"))
     else:
         out = gemini_json(prompt, model, key)
-        cached.write_text(json.dumps(out))
+        cached.write_text(json.dumps(out), encoding="utf-8")
     return {r["id"]: r for r in out if isinstance(r, dict) and r.get("id")}
 
 
@@ -162,7 +162,7 @@ def main() -> int:
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
     packs = list(load_pattern_packs().values())
-    rows = yaml.safe_load((ONTOLOGY / "examples" / "eval" / "eval_harvested.yaml").read_text())["examples"]
+    rows = yaml.safe_load((ONTOLOGY / "examples" / "eval" / "eval_harvested.yaml").read_text(encoding="utf-8"))["examples"]
 
     def fires(text: str) -> bool:
         return any(match_lexical(text, p, drop_licensed=False) for p in packs)
@@ -186,7 +186,7 @@ def main() -> int:
 
     counts: Counter[str] = Counter()
     by_outcome: dict[str, Counter[str]] = {"fires": Counter(), "misses": Counter()}
-    with open(args.out, "w", newline="") as fh:
+    with open(args.out, "w", newline="", encoding="utf-8") as fh:
         writer = csv.writer(fh)
         writer.writerow(["id", "label", "matcher", "reason", "content"])
         for row in sample:

@@ -162,10 +162,10 @@ def run_batch(batch: list[dict], model: str, key: str) -> dict[str, dict]:
     CACHE.mkdir(parents=True, exist_ok=True)
     cached = CACHE / (hashlib.sha256((model + prompt).encode()).hexdigest()[:24] + ".json")
     if cached.exists():
-        out = json.loads(cached.read_text())
+        out = json.loads(cached.read_text(encoding="utf-8"))
     else:
         out = gemini_json(prompt, model, key)
-        cached.write_text(json.dumps(out))
+        cached.write_text(json.dumps(out), encoding="utf-8")
     return {r["id"]: r for r in out if isinstance(r, dict) and r.get("id")}
 
 
@@ -180,7 +180,7 @@ def existing_content() -> set[str]:
         path = EVAL / name
         if not path.exists():
             continue
-        for ex in (yaml.safe_load(path.read_text()) or {}).get("examples", []) or []:
+        for ex in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("examples", []) or []:
             if ex.get("content"):
                 seen.add(normalize(ex["content"]))
     return seen
@@ -210,7 +210,7 @@ def main() -> int:
         return 2
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
-    source_rows = yaml.safe_load(Path(args.source).read_text())["examples"]
+    source_rows = yaml.safe_load(Path(args.source).read_text(encoding="utf-8"))["examples"]
 
     per_precedent: dict[str, int] = defaultdict(int)
     selected: list[dict] = []
@@ -302,7 +302,8 @@ def main() -> int:
         f"# Total: {len(examples)} pairs, {retained} keeping the original's trigger wording\n\n"
     )
     Path(args.out).write_text(
-        preamble + yaml.safe_dump({"examples": examples}, sort_keys=False, allow_unicode=True, width=1000)
+        preamble + yaml.safe_dump({"examples": examples}, sort_keys=False, allow_unicode=True, width=1000),
+        encoding="utf-8",
     )
 
     print(f"\ngenerated: {len(examples)}")

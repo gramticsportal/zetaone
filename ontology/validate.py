@@ -47,7 +47,9 @@ def warn(msg: str) -> None:
 
 
 def load(path: str):
-    with open(path) as f:
+    # Explicit encoding: corpus quotes carry curly quotes, en dashes and section
+    # signs, which the Windows default (cp1252) cannot decode.
+    with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 

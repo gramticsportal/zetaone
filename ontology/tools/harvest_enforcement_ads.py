@@ -296,7 +296,7 @@ def pdf_pages(blob: bytes) -> list[str]:
 def load_precedents() -> list[dict]:
     out = []
     for path in sorted(PRECEDENTS.glob("*.yaml")):
-        doc = yaml.safe_load(path.read_text()) or {}
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         for prec in doc.get("precedents") or []:
             prec["_file"] = path.name
             out.append(prec)
@@ -414,12 +414,13 @@ def main() -> int:
             allow_unicode=True,
             width=100,
             default_flow_style=False,
-        )
+        ),
+        encoding="utf-8",
     )
 
     import csv as csv_mod
 
-    with open(args.csv, "w", newline="") as fh:
+    with open(args.csv, "w", newline="", encoding="utf-8") as fh:
         writer = csv_mod.writer(fh)
         writer.writerow(["candidate_id", "content", "precedent_id", "canonical_ids", "document_page", "document_url", "keep?"])
         for row in rows:

@@ -83,7 +83,7 @@ def dump_file(path: Path, header: str, precedents: list[dict]) -> None:
             if ev.get("section"):
                 lines.append(f"        section: \"{ev['section']}\"")
         lines.append("")
-    path.write_text("\n".join(lines).rstrip() + "\n")
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
 FTC_EXPANSION = [
@@ -825,7 +825,7 @@ def verify_clauses(precedents: list[dict]) -> None:
     import yaml
     clause_ids = set()
     for path in (ROOT / "corpus").glob("*.yaml"):
-        doc = yaml.safe_load(path.read_text()) or {}
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         for c in doc.get("clauses", []) or []:
             clause_ids.add(c["id"])
     for p in precedents:

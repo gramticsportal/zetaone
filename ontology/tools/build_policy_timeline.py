@@ -22,7 +22,7 @@ OUT_PATH = os.path.join(ROOT, "policy_timeline.yaml")
 
 
 def load(path: str):
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
@@ -131,7 +131,7 @@ def main() -> None:
         "generated_at": today,
         "timeline": timeline,
     }
-    with open(OUT_PATH, "w") as f:
+    with open(OUT_PATH, "w", encoding="utf-8") as f:
         yaml.dump(doc, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
     print(f"Wrote {len(timeline)} clause timelines -> {OUT_PATH}")
 

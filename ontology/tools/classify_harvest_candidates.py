@@ -137,10 +137,10 @@ def classify_batch(batch: list[dict], model: str, key: str) -> dict[str, dict]:
     CACHE.mkdir(parents=True, exist_ok=True)
     cached = CACHE / (hashlib.sha256((model + prompt).encode()).hexdigest()[:24] + ".json")
     if cached.exists():
-        verdicts = json.loads(cached.read_text())
+        verdicts = json.loads(cached.read_text(encoding="utf-8"))
     else:
         verdicts = gemini_json(prompt, model, key)
-        cached.write_text(json.dumps(verdicts))
+        cached.write_text(json.dumps(verdicts), encoding="utf-8")
     return {v["id"]: v for v in verdicts if isinstance(v, dict) and "id" in v}
 
 
@@ -160,7 +160,7 @@ def main() -> int:
         return 2
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
-    rows = yaml.safe_load(Path(args.infile).read_text())["candidates"]
+    rows = yaml.safe_load(Path(args.infile).read_text(encoding="utf-8"))["candidates"]
     if args.limit:
         rows = rows[: args.limit]
     batches = [rows[i : i + args.batch_size] for i in range(0, len(rows), args.batch_size)]
@@ -192,12 +192,13 @@ def main() -> int:
     Path(args.out).write_text(
         yaml.safe_dump(
             {"candidates": rows}, sort_keys=False, allow_unicode=True, width=100, default_flow_style=False
-        )
+        ),
+        encoding="utf-8",
     )
 
     import csv as csv_mod
 
-    with open(args.csv, "w", newline="") as fh:
+    with open(args.csv, "w", newline="", encoding="utf-8") as fh:
         writer = csv_mod.writer(fh)
         writer.writerow(
             ["candidate_id", "content", "llm_label", "supports_violation", "precedent_id",

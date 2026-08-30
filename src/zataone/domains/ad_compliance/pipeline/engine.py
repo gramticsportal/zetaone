@@ -36,7 +36,9 @@ def _load_yaml(rel_path: str) -> dict:
     """Load YAML file relative to ad_compliance domain root."""
     domain_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     path = os.path.join(domain_root, rel_path)
-    with open(path, "r") as f:
+    # Policy packs quote official sources verbatim — curly quotes, en dashes, section
+    # signs — which the Windows default encoding (cp1252) cannot decode.
+    with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 

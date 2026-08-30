@@ -25,9 +25,9 @@ Structured ad-compliance knowledge base: every **platform** (Meta, Google, TikTo
 
 ```mermaid
 flowchart TB
-  subgraph sources["25 sources"]
+  subgraph sources["28 sources"]
     P["12 ad platforms<br/>Meta · Google · TikTok · …"]
-    R["13 regulators<br/>FTC · FDA · SEC · …"]
+    R["16 regulators &amp; self-reg<br/>FTC · FDA · SEC · NAD · …"]
   end
 
   subgraph policy["Policy layer"]
@@ -40,9 +40,9 @@ flowchart TB
     M["37 cross-source mappings"]
   end
 
-  subgraph learn["Learning & proof"]
-    E["614 eval examples<br/>570 seed + 44 precedent"]
-    PR["128 verified precedents"]
+  subgraph learn["Learning &amp; proof"]
+    E["3,742 eval rows<br/>614 expert · 2,748 harvested<br/>split by source case"]
+    PR["1,588 verified precedents"]
   end
 
   subgraph check["Quality"]
@@ -64,6 +64,10 @@ flowchart TB
 **Flow:** policies → clauses & rules → canonical rules → mappings, evals, precedents → validation & benchmarks.
 
 Current release: **Ad Corpus v0.12** (includes FTC Green Guides and Made-in-USA). Live matcher uses the **54 approved pattern packs** in `ontology/patterns/by_category/` plus the US policy pack from `ontology/corpus/*_us.yaml`. Harvest dumps under `ontology/examples/harvest/` are not eval and are not loaded at runtime.
+
+**Eval splits.** The harvested rows are split train/dev/test by **source enforcement action**, so a violation and its compliant minimal pair can never straddle the boundary — see [`ontology/examples/eval/README.md`](ontology/examples/eval/README.md). Mining reads `train` only; `test` is reporting-only. Loading defaults to the 614 expert-labelled rows; set `ZATAONE_EVAL_INCLUDE_HARVESTED=1` for the full 3,742 and `ZATAONE_EVAL_SPLITS=train,dev` to select splits.
+
+> **Reading the numbers below.** The packs were mined and curated before splits existed, so figures measured on `test` are a baseline, not yet a clean holdout. They become clean once the packs are re-mined on `train` (`python ontology/tools/mine_pattern_candidates.py`, which now withholds `test` by construction).
 
 Docs: [`ontology/README.md`](ontology/README.md) · full architecture map [`ontology/ONTOLOGY_MAP.md`](ontology/ONTOLOGY_MAP.md)
 
@@ -294,6 +298,8 @@ Recent work extends the deterministic core without changing the verdict contract
 |----------|---------|---------|
 | `ZATAONE_HYBRID_ENGINE` | Pattern-pack lexical engine (replaces legacy PolicyEngine when on) | `true` |
 | `ZATAONE_HYBRID_NLP` | Embedding NLP scorer (BoW/MiniLM/…) | `false` |
+| `ZATAONE_HYBRID_MIN_CONFIDENCE` | Drop lexical hits below this measured confidence (0 = off) | `0` |
+| `ZATAONE_SEMANTIC_CLASSIFIER` | Learned tier as a sensor — recommends human review where no pack matched; never raises a violation | `false` |
 | `ZATAONE_HYBRID_ALL_PACKS` | Score all approved packs (no shortlist) | `true` |
 | `ZATAONE_ENABLE_OCR` | Local Tesseract OCR | `false` |
 | `ZATAONE_ENABLE_VISION` | Local Grounding DINO (`modality/vision.py` must export `GROUNDING_DINO_AVAILABLE`) | `false` |

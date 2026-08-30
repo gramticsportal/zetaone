@@ -133,7 +133,7 @@ def main() -> int:
     for path in sorted(PREC.glob("*.yaml")):
         if path.name not in SEED_FILES:
             continue
-        doc = yaml.safe_load(path.read_text()) or {}
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         changed = False
         for p in doc.get("precedents", []) or []:
             pid = p["precedent_id"]
@@ -161,7 +161,7 @@ def main() -> int:
                 changed = True
             updated += int(changed)
         if changed:
-            path.write_text(yaml.dump(doc, sort_keys=False, allow_unicode=True, width=1000))
+            path.write_text(yaml.dump(doc, sort_keys=False, allow_unicode=True, width=1000), encoding="utf-8")
     print(f"Backfilled metadata on seed precedents ({updated} field updates across files)")
     return 0
 

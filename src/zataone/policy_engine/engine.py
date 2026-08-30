@@ -211,10 +211,10 @@ class PolicyEngine:
             if matched:
                 vision_triggered_rules[rule_id] = matched
 
-        vision_primary_rule_ids = {
-            r for r, rule in self._iter_rules_filtered(active_rule_ids) if rule.get("vision_primary_labels")
-        }
-        ocr_triggered_ids = set(rule_matches.keys()) - vision_primary_rule_ids
+        # vision_primary_labels adds an image trigger path for a rule; it must
+        # not suppress deterministic text matches (most corpus rules carry
+        # labels, so subtracting them here would disable the text path).
+        ocr_triggered_ids = set(rule_matches.keys())
         all_violation_rule_ids = ocr_triggered_ids | set(vision_triggered_rules.keys())
 
         violations: list[ViolationSchema] = []

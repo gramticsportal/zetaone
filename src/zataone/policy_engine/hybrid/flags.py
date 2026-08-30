@@ -64,6 +64,30 @@ def hybrid_retrieval_top_k() -> int:
         return 32
 
 
+def semantic_classifier_enabled() -> bool:
+    """Run the learned tier as a sensor alongside the lexical packs.
+
+    Off by default. When on it never raises a violation — it recommends human review for
+    copy the packs had no rule for. On the held-out split that recovers 86% of the
+    violations tier 1 misses, at the cost of flagging 38% of the clean copy tier 1 cleared,
+    so it buys recall with reviewer time and the trade should be a deployment decision.
+    """
+    return _env_bool("ZATAONE_SEMANTIC_CLASSIFIER", default=False)
+
+
+def hybrid_min_confidence() -> float:
+    """Drop lexical hits whose measured confidence is below this.
+
+    Off (0.0) by default: the shipped constants were uniform, so a threshold over them
+    would have been arbitrary. It becomes meaningful once confidence.yaml is present,
+    because then the number is measured per pack and matcher on the dev split.
+    """
+    try:
+        return max(0.0, min(1.0, float(os.environ.get("ZATAONE_HYBRID_MIN_CONFIDENCE", "0"))))
+    except ValueError:
+        return 0.0
+
+
 def hybrid_nlp_threshold() -> float:
     try:
         return float(os.environ.get("ZATAONE_HYBRID_NLP_THRESHOLD", "0.55"))

@@ -55,20 +55,20 @@ def normalize(text: str) -> str:
 def load_ontology() -> tuple[set[str], set[str], dict[str, dict]]:
     clause_ids: set[str] = set()
     for path in glob.glob(str(ONTOLOGY / "corpus" / "*.yaml")):
-        doc = yaml.safe_load(Path(path).read_text()) or {}
+        doc = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
         for clause in doc.get("clauses", []) or []:
             if clause.get("id"):
                 clause_ids.add(clause["id"])
 
     categories: set[str] = set()
-    cat_doc = yaml.safe_load((ONTOLOGY / "categories.yaml").read_text()) or {}
+    cat_doc = yaml.safe_load((ONTOLOGY / "categories.yaml").read_text(encoding="utf-8")) or {}
     for cat in cat_doc.get("categories", []) or []:
         if cat.get("id"):
             categories.add(cat["id"])
 
     precedents: dict[str, dict] = {}
     for path in glob.glob(str(ONTOLOGY / "precedents" / "*.yaml")):
-        doc = yaml.safe_load(Path(path).read_text()) or {}
+        doc = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
         for prec in doc.get("precedents", []) or []:
             if prec.get("precedent_id"):
                 precedents[prec["precedent_id"]] = prec
@@ -81,7 +81,7 @@ def load_existing_content() -> set[str]:
         path = EVAL / name
         if not path.exists():
             continue
-        doc = yaml.safe_load(path.read_text()) or {}
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         for ex in doc.get("examples", []) or []:
             if ex.get("content"):
                 seen.add(normalize(ex["content"]))
@@ -94,7 +94,7 @@ def read_decisions(path: Path) -> tuple[set[str], set[str]]:
     rejected: set[str] = set()
     if not path.exists():
         return confirmed, rejected
-    with open(path, newline="") as fh:
+    with open(path, newline="", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
             mark = (row.get("keep?") or "").strip().lower()
             cid = (row.get("candidate_id") or "").strip()
@@ -162,7 +162,7 @@ def main() -> int:
         if not Path(path).exists():
             print(f"  (skipping absent {path})")
             continue
-        chunk = yaml.safe_load(Path(path).read_text())["candidates"]
+        chunk = yaml.safe_load(Path(path).read_text(encoding="utf-8"))["candidates"]
         print(f"  {len(chunk):5d} rows from {Path(path).name}")
         rows.extend(chunk)
 
@@ -295,7 +295,7 @@ def main() -> int:
         f"{by_quality.get('model', 0)} model-triaged)\n"
     )
     body = yaml.dump({"examples": examples}, sort_keys=False, allow_unicode=True, width=1000)
-    Path(args.out).write_text(preamble + "\n" + body)
+    Path(args.out).write_text(preamble + "\n" + body, encoding="utf-8")
     print(f"\nwrote {args.out}")
     if not expert:
         print(

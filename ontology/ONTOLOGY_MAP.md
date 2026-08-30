@@ -3,14 +3,19 @@
 **Canonical documentation for developers and AI agents.**
 
 This document describes the current state of the advertising-compliance ontology in
-`ontology/`. All counts were derived from the repository on **2026-06-27** via
+`ontology/`. All counts were derived from the repository on **2026-08-23** via
 `ontology/validate.py` and `ontology/benchmark/coverage.py`. Re-run those commands
 after any corpus change to refresh statistics.
 
 | Property | Value |
 |----------|-------|
 | Schema version | `1.0.0` (frozen — do not redesign) |
-| Corpus release | **Ad Corpus v0.11** (`corpus_version.yaml`) |
+| Corpus release | **Ad Corpus v0.12** (`corpus_version.yaml`) |
+| Sources / clauses / rules | 28 / 172 / 137 |
+| Canonical rules / mappings | 54 / 37 |
+| Precedents | 1,588 (127 government, 1,461 BBB self-regulatory) |
+| Eval rows | 3,742 (614 expert-labelled, 2,748 harvested + minimal pairs) |
+| Eval splits | by source enforcement action — 578 train / 121 dev / 128 test groups |
 | Validation status | OK |
 | Retrieval tests | 21/21 passed |
 

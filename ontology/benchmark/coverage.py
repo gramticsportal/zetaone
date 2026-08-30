@@ -21,7 +21,7 @@ from examples.load_eval import load_eval_examples  # noqa: E402
 
 
 def load(path: str):
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 

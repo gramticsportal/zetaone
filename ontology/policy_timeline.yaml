@@ -3,7 +3,7 @@ schema_note: 'Policy diff timeline — SIDECAR (not part of frozen schema v1.0.0
   true cite published policy changes; auto-seeded introduced events use clause effective_date.
   Regenerate baseline with python ontology/tools/build_policy_timeline.py (preserves
   manual: true events).'
-generated_at: '2026-06-27'
+generated_at: '2026-08-23'
 timeline:
 - clause_id: amazon.misleading.landing_page_match
   source_id: amazon_ads_us
@@ -6016,6 +6016,64 @@ timeline:
     source_url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
     official: true
     policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+- clause_id: ftc.misleading.biodegradable
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-green-guides-2012
+  current_status: active
+  events:
+  - date: 2012-10-01
+    event_type: introduced
+    version: ftc-green-guides-2012
+    summary: Clause first ingested from official source (ftc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+    section: 'Environmental Claims: Summary of the Green Guides > Degradable'
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+  - date: *id013
+    event_type: modified
+    version: 2013 rule
+    summary: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    reason: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    source_url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id014
+    event_type: modified
+    version: 2025 amended final rule
+    summary: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    reason: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-finalizes-changes-childrens-privacy-rule-limiting-companies-ability-monetize-kids-data
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id015
+    event_type: modified
+    version: enforcement policy statement
+    summary: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    reason: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    source_url: https://www.ftc.gov/legal-library/browse/cases-proceedings/public-statements
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id016
+    event_type: modified
+    version: 2025 amended final rule
+    summary: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    reason: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    source_url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
 - clause_id: ftc.misleading.express_implied
   source_id: ftc_us
   category_id: misleading
@@ -6074,6 +6132,124 @@ timeline:
     source_url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
     official: true
     policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+- clause_id: ftc.misleading.green_general
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-green-guides-2012
+  current_status: active
+  events:
+  - date: 2012-10-01
+    event_type: introduced
+    version: ftc-green-guides-2012
+    summary: Clause first ingested from official source (ftc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+    section: 'Environmental Claims: Summary of the Green Guides > General Environmental
+      Benefit Claims'
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+  - date: *id013
+    event_type: modified
+    version: 2013 rule
+    summary: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    reason: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    source_url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id014
+    event_type: modified
+    version: 2025 amended final rule
+    summary: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    reason: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-finalizes-changes-childrens-privacy-rule-limiting-companies-ability-monetize-kids-data
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id015
+    event_type: modified
+    version: enforcement policy statement
+    summary: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    reason: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    source_url: https://www.ftc.gov/legal-library/browse/cases-proceedings/public-statements
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id016
+    event_type: modified
+    version: 2025 amended final rule
+    summary: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    reason: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    source_url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+- clause_id: ftc.misleading.made_in_usa
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-musa-labeling-rule-2021
+  current_status: active
+  events:
+  - date: *id013
+    event_type: modified
+    version: 2013 rule
+    summary: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    reason: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    source_url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: 2021-08-01
+    event_type: introduced
+    version: ftc-musa-labeling-rule-2021
+    summary: Clause first ingested from official source (ftc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/complying-made-usa-standard
+    section: Complying with the Made in USA Standard > The Standard for Unqualified
+      Made In USA Claims
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+  - date: *id014
+    event_type: modified
+    version: 2025 amended final rule
+    summary: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    reason: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-finalizes-changes-childrens-privacy-rule-limiting-companies-ability-monetize-kids-data
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id015
+    event_type: modified
+    version: enforcement policy statement
+    summary: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    reason: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    source_url: https://www.ftc.gov/legal-library/browse/cases-proceedings/public-statements
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id016
+    event_type: modified
+    version: 2025 amended final rule
+    summary: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    reason: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    source_url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
 - clause_id: ftc.misleading.reasonable_basis
   source_id: ftc_us
   category_id: misleading
@@ -6088,6 +6264,64 @@ timeline:
     reason: null
     source_url: https://www.ftc.gov/legal-library/browse/ftc-policy-statement-regarding-advertising-substantiation
     section: FTC Policy Statement Regarding Advertising Substantiation
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+  - date: *id013
+    event_type: modified
+    version: 2013 rule
+    summary: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    reason: Prior COPPA Rule in effect (expanded definition of personal information
+      to include persistent identifiers, geolocation, photos/video/audio).
+    source_url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id014
+    event_type: modified
+    version: 2025 amended final rule
+    summary: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    reason: 'FTC published amended COPPA Rule: separate verifiable parental consent
+      required before disclosing children''s personal information to third parties
+      for targeted advertising; new data-security, retention, and deletion requirements.'
+    source_url: https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-finalizes-changes-childrens-privacy-rule-limiting-companies-ability-monetize-kids-data
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id015
+    event_type: modified
+    version: enforcement policy statement
+    summary: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    reason: FTC policy statement limiting enforcement when mixed/general-audience
+      services collect children's data solely to verify user age, subject to safeguards.
+    source_url: https://www.ftc.gov/legal-library/browse/cases-proceedings/public-statements
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+  - date: *id016
+    event_type: modified
+    version: 2025 amended final rule
+    summary: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    reason: Amended Rule took full effect; active enforcement exposure begins for
+      in-scope operators.
+    source_url: https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy
+    official: true
+    policy_title: Children's Online Privacy Protection Rule (COPPA), 16 CFR Part 312
+- clause_id: ftc.misleading.recyclable
+  source_id: ftc_us
+  category_id: misleading
+  current_version: ftc-green-guides-2012
+  current_status: active
+  events:
+  - date: 2012-10-01
+    event_type: introduced
+    version: ftc-green-guides-2012
+    summary: Clause first ingested from official source (ftc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
+    section: 'Environmental Claims: Summary of the Green Guides > Recyclable'
     official: true
     corpus_note: Auto-seeded from clause effective_date at ingestion.
   - date: *id013
@@ -6621,6 +6855,185 @@ timeline:
     official: true
     policy_title: TTB alcohol advertising regulations (FAA Act; 27 CFR parts 4, 5,
       7)
+- clause_id: nad.misleading.substantiation_or_discontinue
+  source_id: nad_us
+  category_id: misleading
+  current_version: NAD-NARB-Procedures-2026-03-16
+  current_status: active
+  events:
+  - date: 2026-03-16
+    event_type: introduced
+    version: NAD-NARB-Procedures-2026-03-16
+    summary: Clause first ingested from official source (nad_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://bbbprograms.org/getmedia/133fded6-5046-44de-a30e-f0890377480c/NAD-NARB-Procedures.pdf
+    section: NAD/NARB Procedures > Section 5.1(A) Advertiser's Statement
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: nad.misleading.truthful_accurate
+  source_id: nad_us
+  category_id: misleading
+  current_version: NAD-NARB-Procedures-2026-03-16
+  current_status: active
+  events:
+  - date: 2026-03-16
+    event_type: introduced
+    version: NAD-NARB-Procedures-2026-03-16
+    summary: Clause first ingested from official source (nad_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://bbbprograms.org/getmedia/133fded6-5046-44de-a30e-f0890377480c/NAD-NARB-Procedures.pdf
+    section: NAD/NARB Procedures > Section 2.1(B) Advertising Monitoring
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: caru.minors.ad_content_blurring
+  source_id: caru_us
+  category_id: minors
+  current_version: CARU-Advertising-Guidelines-2021
+  current_status: active
+  events:
+  - date: 2022-01-01
+    event_type: introduced
+    version: CARU-Advertising-Guidelines-2021
+    summary: Clause first ingested from official source (caru_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+    section: CARU Advertising Guidelines > Deception > e. Blurring of Advertising
+      and Content (1)
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: caru.minors.endorser_material_connection
+  source_id: caru_us
+  category_id: minors
+  current_version: CARU-Advertising-Guidelines-2021
+  current_status: active
+  events:
+  - date: 2022-01-01
+    event_type: introduced
+    version: CARU-Advertising-Guidelines-2021
+    summary: Clause first ingested from official source (caru_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+    section: CARU Advertising Guidelines > Deception > d. Endorsers and Influencers
+      (5)
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: caru.minors.material_disclosures_clear
+  source_id: caru_us
+  category_id: minors
+  current_version: CARU-Advertising-Guidelines-2021
+  current_status: active
+  events:
+  - date: 2022-01-01
+    event_type: introduced
+    version: CARU-Advertising-Guidelines-2021
+    summary: Clause first ingested from official source (caru_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+    section: CARU Advertising Guidelines > Deception > c. Material Disclosures (1)
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: caru.minors.product_benefit_claims
+  source_id: caru_us
+  category_id: minors
+  current_version: CARU-Advertising-Guidelines-2021
+  current_status: active
+  events:
+  - date: 2022-01-01
+    event_type: introduced
+    version: CARU-Advertising-Guidelines-2021
+    summary: Clause first ingested from official source (caru_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+    section: CARU Advertising Guidelines > Deception > b. Product or Service Presentations
+      and Claims (2)
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: caru.minors.substantiation_child_claims
+  source_id: caru_us
+  category_id: minors
+  current_version: CARU-Advertising-Guidelines-2021
+  current_status: active
+  events:
+  - date: 2022-01-01
+    event_type: introduced
+    version: CARU-Advertising-Guidelines-2021
+    summary: Clause first ingested from official source (caru_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/caru/caru_advertisingguidelines.pdf
+    section: CARU Advertising Guidelines > Deception > a. General Principles (3)
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: dssrc.finance.company_responsible_for_salesforce
+  source_id: dssrc_us
+  category_id: financial
+  current_version: DSSRC-Earnings-Claims-Guidance-2022
+  current_status: active
+  events:
+  - date: 2022-06-02
+    event_type: introduced
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    summary: Clause first ingested from official source (dssrc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+    section: DSSRC Guidance on Earnings Claims > Section 4
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: dssrc.finance.earnings_substantiation
+  source_id: dssrc_us
+  category_id: financial
+  current_version: DSSRC-Earnings-Claims-Guidance-2022
+  current_status: active
+  events:
+  - date: 2022-06-02
+    event_type: introduced
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    summary: Clause first ingested from official source (dssrc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+    section: DSSRC Guidance on Earnings Claims > Section 7
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: dssrc.finance.lavish_lifestyle_claims
+  source_id: dssrc_us
+  category_id: financial
+  current_version: DSSRC-Earnings-Claims-Guidance-2022
+  current_status: active
+  events:
+  - date: 2022-06-02
+    event_type: introduced
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    summary: Clause first ingested from official source (dssrc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+    section: DSSRC Guidance on Earnings Claims > Section 5
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
+- clause_id: dssrc.finance.prohibited_income_phrases
+  source_id: dssrc_us
+  category_id: financial
+  current_version: DSSRC-Earnings-Claims-Guidance-2022
+  current_status: active
+  events:
+  - date: 2022-06-02
+    event_type: introduced
+    version: DSSRC-Earnings-Claims-Guidance-2022
+    summary: Clause first ingested from official source (dssrc_us); effective_date/version
+      from source page.
+    reason: null
+    source_url: https://assets.bbbprograms.org/docs/default-source/dssrc/dssrc_guidanceonearningsclaimsforthedirectsellingindustry.pdf
+    section: DSSRC Guidance on Earnings Claims > Section 6
+    official: true
+    corpus_note: Auto-seeded from clause effective_date at ingestion.
 - clause_id: snap.misleading.cloaking
   source_id: snapchat_ads_us
   category_id: misleading
@@ -8760,67 +9173,3 @@ timeline:
     section: Ads Content Policies > Deceptive & Fraudulent Content > Deceptive marketing
     official: true
     corpus_note: Auto-seeded from clause effective_date at ingestion.
-- clause_id: ftc.misleading.green_general
-  source_id: ftc_us
-  category_id: misleading
-  current_version: ftc-green-guides-2012
-  current_status: active
-  events:
-  - date: 2012-10-01
-    event_type: introduced
-    version: ftc-green-guides-2012
-    summary: FTC Green Guides general environmental benefit claims ingested from the
-      official summary (unqualified "green" / "eco-friendly" claims).
-    reason: null
-    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
-    section: 'Environmental Claims: Summary of the Green Guides > General Environmental Benefit Claims'
-    official: true
-    corpus_note: Ingested 2026-08-19 from the FTC Green Guides summary page.
-- clause_id: ftc.misleading.biodegradable
-  source_id: ftc_us
-  category_id: misleading
-  current_version: ftc-green-guides-2012
-  current_status: active
-  events:
-  - date: 2012-10-01
-    event_type: introduced
-    version: ftc-green-guides-2012
-    summary: FTC Green Guides degradable/biodegradable standard ingested (unqualified
-      claim requires complete breakdown within one year after customary disposal).
-    reason: null
-    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
-    section: 'Environmental Claims: Summary of the Green Guides > Degradable'
-    official: true
-    corpus_note: Ingested 2026-08-19 from the FTC Green Guides summary page.
-- clause_id: ftc.misleading.recyclable
-  source_id: ftc_us
-  category_id: misleading
-  current_version: ftc-green-guides-2012
-  current_status: active
-  events:
-  - date: 2012-10-01
-    event_type: introduced
-    version: ftc-green-guides-2012
-    summary: FTC Green Guides recyclable-claim qualification ingested (qualify when
-      facilities are not available to at least 60 percent of consumers or communities).
-    reason: null
-    source_url: https://www.ftc.gov/business-guidance/resources/environmental-claims-summary-green-guides
-    section: 'Environmental Claims: Summary of the Green Guides > Recyclable'
-    official: true
-    corpus_note: Ingested 2026-08-19 from the FTC Green Guides summary page.
-- clause_id: ftc.misleading.made_in_usa
-  source_id: ftc_us
-  category_id: misleading
-  current_version: ftc-musa-labeling-rule-2021
-  current_status: active
-  events:
-  - date: 2021-08-01
-    event_type: introduced
-    version: ftc-musa-labeling-rule-2021
-    summary: FTC Made in USA Labeling Rule ingested (unqualified claim requires the
-      product to be all or virtually all made in the United States).
-    reason: null
-    source_url: https://www.ftc.gov/business-guidance/resources/complying-made-usa-standard
-    section: Complying with the Made in USA Standard > The Standard for Unqualified Made In USA Claims
-    official: true
-    corpus_note: Ingested 2026-08-19 from the FTC Made in USA compliance guide.

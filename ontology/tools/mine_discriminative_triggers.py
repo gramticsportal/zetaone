@@ -115,7 +115,7 @@ def load_examples() -> tuple[list[str], list[str], dict[str, tuple[list[str], li
         path = EXAMPLES / name
         if not path.exists():
             continue
-        for ex in (yaml.safe_load(path.read_text()) or {}).get("examples", []) or []:
+        for ex in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("examples", []) or []:
             label, content = ex.get("label"), ex.get("content") or ""
             if not content:
                 continue
@@ -181,7 +181,7 @@ def main() -> int:
     changes: dict[Path, dict] = {}
 
     for path in sorted(PACKS_DIR.glob("*.yaml")):
-        doc = yaml.safe_load(path.read_text())
+        doc = yaml.safe_load(path.read_text(encoding="utf-8"))
         cat_kept = cat_purged = cat_untested = 0
         for pack in doc.get("packs", []) or []:
             for field in ("forbidden_terms", "forbidden_phrases"):
@@ -247,7 +247,7 @@ def main() -> int:
                 "Triggers filtered by discriminative log-odds against compliant minimal "
                 "pairs (mine_discriminative_triggers.py); policy-prose terms removed."
             )
-            path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=1000))
+            path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=1000), encoding="utf-8")
         print(f"\napplied to {len(changes)} pack files")
     else:
         print("\n(dry run — pass --apply to rewrite the packs)")

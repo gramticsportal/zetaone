@@ -43,6 +43,9 @@ def main() -> int:
     by_label = Counter()
     by_cat_gold = defaultdict(lambda: {"tp": 0, "fn": 0, "fp_on_compliant": 0, "n_nc": 0, "n_c": 0})
     by_source = Counter()
+    # Per source file, because the 44 expert-labelled precedent rows are the north star
+    # and pooling them with 300-odd model-labelled harvested rows hides their recall.
+    by_source_score = defaultdict(lambda: {"tp": 0, "fn": 0, "fp": 0, "tn": 0})
     rows_fail: list[str] = []
     viol_counts: list[int] = []
 
@@ -73,6 +76,12 @@ def main() -> int:
             if (v.evidence_data or {}).get("category_id")
         }
         cat_hit = bool(gold_cats & hit_cats)
+
+        src = sources.get(ex["id"], "?")
+        if label == "non_compliant":
+            by_source_score[src]["tp" if pred_pos else "fn"] += 1
+        elif label == "compliant":
+            by_source_score[src]["fp" if pred_pos else "tn"] += 1
 
         if label == "non_compliant":
             if pred_pos:
@@ -127,6 +136,16 @@ def main() -> int:
     print()
     print("--- Borderline (not scored in P/R) ---")
     print(f"fired:          {borderline_hit}/{borderline_hit + borderline_miss}")
+    print()
+    print("--- Per source file ---")
+    print(f"{'file':30} {'n_nc':>5} {'recall':>7} {'n_c':>5} {'spec':>7}")
+    for src in sorted(by_source_score):
+        s = by_source_score[src]
+        n_nc = s["tp"] + s["fn"]
+        n_c = s["tn"] + s["fp"]
+        rec_s = (s["tp"] / n_nc) if n_nc else float("nan")
+        spec_s = (s["tn"] / n_c) if n_c else float("nan")
+        print(f"{src:30} {n_nc:5d} {rec_s:7.3f} {n_c:5d} {spec_s:7.3f}")
     print()
     print("--- Per gold category (NC: category hit; C: FP rate) ---")
     print(f"{'category':20} {'n_nc':>5} {'cat_rec':>8} {'n_c':>5} {'fp_rate':>8}")

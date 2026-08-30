@@ -50,9 +50,9 @@ def load_pairs() -> list[tuple[dict, dict]]:
     examples = ONTOLOGY / "examples" / "eval"
     bad = {
         e["id"]: e
-        for e in (yaml.safe_load((examples / "eval_harvested.yaml").read_text()) or {}).get("examples", [])
+        for e in (yaml.safe_load((examples / "eval_harvested.yaml").read_text(encoding="utf-8")) or {}).get("examples", [])
     }
-    good = (yaml.safe_load((examples / "eval_compliant_pairs.yaml").read_text()) or {}).get("examples", [])
+    good = (yaml.safe_load((examples / "eval_compliant_pairs.yaml").read_text(encoding="utf-8")) or {}).get("examples", [])
     pairs = []
     for g in good:
         source = g["id"].removesuffix("_compliant")

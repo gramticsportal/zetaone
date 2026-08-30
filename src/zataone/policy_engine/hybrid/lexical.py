@@ -40,9 +40,13 @@ class LexicalHit:
     # advertiser obfuscated — the rule fired on "cure", the ad published "c-u-r-e" — and
     # evidence has to quote the ad, not the rule.
     source_text: str | None = None
-    # Negation cue covering this hit, when one does. Recorded rather than silently
-    # dropped so the audit trail can show the claim was read and found negated.
+    # Negation cue covering this hit, when one does. Recorded for the audit trail;
+    # by default it does not clear the hit (dropping on negation cost recall on
+    # enforcement-style copy like "not financial advice").
     negated_by: str | None = None
+    # True when span_start/end are already in original-text coordinates (e.g. a
+    # regex that matched the published ad). False when they still sit on folded text.
+    span_in_original: bool = False
 
 
 @lru_cache(maxsize=8192)
@@ -184,23 +188,45 @@ def match_lexical(
                 )
             )
 
+    # Regex: try the published text first (packs were written against raw copy), then
+    # the folded form so obfuscation still cannot hide a trigger.
     for pat in pack.forbidden_patterns:
         pattern = pat.get("pattern") if isinstance(pat, dict) else None
         if not pattern:
             continue
+        conf = _confidence(pack, "regex", float(pat.get("confidence") or 0.88) if isinstance(pat, dict) else 0.88)
+        note = str(pat.get("note") or "") if isinstance(pat, dict) else ""
+        m_raw = m_fold = None
         try:
-            m = re.search(pattern, text_l, flags=re.IGNORECASE | re.DOTALL)
+            m_raw = re.search(pattern, text, flags=re.IGNORECASE | re.DOTALL)
         except re.error:
             continue
-        if m:
+        if m_raw:
             hits.append(
                 LexicalHit(
                     matcher="regex",
-                    matched_text=m.group(0)[:200],
-                    confidence=_confidence(pack, "regex", float(pat.get("confidence") or 0.88)),
-                    span_start=m.start(),
-                    span_end=m.end(),
-                    pattern_note=str(pat.get("note") or ""),
+                    matched_text=m_raw.group(0)[:200],
+                    confidence=conf,
+                    span_start=m_raw.start(),
+                    span_end=m_raw.end(),
+                    pattern_note=note,
+                    span_in_original=True,
+                )
+            )
+            continue
+        try:
+            m_fold = re.search(pattern, text_l, flags=re.IGNORECASE | re.DOTALL)
+        except re.error:
+            continue
+        if m_fold:
+            hits.append(
+                LexicalHit(
+                    matcher="regex",
+                    matched_text=m_fold.group(0)[:200],
+                    confidence=conf,
+                    span_start=m_fold.start(),
+                    span_end=m_fold.end(),
+                    pattern_note=note,
                 )
             )
 
@@ -240,18 +266,20 @@ def match_lexical(
     for h in uniq:
         if h.span_start is None:
             continue
-        o_start, o_end = norm.to_original_span(h.span_start, h.span_end or h.span_start)
-        h.span_start, h.span_end = o_start, o_end
+        if h.span_in_original:
+            o_start, o_end = h.span_start, h.span_end or h.span_start
+        else:
+            o_start, o_end = norm.to_original_span(h.span_start, h.span_end or h.span_start)
+            h.span_start, h.span_end = o_start, o_end
+            h.span_in_original = True
         h.source_text = text[o_start:o_end]
 
     for h in uniq:
         h.licensed_by = _licensed_by(text, h, pack)
 
-    # Only for packs whose trigger is a claim of benefit — negating "no prescription
-    # needed" or "we do not rent to families" states the violation rather than withdrawing
-    # it. Read on the original text, since spans are now in original coordinates and the
-    # cue patterns already tolerate curly apostrophes ("doesn’t"). Deliberately not folded
-    # aggressively: "n0t a cure" should not buy an exoneration the reader cannot see.
+    # Record negation for audit only. Clearing on negation dropped true positives on
+    # enforcement-style wording ("not financial advice", "no guarantee") without enough
+    # specificity gain to pay for the recall.
     if pack.negation_sensitive:
         for h in uniq:
             if h.span_start is None or term_is_inherently_negative(h.matched_text):
@@ -259,7 +287,7 @@ def match_lexical(
             h.negated_by = negation_cue_for_span(text, h.span_start, h.span_end or h.span_start)
 
     if drop_licensed:
-        return [h for h in uniq if not h.licensed_by and not h.negated_by]
+        return [h for h in uniq if not h.licensed_by]
     return uniq
 
 

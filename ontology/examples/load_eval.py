@@ -27,9 +27,8 @@ EVAL_FILES_CLEAN = (
 )
 
 # Verbatim ad copy harvested from enforcement documents, plus the synthetic compliant
-# minimal pairs built from it. Off by default: most harvested rows are still model-triaged
-# rather than human-confirmed, so folding them in silently would move every benchmark
-# number. Set ZATAONE_EVAL_INCLUDE_HARVESTED=1 to include.
+# minimal pairs built from it. Included by default: we treat the whole labeled set as one
+# eval corpus (no active train/dev). Set ZATAONE_EVAL_INCLUDE_HARVESTED=0 to drop them.
 #
 # The two load together on purpose. The harvested rows are almost entirely non-compliant,
 # so loading them alone skews the set ~12:1 toward positives and inflates any metric that
@@ -67,18 +66,17 @@ def load_eval_examples(
 def _eval_files() -> tuple[str, ...]:
     profile = (os.environ.get("ZATAONE_EVAL_PROFILE") or "full").strip().lower()
     files = EVAL_FILES_CLEAN if profile in ("clean", "denoised") else EVAL_FILES
-    if (os.environ.get("ZATAONE_EVAL_INCLUDE_HARVESTED") or "").strip().lower() in ("1", "true", "yes"):
+    raw = (os.environ.get("ZATAONE_EVAL_INCLUDE_HARVESTED") or "1").strip().lower()
+    if raw not in ("0", "false", "no", "off"):
         files = files + HARVESTED_FILES
     return files
 
 
 def _requested_splits(splits: Iterable[str] | None) -> set[str] | None:
-    """Splits to keep, or None for all.
+    """Splits to keep, or None for all rows.
 
-    Harvested rows are grouped into splits by source enforcement action
-    (`ontology/tools/build_eval_splits.py`). Tuning on everything and reporting the
-    same number is how the pattern packs ended up scored in-sample, so anything that
-    fits or curates should ask for `train`/`dev` and leave `test` alone.
+    Rows are labeled ``test`` for now — there is no active train/dev partition. Optional
+    ``ZATAONE_EVAL_SPLITS`` still filters if you set it; default is the full eval set.
     """
     if splits is None:
         raw = os.environ.get("ZATAONE_EVAL_SPLITS") or ""
@@ -100,7 +98,9 @@ def load_eval_with_sources(
         path = os.path.join(eval_root, fname)
         if os.path.isfile(path):
             for e in load_yaml(path).get("examples", []) or []:
-                if wanted and str(e.get("split") or "").lower() not in wanted:
+                # Missing split ⇒ treat as eval/test so seed rows stay in the full set.
+                row_split = str(e.get("split") or "test").lower()
+                if wanted and row_split not in wanted:
                     continue
                 out.append(e)
                 sources[e["id"]] = fname

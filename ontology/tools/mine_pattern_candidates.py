@@ -311,11 +311,10 @@ _MINE_FILES = (
     "eval_harvested.yaml",
 )
 
-# Splits mining may read. Test is excluded on purpose and should stay excluded: this
-# function tokenizes non-compliant rows straight into `forbidden_terms`, so any row it
-# sees is memorised rather than predicted, and scoring against it afterwards measures
-# recall of the mining step. Override only to reproduce a historical pack build.
-_MINE_SPLITS = ("train",)
+# Splits mining may read. The live eval set is entirely `test` for now (no train/dev
+# partition). Mining on those rows is in-sample by definition — override with
+# ZATAONE_MINE_SPLITS if you reintroduce a holdout.
+_MINE_SPLITS = ("test",)
 
 
 def _load_eval_examples() -> list[dict[str, Any]]:

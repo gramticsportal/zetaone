@@ -7,6 +7,7 @@ from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from zataone.api.admin import router as admin_router
@@ -62,7 +63,7 @@ async def _no_cache_ui_html(request: Request, call_next):
     """Avoid stale /ui/*.html after deploy (Safari especially caches static HTML)."""
     response = await call_next(request)
     p = request.url.path
-    if p.startswith("/ui/") and (p.endswith(".html") or p.endswith(".htm")):
+    if p == "/" or (p.startswith("/ui/") and (p.endswith(".html") or p.endswith(".htm"))):
         response.headers["Cache-Control"] = "no-store, max-age=0, must-revalidate"
         response.headers["Pragma"] = "no-cache"
     return response
@@ -88,9 +89,8 @@ if _WEB_DIR.is_dir():
     )
 
 
-@app.get("/")
-def root() -> dict[str, str]:
-    """Base URL — Cloud Run root otherwise returns 404."""
+def _service_index() -> dict[str, str]:
+    """Machine-readable service map (kept for scripts and Accept: application/json)."""
     out: dict[str, str] = {
         "service": "zataone",
         "docs": "/docs",
@@ -99,7 +99,26 @@ def root() -> dict[str, str]:
     if _WEB_DIR.is_dir():
         out["ui"] = "/ui/policylens.html"
         out["review_ui"] = "/ui/reviewlens.html"
+        out["ui_internal"] = "/ui/policylens-dev.html"
+        out["home"] = "/"
     return out
+
+
+@app.get("/api")
+def api_index() -> dict[str, str]:
+    """JSON service map. Browser root is the marketing page."""
+    return _service_index()
+
+
+@app.get("/")
+def root(request: Request):
+    """Marketing site for browsers; JSON if the client asks for it."""
+    landing = _WEB_DIR / "home.html"
+    accept = (request.headers.get("accept") or "").lower()
+    prefer_json = "application/json" in accept and "text/html" not in accept
+    if landing.is_file() and not prefer_json:
+        return FileResponse(landing, media_type="text/html; charset=utf-8")
+    return _service_index()
 
 
 @app.get("/health")

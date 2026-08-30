@@ -122,8 +122,12 @@ def test_health() -> None:
 
         r2 = client.get("/")
         record("GET / → 200", r2.status_code == 200)
-        body2 = r2.json()
-        record("root has docs key", "docs" in body2, str(body2))
+        record("root is marketing HTML", "Ad claims" in r2.text or "Under Intelligence" in r2.text, r2.text[:80])
+
+        r_api = client.get("/api")
+        record("GET /api → 200", r_api.status_code == 200)
+        body_api = r_api.json()
+        record("api index has docs key", "docs" in body_api, str(body_api))
 
         r3 = client.get("/health/ui-asset")
         record("GET /health/ui-asset → 200", r3.status_code == 200)

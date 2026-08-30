@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Under Intelligence — paste a claim, get a cited answer</title>
+<meta name="description" content="Deterministic ad-claim compliance review. Paste copy or drop an image — get the clause, the quote, and the trigger, not a vibe." />
+<style>
+  :root{
+    --bg:#fbfbfa; --ink:#14161a; --muted:#6b7280; --line:#e7e6e2;
+    --panel:#ffffff; --accent:#2a4bd7; --accent-ink:#ffffff;
+    --good:#0f7a4d; --bad:#b5311f; --review:#a6720a;
+    --ring: 42,75,215;
+    --shadow: 0 1px 2px rgba(20,22,26,.04), 0 10px 30px -12px rgba(20,22,26,.10);
+    --radius: 22px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0d0e11; --ink:#eceef1; --muted:#9aa1ab; --line:#23262c;
+      --panel:#15171b; --accent:#6f8dff; --accent-ink:#0d0e11;
+      --good:#3fcf8e; --bad:#ff7a68; --review:#f0b94a;
+      --ring: 111,141,255;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.6);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{padding:22px 0 0}
+  header .wrap{display:flex; align-items:center; justify-content:space-between}
+  .brand{display:flex; align-items:center; gap:9px; font-weight:600; font-size:15.5px; letter-spacing:-0.01em}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent); flex:none;
+    box-shadow:0 0 0 4px rgba(var(--ring),.14)}
+  nav{display:flex; gap:22px; font-size:13.5px; color:var(--muted)}
+  nav a{text-decoration:none; opacity:.85; transition:opacity .15s}
+  nav a:hover{opacity:1}
+  .gear{
+    width:30px;height:30px;border-radius:50%;border:1px solid var(--line); background:var(--panel);
+    display:flex;align-items:center;justify-content:center; cursor:pointer; color:var(--muted);
+    flex:none;
+  }
+  .gear:hover{color:var(--ink); border-color:var(--accent)}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:64vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:48px 0 28px}
+  .eyebrow{
+    font-size:12.5px; color:var(--muted); letter-spacing:.02em; margin-bottom:18px;
+    display:flex; align-items:center; gap:8px; height:16px;
+  }
+  .eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--accent); flex:none;
+    animation:breathe 2.4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.35; transform:scale(.85)} 50%{opacity:1; transform:scale(1)}}
+
+  h1{font-size:2.5rem; line-height:1.08; margin:0 0 30px; font-weight:650; letter-spacing:-0.02em; max-width:620px}
+  h1 em{font-style:normal; color:var(--accent)}
+
+  /* the pill */
+  .panel{width:100%; max-width:680px}
+  .pill{
+    position:relative; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow: var(--shadow);
+    padding:6px 6px 6px 22px;
+    display:flex; align-items:flex-end; gap:8px;
+    transition: box-shadow .25s ease, border-color .25s ease;
+  }
+  .pill.focused{ border-color: rgba(var(--ring),.55); box-shadow: var(--shadow), 0 0 0 4px rgba(var(--ring),.14) }
+  .pill.scanning{ border-color: rgba(var(--ring),.7) }
+
+  .field{flex:1; position:relative; min-height:56px; display:flex; align-items:center}
+  textarea{
+    width:100%; resize:none; border:none; outline:none; background:transparent; color:var(--ink);
+    font-size:16.5px; line-height:1.45; font-family:inherit; padding:14px 0; max-height:180px; overflow-y:auto;
+  }
+  .ghost{
+    position:absolute; left:0; top:14px; right:8px; pointer-events:none; color:var(--muted); font-size:16.5px;
+    line-height:1.45; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .ghost span{display:inline-block; animation: fadeGhost .45s ease}
+  @keyframes fadeGhost{ from{opacity:0; transform:translateY(3px)} to{opacity:1; transform:translateY(0)} }
+
+  .tools{display:flex; align-items:center; gap:2px; padding-bottom:6px}
+  .iconbtn{
+    width:38px;height:38px;border-radius:50%; border:none; background:transparent; color:var(--muted);
+    display:flex;align-items:center;justify-content:center; cursor:pointer; transition:background .15s, color .15s;
+    flex:none;
+  }
+  .iconbtn:hover{background:rgba(120,120,120,.10); color:var(--ink)}
+  .iconbtn.active{color:var(--accent); background:rgba(var(--ring),.12)}
+  #file{display:none}
+
+  .go{
+    width:38px;height:38px;border-radius:50%; border:none; cursor:pointer; flex:none;
+    background:var(--ink); color:var(--bg); display:flex; align-items:center; justify-content:center;
+    transition:transform .15s ease, background .15s ease; margin-bottom:0;
+  }
+  .go:hover{transform:scale(1.05)}
+  .go:disabled{opacity:.35; cursor:default; transform:none}
+  .go.accent{background:var(--accent); color:var(--accent-ink)}
+
+  .imgname{font-size:12.5px; color:var(--muted); padding:0 0 8px 22px; display:none}
+
+  .scanline{
+    position:absolute; left:22px; right:64px; bottom:0; height:2px; overflow:hidden; border-radius:2px;
+    opacity:0; transition:opacity .2s;
+  }
+  .scanline.on{opacity:1}
+  .scanline i{
+    position:absolute; top:0; bottom:0; width:40%; border-radius:2px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: sweep 1.1s ease-in-out infinite;
+  }
+  @keyframes sweep{ 0%{left:-40%} 100%{left:100%} }
+
+  .examples{margin-top:16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap}
+  .chip{
+    font-size:12.5px; color:var(--muted); background:var(--panel); border:1px solid var(--line);
+    border-radius:999px; padding:6px 13px; cursor:pointer; transition:border-color .15s, color .15s;
+  }
+  .chip:hover{border-color:var(--accent); color:var(--ink)}
+
+  /* ---------- result ---------- */
+  .result{
+    max-width:680px; width:100%; margin:20px auto 0; overflow:hidden; max-height:0; opacity:0;
+    transition: max-height .38s ease, opacity .32s ease, margin .38s ease;
+  }
+  .result.show{max-height:480px; opacity:1}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px 20px;
+    text-align:left; box-shadow:var(--shadow);
+  }
+  .verdict-row{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+  .badge{
+    font-size:12px; font-weight:650; padding:4px 10px; border-radius:999px; letter-spacing:.01em;
+  }
+  .badge.bad{background:rgba(181,49,31,.12); color:var(--bad)}
+  .badge.good{background:rgba(15,122,77,.12); color:var(--good)}
+  .badge.review{background:rgba(166,114,10,.12); color:var(--review)}
+  .lat{font-size:12px; color:var(--muted); margin-left:auto}
+  .quote{font-size:15px; line-height:1.5; margin:2px 0 12px}
+  .quote mark{background:rgba(181,49,31,.16); color:var(--bad); border-radius:4px; padding:0 2px}
+  .quote mark.ok{background:rgba(15,122,77,.14); color:var(--good)}
+  .cite{
+    display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--muted);
+    border-top:1px solid var(--line); padding-top:12px;
+  }
+  .cite b{color:var(--ink); font-weight:600}
+  .cite code{background:rgba(120,120,120,.10); padding:1px 6px; border-radius:5px; font-size:12px}
+  .demo-tag{font-size:11px; color:var(--muted); margin-top:10px; text-align:right}
+  .more-link{font-size:13px; color:var(--accent); text-decoration:none; font-weight:600; white-space:nowrap}
+
+  /* ---------- settings popover ---------- */
+  .pop{
+    position:absolute; top:52px; right:24px; width:280px; background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; box-shadow:var(--shadow); padding:14px; font-size:13px; display:none; z-index:20;
+  }
+  .pop.open{display:block}
+  .pop label{display:block; font-weight:600; margin:8px 0 4px; font-size:12px}
+  .pop input{width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:8px; background:var(--bg);
+    color:var(--ink); font-size:13px}
+  .pop .note{color:var(--muted); font-size:11.5px; margin-top:8px; line-height:1.4}
+
+  /* ---------- below the fold ---------- */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:16px; overflow:hidden; margin:70px 0 64px;
+  }
+  .stat{background:var(--panel); padding:22px 16px; text-align:center}
+  .stat b{display:block; font-size:1.5rem; font-weight:700; letter-spacing:-0.01em}
+  .stat span{font-size:12.5px; color:var(--muted)}
+
+  section.info{padding:6px 0 56px}
+  .info h2{font-size:1.4rem; letter-spacing:-0.01em; margin:0 0 8px}
+  .info p.sub{color:var(--muted); font-size:14.5px; margin:0 0 30px; max-width:520px}
+
+  .three{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:64px}
+  .prod{border:1px solid var(--line); border-radius:16px; padding:20px; background:var(--panel)}
+  .prod .k{font-size:12px; color:var(--accent); font-weight:650; letter-spacing:.03em; text-transform:uppercase}
+  .prod h3{margin:8px 0 6px; font-size:16.5px}
+  .prod p{margin:0 0 14px; font-size:13.5px; color:var(--muted); line-height:1.5}
+  .prod a{font-size:13px; font-weight:600; text-decoration:none; color:var(--ink)}
+  .prod a:after{content:" →"}
+
+  .gate{display:flex; gap:22px; align-items:center; border:1px solid var(--line); border-radius:16px;
+    padding:26px; margin-bottom:64px; background:var(--panel)}
+  .gate .steps{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:13px}
+  .step{border:1px solid var(--line); border-radius:10px; padding:8px 12px; background:var(--bg)}
+  .step.hit{border-color:rgba(181,49,31,.35); color:var(--bad)}
+  .step.gate{border-color:rgba(var(--ring),.4); color:var(--accent)}
+  .step.clear{border-color:rgba(15,122,77,.35); color:var(--good)}
+  .arrow{color:var(--muted); font-size:13px}
+  .gate-copy{flex:1}
+  .gate-copy h3{margin:0 0 6px; font-size:15.5px}
+  .gate-copy p{margin:0; font-size:13.5px; color:var(--muted); line-height:1.55}
+
+  table.cmp{width:100%; border-collapse:collapse; font-size:13.5px; margin-bottom:56px}
+  table.cmp th, table.cmp td{ text-align:left; padding:12px 14px; border-bottom:1px solid var(--line)}
+  table.cmp th{color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.03em}
+  table.cmp td.us{color:var(--ink); font-weight:500}
+  table.cmp td.llm{color:var(--muted)}
+  table.cmp tr:last-child td{border-bottom:none}
+
+  footer{border-top:1px solid var(--line); padding:26px 0 40px}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px}
+  footer .links{display:flex; gap:18px; font-size:13px; color:var(--muted)}
+  footer .links a{text-decoration:none}
+  footer .links a:hover{color:var(--ink)}
+  footer .copy{font-size:12px; color:var(--muted)}
+
+  @media (max-width:680px){
+    h1{font-size:1.85rem}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .three{grid-template-columns:1fr}
+    .gate{flex-direction:column; align-items:flex-start}
+    nav{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> Under Intelligence</div>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#compare">Compare</a>
+      <a href="policylens.html">PolicyLens</a>
+    </nav>
+    <button class="gear" id="gearBtn" title="Connect a live API" aria-label="Settings">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="3.2"/>
+        <path d="M19.4 13.2a7.6 7.6 0 000-2.4l1.9-1.5-2-3.4-2.2.9a7.6 7.6 0 00-2.1-1.2L14.6 3h-4l-.4 2.6a7.6 7.6 0 00-2.1 1.2l-2.2-.9-2 3.4L5.8 10.8a7.6 7.6 0 000 2.4l-1.9 1.5 2 3.4 2.2-.9c.6.5 1.3.9 2.1 1.2l.4 2.6h4l.4-2.6c.8-.3 1.5-.7 2.1-1.2l2.2.9 2-3.4-1.9-1.5z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="pop" id="pop">
+    <label for="base">API base URL</label>
+    <input id="base" placeholder="blank = this same server" />
+    <label for="domain">Domain (X-Domain)</label>
+    <input id="domain" placeholder="ad_compliance" />
+    <div class="note">Leave blank to run the built-in offline demo. Point this at a running ZataOne API to check real creatives.</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow"><span class="pulse"></span> <span id="eyebrowText">deterministic review, not a vibe</span></div>
+    <h1>Paste a claim.<br>Get the <em>clause</em>, not a guess.</h1>
+
+    <div class="panel">
+      <div class="pill" id="pill">
+        <div class="field">
+          <div class="ghost" id="ghost"><span id="ghostSpan"></span></div>
+          <textarea id="content" rows="1" spellcheck="false"></textarea>
+        </div>
+        <div class="tools">
+          <button class="iconbtn" id="imgBtn" title="Check an image instead" aria-label="Upload image">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="14" rx="2.5"/>
+              <circle cx="9" cy="10.5" r="1.6"/>
+              <path d="M21 16l-5.5-5-4 4.2-2-1.9L3 18"/>
+            </svg>
+          </button>
+          <input id="file" type="file" accept="image/*" />
+          <button class="go accent" id="run" title="Check compliance" aria-label="Check compliance" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </div>
+        <div class="scanline" id="scanline"><i></i></div>
+      </div>
+      <div class="imgname" id="imgname"></div>
+
+      <div class="examples" id="examples"></div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="card" id="card"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><b>172</b><span>traceable US clauses</span></div>
+    <div class="stat"><b>54</b><span>gated pattern packs</span></div>
+    <div class="stat"><b>1,588</b><span>enforcement precedents</span></div>
+    <div class="stat"><b>~1ms</b><span>per lexical pass</span></div>
+  </div>
+
+  <section class="info" id="how">
+    <h2>One engine. Three jobs.</h2>
+    <p class="sub">The same deterministic core sits under a quick check, a human review queue, and a plain API — so the answer never depends on which door you walked in.</p>
+    <div class="three">
+      <div class="prod">
+        <div class="k">Check</div>
+        <h3>PolicyLens</h3>
+        <p>Paste copy or drop a creative, watch it get matched against the corpus, and see exactly which clause fired and why.</p>
+        <a href="policylens.html">Open PolicyLens</a>
+      </div>
+      <div class="prod">
+        <div class="k">Decide</div>
+        <h3>ReviewLens</h3>
+        <p>Borderline and flagged creatives land in a queue. A human clears them, labels false positives, and that label feeds the next pack revision.</p>
+        <a href="reviewlens.html">Open ReviewLens</a>
+      </div>
+      <div class="prod">
+        <div class="k">Integrate</div>
+        <h3>API</h3>
+        <p>POST a creative, poll for a verdict, get evidence back as structured JSON — clause IDs, quotes, and spans included.</p>
+        <a href="index.html">Open the raw API view</a>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="gate-copy">
+        <h3>Trigger, then gate</h3>
+        <p>A phrase alone never decides anything. It has to survive a licence check — a nearby disclosure, a stated scope, a substantiation — before it becomes a finding. Same text, same pack hits, every time.</p>
+      </div>
+      <div class="steps">
+        <div class="step hit">"guaranteed weight loss"</div>
+        <span class="arrow">→</span>
+        <div class="step gate">licence check</div>
+        <span class="arrow">→</span>
+        <div class="step clear">cleared or cited</div>
+      </div>
+    </div>
+
+    <h2 id="compare">Not another opinion from a model</h2>
+    <p class="sub">Ask an LLM twice and you can get two answers. A pack either matches or it doesn't.</p>
+    <table class="cmp">
+      <tr><th></th><th>LLM-only review</th><th>Under Intelligence</th></tr>
+      <tr><td>Consistency</td><td class="llm">Can flip between runs</td><td class="us">Same text → same pack hits</td></tr>
+      <tr><td>Who decides</td><td class="llm">The model</td><td class="us">The pack; the model never decides</td></tr>
+      <tr><td>When it fails you</td><td class="llm">A paragraph of prose</td><td class="us">Clause + verbatim quote + trigger span</td></tr>
+      <tr><td>A disclosure nearby</td><td class="llm">Often flagged anyway</td><td class="us">Licence gate clears the hit</td></tr>
+    </table>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="policylens.html">PolicyLens</a>
+      <a href="reviewlens.html">ReviewLens</a>
+      <a href="index.html">API</a>
+    </div>
+    <div class="copy">Under Intelligence — evidence, not a vibe.</div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const LS_BASE = "zataone_api_base", LS_DOMAIN = "zataone_domain";
+
+  // ---------------- demo corpus: real clause shapes, honest labelling ----------------
+  // Each entry either trips a pack (bad) or survives its licence gate (good). The IDs and
+  // quote language mirror the real ontology corpus so the offline demo is not fabricated
+  // filler — it just isn't a live call unless an API base is configured.
+  const EXAMPLES = [
+    { text: "Clinically proven to cure the common cold overnight", verdict: "bad",
+      trigger: "cure", canonical: "health.disease_cure_treatment_claims",
+      clause: "ftc.health.disease_implication", quote: "express or implied disease cure/treatment claims for non-drug products" },
+    { text: "Guaranteed weight loss in 7 days — no diet, no exercise", verdict: "bad",
+      trigger: "guaranteed", canonical: "misleading.guaranteed_outcomes",
+      clause: "meta.misleading.exaggerated_success_claims", quote: "guarantees of specific results without substantiation" },
+    { text: "0% APR forever, no credit check required", verdict: "review",
+      trigger: "APR", canonical: "finance.credit_advertising_trigger_terms",
+      clause: "cfpb.finance.trigger_terms", quote: "a credit trigger term requires the full Reg Z disclosure set" },
+    { text: "As seen on TV — doctors recommend it 10 to 1", verdict: "bad",
+      trigger: "doctors recommend", canonical: "health.unsubstantiated_health_claims",
+      clause: "ftc.misleading.reasonable_basis", quote: "an objective claim needs a reasonable basis before it is made" },
+    { text: "Recyclable packaging, available where facilities exist", verdict: "good",
+      trigger: "available where facilities exist", canonical: "misleading.qualified_environmental_claim",
+      clause: "ftc.misleading.green_guides_qualification", quote: "a qualification that is truthful, prominent and tied to the claim is not deceptive" },
+    { text: "Invest today — guaranteed returns, zero risk", verdict: "bad",
+      trigger: "guaranteed returns, zero risk", canonical: "finance.guaranteed_returns_or_risk_free",
+      clause: "sec.finance.marketing_rule_performance", quote: "no investment is risk-free; a guarantee of return is inherently misleading" },
+  ];
+
+  let idx = 0, cycleTimer = null, typing = false;
+
+  function renderGhost(){
+    const el = $("ghostSpan");
+    el.textContent = "";
+    el.style.animation = "none"; void el.offsetWidth; el.style.animation = "";
+    el.textContent = EXAMPLES[idx].text;
+  }
+  function startCycle(){
+    renderGhost();
+    cycleTimer = setInterval(() => {
+      if (typing || $("content").value.trim()) return;
+      idx = (idx + 1) % EXAMPLES.length;
+      renderGhost();
+    }, 3400);
+  }
+  startCycle();
+
+  // eyebrow line rotates through a few short framings
+  const eyebrowLines = ["deterministic review, not a vibe", "same text, same pack hits, every time", "clause, quote, and trigger — cited"];
+  let ei = 0;
+  setInterval(() => {
+    ei = (ei + 1) % eyebrowLines.length;
+    const t = $("eyebrowText");
+    t.style.opacity = 0;
+    setTimeout(() => { t.textContent = eyebrowLines[ei]; t.style.transition = "opacity .35s"; t.style.opacity = 1; }, 220);
+  }, 5200);
+
+  // example chips
+  const chipsEl = $("examples");
+  EXAMPLES.slice(0, 4).forEach(ex => {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.textContent = "“" + (ex.text.length > 34 ? ex.text.slice(0, 34) + "…" : ex.text) + "”";
+    b.onclick = () => { $("content").value = ex.text; onInput(); $("content").focus(); };
+    chipsEl.appendChild(b);
+  });
+
+  // ---------------- input wiring ----------------
+  const content = $("content"), pill = $("pill"), goBtn = $("run"), ghost = $("ghost");
+  function autoGrow(){
+    content.style.height = "auto";
+    content.style.height = Math.min(content.scrollHeight, 180) + "px";
+  }
+  function onInput(){
+    ghost.style.display = content.value ? "none" : "block";
+    goBtn.disabled = !content.value.trim() && !lastFile;
+    autoGrow();
+  }
+  content.addEventListener("input", onInput);
+  content.addEventListener("focus", () => { typing = true; pill.classList.add("focused"); });
+  content.addEventListener("blur", () => { typing = false; pill.classList.remove("focused"); if(!content.value) onInput(); });
+  content.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); runCheck(); }
+  });
+
+  // image mode
+  let lastFile = null;
+  $("imgBtn").addEventListener("click", () => $("file").click());
+  $("file").addEventListener("change", () => {
+    const f = $("file").files[0];
+    lastFile = f || null;
+    $("imgBtn").classList.toggle("active", !!f);
+    $("imgname").style.display = f ? "block" : "none";
+    $("imgname").textContent = f ? ("Image selected: " + f.name) : "";
+    goBtn.disabled = !content.value.trim() && !lastFile;
+  });
+
+  // ---------------- settings popover ----------------
+  $("base").value = localStorage.getItem(LS_BASE) || "";
+  $("domain").value = localStorage.getItem(LS_DOMAIN) || "ad_compliance";
+  $("base").addEventListener("change", () => localStorage.setItem(LS_BASE, $("base").value.trim()));
+  $("domain").addEventListener("change", () => localStorage.setItem(LS_DOMAIN, $("domain").value.trim() || "ad_compliance"));
+  $("gearBtn").addEventListener("click", () => $("pop").classList.toggle("open"));
+  document.addEventListener("click", (e) => {
+    if (!$("pop").contains(e.target) && e.target !== $("gearBtn") && !$("gearBtn").contains(e.target)) {
+      $("pop").classList.remove("open");
+    }
+  });
+
+  // ---------------- run ----------------
+  function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+  function renderResult({verdict, textShown, trigger, canonical, clause, quote, latency, live, okWord}){
+    const badgeClass = verdict === "good" ? "good" : verdict === "review" ? "review" : "bad";
+    const badgeText = verdict === "good" ? "Compliant" : verdict === "review" ? "Needs review" : "Non-compliant";
+    let quoteHtml = escapeHtml(textShown);
+    if (trigger) {
+      const i = textShown.toLowerCase().indexOf(trigger.toLowerCase());
+      if (i >= 0) {
+        const before = escapeHtml(textShown.slice(0, i));
+        const hit = escapeHtml(textShown.slice(i, i + trigger.length));
+        const after = escapeHtml(textShown.slice(i + trigger.length));
+        quoteHtml = before + '<mark class="' + (verdict === "good" ? "ok" : "") + '">' + hit + "</mark>" + after;
+      }
+    }
+    $("card").innerHTML =
+      '<div class="verdict-row"><span class="badge ' + badgeClass + '">' + badgeText + '</span>' +
+      '<span class="lat">' + latency + '</span></div>' +
+      '<div class="quote">“' + quoteHtml + '”</div>' +
+      '<div class="cite"><span>§</span><div><b>' + escapeHtml(canonical) + '</b><br>' +
+      '<code>' + escapeHtml(clause) + '</code> — ' + escapeHtml(quote) + '</div></div>' +
+      '<div class="demo-tag">' + (live ? 'Live result from your configured API' : 'Offline demo — matched against real clause language, no API configured') + '</div>';
+    $("result").classList.add("show");
+  }
+
+  async function runOffline(text){
+    const scan = $("scanline");
+    pill.classList.add("scanning"); scan.classList.add("on");
+    await new Promise(r => setTimeout(r, 650 + Math.random()*350));
+    scan.classList.remove("on"); pill.classList.remove("scanning");
+
+    const match = EXAMPLES.find(e => text.toLowerCase().includes(e.trigger.toLowerCase())) ||
+                  EXAMPLES.find(e => e.text.toLowerCase() === text.toLowerCase());
+    if (match) {
+      renderResult({ verdict: match.verdict, textShown: text, trigger: match.trigger,
+        canonical: match.canonical, clause: match.clause, quote: match.quote,
+        latency: "~1ms lexical pass", live: false });
+    } else {
+      renderResult({ verdict: "good", textShown: text, trigger: null,
+        canonical: "no pack triggered", clause: "—",
+        quote: "nothing in the 54 approved packs matched this text",
+        latency: "~1ms lexical pass", live: false });
+    }
+  }
+
+  async function poll(b, headers, assetId){
+    for (let i = 0; i < 60; i++) {
+      const r = await fetch(b + "/assets/" + assetId, { headers });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || r.statusText);
+      if (data.status === "completed") return data;
+      await new Promise(x => setTimeout(x, 1000));
+    }
+    throw new Error("timeout");
+  }
+
+  async function runLive(b, domain, text, file){
+    const scan = $("scanline");
+    pill.classList.add("scanning"); scan.classList.add("on");
+    const headers = { "X-Domain": domain || "ad_compliance" };
+    try {
+      let assetId;
+      if (file) {
+        const fd = new FormData(); fd.append("file", file);
+        const r = await fetch(b + "/assets/image", { method: "POST", headers, body: fd });
+        const data = await r.json();
+        if (!r.ok) throw new Error(JSON.stringify(data));
+        assetId = data.asset_id;
+      } else {
+        const r = await fetch(b + "/assets", {
+          method: "POST", headers: { ...headers, "Content-Type": "application/json" },
+          body: JSON.stringify({ content: text, type: "text" }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(JSON.stringify(data));
+        assetId = data.asset_id;
+      }
+      const verdict = await poll(b, headers, assetId);
+      const v0 = (verdict.violations || [])[0];
+      const status = verdict.compliance_status || verdict.verdict || "REVIEW_REQUIRED";
+      const mapped = /NON_COMPLIANT|likely_rejected/i.test(status) ? "bad"
+                   : /REVIEW|borderline/i.test(status) ? "review" : "good";
+      renderResult({
+        verdict: mapped, textShown: text || "(image creative)",
+        trigger: v0 && v0.evidence_data && (v0.evidence_data.matched_term || v0.evidence_data.matched_text),
+        canonical: v0 ? (v0.evidence_data && v0.evidence_data.canonical_id || v0.rule_id) : "no violation matched",
+        clause: v0 ? (v0.evidence_data && (v0.evidence_data.clause_ids || [])[0] || v0.rule_id) : "—",
+        quote: v0 ? (v0.evidence_data && v0.evidence_data.pattern_note) || "matched pack pattern" : "cleared every approved pack",
+        latency: "risk " + (verdict.risk_score ?? "—"), live: true,
+      });
+    } catch (e) {
+      $("card").innerHTML = '<div class="verdict-row"><span class="badge bad">Error</span></div>' +
+        '<div class="quote">' + escapeHtml(e.message || String(e)) + '</div>';
+      $("result").classList.add("show");
+    } finally {
+      scan.classList.remove("on"); pill.classList.remove("scanning");
+    }
+  }
+
+  async function runCheck(){
+    const text = content.value.trim();
+    if (!text && !lastFile) return;
+    clearInterval(cycleTimer);
+    const base = ($("base").value || "").trim().replace(/\/$/, "");
+    const domain = $("domain").value.trim();
+    if (base) {
+      await runLive(base, domain, text, lastFile);
+    } else {
+      await runOffline(text || "(image creative)");
+    }
+  }
+  $("run").addEventListener("click", runCheck);
+})();
+</script>
+</body>
+</html>

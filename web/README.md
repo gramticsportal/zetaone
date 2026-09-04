@@ -4,7 +4,7 @@
 
 | File | Purpose |
 |------|--------|
-| **`home.html`** | Public marketing page at **`/`** (Under Intelligence). PolicyLens / ReviewLens / API are unchanged. |
+| **`home.html`** | Public page at **`/`** (Under Intelligence). Search-style hero: one input, paste copy or attach an image, verdict renders as a typewriter-style claim assessment. Runs the offline demo table with no API set; POSTs to `/assets` (or `/assets/image`) and polls when an API base is set via the gear. Marketing sections sit below the fold. |
 | **`policylens.html`** | **PolicyLens (customer)** — same APIs as before; chrome for sharing with ad teams. |
 | **`policylens-dev.html`** | **PolicyLens (internal)** — previous engineering UI (API base, domain, pipeline jargon). |
 | **`reviewlens.html`** | **ReviewLens** — human review queue: open a queued case (creative media, violations, LLM advisory), mark per-rule false positives, record approve / needs-changes / reject via `POST /assets/{id}/review`. Recorded decisions are authoritative. |

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI compliance companies — Under Intelligence briefing</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --card: #14181e;
+      --line: rgba(255,255,255,.12);
+      --text: #f2f3f1;
+      --muted: #8b939e;
+      --ink: #2e6b64;
+      --ink-2: #8fbfb8;
+      --ok: #5dba8c;
+      --warn: #c9a227;
+      --fail: #d36b6b;
+      --paper: #f6f4ef;
+      --ink-dark: #1a1d21;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 16.5px;
+    }
+    .sans { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    a { color: var(--ink-2); }
+    .wrap { width: min(820px, calc(100% - 40px)); margin: 0 auto; }
+    .wide { width: min(980px, calc(100% - 40px)); margin: 0 auto; }
+
+    header.doc {
+      border-bottom: 1px solid var(--line);
+      padding: 28px 0 22px;
+    }
+    .kicker {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink-2); font-weight: 600; margin-bottom: 8px;
+    }
+    h1 {
+      font-size: clamp(32px, 5vw, 46px);
+      font-weight: 400; letter-spacing: -.02em; line-height: 1.12;
+    }
+    h1 em { font-style: italic; color: #fff; }
+    .meta {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      color: var(--muted); font-size: 13px; margin-top: 12px;
+    }
+    .lede {
+      color: var(--muted); font-size: 18px; margin: 22px 0 0; max-width: 720px;
+    }
+
+    nav.toc {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 8px;
+    }
+    nav.toc a {
+      color: var(--text); text-decoration: none;
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 6px 12px; font-size: 12.5px; background: rgba(255,255,255,.03);
+    }
+    nav.toc a:hover { border-color: var(--ink-2); }
+
+    h2 {
+      font-size: 28px; font-weight: 400; letter-spacing: -.02em;
+      margin: 56px 0 14px; padding-top: 8px;
+    }
+    h2 .n {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      color: var(--ink-2); font-size: 13px; font-weight: 600;
+      letter-spacing: .08em; display: block; margin-bottom: 6px;
+    }
+    h3 {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-2); margin: 22px 0 8px; font-weight: 600;
+    }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 14px 18px; }
+    li { margin: 5px 0; }
+    .muted { color: var(--muted); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 16px; padding: 18px 20px; margin: 20px 0 8px;
+      font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14.5px;
+    }
+    .callout strong { color: #fff; }
+
+    .company {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 20px; padding: 28px 28px 20px; margin: 18px 0 28px;
+    }
+    .company header {
+      display: flex; justify-content: space-between; gap: 16px;
+      align-items: baseline; flex-wrap: wrap;
+      border: 0; padding: 0 0 14px; margin-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .company h2 { margin: 0; padding: 0; font-size: 26px; }
+    .badge {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 999px; font-weight: 600;
+    }
+    .overlap-high { background: rgba(211,107,107,.18); color: #f0b4b4; }
+    .overlap-thin { background: rgba(201,162,39,.16); color: #e6d08a; }
+    .overlap-none { background: rgba(139,147,158,.18); color: #c5cad1; }
+
+    .grid3 {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 18px 0;
+    }
+    .stat {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+    .stat b { display: block; font-size: 15px; color: #fff; margin-bottom: 4px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+
+    table {
+      width: 100%; border-collapse: collapse; margin: 12px 0 8px;
+      font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px;
+    }
+    th, td { text-align: left; padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; }
+    td:first-child { font-weight: 600; color: #fff; white-space: nowrap; }
+
+    .steal { margin-top: 8px; }
+    .do { color: var(--ok); }
+    .dont { color: var(--fail); }
+
+    footer {
+      border-top: 1px solid var(--line); margin-top: 64px;
+      padding: 24px 0 48px; color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12.5px;
+    }
+    .print-hint {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px; color: var(--muted); margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .grid3 { grid-template-columns: 1fr; }
+      td:first-child { white-space: normal; }
+    }
+
+    @media print {
+      body { background: #fff; color: #1a1d21; font-size: 11.5pt; }
+      .lede, .muted, .meta, .print-hint, th, .stat span { color: #4a515a !important; }
+      h1 em, .company h2, td:first-child, .stat b, h2 { color: #111 !important; }
+      a { color: #1a5c55; }
+      .company, .callout, .stat {
+        background: #f6f4ef; border-color: #ddd; break-inside: avoid;
+      }
+      .badge { border: 1px solid #ccc; }
+      .overlap-high { background: #f8e6e6; color: #8a2a2a; }
+      .overlap-thin { background: #f5edd0; color: #6a5410; }
+      .overlap-none { background: #eee; color: #444; }
+      header.doc, footer { border-color: #ddd; }
+      nav.toc { display: none; }
+      .print-hint { display: none; }
+      a[href]::after { content: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="doc">
+    <div class="wrap">
+      <div class="kicker sans">Under Intelligence · internal briefing</div>
+      <h1>AI compliance companies<br><em>worth studying</em></h1>
+      <p class="meta">25 August 2026 · for cofounder share · not a public page</p>
+      <p class="lede">
+        These seven are not one category. <strong style="color:#f2f3f1">Norm Ai</strong> is the only one that reviews marketing language.
+        Credo and Trustible govern a company’s <em>own</em> AI systems. Vanta, Drata, and Sprinto sell SOC&nbsp;2 / ISO evidence.
+        OneTrust is privacy plus enterprise GRC with an AI module bolted on.
+      </p>
+      <p class="lede" style="margin-top:12px">
+        Under Intelligence is none of those. It is <strong style="color:#f2f3f1">paid-media claim review</strong>:
+        trigger, then gate, then a clause on the graph. Steal their <em>clarity</em> (named buyer, workflow, evidence).
+        Do not steal their <em>category words</em>.
+      </p>
+      <p class="print-hint">File → Print → Save as PDF if you want a PDF copy. This page is self-contained.</p>
+      <nav class="toc">
+        <a href="#norm">Norm Ai</a>
+        <a href="#credo">Credo AI</a>
+        <a href="#trustible">Trustible</a>
+        <a href="#vanta">Vanta</a>
+        <a href="#drata">Drata</a>
+        <a href="#onetrust">OneTrust</a>
+        <a href="#sprinto">Sprinto</a>
+        <a href="#site">Website</a>
+        <a href="#design">Steal for design</a>
+        <a href="#work">Steal for the product</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="callout">
+      <strong>How to read overlap badges.</strong>
+      Red = real product overlap (content review). Gold = shared shape (intake, audit trail, packs) on a different object.
+      Grey = almost no matcher overlap; only sales or UX patterns.
+    </div>
+
+    <article class="company" id="norm">
+      <header>
+        <h2><span class="n">01</span>Norm Ai</h2>
+        <span class="badge overlap-high">Highest overlap</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://norm.ai/">norm.ai</a> · “Agentic Law”</p>
+
+      <h3>Who they sell to</h3>
+      <p>Legal and compliance at large financial institutions (asset managers, broker-dealers, insurers). Clients and backers include Blackstone, Vanguard, Citi, New York Life, TIAA. Combined AUM they cite is ~$30–35T. Buyers are GC / CCO / legal-ops, not trafficking.</p>
+
+      <h3>What they do</h3>
+      <p>“Agentic law”: encode regs into AI agents. Closest product to us is <strong>regulated content review</strong> — marketing collateral, investor decks, disclosures, web/social — against SEC, FINRA, FTC, NAIC, FCA, MiFID II, plus firm policy. Also DDQ/RFP, contract review, disclosure libraries, fact banks. Review is LLM agents with citations and suggested rewrites, plus human oversight. Not a lexical matcher.</p>
+
+      <h3>Shared with us</h3>
+      <p>Same job on a different stack: take copy, flag risk, cite a rule, keep a decision record, keep a human in the loop. Shared nouns: citations, disclosures, substantiation, review cycle time, marketing vs compliance.</p>
+
+      <h3>What to change on the site</h3>
+      <p>This is the only company that should shape the homepage.</p>
+      <ul>
+        <li>Name the <strong>buyer</strong> the way they do: “marketing compliance at a regulated advertiser,” not “trafficking &amp; creative.”</li>
+        <li>Add a <strong>coverage map</strong> like theirs (SEC / FINRA / FTC / Green Guides / platform policies) so we do not look like a toy next to “100+ global regulations.”</li>
+        <li>Keep the comparison table, but add a row they cannot match: <strong>same text → same pack hits</strong>. Their agents will not say that.</li>
+        <li>Do <strong>not</strong> copy “agentic law,” affiliated law firm, or “Legal AGI.” That is their brand, not ours.</li>
+      </ul>
+    </article>
+
+    <article class="company" id="credo">
+      <header>
+        <h2><span class="n">02</span>Credo AI</h2>
+        <span class="badge overlap-thin">Thin overlap</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://www.credo.ai/">credo.ai</a> · AI governance platform</p>
+
+      <h3>Who they sell to</h3>
+      <p>Fortune 500 / Global 2000 AI governance: Mastercard, insurers, healthcare, federal. Buyers are CAIO, CDO, CRO, GC. Forrester Leader in AI governance. Problem they sell: “you cannot govern millisecond agents with a monthly audit.”</p>
+
+      <h3>What they do</h3>
+      <p>Registry of every AI system, agent, model, and vendor. Policy packs for EU AI Act, NIST AI RMF, ISO 42001. Risk scoring, shadow-AI discovery, audit evidence, 300+ integrations (Snowflake, Databricks, ServiceNow). They govern <strong>whether you may deploy an AI system</strong>, not whether an ad claim is substantiated.</p>
+
+      <h3>Shared with us</h3>
+      <p>Thin: “policy packs,” audit evidence, human review, mapping controls to a named standard. Their packs are GRC checklists. Ours are gated lexical patterns over ad copy.</p>
+
+      <h3>What to change on the site</h3>
+      <ul>
+        <li>Drop any leftover <strong>AI-governance</strong> smell. “Compliance layer” is fine; “govern AI” is their category and we lose it.</li>
+        <li>If we keep “policy packs,” say <strong>ad-claim packs</strong> (Green Guides, Made in USA, health) so nobody hears Credo.</li>
+        <li>Do not add EU AI Act / ISO 42001 chips. Those buyers will bounce when they see Meta / Google / TikTok.</li>
+      </ul>
+    </article>
+
+    <article class="company" id="trustible">
+      <header>
+        <h2><span class="n">03</span>Trustible</h2>
+        <span class="badge overlap-thin">Thin overlap</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://trustible.ai/">trustible.ai</a> · AI governance for the governance office</p>
+
+      <h3>Who they sell to</h3>
+      <p>Enterprise AI governance teams (legal, risk, AI strategy), not engineers. Customers they name: Leidos, Nuix, Ashoka. Smaller than Credo (~$4.6M seed). Sell a 30/60/90-day program: inventory → risk workflows → board reporting.</p>
+
+      <h3>What they do</h3>
+      <p>Intake of every AI use case / model / vendor. Risk triage (low-risk auto-approves). Map once to EU AI Act / NIST / ISO 42001. Spreadsheet replacement for the AI governance office.</p>
+
+      <h3>Shared with us</h3>
+      <p>Intake → risk route → audit trail. That is the <strong>shape</strong> of ReviewLens, not the <strong>object</strong>. They route an AI use-case. We route a creative.</p>
+
+      <h3>What to change on the site</h3>
+      <ul>
+        <li>Steal the <strong>lifecycle sentence</strong>, rewritten for ads: ingest → trigger → gate → human record. We already have this; make it the first thing a CCO sees.</li>
+        <li>Steal <strong>“low-risk moves fast, high-risk gets a person.”</strong> Map it to: licensed hits clear; absolute packs and borderline go to ReviewLens.</li>
+        <li>Do not add “AI inventory,” “vendor questionnaire,” or “framework readiness %.” Wrong product.</li>
+      </ul>
+    </article>
+
+    <article class="company" id="vanta">
+      <header>
+        <h2><span class="n">04</span>Vanta</h2>
+        <span class="badge overlap-none">UX / sales only</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://www.vanta.com/">vanta.com</a> · Agentic Trust Platform (SOC&nbsp;2)</p>
+
+      <h3>Who they sell to</h3>
+      <p>Startups first (need SOC&nbsp;2 to close deals), then mid-market security, then CISO. 16,000+ customers. Buyer is Head of Security / founder, not brand or media.</p>
+
+      <h3>What they do</h3>
+      <p>Continuous compliance automation: SOC&nbsp;2, ISO 27001, HIPAA, GDPR, plus ISO 42001 / NIST AI RMF as add-ons. Integrations collect evidence. Trust Center + questionnaire bot. “Agentic Trust Platform.”</p>
+
+      <h3>Shared with us</h3>
+      <p>Almost none on the matcher. Shared <strong>sales motion</strong>: compliance as something you show a counterparty so a deal unblocks. Their artifact is a SOC&nbsp;2 report. Ours would be a <strong>cited verdict on a creative</strong>.</p>
+
+      <h3>What to change on the site</h3>
+      <ul>
+        <li>Steal <strong>“unblock the cycle.”</strong> Their quote is questionnaires blocking sales. Ours is legal blocking launch. CTA should be “get this live before the next flight,” not “talk to a governance expert.”</li>
+        <li>Steal <strong>Trust Center energy</strong> only if we mean a <strong>sample audit graph</strong>, not a security portal.</li>
+        <li>Do not use “trust platform,” “get compliant,” or SOC&nbsp;2 / HIPAA chips. That is how we get filed next to Vanta and ignored.</li>
+      </ul>
+    </article>
+
+    <article class="company" id="drata">
+      <header>
+        <h2><span class="n">05</span>Drata</h2>
+        <span class="badge overlap-none">UX / sales only</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://drata.com/">drata.com</a> · continuous GRC for security teams</p>
+
+      <h3>Who they sell to</h3>
+      <p>Security-led teams from growth-stage to enterprise (~8,500 customers). CISO / GRC lead who already has a program and wants deeper control monitoring than Vanta.</p>
+
+      <h3>What they do</h3>
+      <p>Continuous control testing across 30+ frameworks, 300+ integrations, auditor workspace, Trust Center. Newer pitch: discover AI agents in the environment and prove policy before they act. Still <strong>your security posture</strong>, not <strong>the ad’s claims</strong>.</p>
+
+      <h3>Shared with us</h3>
+      <p>Continuous monitoring + evidence that stays current. Analog: we could monitor <strong>live ads</strong>, not cloud configs. Also: map a control once, reuse it. That is already our pack model.</p>
+
+      <h3>What to change on the site</h3>
+      <ul>
+        <li>One line for <strong>always-on</strong>: “same packs on every impression, not a quarterly legal review.”</li>
+        <li>Do not promise “discover every AI agent.” That is their wedge; we do not have it and should not pretend.</li>
+      </ul>
+    </article>
+
+    <article class="company" id="onetrust">
+      <header>
+        <h2><span class="n">06</span>OneTrust</h2>
+        <span class="badge overlap-thin">Adjacent (consent, not claims)</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://www.onetrust.com/">onetrust.com</a> · privacy + GRC + AI module</p>
+
+      <h3>Who they sell to</h3>
+      <p>Fortune 500 privacy, legal, and data-protection offices. Cookie banners, DSAR, consent. Half of Fortune 500. CMOs care about the <strong>consent</strong> module (IAB TCF, Google Consent Mode), not the AI-governance module.</p>
+
+      <h3>What they do</h3>
+      <p>Privacy automation, consent/preferences, third-party risk, tech risk, plus an AI use-case workflow (intake → assess → approve → monitor). Adjacent to ads only on <strong>whether you may process the user’s data</strong>, not <strong>whether the claim is lawful</strong>.</p>
+
+      <h3>Shared with us</h3>
+      <p>Marketing-adjacent compliance; named regulations; audit trail. Different object: <strong>personal data / cookies</strong> vs <strong>substantiation of a claim</strong>.</p>
+
+      <h3>What to change on the site</h3>
+      <ul>
+        <li>Draw a hard line: we do <strong>claim legality</strong>, not <strong>cookie consent</strong>. One sentence so a DPO does not think we replace OneTrust.</li>
+        <li>Do not add a cookie-banner / preference-center story. Wrong war.</li>
+        <li>If we ever name OneTrust, it is as a <strong>complement</strong> (“they capture consent; we cite the claim”).</li>
+      </ul>
+    </article>
+
+    <article class="company" id="sprinto">
+      <header>
+        <h2><span class="n">07</span>Sprinto</h2>
+        <span class="badge overlap-none">UX / first-run only</span>
+      </header>
+      <p class="sans muted" style="margin-bottom:14px"><a href="https://www.sprinto.com/">sprinto.com</a> · Autonomous Trust Platform</p>
+
+      <h3>Who they sell to</h3>
+      <p>Series A–C companies that need a SOC&nbsp;2 operator because they have no compliance hire. 3,000+ customers. More prescriptive and cheaper than Vanta/Drata. Also selling “autonomous trust” and an AI-tool registry.</p>
+
+      <h3>What they do</h3>
+      <p>Connect AWS/GitHub/HR, collect evidence, map 200+ frameworks, vendor diligence, Trust Center. AI governance here = shadow-AI registry mapped to ISO 42001 — still not ad review.</p>
+
+      <h3>Shared with us</h3>
+      <p>Guided first-run for a team with no specialist. That is PolicyLens: paste copy, get a cited hit, no GRC implementation.</p>
+
+      <h3>What to change on the site</h3>
+      <ul>
+        <li>Steal <strong>time-to-first-value</strong>: “no 90-day implementation.” We already say ready for a trafficking team; make the contrast explicit vs GRC installs.</li>
+        <li>Keep the self-serve CTA. Do not add “request a demo / talk to a named advisor” as the primary path unless we are selling enterprise Norm-style.</li>
+      </ul>
+    </article>
+
+    <h2 id="site"><span class="n">Website implication</span>What this means for underintelligence.com</h2>
+    <p>Keep the current spine: <strong>Ad claims, handled.</strong> Deterministic matcher. PolicyLens / ReviewLens / API. Trigger-then-gate. Citation table vs LLM-only.</p>
+
+    <h3>Add (from this list)</h3>
+    <ol>
+      <li><strong>Named buyer</strong> — brand legal / marketing compliance / trafficking, not “governance teams.”</li>
+      <li><strong>What we are not</strong> — one line: not SOC&nbsp;2, not EU AI Act inventory, not cookie consent.</li>
+      <li><strong>Coverage as chips that match the buyer</strong> — FTC, FDA, NAD, Green Guides, Made in USA, Meta/Google/TikTok stay; never add SOC&nbsp;2 / ISO 27001 / ISO 42001.</li>
+      <li><strong>Workflow speed</strong> — low-risk licensed copy clears; absolute and borderline go to ReviewLens.</li>
+      <li><strong>Complement, don’t collide</strong> — OneTrust/Vanta are the customer’s <em>other</em> stack; we sit on the creative.</li>
+    </ol>
+
+    <h3>Do not add</h3>
+    <p>Agentic trust, AI registry, vendor questionnaires, framework readiness percentages, “govern every agent,” affiliated law firm.</p>
+
+    <p><strong>Closest real competitor on this list:</strong> Norm Ai, and only on FINRA/SEC-style marketing review. Differentiation is already on the page and should stay loud: <strong>the model does not decide the hit.</strong> Their agents do.</p>
+  </main>
+
+  <section class="wide" style="margin-top:56px">
+    <h2 id="design" style="width:min(820px,100%);margin-left:auto;margin-right:auto"><span class="n">Steal list</span>Best things for website design</h2>
+    <p class="wrap muted" style="margin-bottom:18px">Ranked. Take the pattern, rewrite the nouns. Do not copy their category language.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>Pattern</th>
+          <th>Do on our site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Trustible</td>
+          <td>Dark page, serif headline, white primary button, ghost secondary. Hero states the buyer in one line.</td>
+          <td>We already look like this. Keep it. Tighten the hero to name the buyer: marketing compliance / brand legal, not “trafficking &amp; creative.”</td>
+        </tr>
+        <tr>
+          <td>Trustible</td>
+          <td>“Today vs with us” two-column: email/spreadsheets vs structured route. Fake product UI of the workspace below the fold.</td>
+          <td>Replace the small hit panel with a larger PolicyLens mock: claim → trigger span → clause quote → licensed / absolute. Then a second column: ReviewLens for the borderline case.</td>
+        </tr>
+        <tr>
+          <td>Norm Ai</td>
+          <td>Institutional proof (AUM, named firms) and a coverage map of named regs, not a vibe.</td>
+          <td>We cannot fake Blackstone. We can show a coverage map: FTC / FDA / NAD / Green Guides / Made in USA / Meta / Google / TikTok — grouped, not a flat chip row.</td>
+        </tr>
+        <tr>
+          <td>Vanta</td>
+          <td>Segmented “Built for you”: startup / mid-market / enterprise. Quotes with name + title. Stats that unblock a deal (hours, questionnaires), not vanity.</td>
+          <td>Three lanes we already have (PolicyLens / ReviewLens / API) should be labeled by job: paste a creative · record a decision · pipe the trafficking system. Stats should be about same-text-same-hit and cited clauses, not “AI.”</td>
+        </tr>
+        <tr>
+          <td>Sprinto</td>
+          <td>Time-to-value as the contrast vs GRC: no 90-day implementation. Self-serve first.</td>
+          <td>Keep “Check a creative” as primary CTA. Add one line: no onboarding project, no demo required to see a cited hit.</td>
+        </tr>
+        <tr>
+          <td>Credo</td>
+          <td>Named customer + exact quote + title (Mastercard CDO). Framework logos as a trust strip for <em>their</em> buyers.</td>
+          <td>When we have a quote, use title + company. Until then, do not fake logos. Do not put EU AI Act / ISO 42001 on the strip.</td>
+        </tr>
+        <tr>
+          <td>OneTrust</td>
+          <td>Product screenshot of the actual workflow (intake → assess → approve) in the hero, not abstract blobs.</td>
+          <td>Hero should show the audit graph, not only the slogan. The product is the citation.</td>
+        </tr>
+        <tr>
+          <td>Drata</td>
+          <td>“Always current,” not annual. Mission-control language.</td>
+          <td>One sentence: same packs on every impression, not a quarterly legal review. Skip their dashboard chrome.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid3">
+      <div class="stat"><b class="do">Do copy</b><span>Named buyer. Before/after of the review path. Coverage grouped by regulator. Product UI as the hero artifact. Self-serve CTA. “Low-risk clears / high-risk gets a person.”</span></div>
+      <div class="stat"><b>Already ours — keep</b><span>Charcoal + serif headline + white button. Trigger-then-gate. Comparison vs LLM-only. FTC/FDA/NAD chips. PolicyLens as the live demo.</span></div>
+      <div class="stat"><b class="dont">Do not copy</b><span>“Agentic trust,” “govern AI,” SOC 2 / ISO chips, demo-gated homepage, magenta enterprise chrome, cookie banners, AI inventory dashboards, framework readiness percentages.</span></div>
+    </div>
+  </section>
+
+  <section class="wide" style="margin-bottom:24px">
+    <h2 id="work" style="width:min(820px,100%);margin-left:auto;margin-right:auto"><span class="n">Steal list</span>Best things for the product (work)</h2>
+    <p class="wrap muted" style="margin-bottom:18px">What to build. Ranked by how close it is to our engine. Nothing here adds ML to the blocking path.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>Capability</th>
+          <th>What we should actually build</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Norm Ai</td>
+          <td>Citations + suggested compliant rewrite + disclosure library + fact/substantiation bank. Coverage across named marketing regs.</td>
+          <td>Keep citations as the core. Next: a <strong>disclosure library</strong> (approved qualifier text per pack) and a <strong>substantiation stub</strong> (this claim needs a study / spec on file). Optional: suggested rewrite as advisory copy only — never as the verdict. Expand packs toward FINRA/SEC <em>only</em> if we sell that buyer.</td>
+        </tr>
+        <tr>
+          <td>Trustible</td>
+          <td>Risk-based routing: low-risk auto, high-risk human. Audit trail generated as work happens. 30/60/90 operating rhythm.</td>
+          <td>ReviewLens already is the human path. Make routing explicit in product: licensed hit → clear; absolute pack → fail; gated miss / both-twins → queue. Every decision writes the graph (we have this). Do not build use-case inventory.</td>
+        </tr>
+        <tr>
+          <td>Drata</td>
+          <td>Map a control once, reuse across frameworks. Continuous testing, not a quarterly audit. Auditor workspace.</td>
+          <td>Packs already map once. Next work: <strong>watch live ads</strong> (same matcher on trafficked creatives), not a point-in-time paste. Export a case file a lawyer can open without our UI.</td>
+        </tr>
+        <tr>
+          <td>Vanta</td>
+          <td>Artifact you show a counterparty to unblock a cycle. Questionnaire automation. Trust Center.</td>
+          <td>The artifact is the <strong>cited verdict + graph</strong>, shareable as a link or PDF. That unblocks legal, not a sales questionnaire. Skip Trust Center and vendor questionnaires.</td>
+        </tr>
+        <tr>
+          <td>Sprinto</td>
+          <td>Guided first-run for a team with no specialist. Prescriptive, not a 90-day GRC project.</td>
+          <td>PolicyLens is this. Improve empty/error states and a 3-step first creative (paste → see hit → send to ReviewLens). Do not add implementation consultants as the product.</td>
+        </tr>
+        <tr>
+          <td>Credo</td>
+          <td>Policy packs named to a standard. Evidence that maps to a clause. Human review of edge cases.</td>
+          <td>We already have packs-with-clauses. Keep packing against FTC/FDA/NAD/Green Guides, not NIST AI RMF. Do not build an AI-system registry.</td>
+        </tr>
+        <tr>
+          <td>OneTrust</td>
+          <td>Complement to the rest of the marketing stack. Consent vs claim is a clean boundary.</td>
+          <td>Stay off cookies/DSAR. If a customer asks, the line is: they honor consent; we cite the claim. Integrations later: ad platforms and DAM, not CMPs.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout wrap" style="margin-top:20px">
+      <strong>Build order if we only take three things.</strong>
+      (1) Explicit routing: licensed / absolute / ReviewLens — from Trustible’s shape.
+      (2) Shareable cited case (link or PDF) — from Vanta’s “artifact that unblocks.”
+      (3) Disclosure library + substantiation stub on the graph — from Norm, without making the LLM the judge.
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      Under Intelligence · internal · 25 Aug 2026 · print this page to PDF for sharing.
+      Source notes from public sites: norm.ai, credo.ai, trustible.ai, vanta.com, drata.com, onetrust.com, sprinto.com.
+    </div>
+  </footer>
+</body>
+</html>

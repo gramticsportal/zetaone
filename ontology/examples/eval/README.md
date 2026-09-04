@@ -6,37 +6,67 @@ Harvest working files are in `../harvest/` and are not eval.
 
 ## Splits
 
-The unit of assignment is the **source enforcement action**, not the row. A case and
-everything derived from it — the harvested violations and their compliant minimal pairs —
-land in exactly one split, because 1,589 harvested rows come from only 827 cases and each
-compliant row is a rewrite of one specific violation. Splitting by row would put a claim
-in train and its near-twin in test.
+**Current policy:** every labeled row is in the **eval set** (`split: test`). There is no
+active train/dev partition — score the full corpus, then drop low-quality rows later.
 
-The 44 expert-labelled rows in `eval_precedents.yaml` are the north star and stay
-test-only. 13 of their cases also appear in the harvested set, so those cases are locked
-to test as well.
+**Score it:** from repo root, `PYTHONPATH=src python3.11 scripts/eval_matcher.py` (full corpus + pairs, NLP off).
 
-| Split | Groups | Rows | Use |
-|-------|--------|------|-----|
-| `train` | 578 | 1,869 | mining triggers, fitting a semantic tier |
-| `dev` | 121 | 386 | tuning thresholds, curating packs |
-| `test` | 128 | 493 | reporting only — never tune against it |
+`../load_eval.py` loads seed + precedents + harvested + compliant pairs by default.
+Set `ZATAONE_EVAL_INCLUDE_HARVESTED=0` to drop harvest/pairs. Optional
+`ZATAONE_EVAL_SPLITS=…` still filters if you need it.
 
-Rebuild and verify:
+`build_eval_splits.py` / `eval_splits.yaml` remain for if you reintroduce a holdout later.
+Do not treat them as the live reporting protocol right now.
+
+## Gold audit (make the labels perfect)
+
+Goal: separate **matcher bugs** from **bad gold**. Review high-priority rows first.
+
+### 1. Build the review queue (matcher tags + optional Gemini justification)
 
 ```bash
-python ontology/tools/build_eval_splits.py            # assign (stable, re-runnable)
-python ontology/tools/build_eval_splits.py --check    # no group or duplicate spans splits
+# Fast queue only — FN/FP/short ads, no API
+PYTHONPATH=src python3.11 ontology/tools/audit_eval_gold.py --priority high --limit 100
+
+# With Gemini reasons (set GEMINI_API_KEY). Speeds human review.
+PYTHONPATH=src python3.11 ontology/tools/audit_eval_gold.py --gemini --priority high --limit 50
 ```
 
-`eval_splits.yaml` is the generated group→split manifest — do not hand-edit it.
+Writes:
 
-Select a split when loading:
+- `../harvest/eval_gold_review.csv` — fill `human_decision`
+- `../harvest/eval_gold_review.html` — browser-friendly view
 
-```python
-load_eval_examples(splits=["train", "dev"])   # or ZATAONE_EVAL_SPLITS=train,dev
+Columns to trust in order: `error_type` (FN/FP) → `gemini_label_agree` / `gemini_reason` → your call.
+
+`human_decision` values: `keep` | `drop` | `relabel_nc` | `relabel_c` | `quarantine`
+
+```bash
+python3.11 ontology/tools/apply_eval_gold_decisions.py          # dry-run
+python3.11 ontology/tools/apply_eval_gold_decisions.py --apply  # write YAMLs
 ```
 
-Anything that fits, mines or curates should ask for `train`/`dev`. Scoring the packs on
-the same rows they were curated against is how `eval_non_compliant_hits` ended up baked
-into 52 of the 54 packs, and why the current headline numbers are in-sample.
+### 2. Harvest quality (assessable vs junk extraction)
+
+```bash
+PYTHONPATH=src python3.11 ontology/tools/audit_missed_violations.py --limit 200   # or full
+PYTHONPATH=src python3.11 ontology/tools/quarantine_harvest_junk.py             # after you trust the CSV
+```
+
+`audit_missed_violations.py` labels `assessable_claim` / `fragment` / `not_a_claim` with a Gemini reason. Quarantine moves junk (and twin pairs) out of eval into `../harvest/`.
+
+### 3. Review order that stays honest
+
+1. **High priority FN** where Gemini says `fragment` / `not_a_claim` / `disagree` → drop or relabel (don’t credit the matcher).
+2. **High priority FP** where Gemini `agree` with compliant → pack false alarm (fix packs / gates).
+3. **High priority FN** where Gemini `agree` with non_compliant → real miss → mine triggers (`mine_fn_triggers.py`).
+4. Only then touch medium/low priority rows.
+
+Gemini is **advisory**. Precedents stay expert-owned; never bulk-accept model labels into gold without a human tick.
+
+### 4. Mine triggers from remaining true FNs
+
+```bash
+PYTHONPATH=src python3.11 ontology/tools/mine_fn_triggers.py
+# → ontology/patterns/candidates_fn_review.csv — hand-add phrases to packs
+```

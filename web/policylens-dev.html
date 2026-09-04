@@ -5,10 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="PolicyLens: visual compliance review with overlays and optional advisory LLM" />
-    <title>PolicyLens — Under Intelligence</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <title>PolicyLens (internal)</title>
     <style>
         :root {
             --pl-primary: #5b6ee8;
@@ -272,81 +269,16 @@
             .metric-grid { grid-template-columns: repeat(2, 1fr); }
             .verdict-value { font-size: 1.15rem; }
         }
-
-        /* Public chrome — dark shell, light work surface. Result/verdict colors unchanged. */
-        .pl-nav {
-            position: sticky; top: 0; z-index: 20;
-            backdrop-filter: blur(16px);
-            background: rgba(11,13,16,.9);
-            border-bottom: 1px solid rgba(255,255,255,.1);
-        }
-        .pl-nav-inner {
-            width: min(1180px, calc(100% - 40px)); margin: 0 auto;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 0; gap: 16px;
-        }
-        .pl-brand { display: flex; align-items: center; gap: 10px; color: #f2f3f1; font-weight: 600; letter-spacing: -.02em; text-decoration: none; }
-        .pl-mark {
-            width: 28px; height: 28px; border-radius: 9px; background: #2e6b64;
-            display: grid; place-items: center; font-family: "Instrument Serif", serif; font-size: 16px; color: #fff;
-        }
-        .pl-nav-links { display: flex; gap: 18px; font-size: 14px; color: #8b939e; }
-        .pl-nav-links a { color: inherit; text-decoration: none; }
-        .pl-nav-links a:hover, .pl-nav-links a.on { color: #f2f3f1; }
-        html, body.pl-public { max-width: none; margin: 0; padding: 0; background: #0b0d10; color: #f2f3f1; font-family: "DM Sans", system-ui, sans-serif; }
-        body.pl-public .container {
-            width: min(1180px, calc(100% - 40px)); margin: 28px auto 48px;
-            background: #fff; color: var(--pl-text);
-            border-radius: 18px; box-shadow: none; border: 1px solid rgba(255,255,255,.08);
-        }
-        body.pl-public h1 {
-            font-family: "Instrument Serif", serif; font-weight: 400; font-size: clamp(32px, 5vw, 44px);
-            color: #0b0d10; text-align: left; letter-spacing: -.03em; margin: 0 0 8px;
-        }
-        body.pl-public .subtitle { text-align: left; color: var(--pl-muted); max-width: 640px; }
-        body.pl-public .dev-drawer {
-            margin: 16px 0 8px; border: 1px solid var(--pl-border); border-radius: 10px; padding: 4px 12px 10px;
-            background: #f7f8fa;
-        }
-        body.pl-public .dev-drawer summary { color: var(--pl-muted); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
-        body.pl-public button#analyzeBtn { background: #0b0d10; border-radius: 999px; }
-        body.pl-public button#analyzeBtn:hover { background: #1a1e24; }
-        body.pl-public .upload-area:hover { border-color: #2e6b64; background: #f4faf8; }
-        body.pl-public .upload-area.dragover { border-color: #2e6b64; background: #eaf6f3; }
-        @media (max-width: 640px) {
-            .pl-nav-inner { flex-wrap: wrap; }
-            .pl-nav-links { width: 100%; }
-        }
     </style>
 </head>
-<body class="pl-public">
-    <header class="pl-nav">
-        <div class="pl-nav-inner">
-            <a class="pl-brand" href="/"><span class="pl-mark">U</span> Under Intelligence</a>
-            <nav class="pl-nav-links">
-                <a href="/">Home</a>
-                <a class="on" href="/ui/policylens.html">PolicyLens</a>
-                <a href="/ui/reviewlens.html">ReviewLens</a>
-                <a href="/docs">API</a>
-            </nav>
-        </div>
-    </header>
+<body>
     <div class="container">
-        <h1>PolicyLens</h1>
-        <p class="subtitle">Paste ad copy or drop a creative. The matcher cites the clause, the quote, and the trigger.</p>
+        <p class="subtitle" style="text-align:left;margin:0 0 12px;padding:8px 12px;background:#fff8e6;border:1px solid #e6d089;border-radius:8px;color:#5c4a00;">
+            Internal PolicyLens — for engineering checks. Customer-facing UI: <a href="policylens.html">policylens.html</a>
+        </p>
+        <h1>Zataone PolicyLens</h1>
+        <p class="subtitle">Visual compliance review for demos — <strong>Quick</strong> (VLM → LLM vs policy) or <strong>Full</strong> (extractors + LLM vs policy; optional YAML rule engine). Same APIs: upload → poll → graph.</p>
 
-        <div class="row-modes">
-            <label><input type="radio" name="mode" value="image" checked /> Image</label>
-            <label><input type="radio" name="mode" value="text" /> Text</label>
-        </div>
-        <div class="row-modes" id="pipelineModeRow">
-            <span style="font-weight:600;margin-right:4px;">Review:</span>
-            <label><input type="radio" name="pipelineMode" value="full" checked /> Full</label>
-            <label><input type="radio" name="pipelineMode" value="fast" /> Quick</label>
-        </div>
-
-        <details class="dev-drawer">
-            <summary>Connection</summary>
         <label for="apiBase">API base URL (no trailing slash)</label>
         <div class="api-input-row">
             <input type="text" id="apiBase" placeholder="https://zataone-api-….run.app" autocomplete="url" enterkeyhint="go" />
@@ -362,7 +294,25 @@
         <datalist id="domainPresets">
             <option value="ad_compliance"></option>
         </datalist>
-        </details>
+        <p class="domain-hint">
+            Sent on every API request. The service must allow this name (Cloud Run env
+            <code>ZATAONE_ALLOWED_DOMAINS</code>, comma-separated; the default domain is always allowed).
+            If you pick a domain the server does not allow, the API returns <strong>403</strong>.
+        </p>
+
+        <div class="row-modes">
+            <label><input type="radio" name="mode" value="image" checked /> Image</label>
+            <label><input type="radio" name="mode" value="text" /> Text</label>
+        </div>
+        <div class="row-modes" id="pipelineModeRow">
+            <span style="font-weight:600;margin-right:4px;">Pipeline:</span>
+            <label><input type="radio" name="pipelineMode" value="full" checked /> Full (extractors + LLM vs policy)</label>
+            <label><input type="radio" name="pipelineMode" value="fast" /> Quick (VLM → LLM vs policy)</label>
+        </div>
+        <p class="domain-hint" style="margin-top:6px;">
+            <strong>Quick:</strong> no extractors, rule engine off — outcome from Gemini VLM + text LLM vs policy clauses.
+            <strong>Full:</strong> OCR/vision signals + LLM vs policy; set API env <code>ZATAONE_POLICY_ENGINE_ENABLED=true</code> only if you want YAML rule matching too.
+        </p>
 
         <div id="imagePanel">
             <div class="upload-area" id="uploadArea">
@@ -388,13 +338,13 @@
         </div>
 
         <div class="toggle-row">
-            <label><input type="checkbox" id="toggleOcr" checked /> Text boxes</label>
-            <label><input type="checkbox" id="toggleVision" checked /> Object boxes</label>
-            <label><input type="checkbox" id="toggleAllSignals" /> All detections</label>
-            <label><input type="checkbox" id="toggleLabels" checked /> Show labels</label>
+            <label><input type="checkbox" id="toggleOcr" checked /> OCR boxes</label>
+            <label><input type="checkbox" id="toggleVision" checked /> Vision boxes</label>
+            <label><input type="checkbox" id="toggleAllSignals" /> All signal boxes (ignore violation)</label>
+            <label><input type="checkbox" id="toggleLabels" checked /> Show box labels</label>
         </div>
 
-        <button type="button" id="analyzeBtn" disabled>Run check</button>
+        <button type="button" id="analyzeBtn" disabled>Run compliance check</button>
 
         <div id="runProgress" class="run-progress pipeline-extended" hidden aria-label="Pipeline progress"></div>
         <p id="runStats" class="run-stats" hidden></p>
@@ -403,9 +353,9 @@
         <div class="grid">
             <div class="panel" id="leftPreviewPanel">
                 <h2>Preview & overlays</h2>
-                <p class="muted" id="overlayHelp">Image overlays show where the system found text or objects. Full review only.</p>
-                <p id="quickOverlayNote" class="muted overlay-hint" style="display:none;">Quick review skips overlays — switch to Full to see them.</p>
-                <p id="textModeNote" class="preview-placeholder" style="display:none;">Text review. Switch to Image to preview the creative.</p>
+                <p class="muted" id="overlayHelp">Boxes appear when extractors store <code>bbox</code> in signal / evidence JSON. (<strong>Image</strong> mode only.)</p>
+                <p id="quickOverlayNote" class="muted overlay-hint" style="display:none;">Quick mode skips extractors — use <strong>Full</strong> for OCR/vision overlays.</p>
+                <p id="textModeNote" class="preview-placeholder" style="display:none;">You’re in <strong>Text</strong> mode. Switch to <strong>Image</strong> to see the preview and bounding-box overlays after a run.</p>
                 <div class="image-stage" id="imageStage" style="display:none;">
                     <img id="preview" alt="Preview" />
                     <div class="overlay" id="overlay"></div>
@@ -417,7 +367,7 @@
                 <div id="result" role="status" aria-live="polite"></div>
                 <div id="explainMount"></div>
                 <div id="llmSection" style="display: none;">
-                    <h3>Advisory review</h3>
+                    <h3>Advisory review (Gemini)</h3>
                     <p class="muted" id="llmHint" style="margin: 0 0 8px 0;"></p>
                     <button type="button" id="llmReviewBtn" class="btn-secondary" disabled>Run advisory review</button>
                     <div id="llmReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
@@ -462,11 +412,14 @@
             const hint = document.getElementById('llmHint');
             if (!hint) return;
             if (pipelineModeValue() === 'fast') {
-                hint.textContent =
-                    'Quick review: the model reads the creative and compares it to policy. Use Full for pack hits and overlays.';
+                hint.innerHTML =
+                    '<strong>Quick:</strong> VLM describes the image, then <strong>text LLM</strong> judges it against ' +
+                    '<code>policy_context</code> clauses. Rule engine is off; the <strong>Results</strong> card shows the LLM assessment when <code>GEMINI_API_KEY</code> is set.';
             } else {
-                hint.textContent =
-                    'Full review: packs write the audit graph. The summary on the right is advisory.';
+                hint.innerHTML =
+                    '<strong>Full:</strong> extractors + rule engine produce <strong>audit evidence</strong> (violations, risk). ' +
+                    'VLM runs in parallel; <strong>LLM is the final judge</strong> synthesizing signals + VLM + rule hits. ' +
+                    'Set <code>ZATAONE_VERDICT_AUTHORITY=deterministic</code> on the API to show rule-engine verdict instead.';
             }
         }
         document.querySelectorAll('input[name="pipelineMode"]').forEach((r) => {

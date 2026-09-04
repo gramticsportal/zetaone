@@ -19,7 +19,8 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "ontology"))
 
 os.environ.setdefault("ZATAONE_HYBRID_ENGINE", "1")
-os.environ.setdefault("ZATAONE_HYBRID_NLP", "1")
+# Canonical matcher numbers are lexical-only. scripts/eval_matcher.py forces this off.
+os.environ.setdefault("ZATAONE_HYBRID_NLP", "0")
 os.environ.setdefault("ZATAONE_HYBRID_NLP_BACKEND", "bow")
 
 

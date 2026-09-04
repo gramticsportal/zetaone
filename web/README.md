@@ -4,7 +4,9 @@
 
 | File | Purpose |
 |------|--------|
-| **`policylens.html`** | **PolicyLens** — Full/Quick pipeline toggle, upload → poll → verdict, explainability graph, overlays (Full), inline Gemini advisory |
+| **`home.html`** | Public marketing page at **`/`** (Under Intelligence). PolicyLens / ReviewLens / API are unchanged. |
+| **`policylens.html`** | **PolicyLens (customer)** — same APIs as before; chrome for sharing with ad teams. |
+| **`policylens-dev.html`** | **PolicyLens (internal)** — previous engineering UI (API base, domain, pipeline jargon). |
 | **`reviewlens.html`** | **ReviewLens** — human review queue: open a queued case (creative media, violations, LLM advisory), mark per-rule false positives, record approve / needs-changes / reject via `POST /assets/{id}/review`. Recorded decisions are authoritative. |
 | **`sentrilens.html`** | Redirects to `policylens.html` (legacy path). |
 | **`index.html`** | Minimal JSON viewer (links to PolicyLens for the full UI). |

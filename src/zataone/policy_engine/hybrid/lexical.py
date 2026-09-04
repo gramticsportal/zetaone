@@ -24,6 +24,11 @@ from zataone.policy_engine.text_norm import normalize_term, normalize_with_map
 # disclaimer from licensing a headline claim it is nowhere near.
 QUALIFIER_WINDOW = 240
 
+# Most FNs are short slogans / product-name claims. Under this length we also try a
+# flexible phrase match (punctuation between words) and keep scanning terms even when a
+# weak single hit already fired — short ads rarely have secondary context.
+SHORT_AD_CHARS = 100
+
 
 @dataclass
 class LexicalHit:
@@ -40,9 +45,13 @@ class LexicalHit:
     # advertiser obfuscated — the rule fired on "cure", the ad published "c-u-r-e" — and
     # evidence has to quote the ad, not the rule.
     source_text: str | None = None
-    # Negation cue covering this hit, when one does. Recorded rather than silently
-    # dropped so the audit trail can show the claim was read and found negated.
+    # Negation cue covering this hit, when one does. Recorded for the audit trail;
+    # by default it does not clear the hit (dropping on negation cost recall on
+    # enforcement-style copy like "not financial advice").
     negated_by: str | None = None
+    # True when span_start/end are already in original-text coordinates (e.g. a
+    # regex that matched the published ad). False when they still sit on folded text.
+    span_in_original: bool = False
 
 
 @lru_cache(maxsize=8192)
@@ -62,6 +71,28 @@ def _find_span(text: str, needle: str) -> tuple[int | None, int | None]:
     if not needle:
         return None, None
     m = _boundary_re(needle).search(text)
+    return (m.start(), m.end()) if m else (None, None)
+
+
+def _find_phrase_span(text: str, folded_phrase: str) -> tuple[int | None, int | None]:
+    """Match a multi-word phrase with flexible non-word gaps (commas, bullets, newlines).
+
+    Exact boundary match first; if that fails and the phrase has ≥2 tokens, allow \\W+
+    between tokens so \"clinically-proven\" / \"clinically proven\" both hit.
+    """
+    if not folded_phrase:
+        return None, None
+    start, end = _find_span(text, folded_phrase)
+    if start is not None:
+        return start, end
+    parts = folded_phrase.split()
+    if len(parts) < 2:
+        return None, None
+    pat = re.compile(
+        r"(?<!\w)" + r"\W+".join(re.escape(p) for p in parts) + r"(?!\w)",
+        re.IGNORECASE,
+    )
+    m = pat.search(text)
     return (m.start(), m.end()) if m else (None, None)
 
 
@@ -167,12 +198,13 @@ def match_lexical(
         return []
 
     hits: list[LexicalHit] = []
+    short_ad = len(text.strip()) <= SHORT_AD_CHARS
 
     for phrase in pack.forbidden_phrases:
         folded = normalize_term(phrase)
         if not folded:
             continue
-        start, end = _find_span(text_l, folded)
+        start, end = _find_phrase_span(text_l, folded)
         if start is not None:
             hits.append(
                 LexicalHit(
@@ -184,31 +216,58 @@ def match_lexical(
                 )
             )
 
+    # Regex: try the published text first (packs were written against raw copy), then
+    # the folded form so obfuscation still cannot hide a trigger.
     for pat in pack.forbidden_patterns:
         pattern = pat.get("pattern") if isinstance(pat, dict) else None
         if not pattern:
             continue
+        conf = _confidence(pack, "regex", float(pat.get("confidence") or 0.88) if isinstance(pat, dict) else 0.88)
+        note = str(pat.get("note") or "") if isinstance(pat, dict) else ""
+        m_raw = m_fold = None
         try:
-            m = re.search(pattern, text_l, flags=re.IGNORECASE | re.DOTALL)
+            m_raw = re.search(pattern, text, flags=re.IGNORECASE | re.DOTALL)
         except re.error:
             continue
-        if m:
+        if m_raw:
             hits.append(
                 LexicalHit(
                     matcher="regex",
-                    matched_text=m.group(0)[:200],
-                    confidence=_confidence(pack, "regex", float(pat.get("confidence") or 0.88)),
-                    span_start=m.start(),
-                    span_end=m.end(),
-                    pattern_note=str(pat.get("note") or ""),
+                    matched_text=m_raw.group(0)[:200],
+                    confidence=conf,
+                    span_start=m_raw.start(),
+                    span_end=m_raw.end(),
+                    pattern_note=note,
+                    span_in_original=True,
+                )
+            )
+            continue
+        try:
+            m_fold = re.search(pattern, text_l, flags=re.IGNORECASE | re.DOTALL)
+        except re.error:
+            continue
+        if m_fold:
+            hits.append(
+                LexicalHit(
+                    matcher="regex",
+                    matched_text=m_fold.group(0)[:200],
+                    confidence=conf,
+                    span_start=m_fold.start(),
+                    span_end=m_fold.end(),
+                    pattern_note=note,
                 )
             )
 
-    # Terms: only add if no phrase/regex hit, to reduce noise
-    if not hits:
+    # Terms: only add if no phrase/regex hit, to reduce noise — except on short ads,
+    # where the whole creative is the claim and a product-name term is often the only cue.
+    if not hits or short_ad:
+        term_cap = 5 if short_ad else 3
         for term in pack.forbidden_terms:
             folded = normalize_term(term)
             if not folded or len(folded) < 3 and "%" not in folded:
+                continue
+            # Short slogans: skip ultra-generic 3-char tokens that inflate FPs.
+            if short_ad and len(folded) < 4 and "%" not in folded:
                 continue
             start, end = _find_span(text_l, folded)
             if start is None:
@@ -222,7 +281,7 @@ def match_lexical(
                     span_end=end,
                 )
             )
-            if len(hits) >= 3:
+            if len([h for h in hits if h.matcher == "term"]) >= term_cap:
                 break
 
     # Deduplicate by matched_text
@@ -240,18 +299,20 @@ def match_lexical(
     for h in uniq:
         if h.span_start is None:
             continue
-        o_start, o_end = norm.to_original_span(h.span_start, h.span_end or h.span_start)
-        h.span_start, h.span_end = o_start, o_end
+        if h.span_in_original:
+            o_start, o_end = h.span_start, h.span_end or h.span_start
+        else:
+            o_start, o_end = norm.to_original_span(h.span_start, h.span_end or h.span_start)
+            h.span_start, h.span_end = o_start, o_end
+            h.span_in_original = True
         h.source_text = text[o_start:o_end]
 
     for h in uniq:
         h.licensed_by = _licensed_by(text, h, pack)
 
-    # Only for packs whose trigger is a claim of benefit — negating "no prescription
-    # needed" or "we do not rent to families" states the violation rather than withdrawing
-    # it. Read on the original text, since spans are now in original coordinates and the
-    # cue patterns already tolerate curly apostrophes ("doesn’t"). Deliberately not folded
-    # aggressively: "n0t a cure" should not buy an exoneration the reader cannot see.
+    # Record negation for audit only. Clearing on negation dropped true positives on
+    # enforcement-style wording ("not financial advice", "no guarantee") without enough
+    # specificity gain to pay for the recall.
     if pack.negation_sensitive:
         for h in uniq:
             if h.span_start is None or term_is_inherently_negative(h.matched_text):
@@ -259,7 +320,7 @@ def match_lexical(
             h.negated_by = negation_cue_for_span(text, h.span_start, h.span_end or h.span_start)
 
     if drop_licensed:
-        return [h for h in uniq if not h.licensed_by and not h.negated_by]
+        return [h for h in uniq if not h.licensed_by]
     return uniq
 
 

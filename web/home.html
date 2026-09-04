@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Under Intelligence — Ad claims, handled</title>
+  <meta name="description" content="Claim review for brand legal and marketing compliance. A deterministic matcher cites the clause, the quote, and the trigger — so review is evidence, not a vibe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --card: #14181e;
+      --line: rgba(255,255,255,.1);
+      --text: #f2f3f1;
+      --muted: #8b939e;
+      --ink: #2e6b64;
+      --ink-2: #8fbfb8;
+      --ok: #5dba8c;
+      --fail: #d36b6b;
+      --wait: #d4b46a;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    [id] { scroll-margin-top: 76px; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(11,13,16,.78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -.02em; }
+    .mark {
+      width: 28px; height: 28px; border-radius: 9px;
+      background: var(--ink);
+      display: grid; place-items: center; font-family: "Instrument Serif", serif; font-size: 16px;
+    }
+    .nav-links { display: flex; gap: 22px; color: var(--muted); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 18px; border-radius: 999px; font-weight: 600; font-size: 14px;
+      border: 1px solid transparent; transition: .18s ease; cursor: pointer;
+    }
+    .btn-primary { background: #f2f3f1; color: #0b0d10; }
+    .btn-primary:hover { background: #fff; }
+    .btn-ghost { background: transparent; border-color: var(--line); color: var(--text); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.04); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .hero {
+      position: relative; padding: 72px 0 28px; text-align: center; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: -20% 15% auto; height: 420px;
+      background: radial-gradient(circle, rgba(46,107,100,.16), transparent 68%);
+      pointer-events: none;
+    }
+    .kicker {
+      position: relative;
+      font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-2); margin-bottom: 16px;
+    }
+    .hero h1 {
+      position: relative;
+      font-family: "Instrument Serif", serif;
+      font-size: clamp(48px, 8vw, 92px);
+      font-weight: 400; line-height: .95; letter-spacing: -.03em;
+    }
+    .hero h1 em { font-style: italic; color: #fff; }
+    .lede {
+      position: relative; max-width: 640px; margin: 22px auto 18px;
+      color: var(--muted); font-size: 18px;
+    }
+    .fine {
+      position: relative; color: var(--muted); font-size: 13.5px; margin: 14px auto 0; max-width: 560px;
+    }
+
+    .artifact {
+      position: relative;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin: 40px auto 8px; text-align: left;
+    }
+    .case {
+      background: #12161c; border: 1px solid var(--line); border-radius: 22px; padding: 18px 18px 16px;
+    }
+    .case-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+      color: var(--muted); margin-bottom: 12px;
+    }
+    .route {
+      letter-spacing: .04em; padding: 4px 9px; border-radius: 999px; font-size: 11px;
+    }
+    .route-fail { color: var(--fail); background: rgba(211,107,107,.12); }
+    .route-ok { color: var(--ok); background: rgba(93,186,140,.12); }
+    .route-wait { color: var(--wait); background: rgba(212,180,106,.12); }
+    .claim {
+      font-size: 16px; letter-spacing: -.01em; margin-bottom: 14px; line-height: 1.4;
+    }
+    .claim mark {
+      background: rgba(211,107,107,.22); color: #f2f3f1; padding: 0 3px; border-radius: 3px;
+    }
+    .claim mark.ok {
+      background: rgba(93,186,140,.2);
+    }
+    .meta-grid {
+      display: grid; grid-template-columns: 88px 1fr; gap: 7px 10px;
+      font-size: 12.5px; color: #d5d8d4;
+    }
+    .meta-grid dt { color: var(--muted); font-weight: 500; }
+    .quote { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; color: var(--ink-2); }
+
+    .not-line {
+      text-align: center; color: var(--muted); font-size: 13.5px;
+      max-width: 640px; margin: 28px auto 8px;
+    }
+
+    .coverage { padding: 24px 0 40px; }
+    .cov-row { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: start; padding: 16px 0; border-top: 1px solid var(--line); }
+    .cov-row:last-child { border-bottom: 1px solid var(--line); }
+    .cov-label { color: var(--ink-2); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding-top: 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(255,255,255,.03); color: #d5d8d4; font-size: 12.5px; font-weight: 500;
+    }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 8px 0 56px;
+    }
+    .stat {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+    }
+    .stat b { display: block; font-size: 28px; letter-spacing: -.03em; }
+    .stat span { color: var(--muted); font-size: 13px; }
+
+    h2 {
+      font-family: "Instrument Serif", serif; font-size: clamp(32px, 5vw, 48px);
+      font-weight: 400; letter-spacing: -.03em; line-height: 1.1;
+    }
+    h2 em { font-style: italic; color: var(--ink-2); }
+    .sub { color: var(--muted); margin-top: 12px; max-width: 560px; }
+
+    .vs { padding: 12px 0 72px; }
+    .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .vs-col {
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 24px;
+    }
+    .vs-col h3 { font-size: 18px; margin-bottom: 14px; letter-spacing: -.02em; }
+    .vs-col ul { list-style: none; padding: 0; color: #d5d8d4; font-size: 14.5px; }
+    .vs-col li { padding: 9px 0; border-bottom: 1px solid var(--line); }
+    .vs-col li:last-child { border-bottom: 0; }
+    .vs-col.now h3 { color: var(--ink-2); }
+
+    .lanes { padding: 24px 0 72px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 24px;
+      min-height: 280px; display: flex; flex-direction: column;
+    }
+    .card:hover { border-color: rgba(143,191,184,.35); }
+    .eyebrow { color: var(--ink-2); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+    .card h3 { font-size: 22px; letter-spacing: -.02em; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 14.5px; flex: 1; }
+    .card ul { margin: 16px 0 20px; padding-left: 18px; color: #d5d8d4; font-size: 14px; }
+    .card li { margin: 6px 0; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 24px 0 80px; }
+    .split ol { margin-top: 20px; padding-left: 18px; color: #d5d8d4; }
+    .split li { margin: 10px 0; }
+    .routes { display: grid; gap: 10px; }
+    .route-card {
+      background: #12161c; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+    }
+    .route-card b { display: block; font-size: 14px; margin-bottom: 4px; }
+    .route-card span { color: var(--muted); font-size: 13px; }
+
+    .compare { padding: 12px 0 80px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 14.5px; }
+    th, td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; }
+    td:nth-child(3) { color: #f2f3f1; }
+
+    .cta {
+      text-align: center; padding: 72px 24px; margin-bottom: 48px;
+      border: 1px solid var(--line); border-radius: 28px;
+      background: var(--card);
+    }
+    .cta p { color: var(--muted); margin: 14px auto 24px; max-width: 520px; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 13px; }
+    .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .stats, .cards, .split, .artifact, .vs-grid, .cov-row { grid-template-columns: 1fr; }
+      .hero { padding-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/">
+        <span class="mark">U</span>
+        Under Intelligence
+      </a>
+      <nav class="nav-links">
+        <a href="#product">Product</a>
+        <a href="#how">How it works</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#compare">Compare</a>
+        <a href="/docs">API</a>
+      </nav>
+      <a class="btn btn-primary" href="/ui/policylens.html">Check a creative</a>
+    </div>
+  </header>
+
+  <section class="hero wrap">
+    <p class="kicker">For brand legal &amp; marketing compliance</p>
+    <h1>Ad claims,<br><em>handled.</em></h1>
+    <p class="lede">
+      Paid-media claim review for the people who sign off the flight.
+      A deterministic matcher cites the clause, the quote, and the trigger —
+      so a reviewer sees evidence, not a vibe.
+    </p>
+    <div class="btn-row" style="justify-content:center; position:relative;">
+      <a class="btn btn-primary" href="/ui/policylens.html">Check a creative →</a>
+      <a class="btn btn-ghost" href="/ui/reviewlens.html">Human review queue</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+    <p class="fine">No demo required. No 90-day implementation. Paste copy, get a cited hit.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="artifact" aria-label="Sample PolicyLens cases">
+      <article class="case">
+        <div class="case-top">
+          <span>PolicyLens · sample</span>
+          <span class="route route-fail">Fail · absolute</span>
+        </div>
+        <p class="claim">“<mark>clinically proven</mark> to cure colds”</p>
+        <dl class="meta-grid">
+          <dt>Trigger</dt><dd>clinically proven</dd>
+          <dt>Pack</dt><dd>health · absolute</dd>
+          <dt>Clause</dt><dd>FTC Health Products Guidance</dd>
+          <dt>Quote</dt><dd class="quote">“If elements of an ad imply that the product also provides a disease benefit, the advertiser must be able to substantiate the implied disease claim…”</dd>
+          <dt>Route</dt><dd>Fail. Disputed cases go to ReviewLens.</dd>
+        </dl>
+      </article>
+      <article class="case">
+        <div class="case-top">
+          <span>PolicyLens · sample</span>
+          <span class="route route-ok">Clear · licensed</span>
+        </div>
+        <p class="claim">“<mark class="ok">biodegradable</mark> where facilities exist”</p>
+        <dl class="meta-grid">
+          <dt>Trigger</dt><dd>biodegradable</dd>
+          <dt>Pack</dt><dd>Green Guides · gated</dd>
+          <dt>Clause</dt><dd>FTC Green Guides · degradable claims</dd>
+          <dt>Quote</dt><dd class="quote">“Unqualified biodegradable claims for items destined for landfills… shouldn’t be made.”</dd>
+          <dt>licensed_by</dt><dd>where facilities exist</dd>
+          <dt>Route</dt><dd>Clear. Qualifier licenses the hit.</dd>
+        </dl>
+      </article>
+    </div>
+    <p class="not-line">
+      Not SOC&nbsp;2. Not an EU AI Act inventory. Not cookie consent.
+      Those stay your other stack. We sit on the creative.
+    </p>
+  </section>
+
+  <section class="wrap coverage" id="coverage">
+    <div class="cov-row">
+      <div class="cov-label">Regulators</div>
+      <div class="chips">
+        <span class="chip">FTC</span>
+        <span class="chip">FDA</span>
+        <span class="chip">NAD</span>
+        <span class="chip">Green Guides</span>
+        <span class="chip">Made in USA</span>
+      </div>
+    </div>
+    <div class="cov-row">
+      <div class="cov-label">Platforms</div>
+      <div class="chips">
+        <span class="chip">Meta</span>
+        <span class="chip">Google</span>
+        <span class="chip">TikTok</span>
+        <span class="chip">LinkedIn</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap stats">
+    <div class="stat"><b>54</b><span>Gated pattern packs on the live matcher</span></div>
+    <div class="stat"><b>172</b><span>Traceable US clauses with source quotes</span></div>
+    <div class="stat"><b>1:1</b><span>Same text, same pack hits. The model does not decide the hit.</span></div>
+    <div class="stat"><b>~400µs</b><span>Per-ad lexical pass — before any display verdict</span></div>
+  </section>
+
+  <section class="wrap vs" id="vs">
+    <h2>Legal blocking launch.<br>Not a <em>governance program.</em></h2>
+    <p class="sub">Low-risk licensed copy clears. Absolute packs fail. Borderline goes to a person — with the graph attached.</p>
+    <div class="vs-grid">
+      <div class="vs-col">
+        <h3>Today</h3>
+        <ul>
+          <li>Does this feel risky?</li>
+          <li>A Slack thread and a model paragraph</li>
+          <li>Lawful disclosure still gets flagged</li>
+          <li>Same ad, run twice, may flip</li>
+        </ul>
+      </div>
+      <div class="vs-col now">
+        <h3>With Under Intelligence</h3>
+        <ul>
+          <li>A pack pattern has to match</li>
+          <li>Clause + verbatim quote + trigger span</li>
+          <li>A nearby qualifier can license the hit</li>
+          <li>Same text → same pack hits</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap lanes" id="product">
+    <h2>One engine. Three jobs.</h2>
+    <p class="sub">The matcher does not change. Paste a creative, record a decision, or pipe the trafficking system — same packs, same graph, same verdict contract.</p>
+    <div class="cards">
+      <article class="card">
+        <div class="eyebrow">Paste a creative</div>
+        <h3>PolicyLens</h3>
+        <p>Copy or image in. Full path runs Gemini VLM into the lexical packs. Quick path is a single advisory pass for demos.</p>
+        <ul>
+          <li>Text and image creatives</li>
+          <li>Violations with clause citations</li>
+          <li>Explainability graph</li>
+        </ul>
+        <a class="btn btn-primary" href="/ui/policylens.html">Open PolicyLens →</a>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Record a decision</div>
+        <h3>ReviewLens</h3>
+        <p>Queue of absolute fails and borderline assets. A recorded human decision is authoritative — and becomes labeled data for the next pack revision.</p>
+        <ul>
+          <li>Approve / needs-changes / reject</li>
+          <li>Per-rule false-positive labels</li>
+          <li>Original creative on the case</li>
+        </ul>
+        <a class="btn btn-ghost" href="/ui/reviewlens.html">Open ReviewLens →</a>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Pipe trafficking</div>
+        <h3>API</h3>
+        <p>POST an asset, poll the verdict, pull the graph. Same deterministic audit fields whether the UI shows an LLM summary or not.</p>
+        <ul>
+          <li>POST /assets · GET /assets/{id}</li>
+          <li>GET /assets/{id}/graph</li>
+          <li>OpenAPI at /docs</li>
+        </ul>
+        <a class="btn btn-ghost" href="/docs">Open API docs →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap split" id="how">
+    <div>
+      <h2>Trigger, then gate.<br>Never a black box.</h2>
+      <p class="sub">Other tools ask a model if an ad “feels” risky. We require a pattern to match, then a qualifier can clear it. Gemini may paint the display verdict. It does not decide the hit.</p>
+      <ol>
+        <li><strong>Ingest</strong> — text as-is; images become a structured VLM packet (claims, OCR, objects).</li>
+        <li><strong>Trigger</strong> — a pack pattern must match: “clinically proven,” “2× gentler,” “biodegradable.”</li>
+        <li><strong>Gate</strong> — a nearby disclosure can license the hit. Absolute packs (e.g. disease cures) never clear.</li>
+        <li><strong>Audit</strong> — clause, quote, trigger, and licensed_by stay on the graph.</li>
+      </ol>
+    </div>
+    <div class="routes">
+      <div class="route-card">
+        <b><span class="route route-ok">Licensed</span> · clear</b>
+        <span>Qualifier is in range. The hit stays on the graph as licensed_by. The flight can move.</span>
+      </div>
+      <div class="route-card">
+        <b><span class="route route-fail">Absolute</span> · fail</b>
+        <span>Disease cures and similar packs never clear. Fail, with the clause attached.</span>
+      </div>
+      <div class="route-card">
+        <b><span class="route route-wait">Borderline</span> · ReviewLens</b>
+        <span>Gated miss or both-twins. A person records approve / needs-changes / reject. That decision is the record.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap compare" id="compare">
+    <h2>Most AI added a guess.<br>We added a <em>citation.</em></h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>LLM-only review</th>
+          <th>Under Intelligence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Same ad, twice</td>
+          <td>May flip</td>
+          <td>Same text → same pack hits</td>
+        </tr>
+        <tr>
+          <td>Who decides the hit</td>
+          <td>The model, or an agent</td>
+          <td>A pack pattern. The model does not decide the hit</td>
+        </tr>
+        <tr>
+          <td>Why it failed</td>
+          <td>A paragraph of model prose</td>
+          <td>Clause + verbatim quote + trigger span</td>
+        </tr>
+        <tr>
+          <td>Lawful disclosure</td>
+          <td>Often still flagged</td>
+          <td>Qualifier gate licenses the hit</td>
+        </tr>
+        <tr>
+          <td>Images</td>
+          <td>One opaque vision call</td>
+          <td>VLM packet into the same matcher</td>
+        </tr>
+        <tr>
+          <td>Human in the loop</td>
+          <td>Chat thread</td>
+          <td>ReviewLens decision is the record</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="wrap">
+    <div class="cta">
+      <h2>Get this live before the next flight.</h2>
+      <p>No onboarding project. PolicyLens is the product — paste copy, get a cited hit. ReviewLens is where a person records the rest.</p>
+      <div class="btn-row" style="justify-content:center;">
+        <a class="btn btn-primary" href="/ui/policylens.html">Check a creative →</a>
+        <a class="btn btn-ghost" href="/ui/reviewlens.html">Open the review queue</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot">
+      <span>Under Intelligence · ZataOne engine · we cite the claim</span>
+      <span>
+        <a href="/ui/policylens.html">PolicyLens</a>
+        · <a href="/ui/reviewlens.html">ReviewLens</a>
+        · <a href="/docs">API</a>
+        · <a href="/health">Health</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

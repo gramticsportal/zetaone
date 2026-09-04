@@ -65,9 +65,9 @@ flowchart TB
 
 Current release: **Ad Corpus v0.12** (includes FTC Green Guides and Made-in-USA). Live matcher uses the **54 approved pattern packs** in `ontology/patterns/by_category/` plus the US policy pack from `ontology/corpus/*_us.yaml`. Harvest dumps under `ontology/examples/harvest/` are not eval and are not loaded at runtime.
 
-**Eval splits.** The harvested rows are split train/dev/test by **source enforcement action**, so a violation and its compliant minimal pair can never straddle the boundary — see [`ontology/examples/eval/README.md`](ontology/examples/eval/README.md). Mining reads `train` only; `test` is reporting-only. Loading defaults to the 614 expert-labelled rows; set `ZATAONE_EVAL_INCLUDE_HARVESTED=1` for the full 3,742 and `ZATAONE_EVAL_SPLITS=train,dev` to select splits.
+**Eval set.** All labeled rows (seed, precedents, harvested, compliant pairs) load as one eval corpus by default — see [`ontology/examples/eval/README.md`](ontology/examples/eval/README.md). Set `ZATAONE_EVAL_INCLUDE_HARVESTED=0` to drop harvest/pairs. Train/dev partitioning is inactive for now.
 
-> **Reading the numbers below.** The packs were mined and curated before splits existed, so figures measured on `test` are a baseline, not yet a clean holdout. They become clean once the packs are re-mined on `train` (`python ontology/tools/mine_pattern_candidates.py`, which now withholds `test` by construction).
+> **Reading the numbers.** Packs were mined against this wording historically, so full-set figures are in-sample until human gold and low-quality drops land. Use them for relative comparisons, not as a clean holdout.
 
 Docs: [`ontology/README.md`](ontology/README.md) · full architecture map [`ontology/ONTOLOGY_MAP.md`](ontology/ONTOLOGY_MAP.md)
 
@@ -332,8 +332,10 @@ Additional flags:
 
 API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
 
-**Local hybrid eval:** `PYTHONPATH=src python scripts/eval_hybrid_local.py` (seed + precedents).  
-Denoised seed (no borderline): `python ontology/tools/denoise_eval_seed.py` then `ZATAONE_EVAL_PROFILE=clean PYTHONPATH=src python scripts/eval_hybrid_local.py`.  
+**Canonical matcher eval (use this):** `PYTHONPATH=src python3.11 scripts/eval_matcher.py`  
+Full live set (seed + precedents + harvested + pairs; NLP off) plus the pair task. Same script for everyone.
+
+Underlying runners: `scripts/eval_hybrid_local.py` (corpus) and `ontology/tools/eval_matcher_pairs.py` (pairs). Denoised seed only: `ZATAONE_EVAL_PROFILE=clean PYTHONPATH=src python3.11 scripts/eval_hybrid_local.py`.  
 Compare NLP backends: `scripts/eval_hybrid_compare_nlp.py`.
 
 ### Platform additions (merged)

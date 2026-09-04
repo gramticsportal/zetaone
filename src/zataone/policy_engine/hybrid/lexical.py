@@ -24,6 +24,11 @@ from zataone.policy_engine.text_norm import normalize_term, normalize_with_map
 # disclaimer from licensing a headline claim it is nowhere near.
 QUALIFIER_WINDOW = 240
 
+# Most FNs are short slogans / product-name claims. Under this length we also try a
+# flexible phrase match (punctuation between words) and keep scanning terms even when a
+# weak single hit already fired — short ads rarely have secondary context.
+SHORT_AD_CHARS = 100
+
 
 @dataclass
 class LexicalHit:
@@ -66,6 +71,28 @@ def _find_span(text: str, needle: str) -> tuple[int | None, int | None]:
     if not needle:
         return None, None
     m = _boundary_re(needle).search(text)
+    return (m.start(), m.end()) if m else (None, None)
+
+
+def _find_phrase_span(text: str, folded_phrase: str) -> tuple[int | None, int | None]:
+    """Match a multi-word phrase with flexible non-word gaps (commas, bullets, newlines).
+
+    Exact boundary match first; if that fails and the phrase has ≥2 tokens, allow \\W+
+    between tokens so \"clinically-proven\" / \"clinically proven\" both hit.
+    """
+    if not folded_phrase:
+        return None, None
+    start, end = _find_span(text, folded_phrase)
+    if start is not None:
+        return start, end
+    parts = folded_phrase.split()
+    if len(parts) < 2:
+        return None, None
+    pat = re.compile(
+        r"(?<!\w)" + r"\W+".join(re.escape(p) for p in parts) + r"(?!\w)",
+        re.IGNORECASE,
+    )
+    m = pat.search(text)
     return (m.start(), m.end()) if m else (None, None)
 
 
@@ -171,12 +198,13 @@ def match_lexical(
         return []
 
     hits: list[LexicalHit] = []
+    short_ad = len(text.strip()) <= SHORT_AD_CHARS
 
     for phrase in pack.forbidden_phrases:
         folded = normalize_term(phrase)
         if not folded:
             continue
-        start, end = _find_span(text_l, folded)
+        start, end = _find_phrase_span(text_l, folded)
         if start is not None:
             hits.append(
                 LexicalHit(
@@ -230,11 +258,16 @@ def match_lexical(
                 )
             )
 
-    # Terms: only add if no phrase/regex hit, to reduce noise
-    if not hits:
+    # Terms: only add if no phrase/regex hit, to reduce noise — except on short ads,
+    # where the whole creative is the claim and a product-name term is often the only cue.
+    if not hits or short_ad:
+        term_cap = 5 if short_ad else 3
         for term in pack.forbidden_terms:
             folded = normalize_term(term)
             if not folded or len(folded) < 3 and "%" not in folded:
+                continue
+            # Short slogans: skip ultra-generic 3-char tokens that inflate FPs.
+            if short_ad and len(folded) < 4 and "%" not in folded:
                 continue
             start, end = _find_span(text_l, folded)
             if start is None:
@@ -248,7 +281,7 @@ def match_lexical(
                     span_end=end,
                 )
             )
-            if len(hits) >= 3:
+            if len([h for h in hits if h.matcher == "term"]) >= term_cap:
                 break
 
     # Deduplicate by matched_text

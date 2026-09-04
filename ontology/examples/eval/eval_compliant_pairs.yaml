@@ -955,17 +955,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_nad_nad_little_spoon_baby_food_claims_2020_e7361e_0174; technique: qualification_added; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_little_spoon_baby_food_claims_2020_e7361e_0176_compliant
-  content: Ready to feed, tastes fresh.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_little_spoon_baby_food_claims_2020_e7361e_0176; technique: qualification_added; retained_trigger: True; synthetic'
 - id: harv_ev_nad_nad_recommends_rust_oleum_discontinue_2x_coverage_cl_2016_8ade43_0181_compliant
   content: You’ll get up to twice the coverage in a single pass—which means your project could be done in less time and potentially at a lower cost compared to some competitive brands.
   modality: text
@@ -2286,17 +2275,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reckitt_benckiser_discontinue_certain_2019_0993b6_0490; technique: scope_narrowed; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_recommends_reckitt_benckiser_discontinue_certain_2019_0993b6_0491_compliant
-  content: Experience Air Wick's enhanced fragrance delivery.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_reckitt_benckiser_discontinue_certain_2019_0993b6_0491; technique: claim_removed; retained_trigger: False; synthetic'
 - id: harv_ev_nad_nad_recommends_serta_modify_discontinue_certain_comp_2013_0c5b0a_0496_compliant
   content: Our cool action material is designed to sleep cooler than ordinary memory foam.
   modality: text
@@ -3738,17 +3716,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_nad_nad_finds_no_high_fructose_corn_syrup_claim_alongsid_2019_cc5d5a_0948; technique: substantiation_cited; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_refers_comparative_pricing_claims_made_by_total__2017_b2b4b1_0950_compliant
-  content: Don’t Paymo at BevMo for comparable items, based on our pricing analysis.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_refers_comparative_pricing_claims_made_by_total__2017_b2b4b1_0950; technique: substantiation_cited; retained_trigger: True; synthetic'
 - id: harv_ev_nad_nad_refers_comparative_pricing_claims_made_by_total__2017_b2b4b1_0951_compliant
   content: Our everyday low prices often crush BevMo’s sale prices on select products.
   modality: text
@@ -4090,28 +4057,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_nad_nad_recommends_silver_star_brands_discontinue_all_ch_2015_c558e6_1043; technique: qualification_added; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf_1045_compliant
-  content: Suction power … 115 AW (Air Watts) when tested according to company standards.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf_1045; technique: substantiation_cited; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf_1046_compliant
-  content: Runtime … 40 mins (in eco mode, with non-motorized tools).
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf_1046; technique: scope_narrowed; retained_trigger: True; synthetic'
 - id: harv_ev_nad_nad_recommends_bayer_discontinue_comparative_superio_2019_ef44a0_1048_compliant
   content: Proven Better on Pain than Tylenol Extra Strength in a company-sponsored study for certain types of pain.
   modality: text
@@ -7555,17 +7500,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_nad_nad_recommends_at_t_modify_claims_regarding_availabi_2017_f0ec74_2099; technique: claim_removed; retained_trigger: False; synthetic'
-- id: harv_ev_narb_narb_recommends_telebrands_modify_double_offer_claim_2019_3a0d9c_2102_compliant
-  content: Buy One Get One, plus shipping and handling.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_narb_narb_recommends_telebrands_modify_double_offer_claim_2019_3a0d9c_2102; technique: disclosure_added; retained_trigger: True; synthetic'
 - id: harv_ev_narb_narb_recommends_telebrands_modify_double_offer_claim_2019_3a0d9c_2103_compliant
   content: Buy One, Get Second One for $9.99, plus shipping and handling.
   modality: text
@@ -7610,28 +7544,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_narb_narb_recommends_comcast_modify_comparative_claims_fo_2019_32bb21_2109; technique: qualification_added; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_recommends_p_g_discontinue_comparative_claim_in__2011_6a1645_2110_compliant
-  content: Get More. Feel More, with our enhanced product.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_recommends_p_g_discontinue_comparative_claim_in__2011_6a1645_2110; technique: qualification_added; retained_trigger: True; synthetic'
-- id: harv_ev_nad_nad_finds_home_chefs_more_flexibility_than_hellofres_2020_8410e0_2112_compliant
-  content: new choices each week, with some exclusions
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_nad_finds_home_chefs_more_flexibility_than_hellofres_2020_8410e0_2112; technique: qualification_added; retained_trigger: True; synthetic'
 - id: harv_ev_nad_nad_finds_home_chefs_more_flexibility_than_hellofres_2020_8410e0_2113_compliant
   content: 'Rated #1 in Customer Satisfaction in a recent independent survey of meal kit users.'
   modality: text
@@ -10734,17 +10646,6 @@ examples:
   labeled_by: model
   split: test
   note: 'compliant minimal pair of harv_ev_nad_chipotle_sustainability_claims_2022_fb2b67_3103; technique: qualification_added; retained_trigger: True; synthetic'
-- id: harv_ev_nad_agendia_mammaprint_blueprint_2024_7ef539_3109_compliant
-  content: Committed to equal care for all patients.
-  modality: text
-  label: compliant
-  category_ids:
-  - misleading
-  violated_clause_ids: []
-  jurisdiction: US
-  labeled_by: model
-  split: test
-  note: 'compliant minimal pair of harv_ev_nad_agendia_mammaprint_blueprint_2024_7ef539_3109; technique: qualification_added; retained_trigger: True; synthetic'
 - id: harv_ev_nad_agendia_mammaprint_blueprint_2024_7ef539_3110_compliant
   content: Agendia is committed to addressing racial disparities in breast cancer through ongoing research and initiatives.
   modality: text

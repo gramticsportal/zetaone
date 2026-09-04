@@ -332,8 +332,10 @@ Additional flags:
 
 API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
 
-**Local hybrid eval:** `PYTHONPATH=src python scripts/eval_hybrid_local.py` (seed + precedents).  
-Denoised seed (no borderline): `python ontology/tools/denoise_eval_seed.py` then `ZATAONE_EVAL_PROFILE=clean PYTHONPATH=src python scripts/eval_hybrid_local.py`.  
+**Canonical matcher eval (use this):** `PYTHONPATH=src python3.11 scripts/eval_matcher.py`  
+Full live set (seed + precedents + harvested + pairs; NLP off) plus the pair task. Same script for everyone.
+
+Underlying runners: `scripts/eval_hybrid_local.py` (corpus) and `ontology/tools/eval_matcher_pairs.py` (pairs). Denoised seed only: `ZATAONE_EVAL_PROFILE=clean PYTHONPATH=src python3.11 scripts/eval_hybrid_local.py`.  
 Compare NLP backends: `scripts/eval_hybrid_compare_nlp.py`.
 
 ### Platform additions (merged)

@@ -1,0 +1,135 @@
+# Manually quarantined from eval_gold_review.csv. Not loaded by load_eval.py.
+
+examples:
+- id: harv_ev_ftc_mediaalpha_insurance_leads_2025_0388
+  content: Trump Health Care Plan
+  modality: text
+  label: non_compliant
+  category_ids:
+  - financial
+  - health
+  - misleading
+  violated_clause_ids:
+  - ftc.misleading.reasonable_basis
+  - ftc.misleading.express_implied
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.ftc.mediaalpha_insurance_leads_2025; verbatim from https://www.ftc.gov/system/files/ftc_gov/pdf/complaintforpermanentinjunctionmonetaryjudgmentandotherrelief.pdf p14; candidate: harv_0388'
+- id: harv_ev_nad_nad_little_spoon_baby_food_claims_2020_e7361e_0176
+  content: Ready to feed Fresh
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_little_spoon_baby_food_claims_2020_e7361e; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-little-spoon-baby-food-claims p1; candidate: nad_0176'
+- id: harv_ev_nad_nad_recommends_reckitt_benckiser_discontinue_certain_2019_0993b6_0491
+  content: Upgrade to Air Wick
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_recommends_reckitt_benckiser_discontinue_certain_2019_0993b6; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-recommends-reckitt-benckiser-discontinue-certain-challenged-claims-for-air-wick-scented-oil p1; candidate: nad_0491'
+- id: harv_ev_nad_nad_refers_comparative_pricing_claims_made_by_total__2017_b2b4b1_0950
+  content: Don’t Paymo at BevMo
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_refers_comparative_pricing_claims_made_by_total__2017_b2b4b1; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-refers-comparative-pricing-claims-made-by-total-wine-to-ftc-for-further-review-after-advertiser p1; candidate: nad_0950'
+- id: harv_ev_nad_nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf_1045
+  content: Suction power … 115 AW
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-recommends-dyson-modify-suction-claims-challenged-by-sharkninja-finds-dyson-can-support-cleaner p1; candidate: nad_1045'
+- id: harv_ev_nad_nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf_1046
+  content: Runtime … 40 mins
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_recommends_dyson_modify_suction_claims_challenge_2018_dc6adf; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-recommends-dyson-modify-suction-claims-challenged-by-sharkninja-finds-dyson-can-support-cleaner p1; candidate: nad_1046'
+- id: harv_ev_narb_narb_recommends_telebrands_modify_double_offer_claim_2019_3a0d9c_2102
+  content: Buy One Get One
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.narb.narb_recommends_telebrands_modify_double_offer_claim_2019_3a0d9c; verbatim from https://bbbprograms.org/media/newsroom/decisions/narb-recommends-telebrands-modify-double-offer-claims-for-its-atomic-beam-lighting-products-followin p1; candidate: nad_2102'
+- id: harv_ev_nad_nad_recommends_p_g_discontinue_comparative_claim_in__2011_6a1645_2110
+  content: Get More. Feel More
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_recommends_p_g_discontinue_comparative_claim_in__2011_6a1645; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-recommends-p-g-discontinue-comparative-claim-in-advertising-for-ultra-downy-april-fresh p1; candidate: nad_2110'
+- id: harv_ev_nad_nad_finds_home_chefs_more_flexibility_than_hellofres_2020_8410e0_2112
+  content: new choices each week
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.nad_finds_home_chefs_more_flexibility_than_hellofres_2020_8410e0; verbatim from https://bbbprograms.org/media/newsroom/decisions/nad-finds-home-chefs-more-flexibility-than-hellofresh-claims-supported-but-recommends-modification p1; candidate: nad_2112'
+- id: harv_ev_nad_agendia_mammaprint_blueprint_2024_7ef539_3109
+  content: EQUAL CARE FOR ALL
+  modality: text
+  label: non_compliant
+  category_ids:
+  - misleading
+  violated_clause_ids:
+  - nad.misleading.truthful_accurate
+  - nad.misleading.substantiation_or_discontinue
+  jurisdiction: US
+  labeled_by: model
+  split: test
+  note: 'derived_from: prec.nad.agendia_mammaprint_blueprint_2024_7ef539; verbatim from https://bbbprograms.org/media/newsroom/decisions/agendia-mammaprint-blueprint p1; candidate: nad_3109'

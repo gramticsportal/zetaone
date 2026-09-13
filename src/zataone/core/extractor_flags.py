@@ -101,6 +101,48 @@ def fast_combined_review_enabled() -> bool:
     return _env_bool("ZATAONE_FAST_COMBINED_REVIEW", default=True)
 
 
+def virality_review_enabled() -> bool:
+    """Virality Index advisory pass. Defaults on when a Gemini key is present."""
+    v = (os.environ.get("ZATAONE_VIRALITY_REVIEW") or "").strip().lower()
+    if v in ("0", "false", "no", "off"):
+        return False
+    if v in ("1", "true", "yes", "on"):
+        return True
+    return bool(
+        (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY") or "").strip()
+    )
+
+
+def virality_join_timeout_ms() -> int:
+    """
+    Grace period for a text-asset Virality Index once compliance is done.
+
+    Text scoring starts at the top of the pipeline and overlaps everything, so the
+    result is usually already there. The small default keeps the request latency-neutral
+    when compliance finishes first; a late score is persisted asynchronously instead.
+    """
+    try:
+        v = int((os.environ.get("ZATAONE_VIRALITY_TIMEOUT_MS") or "150").strip())
+    except ValueError:
+        return 150
+    return max(0, v)
+
+
+def virality_extracted_join_timeout_ms() -> int:
+    """
+    Grace period when scoring image/PDF copy that only exists after the VLM.
+
+    That call starts late (after extraction) and on Cloud Run a deferred write is
+    frozen the moment the request returns, so we wait here. The user has already
+    paid for the VLM; a few extra seconds is cheaper than a missing score.
+    """
+    try:
+        v = int((os.environ.get("ZATAONE_VIRALITY_EXTRACTED_TIMEOUT_MS") or "15000").strip())
+    except ValueError:
+        return 15000
+    return max(0, v)
+
+
 def pipeline_auto_advisory_enabled() -> bool:
     """Run Gemini advisory synthesis at end of pipeline when API key is set."""
     if os.environ.get("ZATAONE_PIPELINE_ADVISORY", "").strip().lower() in (

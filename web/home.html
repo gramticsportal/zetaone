@@ -87,6 +87,8 @@
       position: relative; max-width: 640px; margin: 22px auto 18px;
       color: var(--muted); font-size: 18px;
     }
+    .lede a { color: var(--ink-2); border-bottom: 1px solid rgba(46,107,100,.35); }
+    .lede a:hover { color: var(--text); border-bottom-color: currentColor; }
     .fine {
       position: relative; color: var(--muted); font-size: 13.5px; margin: 14px auto 0; max-width: 560px;
     }
@@ -359,12 +361,101 @@
     .doc-foot .src { color: #b8433d; }
     .doc-foot .src.live { color: #1c7a55; }
 
+    /* ---- Part II of the report: Virality Index ---- */
+    .vir-panel { margin-top: 16px; }
+    .vir-head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+      margin-bottom: 10px;
+    }
+    .vir-dial { display: flex; align-items: baseline; gap: 8px; }
+    .vir-num {
+      font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; line-height: 1;
+    }
+    .vir-den { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8a9391; }
+    .vir-band {
+      font-size: 10px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700;
+      padding: 4px 9px; border: 1.5px solid currentColor; border-radius: 2px;
+      transform: rotate(-2deg);
+    }
+    .vir-band.low { color: #8a6714; }
+    .vir-band.mid { color: var(--ink); }
+    .vir-band.high { color: #1c7a55; }
+
+    /* typewriter-style meters: dotted track, solid ink fill */
+    .vir-bars { display: grid; gap: 5px; }
+    .vbar { display: grid; grid-template-columns: 124px 1fr 26px; align-items: center; gap: 8px; }
+    .vbar b {
+      font-weight: 400; font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+      color: #7c8785; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .vbar .track {
+      position: relative; height: 8px;
+      border-bottom: 1px dotted rgba(20,38,36,.34);
+    }
+    .vbar .fill {
+      position: absolute; left: 0; bottom: 0; height: 5px;
+      background: var(--ink); opacity: .82;
+      animation: growBar .55s cubic-bezier(.2,.8,.3,1) backwards;
+    }
+    @keyframes growBar { from { width: 0 !important; } }
+    .vbar i { font-style: normal; font-size: 11.5px; text-align: right; color: #47534f; }
+
+    .vir-diag {
+      margin-top: 10px; padding-top: 8px; border-top: 1px dotted rgba(20,38,36,.28);
+      font-size: 11.5px; color: #47534f;
+    }
+    .vir-diag .dlabel {
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #7c8785;
+    }
+    .vir-flag { color: #8a6714; margin-top: 4px; }
+    .vir-panel ol { margin: 8px 0 0 18px; font-size: 12px; color: #47534f; }
+    .vir-panel ol li { margin-bottom: 2px; }
+    .vir-note {
+      font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+      color: #8a9391; margin-top: 10px;
+    }
+
     @media (max-width: 560px) {
       .rescard { padding: 18px 16px 14px; font-size: 12.5px; }
       .frow { flex-wrap: wrap; }
       .frow .lead { display: none; }
       .frow dd { max-width: 100%; text-align: left; margin-left: 8px; }
     }
+
+    /* ---- landing section: Virality Index ---- */
+    .vir-sec { margin: 96px auto; }
+    .vir-intro { max-width: 760px; }
+    .vir-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 34px; }
+    .vir-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+      padding: 26px 26px 24px;
+    }
+    .vir-card h3 { font-size: 17px; letter-spacing: -.01em; margin-bottom: 12px; }
+    .vir-list { list-style: none; display: grid; gap: 9px; }
+    .vir-list li {
+      font-size: 14px; color: var(--muted); line-height: 1.5;
+      padding-left: 15px; position: relative;
+    }
+    .vir-list li::before {
+      content: ""; position: absolute; left: 0; top: 9px;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--ink); opacity: .55;
+    }
+    .vir-list b { color: var(--text); font-weight: 600; }
+    .vir-p { font-size: 14px; color: var(--muted); margin-bottom: 12px; line-height: 1.55; }
+    .vir-p b { color: var(--text); }
+    .vir-p code {
+      font-family: "Courier Prime", monospace; font-size: 12.5px;
+      background: rgba(46,107,100,.09); color: var(--ink); padding: 1px 5px; border-radius: 4px;
+    }
+    .vir-cite {
+      font-size: 12.5px; color: #8a9391; margin-top: 14px;
+      padding-top: 12px; border-top: 1px solid var(--line);
+    }
+    .vir-foot {
+      margin-top: 22px; font-size: 13.5px; color: var(--muted); max-width: 760px;
+    }
+    .vir-foot a { color: var(--ink-2); }
+    .vir-foot a:hover { color: var(--text); }
 
     .hero-alt { position: relative; margin-top: 22px; font-size: 13.5px; color: var(--muted); }
     .hero-alt a { color: var(--ink-2); }
@@ -397,7 +488,10 @@
 
     @media (max-width: 860px) {
       .nav-links { display: none; }
-      .stats, .cards, .split, .artifact, .vs-grid, .cov-row { grid-template-columns: 1fr; }
+      .stats, .cards, .split, .artifact, .vs-grid, .cov-row, .vir-grid { grid-template-columns: 1fr; }
+      .vir-sec { margin: 60px auto; }
+      .vbar { grid-template-columns: 104px 1fr 24px; }
+      .vbar b { font-size: 9px; letter-spacing: .02em; }
       .hero { padding-top: 32px; min-height: 0; }
       .nav-inner .btn-primary { display: none; }
       .brand { font-size: 15px; }
@@ -416,6 +510,7 @@
       <nav class="nav-links">
         <a href="#product">Product</a>
         <a href="#how">How it works</a>
+        <a href="#virality">Virality Index</a>
         <a href="#coverage">Coverage</a>
         <a href="#compare">Compare</a>
         <a href="/docs">API</a>
@@ -439,11 +534,13 @@
     </div>
   </header>
 
-  <section class="hero wrap">
+  <section class="hero wrap" id="top">
     <p class="kicker">AI compliance checker</p>
     <h1>Paste content.<br><em>Check compliance.</em></h1>
     <p class="lede">
-      Paste your ad text. We show you what could get it pulled — and the exact rule that says so.
+      Paste your ad text and get two reads on it. Compliance shows what could get it pulled,
+      with the exact rule that says so. The <a href="#virality">Virality Index</a> scores whether
+      anyone would pass it on.
     </p>
 
     <div class="searchwrap">
@@ -610,6 +707,7 @@
         <p>POST an asset, poll the verdict, pull the graph. Same deterministic audit fields whether the UI shows an LLM summary or not.</p>
         <ul>
           <li>POST /assets · GET /assets/{id}</li>
+          <li>POST /assets/{id}/virality-review</li>
           <li>GET /assets/{id}/graph</li>
           <li>OpenAPI at /docs</li>
         </ul>
@@ -643,6 +741,59 @@
         <span>Gated miss or both-twins. A person records approve / needs-changes / reject. That decision is the record.</span>
       </div>
     </div>
+  </section>
+
+  <section class="wrap vir-sec" id="virality">
+    <div class="vir-intro">
+      <p class="kicker" style="margin-bottom:12px;">Second read · same paste</p>
+      <h2>Compliance says what you <em>can’t</em> say.<br>Virality Index says whether it’s <em>worth saying.</em></h2>
+      <p class="sub">
+        One paste, two independent reads. The compliance verdict stays deterministic and cited.
+        The Virality Index is an advisory creative score on seven dimensions taken from the
+        sharing research — scored separately, never able to move a compliance outcome.
+      </p>
+    </div>
+
+    <div class="vir-grid">
+      <article class="vir-card">
+        <h3>Seven dimensions, not a vibe</h3>
+        <ul class="vir-list">
+          <li><b>Arousal</b> — high-activation emotion of any kind. Anger and anxiety travel as far as delight; calm positivity doesn’t.</li>
+          <li><b>Social currency</b> — does sharing it make the sharer look good.</li>
+          <li><b>Practical value</b> — useful enough that passing it on helps someone.</li>
+          <li><b>Story</b> — a narrative carries it, rather than a flat assertion.</li>
+          <li><b>Novelty</b> — it violates an expectation the reader already holds.</li>
+          <li><b>Triggers</b> — tied to a recurring cue, so it resurfaces on its own.</li>
+          <li><b>Observability</b> — the result is visible and easy to imitate.</li>
+        </ul>
+        <p class="vir-cite">After Berger &amp; Milkman (2012) on arousal, and Berger’s STEPPS constructs.</p>
+      </article>
+
+      <article class="vir-card">
+        <h3>Two things we refuse to fold into the score</h3>
+        <p class="vir-p">
+          <b>Clarity</b> is comprehension hygiene, not a sharing driver — so it’s reported as a
+          diagnostic and flagged when it’s low enough to cap everything else.
+        </p>
+        <p class="vir-p">
+          <b>Brand prominence</b> measurably <em>reduces</em> sharing, so rewarding it would be
+          backwards. It’s surfaced as a warning instead of being quietly averaged in.
+        </p>
+        <h3 style="margin-top:20px;">Equal weights, on purpose</h3>
+        <p class="vir-p">
+          All seven dimensions carry the same weight. With no outcome data of your own, invented
+          coefficients are false precision — and equal weights are hard to beat with guessed ones.
+          The payload says <code>uniform_prior</code> so you always know which it is.
+        </p>
+        <p class="vir-cite">Fit them on your own ad performance later, and the score becomes yours.</p>
+      </article>
+    </div>
+
+    <p class="vir-foot">
+      Advisory by design. It is not a share prediction, it never edits the compliance verdict, and
+      when a virality tactic would cost you compliance it says so.
+      <a href="#top">Paste something and see both reads ↑</a>
+    </p>
   </section>
 
   <section class="wrap compare" id="compare">
@@ -806,6 +957,155 @@
   // ---------------- run ----------------
   const escapeHtml = (t) => String(t).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+  // Mirror of src/zataone/data/viral_ad_patterns.yaml — that file is the source of truth.
+  // Duplicated here only so the offline demo can match patterns without the API.
+  const VIR_PATTERNS = [
+    ["curiosity_gap", "Curiosity gap hook", "The one thing doctors won't tell you about"],
+    ["specific_number", "Specific number proof", "How I saved $4,872 in 90 days without"],
+    ["before_after", "Before / after transformation", "From broke to six figures in 12 months"],
+    ["contrarian", "Contrarian take", "Stop doing cardio if you want to lose fat"],
+    ["social_proof", "Social proof stack", "Join 2.4M people who switched this week"],
+    ["urgency_scarcity", "Urgent scarcity", "Only 47 spots left offer ends tonight"],
+    ["humor_absurd", "Absurd humor", "Our lawyer said we can't say this So we won't"],
+    ["relatable_pain", "Relatable pain point", "Tired of ads that promise the moon"],
+    ["demo_magic", "Visual demo moment", "Watch it disappear in 3 seconds"],
+    ["identity_callout", "Identity callout", "Built for founders who hate marketing fluff"],
+    ["question_hook", "Direct question hook", "What if your ad spend actually paid you back"],
+    ["myth_bust", "Myth bust", "Everything you know about SPF is wrong"],
+    ["micro_story", "Micro story", "She laughed when I ordered one until it arrived"],
+    ["benefit_stack", "Benefit stack", "Faster Cheaper Actually works"],
+    ["pattern_interrupt", "Pattern interrupt", "This is not a skincare ad It is"],
+    ["us_vs_them", "Us vs them", "Big brands hide this We put it on the label"],
+    ["tutorial_tease", "Tutorial tease", "The 15-second trick to fix blurry photos"],
+    ["emotional_aspiration", "Emotional aspiration", "Feel confident the second you walk in"],
+    ["deal_anchor", "Deal anchor", "Same quality as the $200 version $29 today"],
+    ["challenge_cta", "Challenge CTA", "Try it for 7 days Hate it We pay you back"],
+    ["daily_ritual", "Daily ritual cue", "Every morning before the coffee even kicks in"],
+    ["seasonal_cue", "Seasonal cue", "It's the first cold morning of the year You know the feeling"],
+    ["commute_moment", "Commute moment", "Nine stops One podcast Zero signal"],
+    ["visible_result", "Visible result", "People will ask what you changed"],
+    ["wearable_proof", "Wearable proof", "You can spot one across the room"],
+    ["shareable_challenge", "Shareable challenge", "Post your day-one photo We'll post day thirty"],
+  ];
+
+  // Same word-overlap heuristic as the server's offline path.
+  function nearestPattern(text){
+    const words = new Set((text.toLowerCase().match(/[a-z0-9']+/g) || []));
+    let best = null, bestScore = 0;
+    for (const [id, name, snippet] of VIR_PATTERNS) {
+      const sw = new Set((snippet.toLowerCase().match(/[a-z0-9']+/g) || []));
+      if (!sw.size) continue;
+      let hit = 0;
+      sw.forEach(w => { if (words.has(w)) hit++; });
+      const overlap = hit / sw.size;
+      if (overlap > bestScore) { bestScore = overlap; best = [id, name]; }
+    }
+    if (!best || bestScore < 0.08) return { name: null, strength: "none" };
+    return {
+      name: best[1],
+      strength: bestScore >= 0.35 ? "strong" : bestScore >= 0.18 ? "moderate" : "weak",
+    };
+  }
+
+  // Seven dimensions from the sharing research, equally weighted until fitted on real data.
+  const VIR_DIMS = [
+    ["arousal", "Arousal"],
+    ["social_currency", "Social currency"],
+    ["practical_value", "Practical value"],
+    ["story", "Story"],
+    ["novelty", "Novelty"],
+    ["triggers", "Triggers"],
+    ["public_observability", "Observability"],
+  ];
+
+  function scoreViralityOffline(text, complianceTrigger){
+    const raw = String(text || "");
+    const t = raw.trim().toLowerCase();
+    const has = (...w) => w.some(x => t.includes(x));
+    const words = t.split(/\s+/).filter(Boolean).length;
+    const cap = (n) => Math.max(0, Math.min(100, n));
+
+    const dim = {
+      // High activation of either valence — anger/anxiety count as much as excitement.
+      arousal: cap(30 + (has("!","now","today","instant","free") ? 20 : 0) +
+                        (has("stop","warning","mistake","scam","dangerous","wrong","risk") ? 20 : 0)),
+      social_currency: cap(30 + (has("join","million","everyone","insider","exclusive","first") ? 15 : 0)),
+      practical_value: cap(30 + (/\d/.test(t) ? 15 : 0) +
+                        (has("%","$","how","tips","guide","save","fix","minutes") ? 10 : 0)),
+      story: cap(30 + (has("before","after","when","until","story"," i "," my ") ? 20 : 0)),
+      novelty: cap(40 + (t.includes("?") ? 15 : 0) + (has("secret","wrong","myth","nobody") ? 10 : 0)),
+      triggers: cap(20 + (has("morning","monday","summer","holiday","every day","bed","commute","coffee") ? 25 : 0)),
+      public_observability: cap(20 + (has("wear","show","notice","look","post","share","tag") ? 25 : 0)),
+    };
+    const index = Math.round(VIR_DIMS.reduce((s, [k]) => s + dim[k], 0) / VIR_DIMS.length);
+
+    const diagnostics = {
+      clarity: cap(85 - Math.min(60, Math.max(0, words - 12) * 2)),
+      brand_prominence: cap(30 * (raw.match(/[®™©]/g) || []).length),
+    };
+    const flags = [];
+    if (diagnostics.clarity < 40) flags.push("Low clarity — unclear copy suppresses every other dimension, so read the index as an upper bound.");
+    if (diagnostics.brand_prominence >= 60) flags.push("Heavy brand prominence — measured to reduce sharing (Tellis et al., 2019).");
+
+    const sugs = [];
+    if (dim.novelty < 55) sugs.push("Novelty: open with a curiosity gap or a specific number in the first 8 words.");
+    if (dim.practical_value < 55) sugs.push("Practical value: add one concrete stat, timeframe, or price anchor.");
+    if (dim.triggers < 45) sugs.push("Triggers: tie the ad to a recurring moment so it resurfaces on its own.");
+    if (dim.public_observability < 45) sugs.push("Observability: make the result something other people can see.");
+    if (complianceTrigger) sugs.push("Keep the compliance fixes; raise arousal through story, not stronger guarantees.");
+    if (!sugs.length) sugs.push("A/B test a pattern-interrupt opening while keeping substantiation.");
+
+    const near = nearestPattern(t);
+    return {
+      virality_index: index, dimensions: dim, diagnostics: diagnostics,
+      diagnostic_flags: flags, suggestions: sugs.slice(0, 3),
+      weights_source: "uniform_prior",
+      closest_pattern_name: near.name, pattern_match_strength: near.strength,
+      summary: "Offline estimate — connect the API for the Gemini read.",
+      disclaimer: "Advisory only — not a share prediction.",
+    };
+  }
+
+  function viralityHtml(v){
+    if (!v) return "";
+    const idx = v.virality_index == null ? 0 : v.virality_index;
+    const band = idx >= 66 ? ["high", "Strong"] : idx >= 40 ? ["mid", "Moderate"] : ["low", "Weak"];
+    const dims = v.dimensions || {};
+    const diag = v.diagnostics || {};
+
+    const bars = VIR_DIMS.map(([k, label], i) => {
+      const n = Math.max(0, Math.min(100, Number(dims[k]) || 0));
+      return '<div class="vbar"><b>' + label + '</b>' +
+        '<span class="track"><span class="fill" style="width:' + n + '%;animation-delay:' + (i * 55) + 'ms"></span></span>' +
+        '<i>' + n + '</i></div>';
+    }).join("");
+
+    const sugs = (v.suggestions || []).map(s => "<li>" + escapeHtml(s) + "</li>").join("");
+    const flags = (v.diagnostic_flags || []).map(f => '<div class="vir-flag">' + escapeHtml(f) + '</div>').join("");
+    const pattern = v.closest_pattern_name
+      ? escapeHtml(v.closest_pattern_name) + (v.pattern_match_strength ? " · " + escapeHtml(v.pattern_match_strength) : "")
+      : "none matched";
+
+    return '<hr class="rule double" />' +
+      '<div class="vir-panel">' +
+        '<div class="vir-head">' +
+          '<div><div class="sec-label" style="margin:0">Part II · Virality Index</div>' +
+            '<div class="vir-dial"><span class="vir-num">' + idx + '</span><span class="vir-den">/ 100</span></div></div>' +
+          '<span class="vir-band ' + band[0] + '">' + band[1] + '</span>' +
+        '</div>' +
+        '<div class="vir-bars">' + bars + '</div>' +
+        '<div class="vir-diag">' +
+          '<span class="dlabel">Diagnostics (not scored)</span> &nbsp; ' +
+          'clarity ' + (diag.clarity == null ? "—" : diag.clarity) +
+          ' &nbsp;·&nbsp; brand prominence ' + (diag.brand_prominence == null ? "—" : diag.brand_prominence) +
+          flags +
+        '</div>' +
+        (sugs ? '<div class="sec-label" style="margin-top:12px">Lift</div><ol>' + sugs + '</ol>' : "") +
+        '<div class="frow" style="margin-top:10px"><dt>Nearest pattern</dt><span class="lead"></span><dd>' + pattern + '</dd></div>' +
+        '<div class="vir-note">Equal weights · ' + escapeHtml(v.disclaimer || "Advisory only.") + '</div>' +
+      '</div>';
+  }
+
   function renderResult(o){
     const verdict = o.verdict, textShown = o.textShown, trigger = o.trigger;
     const stampText = verdict === "good" ? "No Finding"
@@ -855,9 +1155,10 @@
       '</dl>' +
       '<div class="basis"><span class="sec-label" style="display:inline; margin-right:6px;">Basis</span>' +
         '<q>' + escapeHtml(o.quote) + '</q></div>' +
+      (o.virality ? viralityHtml(o.virality) : "") +
       '<div class="doc-foot"><span class="src' + (o.live ? " live" : "") + '">' +
         (o.live ? "Live · configured API" : "Offline demo · no API configured") + '</span>' +
-        '<span>Deterministic pass — reproducible</span></div>';
+        '<span>Compliance deterministic · virality advisory</span></div>';
     $("result").classList.add("show");
   }
 
@@ -867,15 +1168,16 @@
     $("scanline").classList.remove("on"); pill.classList.remove("scanning");
 
     const match = EXAMPLES.find(e => text.toLowerCase().includes(e.trigger.toLowerCase()));
+    const vir = scoreViralityOffline(text, match && match.trigger);
     if (match) {
       renderResult({ verdict: match.verdict, textShown: text, trigger: match.trigger,
         canonical: match.canonical, clause: match.clause, quote: match.quote,
-        latency: "~1ms lexical pass", live: false });
+        latency: "~1ms lexical pass", live: false, virality: vir });
     } else {
       renderResult({ verdict: "good", textShown: text, trigger: null,
         canonical: "no pack triggered", clause: "—",
         quote: "nothing in the 54 approved packs matched this text",
-        latency: "~1ms lexical pass", live: false });
+        latency: "~1ms lexical pass", live: false, virality: vir });
     }
   }
 
@@ -910,7 +1212,15 @@
         if (!r.ok) throw new Error(JSON.stringify(data));
         assetId = data.asset_id;
       }
-      const verdict = await poll(b, headers, assetId);
+      let verdict = await poll(b, headers, assetId);
+      let vir = verdict.virality_index;
+      if (text && !vir) {
+        try {
+          const vr = await fetch(b + "/assets/" + assetId + "/virality-review", { method: "POST", headers });
+          const vd = await vr.json();
+          if (vr.ok && vd.virality_index) vir = vd.virality_index;
+        } catch (_) { /* optional */ }
+      }
       const v0 = (verdict.violations || [])[0];
       const ev = (v0 && v0.evidence_data) || {};
       const status = verdict.compliance_status || verdict.verdict || "REVIEW_REQUIRED";
@@ -924,6 +1234,7 @@
         quote: v0 ? (ev.pattern_note || "matched pack pattern") : "cleared every approved pack",
         latency: "risk " + (verdict.risk_score == null ? "—" : verdict.risk_score),
         live: true,
+        virality: vir || (text ? scoreViralityOffline(text, ev.matched_term || ev.matched_text) : null),
       });
     } catch (e) {
       $("card").innerHTML =

@@ -33,9 +33,11 @@ from zataone.core.pipeline_progress import clear as progress_clear
 from zataone.core.pipeline_progress import get as progress_get
 from zataone.core.pipeline_progress import update as progress_update
 from zataone.core.pipeline_run import (
+    document_text,
     extract_signals_parallel,
     maybe_run_pipeline_advisory,
     run_parallel_vlm_and_deterministic,
+    start_virality_review,
 )
 from zataone.document.builder import DocumentBuilder
 from zataone.document.flags import document_centric_enabled
@@ -636,6 +638,11 @@ class CompliancePipeline:
         parallel_timing: dict[str, Any] = {}
         vlm_status: dict[str, Any] | None = None
 
+        # A text asset's copy is already here, so start virality now to overlap the whole
+        # compliance path. Image/PDF copy only exists after extraction, so those start
+        # further down. Either way it is collected under a deadline.
+        virality_task = start_virality_review(asset=asset, asset_id=aid_str)
+
         if mode == "fast":
             det_bundle = self._run_fast_precore(asset, asset_id=aid_str, run_mode=mode)
             use_combined = (
@@ -731,6 +738,16 @@ class CompliancePipeline:
         evidence = det_bundle["evidence"]
         counts = det_bundle.get("extractor_counts") or {}
 
+        # Image/PDF assets score on the extracted document text — for images that is the
+        # VLM's description, which reads the creative more faithfully than raw OCR. Starting
+        # here still overlaps the advisory LLM call below.
+        if virality_task is None:
+            virality_task = start_virality_review(
+                asset=asset,
+                asset_id=aid_str,
+                extracted_text=document_text(verdict, vlm_status=vlm_status),
+            )
+
         if not (det_bundle["verdict"].get("metadata") or {}).get("fast_combined_review"):
             maybe_run_pipeline_advisory(
                 domain=self._domain,
@@ -740,6 +757,9 @@ class CompliancePipeline:
                 vlm_status=vlm_status,
                 image_bytes=image_bytes,
             )
+
+        if virality_task is not None:
+            virality_task.join(det_bundle)
 
         engine_ran = bool((verdict.get("metadata") or {}).get("policy_engine_ran"))
         apply_display_verdict(

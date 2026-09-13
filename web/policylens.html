@@ -148,6 +148,39 @@
         .btn-secondary:disabled { background: #aaa; }
         #llmSection { border-top: 1px solid #eee; margin-top: 12px; padding-top: 12px; }
         #llmSection h3 { font-size: 14px; margin: 0 0 6px 0; color: #333; }
+        #viralitySection { border-top: 1px solid #eee; margin-top: 12px; padding-top: 12px; }
+        #viralitySection h3 { font-size: 14px; margin: 0 0 6px 0; color: #333; }
+        .vir-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 8px; }
+        .vir-score { font-size: 30px; font-weight: 700; color: #1d5b53; line-height: 1; }
+        .vir-den { font-size: 13px; font-weight: 500; color: #888; }
+        .vir-band {
+            font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
+            padding: 4px 9px; border: 1.5px solid currentColor; border-radius: 3px;
+        }
+        .vir-band.low { color: #8a6714; }
+        .vir-band.mid { color: #1d5b53; }
+        .vir-band.high { color: #1c7a55; }
+        .vir-bars { display: grid; gap: 6px; }
+        .vbar { display: grid; grid-template-columns: 112px 1fr 28px; align-items: center; gap: 8px; }
+        .vbar b { font-weight: 500; font-size: 11px; color: #666; white-space: nowrap; }
+        .vbar .vtrack { height: 7px; background: #eef1f0; border-radius: 4px; overflow: hidden; }
+        .vbar .vfill {
+            display: block; height: 100%; background: #1d5b53; border-radius: 4px;
+            animation: virGrow .55s cubic-bezier(.2,.8,.3,1) backwards;
+        }
+        @keyframes virGrow { from { width: 0 !important; } }
+        .vbar i { font-style: normal; font-size: 11.5px; text-align: right; color: #555; }
+        .vir-diag {
+            margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e6e5;
+            font-size: 12px; color: #555;
+        }
+        .vir-dlabel {
+            font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #8a9391;
+            display: block; margin-bottom: 3px;
+        }
+        .vir-flag { font-size: 12px; color: #8a6714; margin-top: 5px; }
+        .vir-sug { margin: 0 0 0 18px; padding: 0; font-size: 13px; }
+        .vir-sug li { margin-bottom: 3px; }
         .advisory-block {
             border: 1px solid var(--pl-border); border-radius: 10px; padding: 12px 14px;
             margin-top: 10px; background: #fafbfd;
@@ -421,6 +454,12 @@
                     <p class="muted" id="llmHint" style="margin: 0 0 8px 0;"></p>
                     <button type="button" id="llmReviewBtn" class="btn-secondary" disabled>Run advisory review</button>
                     <div id="llmReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
+                </div>
+                <div id="viralitySection" style="display: none;">
+                    <h3>Virality Index</h3>
+                    <p class="muted" style="margin: 0 0 8px 0;">Advisory creative lift — separate from compliance. Does not change the policy verdict. Images are scored automatically on the VLM's reading of the creative.</p>
+                    <button type="button" id="viralityReviewBtn" class="btn-secondary" disabled>Run Virality Index</button>
+                    <div id="viralityReviewOut" class="muted" style="margin-top: 10px; font-size: 13px;"></div>
                 </div>
             </div>
         </div>
@@ -1028,6 +1067,10 @@
             if (prog.advisory === 'completed' || prog.advisory === 'failed' || prog.advisory === 'skipped') {
                 phase = 6;
             }
+            if (prog.virality === 'running') phase = Math.max(phase, 6);
+            if (prog.virality === 'completed' || prog.virality === 'failed' || prog.virality === 'skipped') {
+                phase = 6;
+            }
             setRunProgress(phase);
         }
 
@@ -1063,6 +1106,133 @@
             llmReviewOut.innerHTML = html;
             llmReviewBtn.disabled = false;
             llmReviewBtn.textContent = 'Re-run advisory review';
+            renderPipelineVirality(poll);
+        }
+
+        /** Seven scored dimensions; clarity and brand prominence are diagnostics only. */
+        const VIRALITY_DIMENSIONS = [
+            ['arousal', 'Arousal', 'High-activation emotion of any valence'],
+            ['social_currency', 'Social currency', 'Sharing it signals identity or status'],
+            ['practical_value', 'Practical value', 'Useful enough to be worth passing on'],
+            ['story', 'Story', 'A narrative carries the message'],
+            ['novelty', 'Novelty', 'Violates an expectation the reader holds'],
+            ['triggers', 'Triggers', 'Tied to a recurring environmental cue'],
+            ['public_observability', 'Observability', 'Result is visible and imitable'],
+        ];
+
+        function formatViralityBlock(v) {
+            if (!v || typeof v !== 'object') return '<p class="muted">(no virality output)</p>';
+            const idx = v.virality_index != null ? v.virality_index : 0;
+            const band = idx >= 66 ? ['high', 'Strong'] : idx >= 40 ? ['mid', 'Moderate'] : ['low', 'Weak'];
+            const dim = v.dimensions || {};
+            const diag = v.diagnostics || {};
+
+            const bars = VIRALITY_DIMENSIONS.map(([k, label, help], i) => {
+                const n = Math.max(0, Math.min(100, Number(dim[k]) || 0));
+                return (
+                    '<div class="vbar" title="' + escapeAttr(help) + '">' +
+                    '<b>' + escapeHtml(label) + '</b>' +
+                    '<span class="vtrack"><span class="vfill" style="width:' + n + '%;animation-delay:' + i * 55 + 'ms"></span></span>' +
+                    '<i>' + n + '</i></div>'
+                );
+            }).join('');
+
+            const sugs = (v.suggestions || []).map((s) => '<li>' + escapeHtml(s) + '</li>').join('');
+            const pattern = v.closest_pattern_name
+                ? escapeHtml(v.closest_pattern_name) + ' · ' + escapeHtml(v.pattern_match_strength || '')
+                : 'none matched';
+            const flags = (v.diagnostic_flags || [])
+                .map((f) => '<div class="vir-flag">' + escapeHtml(f) + '</div>')
+                .join('');
+            let conflicts = '';
+            if ((v.compliance_conflicts || []).length) {
+                conflicts =
+                    '<p class="vir-flag" style="margin-top:8px;"><strong>Compliance note:</strong> ' +
+                    escapeHtml(v.compliance_conflicts.join(' ')) + '</p>';
+            }
+            const weights = v.weights_source === 'uniform_prior'
+                ? 'Equal weights (uniform prior — not yet fitted to performance data)'
+                : 'Weights: ' + escapeHtml(String(v.weights_source || 'unspecified'));
+
+            return (
+                '<div class="advisory-block virality"><span class="advisory-tag">Virality Index · advisory</span>' +
+                '<div class="vir-head">' +
+                '<div class="vir-score">' + idx + '<span class="vir-den"> / 100</span></div>' +
+                '<span class="vir-band ' + band[0] + '">' + band[1] + '</span>' +
+                '</div>' +
+                '<p style="margin:0 0 10px;font-size:13px;">' + escapeHtml(v.summary || '') + '</p>' +
+                '<div class="vir-bars">' + bars + '</div>' +
+                '<div class="vir-diag"><span class="vir-dlabel">Diagnostics — reported, not scored</span>' +
+                '<div>clarity <strong>' + (diag.clarity == null ? '—' : diag.clarity) + '</strong>' +
+                ' &nbsp;·&nbsp; brand prominence <strong>' + (diag.brand_prominence == null ? '—' : diag.brand_prominence) + '</strong></div>' +
+                flags + '</div>' +
+                (sugs ? '<p class="vir-dlabel" style="margin:12px 0 4px;">How to lift it</p><ol class="vir-sug">' + sugs + '</ol>' : '') +
+                '<p class="muted" style="margin:10px 0 0;font-size:12px;">Nearest library pattern: ' + pattern + '</p>' +
+                conflicts +
+                '<p class="muted" style="font-size:11px;margin:8px 0 0;">' + weights + '. ' +
+                escapeHtml(v.disclaimer || '') + '</p></div>'
+            );
+        }
+
+        function renderPipelineVirality(poll) {
+            const virSection = document.getElementById('viralitySection');
+            const virBtn = document.getElementById('viralityReviewBtn');
+            const virOut = document.getElementById('viralityReviewOut');
+            if (!lastAssetId) {
+                virSection.style.display = 'none';
+                return;
+            }
+            // Every modality is scored, so the section stays visible; images score on the
+            // VLM's description of the creative.
+            virSection.style.display = 'block';
+            virBtn.disabled = false;
+            const v = poll.virality_index || (poll.metadata && poll.metadata.virality_index);
+            if (!v) {
+                // Do not make the reviewer click. Score now (or pick up a late persist).
+                virOut.innerHTML = '<div class="loading">Scoring Virality Index…</div>';
+                virBtn.disabled = true;
+                virBtn.textContent = 'Scoring…';
+                collectLateVirality(lastAssetId, { autoRun: true });
+                return;
+            }
+            virOut.innerHTML = formatViralityBlock(v);
+            virBtn.textContent = 'Re-run Virality Index';
+        }
+
+        /** Poll for a late persist, then POST the review if it still is not there. */
+        async function collectLateVirality(assetId, opts) {
+            const b = apiBase();
+            const virOut = document.getElementById('viralityReviewOut');
+            const virBtn = document.getElementById('viralityReviewBtn');
+            const autoRun = !opts || opts.autoRun !== false;
+            for (let i = 0; i < 6; i++) {
+                await new Promise((resolve) => setTimeout(resolve, 800));
+                if (assetId !== lastAssetId) return;
+                let data;
+                try {
+                    const r = await fetch(`${b}/assets/${assetId}`, { headers: domainHeaders() });
+                    data = await readJsonResponse(r);
+                    if (!r.ok) break;
+                } catch (err) {
+                    break;
+                }
+                const late = data.virality_index || (data.metadata && data.metadata.virality_index);
+                if (late) {
+                    virOut.innerHTML = formatViralityBlock(late);
+                    virBtn.disabled = false;
+                    virBtn.textContent = 'Re-run Virality Index';
+                    return;
+                }
+            }
+            if (assetId !== lastAssetId) return;
+            if (autoRun) {
+                await runViralityReview();
+                return;
+            }
+            virOut.innerHTML =
+                '<p class="muted">The score did not arrive. Use the button to run it now.</p>';
+            virBtn.disabled = false;
+            virBtn.textContent = 'Run Virality Index';
         }
 
         async function pollAsset(assetId, onProgress) {
@@ -1652,10 +1822,13 @@
 
         function hideLlmSection() {
             llmSection.style.display = 'none';
+            document.getElementById('viralitySection').style.display = 'none';
             lastAssetId = null;
             lastRunWasImage = false;
             llmReviewBtn.disabled = true;
             llmReviewOut.innerHTML = '';
+            const virOut = document.getElementById('viralityReviewOut');
+            if (virOut) virOut.innerHTML = '';
         }
 
         function formatAdvisoryVlmBlock(v) {
@@ -1747,6 +1920,31 @@
         }
 
         llmReviewBtn.addEventListener('click', runLlmFinalReview);
+
+        const viralityReviewBtn = document.getElementById('viralityReviewBtn');
+        async function runViralityReview() {
+            const b = apiBase();
+            if (!b || !lastAssetId) return;
+            viralityReviewBtn.disabled = true;
+            document.getElementById('viralityReviewOut').innerHTML =
+                '<div class="loading">Scoring Virality Index…</div>';
+            try {
+                const r = await fetch(`${b}/assets/${lastAssetId}/virality-review`, {
+                    method: 'POST',
+                    headers: domainHeaders(),
+                });
+                const data = await readJsonResponse(r);
+                if (!r.ok) throw new Error(formatApiDetail(data.detail) || r.statusText);
+                document.getElementById('viralityReviewOut').innerHTML = formatViralityBlock(data.virality_index);
+            } catch (err) {
+                const msg = err && err.message ? err.message : String(err);
+                document.getElementById('viralityReviewOut').innerHTML =
+                    '<div class="error">Virality Index failed: ' + escapeHtml(msg) + '</div>';
+            } finally {
+                viralityReviewBtn.disabled = false;
+            }
+        }
+        viralityReviewBtn.addEventListener('click', runViralityReview);
     </script>
 </body>
 </html>

@@ -45,6 +45,10 @@ from zataone.services.llm_final_review_service import (
     merge_verdict_with_llm_review,
     run_llm_final_review,
 )
+from zataone.services.virality_review_service import (
+    AssetNotReadyForViralityReview,
+    run_virality_review,
+)
 from zataone.services.review_service import ReviewService, decision_to_dict
 from zataone.storage.database import get_session_factory
 from zataone.storage.object_store import ObjectStore
@@ -266,6 +270,8 @@ def _format_verdict_response(result: dict[str, Any]) -> dict[str, Any]:
         "fix_suggestions": result.get("fix_suggestions", []),
         "metadata": result.get("metadata", {}),
     }
+    if result.get("virality_index") is not None:
+        formatted["virality_index"] = result["virality_index"]
     return enrich_api_verdict_payload(formatted)
 
 
@@ -1197,6 +1203,46 @@ async def post_llm_final_review(
             "llm_final_review": stored,
             "verdict": dict(v.result) if v and v.result else {},
             "advisory_vlm": vlm_status,
+        }
+    except HTTPException:
+        session.rollback()
+        raise
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=500, detail=str(e)) from e
+    finally:
+        session.close()
+
+
+@router.post("/assets/{asset_id}/virality-review")
+async def post_virality_review(
+    asset_id: uuid.UUID = Path(..., description="Asset with ad copy (text, or extracted document text)"),
+) -> dict[str, Any]:
+    """
+    Virality Index pass (advisory). Separate from compliance; does not change the policy verdict.
+
+    The pipeline already scores text assets concurrently, so this is for re-scoring, for
+    image/PDF assets, and for picking up a score that missed the pipeline's join deadline.
+    """
+    session = get_session_factory()()
+    try:
+        try:
+            stored = run_virality_review(session, asset_id)
+        except AssetNotReadyForViralityReview as e:
+            msg = str(e)
+            code = 404 if "not found" in msg.lower() else 400
+            raise HTTPException(status_code=code, detail=msg) from e
+
+        session.commit()
+        v = (
+            session.query(VerdictModel)
+            .filter(VerdictModel.asset_id == asset_id)
+            .order_by(VerdictModel.created_at.desc())
+            .first()
+        )
+        return {
+            "virality_index": stored,
+            "verdict": dict(v.result) if v and v.result else {},
         }
     except HTTPException:
         session.rollback()

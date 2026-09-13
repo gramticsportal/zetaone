@@ -1,0 +1,112 @@
+# Reference hooks for the Virality Index (advisory). Not compliance rules.
+#
+# `tags` must use the seven scored dimension names so the library and the score share
+# one vocabulary: arousal, social_currency, practical_value, story, novelty, triggers,
+# public_observability.
+patterns:
+  - id: curiosity_gap
+    name: Curiosity gap hook
+    snippet: "The one thing doctors won't tell you about..."
+    tags: [novelty, arousal]
+  - id: specific_number
+    name: Specific number proof
+    snippet: "How I saved $4,872 in 90 days without..."
+    tags: [practical_value, story, novelty]
+  - id: before_after
+    name: Before / after transformation
+    snippet: "From broke to six figures in 12 months"
+    tags: [story, arousal, public_observability]
+  - id: contrarian
+    name: Contrarian take
+    snippet: "Stop doing cardio if you want to lose fat"
+    tags: [novelty, arousal]
+  - id: social_proof
+    name: Social proof stack
+    snippet: "Join 2.4M people who switched this week"
+    tags: [social_currency, public_observability]
+  - id: urgency_scarcity
+    name: Urgent scarcity
+    snippet: "Only 47 spots left — offer ends tonight"
+    tags: [arousal]
+  - id: humor_absurd
+    name: Absurd humor
+    snippet: "Our lawyer said we can't say this. So we won't. (We will.)"
+    tags: [arousal, novelty, social_currency]
+  - id: relatable_pain
+    name: Relatable pain point
+    snippet: "Tired of ads that promise the moon?"
+    tags: [story, arousal]
+  - id: demo_magic
+    name: Visual demo moment
+    snippet: "Watch it disappear in 3 seconds"
+    tags: [arousal, public_observability]
+  - id: identity_callout
+    name: Identity callout
+    snippet: "Built for founders who hate marketing fluff"
+    tags: [social_currency]
+  - id: question_hook
+    name: Direct question hook
+    snippet: "What if your ad spend actually paid you back?"
+    tags: [novelty]
+  - id: myth_bust
+    name: Myth bust
+    snippet: "Everything you know about SPF is wrong"
+    tags: [novelty, practical_value, arousal]
+  - id: micro_story
+    name: Micro story
+    snippet: "She laughed when I ordered one — until it arrived"
+    tags: [story, arousal]
+  - id: benefit_stack
+    name: Benefit stack
+    snippet: "Faster. Cheaper. Actually works."
+    tags: [practical_value]
+  - id: pattern_interrupt
+    name: Pattern interrupt
+    snippet: "This is not a skincare ad. (It is.)"
+    tags: [novelty, arousal]
+  - id: us_vs_them
+    name: Us vs them
+    snippet: "Big brands hide this. We put it on the label."
+    tags: [social_currency, story, arousal]
+  - id: tutorial_tease
+    name: Tutorial tease
+    snippet: "The 15-second trick to fix blurry photos"
+    tags: [practical_value, novelty]
+  - id: emotional_aspiration
+    name: Emotional aspiration
+    snippet: "Feel confident the second you walk in"
+    tags: [arousal, story]
+  - id: deal_anchor
+    name: Deal anchor
+    snippet: "Same quality as the $200 version — $29 today"
+    tags: [practical_value, arousal]
+  - id: challenge_cta
+    name: Challenge CTA
+    snippet: "Try it for 7 days. Hate it? We pay you back."
+    tags: [social_currency, public_observability]
+  # --- environmental cues: the ad resurfaces on its own ---
+  - id: daily_ritual
+    name: Daily ritual cue
+    snippet: "Every morning, before the coffee even kicks in"
+    tags: [triggers, story]
+  - id: seasonal_cue
+    name: Seasonal cue
+    snippet: "It's the first cold morning of the year. You know the feeling."
+    tags: [triggers, arousal]
+  - id: commute_moment
+    name: Commute moment
+    snippet: "Nine stops. One podcast. Zero signal."
+    tags: [triggers, story]
+  # --- visible / imitable outcomes ---
+  - id: visible_result
+    name: Visible result
+    snippet: "People will ask what you changed."
+    tags: [public_observability, social_currency]
+  - id: wearable_proof
+    name: Wearable proof
+    snippet: "You can spot one across the room."
+    tags: [public_observability, social_currency]
+  - id: shareable_challenge
+    name: Shareable challenge
+    snippet: "Post your day-one photo. We'll post day thirty."
+    tags: [public_observability, triggers, social_currency]

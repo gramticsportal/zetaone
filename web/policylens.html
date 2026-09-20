@@ -152,7 +152,14 @@
         #viralitySection h3 { font-size: 14px; margin: 0 0 6px 0; color: #333; }
         .vir-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 8px; }
         .vir-score { font-size: 30px; font-weight: 700; color: #1d5b53; line-height: 1; }
+        .vir-score.high { color: #1c7a55; }
+        .vir-score.mid { color: #8a6714; }
+        .vir-score.low { color: #8a9391; }
         .vir-den { font-size: 13px; font-weight: 500; color: #888; }
+        .vir-caveat {
+            margin-top: 5px; font-size: 10.5px; letter-spacing: .05em;
+            text-transform: uppercase; color: #8a9391;
+        }
         .vir-band {
             font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
             padding: 4px 9px; border: 1.5px solid currentColor; border-radius: 3px;
@@ -1123,7 +1130,19 @@
         function formatViralityBlock(v) {
             if (!v || typeof v !== 'object') return '<p class="muted">(no virality output)</p>';
             const idx = v.virality_index != null ? v.virality_index : 0;
-            const band = idx >= 66 ? ['high', 'Strong'] : idx >= 40 ? ['mid', 'Moderate'] : ['low', 'Weak'];
+            // The schema reports thirds. Fall back only for payloads stored before `band`
+            // existed, so PolicyLens and the landing-page checker cannot disagree.
+            const name = v.band || (idx >= 67 ? 'high' : idx >= 34 ? 'moderate' : 'low');
+            const band = name === 'high'
+                ? ['high', 'High']
+                : name === 'moderate'
+                    ? ['mid', 'Moderate']
+                    : ['low', 'Low'];
+            const scoredBy = v.scored_by === 'heuristic'
+                ? 'offline heuristic'
+                : v.scored_by === 'gemini'
+                    ? 'model-scored'
+                    : '';
             const dim = v.dimensions || {};
             const diag = v.diagnostics || {};
 
@@ -1157,8 +1176,9 @@
             return (
                 '<div class="advisory-block virality"><span class="advisory-tag">Virality Index · advisory</span>' +
                 '<div class="vir-head">' +
-                '<div class="vir-score">' + idx + '<span class="vir-den"> / 100</span></div>' +
-                '<span class="vir-band ' + band[0] + '">' + band[1] + '</span>' +
+                '<div><div class="vir-score ' + band[0] + '">' + band[1] + '</div>' +
+                '<div class="vir-caveat">Experimental index ' + idx + '/100 · unfitted uniform weights' +
+                (scoredBy ? ' · ' + scoredBy : '') + '</div></div>' +
                 '</div>' +
                 '<p style="margin:0 0 10px;font-size:13px;">' + escapeHtml(v.summary || '') + '</p>' +
                 '<div class="vir-bars">' + bars + '</div>' +

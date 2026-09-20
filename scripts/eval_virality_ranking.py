@@ -31,6 +31,7 @@ to score a real model run instead.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 import statistics
@@ -45,6 +46,12 @@ if str(REPO_ROOT / "src") not in sys.path:
 from zataone.schemas.creative_outcome import ComparisonSet, OutcomeCorpus  # noqa: E402
 
 PERMUTATIONS = 2000
+
+
+def _stable_seed(value: str) -> int:
+    """Process-independent seed; Python's built-in hash is randomized per interpreter."""
+    digest = hashlib.sha256(value.encode("utf-8")).digest()
+    return int.from_bytes(digest[:8], "big")
 
 
 def _ranks(values: list[float]) -> list[float]:
@@ -106,7 +113,7 @@ def score_set(cs: ComparisonSet, preds: dict[str, float]) -> dict[str, Any] | No
 
     shuffled = pred[:]
     null: list[float] = []
-    rng = random.Random(hash(cs.campaign_id) & 0xFFFF)
+    rng = random.Random(_stable_seed(cs.campaign_id))
     for _ in range(PERMUTATIONS):
         rng.shuffle(shuffled)
         r = spearman(shuffled, obs)

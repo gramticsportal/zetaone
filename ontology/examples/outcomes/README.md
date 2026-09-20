@@ -82,8 +82,20 @@ there are only six possible orderings and a third correlate positively by luck, 
 respectable-looking rho means nothing without the shuffle baseline. If the Index
 cannot beat a shuffle, it is not a ranker, whatever its average rho.
 
-On the seed file it will report nothing scoreable. That is correct: the clean sets
-are synthetic and the rest are flagged. It is a plumbing check, not a result.
+On the seed file it scores the two clean sets, skips the two flagged as unfair
+fights, drops the single-variant set as unrankable, and then refuses to draw a
+conclusion because two sets is nowhere near enough. That last refusal is the point:
+
+```
+Scored 2 set(s); skipped 2 flagged as unfair fights.
+  cmp.northwind.spring_sleep_2026    n=4  rho=+0.316  beats 68% of shuffles
+  cmp.harbourgoods.q3_launch_2026    n=3  rho=+0.866  beats 66% of shuffles
+  mean rho +0.5911 · mean percentile vs null 66.8%
+  NOTE: 2 sets is far too few to conclude anything.
+```
+
+A mean rho of +0.59 looks encouraging and means nothing — the sets are synthetic and
+there are two of them. Treat this as a plumbing check.
 
 ## How to actually get data
 

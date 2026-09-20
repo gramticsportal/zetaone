@@ -372,6 +372,12 @@
       font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; line-height: 1;
     }
     .vir-den { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #8a9391; }
+    .vir-word { letter-spacing: .04em; }
+    .vir-word.high { color: #1c7a55; }
+    .vir-word.mid { color: #8a6714; }
+    .vir-word.low { color: #8a9391; }
+    /* The exact index stays visible for anyone who wants it, sized as the footnote it is. */
+    .vir-caveat { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #8a9391; margin-top: 2px; }
     .vir-band {
       font-size: 10px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700;
       padding: 4px 9px; border: 1.5px solid currentColor; border-radius: 2px;
@@ -539,8 +545,8 @@
     <h1>Paste content.<br><em>Check compliance.</em></h1>
     <p class="lede">
       Paste your ad text and get two reads on it. Compliance shows what could get it pulled,
-      with the exact rule that says so. The <a href="#virality">Virality Index</a> scores whether
-      anyone would pass it on.
+      with the exact rule that says so. The <a href="#virality">Virality Index</a> shows which
+      dimension of the copy is doing the least work.
     </p>
 
     <div class="searchwrap">
@@ -746,11 +752,13 @@
   <section class="wrap vir-sec" id="virality">
     <div class="vir-intro">
       <p class="kicker" style="margin-bottom:12px;">Second read · same paste</p>
-      <h2>Compliance says what you <em>can’t</em> say.<br>Virality Index says whether it’s <em>worth saying.</em></h2>
+      <h2>Compliance says what you <em>can’t</em> say.<br>Virality Index says what the <em>copy is missing.</em></h2>
       <p class="sub">
         One paste, two independent reads. The compliance verdict stays deterministic and cited.
-        The Virality Index is an advisory creative score on seven dimensions taken from the
-        sharing research — scored separately, never able to move a compliance outcome.
+        The Virality Index is a structured critique against seven dimensions from the sharing
+        research — scored separately, never able to move a compliance outcome. It reports a
+        band rather than a precise score, because the weights are an unfitted uniform prior:
+        it tells you which dimension is weak, not how many shares to expect.
       </p>
     </div>
 
@@ -1058,6 +1066,8 @@
     const near = nearestPattern(t);
     return {
       virality_index: index, dimensions: dim, diagnostics: diagnostics,
+      band: index >= 67 ? "high" : index >= 34 ? "moderate" : "low",
+      scored_by: "heuristic",
       diagnostic_flags: flags, suggestions: sugs.slice(0, 3),
       weights_source: "uniform_prior",
       closest_pattern_name: near.name, pattern_match_strength: near.strength,
@@ -1069,7 +1079,11 @@
   function viralityHtml(v){
     if (!v) return "";
     const idx = v.virality_index == null ? 0 : v.virality_index;
-    const band = idx >= 66 ? ["high", "Strong"] : idx >= 40 ? ["mid", "Moderate"] : ["low", "Weak"];
+    // Bands come from the schema (thirds). Only fall back if an older payload lacks one,
+    // so the page can never disagree with the server about which band a score is in.
+    const name = v.band || (idx >= 67 ? "high" : idx >= 34 ? "moderate" : "low");
+    const band = name === "high" ? ["high", "High"] : name === "moderate" ? ["mid", "Moderate"] : ["low", "Low"];
+    const by = v.scored_by === "heuristic" ? "offline heuristic" : v.scored_by === "gemini" ? "model-scored" : "";
     const dims = v.dimensions || {};
     const diag = v.diagnostics || {};
 
@@ -1090,7 +1104,9 @@
       '<div class="vir-panel">' +
         '<div class="vir-head">' +
           '<div><div class="sec-label" style="margin:0">Part II · Virality Index</div>' +
-            '<div class="vir-dial"><span class="vir-num">' + idx + '</span><span class="vir-den">/ 100</span></div></div>' +
+            '<div class="vir-dial"><span class="vir-num vir-word ' + band[0] + '">' + band[1] + '</span></div>' +
+            '<div class="vir-caveat">index ' + idx + '/100 · unfitted uniform weights' +
+              (by ? " · " + by : "") + '</div></div>' +
           '<span class="vir-band ' + band[0] + '">' + band[1] + '</span>' +
         '</div>' +
         '<div class="vir-bars">' + bars + '</div>' +

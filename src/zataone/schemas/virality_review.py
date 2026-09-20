@@ -23,7 +23,8 @@ SCHEMA_VERSION = "2.0"
 
 DISCLAIMER = (
     "Virality Index is an advisory creative score, not a share prediction, "
-    "and it does not replace compliance review."
+    "and it does not replace compliance review. Weights are an unfitted uniform prior, "
+    "so read the band and the per-dimension notes rather than the exact number."
 )
 
 DIMENSION_NAMES: tuple[str, ...] = (
@@ -41,6 +42,22 @@ DIMENSION_NAMES: tuple[str, ...] = (
 # (Dawes 1979, "The robust beauty of improper linear models").
 WEIGHTS_SOURCE = "uniform_prior"
 DIMENSION_WEIGHTS: dict[str, float] = {n: 1.0 / len(DIMENSION_NAMES) for n in DIMENSION_NAMES}
+
+# The index is reported as a band, because the instrument cannot support 100 gradations.
+# The dimensions are an LLM's judgement on an uncalibrated 0-100 scale with no
+# inter-rater reliability behind it; summing them with unfitted weights does not create
+# precision that was never in the inputs. 67 vs 64 is noise wearing a decimal point.
+# Bands are what the evidence supports, and they are what the UI should show.
+# When outcome data fits the weights (see ontology/examples/outcomes/), revisit this.
+BANDS: tuple[tuple[int, str], ...] = ((34, "low"), (67, "moderate"), (101, "high"))
+
+
+def virality_band(index: int) -> str:
+    """Coarse bucket for an index. The reportable form of the score."""
+    for ceiling, name in BANDS:
+        if index < ceiling:
+            return name
+    return "high"
 
 
 class ViralityDimensions(BaseModel):
@@ -74,6 +91,17 @@ class ViralityReviewV2(BaseModel):
         description="Overall index; always recomputed from dimensions before storage",
     )
     weights_source: str = WEIGHTS_SOURCE
+    band: str = Field(
+        default="low",
+        description="low | moderate | high — the reportable form; prefer this over the raw index",
+    )
+    scored_by: str = Field(
+        default="unknown",
+        description=(
+            "gemini | heuristic — set by whichever path scored it. Surfaced so an offline "
+            "heuristic estimate never reads as a model score; they are not comparable."
+        ),
+    )
     dimensions: ViralityDimensions
     diagnostics: ViralityDiagnostics = Field(default_factory=ViralityDiagnostics)
     closest_pattern_id: str | None = None
@@ -126,6 +154,8 @@ def diagnostic_flags(diag: ViralityDiagnostics) -> list[str]:
 def wrap_stored_virality(review: ViralityReviewV2) -> dict[str, Any]:
     """Serialize for storage, recomputing the index so it always matches the dimensions."""
     stored = review.model_dump()
-    stored["virality_index"] = compute_virality_index(review.dimensions)
+    index = compute_virality_index(review.dimensions)
+    stored["virality_index"] = index
+    stored["band"] = virality_band(index)
     stored["diagnostic_flags"] = diagnostic_flags(review.diagnostics)
     return stored

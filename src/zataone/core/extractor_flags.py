@@ -102,15 +102,19 @@ def fast_combined_review_enabled() -> bool:
 
 
 def virality_review_enabled() -> bool:
-    """Virality Index advisory pass. Defaults on when a Gemini key is present."""
-    v = (os.environ.get("ZATAONE_VIRALITY_REVIEW") or "").strip().lower()
-    if v in ("0", "false", "no", "off"):
-        return False
-    if v in ("1", "true", "yes", "on"):
-        return True
-    return bool(
-        (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY") or "").strip()
-    )
+    """
+    Virality Index advisory pass. Off unless explicitly switched on.
+
+    Deliberately NOT key-presence-implied, unlike the compliance advisory. The two
+    are not equivalent: a customer who agreed that their copy goes to Gemini to be
+    checked against FTC rules has not thereby agreed that it goes to Gemini to be
+    scored for shareability. That is a second processing purpose and needs its own
+    consent, so it needs its own opt-in — a deploy that happens to carry a Gemini key
+    must not silently start sending creatives out for a marketing score.
+
+    Set ``ZATAONE_VIRALITY_REVIEW=1`` per environment once that consent exists.
+    """
+    return _env_bool("ZATAONE_VIRALITY_REVIEW", default=False)
 
 
 def virality_join_timeout_ms() -> int:
@@ -132,14 +136,24 @@ def virality_extracted_join_timeout_ms() -> int:
     """
     Grace period when scoring image/PDF copy that only exists after the VLM.
 
-    That call starts late (after extraction) and on Cloud Run a deferred write is
-    frozen the moment the request returns, so we wait here. The user has already
-    paid for the VLM; a few extra seconds is cheaper than a missing score.
+    That call starts late — the copy does not exist until extraction finishes — and on
+    Cloud Run a deferred write is frozen the moment the request returns, so a late
+    score can be lost. The previous default resolved that by waiting up to 15s.
+
+    That trade was backwards. It charges the *compliance* path, which is the product
+    and is what the caller is waiting for, to deliver an *advisory* score that is
+    explicitly not part of the verdict. A reviewer blocked for fifteen seconds on a
+    shareability number is a regression in the thing they actually came for.
+
+    So the wait is now short by default. When a score is worth more than the latency,
+    raise ``ZATAONE_VIRALITY_EXTRACTED_TIMEOUT_MS``; the durable fix for Cloud Run is
+    to score asynchronously through ``POST /assets/{id}/virality-review`` rather than
+    to hold the request open.
     """
     try:
-        v = int((os.environ.get("ZATAONE_VIRALITY_EXTRACTED_TIMEOUT_MS") or "15000").strip())
+        v = int((os.environ.get("ZATAONE_VIRALITY_EXTRACTED_TIMEOUT_MS") or "1500").strip())
     except ValueError:
-        return 15000
+        return 1500
     return max(0, v)
 
 

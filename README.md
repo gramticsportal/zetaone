@@ -329,6 +329,17 @@ Additional flags:
 |----------|---------|---------|
 | `ZATAONE_FAST_COMBINED_REVIEW` | Quick images: single Gemini pass | `true` |
 | `ZATAONE_PIPELINE_ADVISORY` | Auto-run Gemini advisory at end of Full | on when API key set |
+| `ZATAONE_VIRALITY_REVIEW` | Virality Index advisory pass | **off** — must be set explicitly |
+| `ZATAONE_VIRALITY_TIMEOUT_MS` | Grace period for a text-asset score | `150` |
+| `ZATAONE_VIRALITY_EXTRACTED_TIMEOUT_MS` | Grace period for image/PDF copy after the VLM | `1500` |
+
+**`ZATAONE_VIRALITY_REVIEW` is deliberately not key-presence-implied**, unlike the advisory
+above. Compliance review and shareability scoring are two different processing purposes: a
+customer who agreed their copy goes to Gemini to be checked against FTC rules has not thereby
+agreed it goes to Gemini to be scored for sharing. Turn it on per environment once that
+consent exists. On Cloud Run, prefer `POST /assets/{id}/virality-review` over raising the
+extracted timeout — holding the compliance request open to wait for an advisory score
+charges the verdict path for a feature that cannot change the verdict.
 
 API responses include `pipeline_mode`, `verdict_authority`, `policy_engine_ran`, `display_compliance_status`, and `deterministic_compliance_status` (when applicable).
 

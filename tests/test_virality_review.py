@@ -19,6 +19,8 @@ from zataone.schemas.virality_review import (
     ViralityReviewV2,
     compute_virality_index,
     diagnostic_flags,
+    virality_band,
+    wrap_stored_virality,
 )
 from zataone.virality.library import load_viral_patterns
 from zataone.services.virality_review_service import (
@@ -141,9 +143,19 @@ def test_virality_review_enabled_env(monkeypatch):
     assert virality_review_enabled() is False
     monkeypatch.setenv("ZATAONE_VIRALITY_REVIEW", "1")
     assert virality_review_enabled() is True
-    monkeypatch.delenv("ZATAONE_VIRALITY_REVIEW")
+
+
+def test_virality_is_off_until_explicitly_enabled(monkeypatch):
+    """
+    A Gemini key must NOT imply consent to score creatives for shareability.
+
+    Compliance review and virality scoring are two processing purposes. A deploy that
+    carries a key for the first must not silently start sending copy out for the second.
+    """
+    monkeypatch.delenv("ZATAONE_VIRALITY_REVIEW", raising=False)
     monkeypatch.setenv("GEMINI_API_KEY", "k")
-    assert virality_review_enabled() is True
+    monkeypatch.setenv("GOOGLE_API_KEY", "k")
+    assert virality_review_enabled() is False
 
 
 def _bundle(status="COMPLIANT", violations=None):
@@ -410,3 +422,33 @@ def test_join_survives_worker_exception(monkeypatch):
 
 def test_env_flag_isolation():
     assert os.environ.get("ZATAONE_VIRALITY_REVIEW") == "0"
+
+
+def test_band_is_thirds_and_derived_on_store():
+    """The band is the reportable form; it must be recomputed, never taken from input."""
+    assert [virality_band(i) for i in (0, 33)] == ["low", "low"]
+    assert [virality_band(i) for i in (34, 66)] == ["moderate", "moderate"]
+    assert [virality_band(i) for i in (67, 100)] == ["high", "high"]
+
+    review = ViralityReviewV2(
+        dimensions=ViralityDimensions(
+            arousal=90,
+            social_currency=90,
+            practical_value=90,
+            story=90,
+            novelty=90,
+            triggers=90,
+            public_observability=90,
+        ),
+        band="low",  # a lie on the way in
+    )
+    stored = wrap_stored_virality(review)
+    assert stored["virality_index"] == 90
+    assert stored["band"] == "high"  # corrected on the way out
+
+
+def test_offline_score_is_labelled_as_heuristic():
+    """An offline estimate must never be mistaken for a model score."""
+    stored = score_virality_offline("Guaranteed results, today only")
+    assert stored["scored_by"] == "heuristic"
+    assert stored["band"] in ("low", "moderate", "high")

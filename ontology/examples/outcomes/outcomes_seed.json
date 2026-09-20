@@ -1,0 +1,264 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-19",
+  "note": "Illustrative shapes only — synthetic, not observed. Shows the three ways a set arrives (precise metrics, coarse grades, ad-library) and two sets that are deliberately NOT fair fights, so loaders and fitters have something to reject. Replace wholesale with real partner data; do not fit anything on this file.",
+  "sets": [
+    {
+      "schema_version": "1.0",
+      "campaign_id": "cmp.northwind.spring_sleep_2026",
+      "advertiser_id": "adv.northwind",
+      "notes": "Clean four-way creative test. One ad set, one audience, budget split evenly. This is the shape worth paying for.",
+      "outcomes": [
+        {
+          "outcome_id": "out.northwind.spring.a",
+          "variant_label": "hook A · sleep story, logo at 5s",
+          "asset_id": "ast.9f2c41",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "meta",
+            "placement": "reels",
+            "format": "video",
+            "audience_key": "aud.8831fe",
+            "spend_usd": 2500.0,
+            "impressions": 412000,
+            "reach": 289000,
+            "flight_start": "2026-04-06",
+            "flight_end": "2026-04-20"
+          },
+          "engagement_rate": 0.0412,
+          "share_rate": 0.0061,
+          "video_completion_rate": 0.231,
+          "ctr": 0.0188,
+          "source": "platform_api",
+          "observed_at": "2026-04-21",
+          "notes": "Narrative open, brand held back — highest share rate in the set."
+        },
+        {
+          "outcome_id": "out.northwind.spring.b",
+          "variant_label": "hook B · product demo, logo at 0s",
+          "asset_id": "ast.9f2c42",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "meta",
+            "placement": "reels",
+            "format": "video",
+            "audience_key": "aud.8831fe",
+            "spend_usd": 2500.0,
+            "impressions": 408000,
+            "reach": 284000,
+            "flight_start": "2026-04-06",
+            "flight_end": "2026-04-20"
+          },
+          "engagement_rate": 0.0221,
+          "share_rate": 0.0019,
+          "video_completion_rate": 0.174,
+          "ctr": 0.0203,
+          "source": "platform_api",
+          "observed_at": "2026-04-21",
+          "notes": "Higher CTR, much lower sharing — the divergence the Index should predict."
+        },
+        {
+          "outcome_id": "out.northwind.spring.c",
+          "variant_label": "hook C · stat open",
+          "asset_id": "ast.9f2c43",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "meta",
+            "placement": "reels",
+            "format": "video",
+            "audience_key": "aud.8831fe",
+            "spend_usd": 2500.0,
+            "impressions": 399000,
+            "reach": 277000,
+            "flight_start": "2026-04-06",
+            "flight_end": "2026-04-20"
+          },
+          "engagement_rate": 0.0308,
+          "share_rate": 0.0034,
+          "video_completion_rate": 0.196,
+          "ctr": 0.0171,
+          "source": "platform_api",
+          "observed_at": "2026-04-21"
+        },
+        {
+          "outcome_id": "out.northwind.spring.d",
+          "variant_label": "hook D · testimonial",
+          "asset_id": "ast.9f2c44",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "meta",
+            "placement": "reels",
+            "format": "video",
+            "audience_key": "aud.8831fe",
+            "spend_usd": 2500.0,
+            "impressions": 405000,
+            "reach": 281000,
+            "flight_start": "2026-04-06",
+            "flight_end": "2026-04-20"
+          },
+          "engagement_rate": 0.0275,
+          "share_rate": 0.0028,
+          "video_completion_rate": 0.188,
+          "ctr": 0.0159,
+          "source": "platform_api",
+          "observed_at": "2026-04-21"
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0",
+      "campaign_id": "cmp.harbourgoods.q3_launch_2026",
+      "advertiser_id": "adv.harbourgoods",
+      "notes": "Coarse partner report — no metrics shared, just the ordering. Still fits a ranker; this is the realistic early case.",
+      "outcomes": [
+        {
+          "outcome_id": "out.harbour.q3.a",
+          "variant_label": "carousel · before/after",
+          "asset_id": "ast.c1d7a0",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "tiktok",
+            "placement": "feed",
+            "format": "carousel",
+            "audience_key": "aud.44b0c9",
+            "flight_start": "2026-07-01",
+            "flight_end": "2026-07-14"
+          },
+          "relative_grade": "outperformed",
+          "source": "customer_reported",
+          "observed_at": "2026-07-16",
+          "notes": "Partner said 'clearly the winner, roughly double the saves'."
+        },
+        {
+          "outcome_id": "out.harbour.q3.b",
+          "variant_label": "carousel · feature grid",
+          "asset_id": "ast.c1d7a1",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "tiktok",
+            "placement": "feed",
+            "format": "carousel",
+            "audience_key": "aud.44b0c9",
+            "flight_start": "2026-07-01",
+            "flight_end": "2026-07-14"
+          },
+          "relative_grade": "on_par",
+          "source": "customer_reported",
+          "observed_at": "2026-07-16"
+        },
+        {
+          "outcome_id": "out.harbour.q3.c",
+          "variant_label": "carousel · price-led",
+          "asset_id": "ast.c1d7a2",
+          "virality_schema_version": "2.0",
+          "exposure": {
+            "platform": "tiktok",
+            "placement": "feed",
+            "format": "carousel",
+            "audience_key": "aud.44b0c9",
+            "flight_start": "2026-07-01",
+            "flight_end": "2026-07-14"
+          },
+          "relative_grade": "underperformed",
+          "source": "customer_reported",
+          "observed_at": "2026-07-16"
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0",
+      "campaign_id": "cmp.example.unfair_spend_2026",
+      "advertiser_id": "adv.example",
+      "notes": "DELIBERATELY FLAWED. Spend differs 8x. comparability_warnings() must catch this — the 'winner' is the funded one.",
+      "outcomes": [
+        {
+          "outcome_id": "out.unfair.a",
+          "variant_label": "variant A · heavily funded",
+          "exposure": {
+            "platform": "meta",
+            "placement": "feed",
+            "format": "static_image",
+            "audience_key": "aud.ff0011",
+            "spend_usd": 16000.0,
+            "impressions": 2100000,
+            "flight_start": "2026-05-01",
+            "flight_end": "2026-05-30"
+          },
+          "engagement_rate": 0.0384,
+          "source": "customer_reported"
+        },
+        {
+          "outcome_id": "out.unfair.b",
+          "variant_label": "variant B · token spend",
+          "exposure": {
+            "platform": "meta",
+            "placement": "feed",
+            "format": "static_image",
+            "audience_key": "aud.ff0011",
+            "spend_usd": 2000.0,
+            "impressions": 240000,
+            "flight_start": "2026-05-01",
+            "flight_end": "2026-05-30"
+          },
+          "engagement_rate": 0.0201,
+          "source": "customer_reported"
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0",
+      "campaign_id": "cmp.example.survivorship_2026",
+      "advertiser_id": "adv.unknown",
+      "notes": "DELIBERATELY FLAWED. Ad-library scrape pooled with a reported outcome. Libraries of 'top ads' contain no losers, so pooling them teaches the model that everything works.",
+      "outcomes": [
+        {
+          "outcome_id": "out.surv.a",
+          "variant_label": "scraped top-performing ad",
+          "exposure": {
+            "platform": "tiktok",
+            "placement": "feed",
+            "format": "video",
+            "audience_key": ""
+          },
+          "relative_grade": "outperformed",
+          "source": "ad_library",
+          "notes": "Observed in a 'top ads' gallery — selected on the outcome being measured."
+        },
+        {
+          "outcome_id": "out.surv.b",
+          "variant_label": "partner's own creative",
+          "exposure": {
+            "platform": "tiktok",
+            "placement": "feed",
+            "format": "video",
+            "audience_key": ""
+          },
+          "relative_grade": "on_par",
+          "source": "customer_reported"
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0",
+      "campaign_id": "cmp.example.single_variant_2026",
+      "advertiser_id": "adv.example",
+      "notes": "Not rankable — one creative, no sibling. Kept to show that is_rankable filters it rather than the loader crashing.",
+      "outcomes": [
+        {
+          "outcome_id": "out.single.a",
+          "variant_label": "lone creative",
+          "exposure": {
+            "platform": "youtube",
+            "placement": "in_stream",
+            "format": "video",
+            "audience_key": "aud.7c21aa",
+            "spend_usd": 5000.0,
+            "impressions": 890000
+          },
+          "engagement_rate": 0.0197,
+          "source": "platform_api"
+        }
+      ]
+    }
+  ]
+}

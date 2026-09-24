@@ -50,6 +50,24 @@ class LlmFinalReviewV1(BaseModel):
             return s
         return "unclear"
 
+    @field_validator("recommended_compliance_status", mode="before")
+    @classmethod
+    def _normalize_status(cls, v: Any) -> str | None:
+        if v is None or str(v).strip() == "":
+            return None
+        s = str(v).strip().upper().replace(" ", "_")
+        aliases = {"NON_COMPLIANT": "LIKELY_REJECTED", "LIKELY_REJECTED": "LIKELY_REJECTED"}
+        s = aliases.get(s, s)
+        return s if s in {"COMPLIANT", "REVIEW_REQUIRED", "LIKELY_REJECTED"} else None
+
+    @field_validator("recommended_verdict", mode="before")
+    @classmethod
+    def _normalize_verdict(cls, v: Any) -> str | None:
+        if v is None or str(v).strip() == "":
+            return None
+        s = str(v).strip().lower().replace(" ", "_")
+        return s if s in {"likely_approved", "borderline", "likely_rejected"} else None
+
 
 def build_review_context(
     *,

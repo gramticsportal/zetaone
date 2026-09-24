@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 from zataone.integrations.ollama import (
+    OllamaGeneration,
     ollama_chat,
+    ollama_chat_detailed,
     ollama_generate,
     ollama_health,
     ollama_image_describe,
@@ -20,7 +22,9 @@ from zataone.integrations.openai_chat import (
 )
 
 __all__ = [
+    "OllamaGeneration",
     "ollama_chat",
+    "ollama_chat_detailed",
     "ollama_generate",
     "ollama_health",
     "ollama_image_describe",

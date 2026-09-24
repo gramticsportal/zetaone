@@ -30,11 +30,34 @@ from __future__ import annotations
 
 import base64
 import os
+import time
+from dataclasses import asdict, dataclass
 from typing import Any
 
 import httpx
 
 DEFAULT_BASE = "http://127.0.0.1:11434"
+
+
+@dataclass(frozen=True)
+class OllamaGeneration:
+    """Generated text plus Ollama's local inference telemetry."""
+
+    text: str
+    model: str
+    latency_ms: float
+    total_duration_ms: float | None = None
+    load_duration_ms: float | None = None
+    prompt_eval_duration_ms: float | None = None
+    eval_duration_ms: float | None = None
+    prompt_tokens: int | None = None
+    output_tokens: int | None = None
+    done_reason: str | None = None
+
+    def metadata(self) -> dict[str, Any]:
+        data = asdict(self)
+        data.pop("text", None)
+        return data
 
 
 def _base_url() -> str:
@@ -66,24 +89,80 @@ def ollama_chat(
     *,
     model: str | None = None,
     stream: bool = False,
+    response_format: str | dict[str, Any] | None = None,
+    options: dict[str, Any] | None = None,
+    keep_alive: str | int | None = None,
+    think: bool | None = None,
 ) -> str:
     """
     Low-level: POST /api/chat. `messages` are Ollama-style user/assistant/system messages.
     For vision, include base64 in message \"images\" list (see ollama_image_describe).
     """
-    m = model or os.environ.get("OLLAMA_LLM_MODEL") or "llama3.2"
-    out = _post_json(
-        "/api/chat",
-        {
-            "model": m,
-            "messages": messages,
-            "stream": stream,
-        },
+    result = ollama_chat_detailed(
+        messages,
+        model=model,
+        stream=stream,
+        response_format=response_format,
+        options=options,
+        keep_alive=keep_alive,
+        think=think,
     )
+    return result.text
+
+
+def _duration_ms(value: Any) -> float | None:
+    """Ollama durations are nanoseconds."""
+    if not isinstance(value, (int, float)):
+        return None
+    return round(float(value) / 1_000_000.0, 3)
+
+
+def ollama_chat_detailed(
+    messages: list[dict[str, Any]],
+    *,
+    model: str | None = None,
+    stream: bool = False,
+    response_format: str | dict[str, Any] | None = None,
+    options: dict[str, Any] | None = None,
+    keep_alive: str | int | None = None,
+    think: bool | None = None,
+) -> OllamaGeneration:
+    """Chat with structured-output controls and return local inference telemetry."""
     if stream:
         raise ValueError("stream=True not supported; set stream=False")
+
+    m = model or os.environ.get("OLLAMA_LLM_MODEL") or "qwen3:8b"
+    body: dict[str, Any] = {
+        "model": m,
+        "messages": messages,
+        "stream": False,
+    }
+    if response_format is not None:
+        body["format"] = response_format
+    if options:
+        body["options"] = options
+    if keep_alive is not None:
+        body["keep_alive"] = keep_alive
+    if think is not None:
+        body["think"] = think
+
+    started = time.perf_counter()
+    out = _post_json("/api/chat", body)
+    latency_ms = round((time.perf_counter() - started) * 1000, 3)
     msg = (out.get("message") or {}).get("content", "")
-    return msg if isinstance(msg, str) else str(msg)
+    text = msg if isinstance(msg, str) else str(msg)
+    return OllamaGeneration(
+        text=text,
+        model=str(out.get("model") or m),
+        latency_ms=latency_ms,
+        total_duration_ms=_duration_ms(out.get("total_duration")),
+        load_duration_ms=_duration_ms(out.get("load_duration")),
+        prompt_eval_duration_ms=_duration_ms(out.get("prompt_eval_duration")),
+        eval_duration_ms=_duration_ms(out.get("eval_duration")),
+        prompt_tokens=out.get("prompt_eval_count"),
+        output_tokens=out.get("eval_count"),
+        done_reason=out.get("done_reason"),
+    )
 
 
 def ollama_generate(
@@ -91,13 +170,24 @@ def ollama_generate(
     *,
     system: str | None = None,
     model: str | None = None,
+    response_format: str | dict[str, Any] | None = None,
+    options: dict[str, Any] | None = None,
+    keep_alive: str | int | None = None,
+    think: bool | None = None,
 ) -> str:
     """Single-turn text generation."""
     messages: list[dict[str, Any]] = []
     if system:
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
-    return ollama_chat(messages, model=model)
+    return ollama_chat(
+        messages,
+        model=model,
+        response_format=response_format,
+        options=options,
+        keep_alive=keep_alive,
+        think=think,
+    )
 
 
 def ollama_image_describe(

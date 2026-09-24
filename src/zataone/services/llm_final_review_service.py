@@ -11,12 +11,14 @@ import json
 import logging
 import os
 import re
+import time
 from typing import Any
 from uuid import UUID
 
 from sqlalchemy.orm import Session
 
 import zataone.integrations.gemini as gemini_mod
+import zataone.integrations.ollama as ollama_mod
 from zataone.models import (
     Asset as AssetModel,
     Signal as SignalModel,
@@ -339,8 +341,6 @@ def run_advisory_synthesis_in_memory(
     """Advisory JSON from in-memory pipeline state (no DB reads)."""
     if not _llm_enabled():
         raise RuntimeError("LLM final review is disabled")
-    if not (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
-        raise RuntimeError("Set GEMINI_API_KEY or GOOGLE_API_KEY")
 
     asset_type = getattr(asset, "type", None) or "text"
     det = {
@@ -414,13 +414,15 @@ def run_advisory_synthesis_in_memory(
     model = _fast_model() if review_mode != "advisory_second_read" else (
         os.environ.get("GEMINI_REVIEW_MODEL") or None
     )
-    review = _advisory_json_from_gemini(
+    review, execution = _advisory_json_from_provider(
         user_msg,
         system_prompt=_system_prompt_for_review_mode(review_mode),
         model=model,
         max_toks=max_toks,
+        review_mode=review_mode,
     )
     stored = wrap_stored_review(review)
+    stored.update(execution)
     return stored, vlm_status or {}
 
 
@@ -444,7 +446,37 @@ def _llm_enabled() -> bool:
         return False
     if v in ("1", "true", "yes", "on"):
         return True
-    # default: on when Gemini key is present
+    provider = _review_provider()
+    if provider in {"ollama", "cascade"}:
+        return True
+    # Gemini default: on when its key is present.
+    return bool(
+        (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY") or "").strip()
+    )
+
+
+def _review_provider() -> str:
+    """Text-review backend. Gemini remains the compatibility default."""
+    value = (os.environ.get("ZATAONE_REVIEW_PROVIDER") or "gemini").strip().lower()
+    return value if value in {"gemini", "ollama", "cascade"} else "gemini"
+
+
+def _ollama_review_model() -> str:
+    return (
+        os.environ.get("OLLAMA_REVIEW_MODEL")
+        or os.environ.get("OLLAMA_LLM_MODEL")
+        or "qwen3:8b"
+    ).strip()
+
+
+def _ollama_context_tokens() -> int:
+    try:
+        return max(4096, int(os.environ.get("OLLAMA_NUM_CTX") or "32768"))
+    except ValueError:
+        return 32768
+
+
+def _gemini_key_present() -> bool:
     return bool(
         (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY") or "").strip()
     )
@@ -548,6 +580,161 @@ def _advisory_json_from_gemini(
         ) from e2
 
 
+def _advisory_json_from_ollama(
+    user_msg: str,
+    *,
+    system_prompt: str,
+    max_toks: int,
+) -> tuple[LlmFinalReviewV1, dict[str, Any]]:
+    """Run the same validated review contract on a self-hosted Ollama model."""
+    model = _ollama_review_model()
+    try:
+        generated = ollama_mod.ollama_chat_detailed(
+            [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_msg},
+            ],
+            model=model,
+            response_format=LlmFinalReviewV1.model_json_schema(),
+            options={
+                "temperature": 0,
+                "num_ctx": _ollama_context_tokens(),
+                "num_predict": max_toks,
+            },
+            keep_alive=os.environ.get("OLLAMA_KEEP_ALIVE") or "15m",
+            # Thinking is useful for hard tasks but expensive and can leak prose around
+            # JSON. The structured compliance pass needs stable machine output.
+            think=False,
+        )
+        review = _parse_json_lenient(generated.text)
+    except (json.JSONDecodeError, ValidationError) as exc:
+        raise BadLlmReviewOutput(f"Ollama returned invalid review JSON: {exc}") from exc
+    except Exception as exc:
+        raise BadLlmReviewOutput(f"Ollama review request failed: {exc}") from exc
+
+    metadata = {
+        "review_provider": "ollama",
+        "review_model": generated.model or model,
+        "review_latency_ms": generated.latency_ms,
+        "review_schema_valid": True,
+        "review_fallback_reason": None,
+        "review_inference": generated.metadata(),
+    }
+    return review, metadata
+
+
+def _review_rejection_reason(
+    review: LlmFinalReviewV1,
+    *,
+    review_mode: str,
+    user_msg: str,
+) -> str | None:
+    """Objective cascade gates; never trust the model's numeric self-confidence."""
+    if review.agreement_with_deterministic == "unclear":
+        return "model_unclear"
+    if review.agreement_with_deterministic == "diverges":
+        return "model_diverges_from_deterministic"
+    if review_mode in {"fast_vlm_policy", "full_signals_vlm_policy"}:
+        if not review.recommended_compliance_status or not review.recommended_verdict:
+            return "missing_primary_verdict"
+
+    try:
+        context = json.loads(user_msg)
+    except json.JSONDecodeError:
+        context = {}
+    valid_signal_ids = {
+        str(row.get("id"))
+        for row in (context.get("signals") or [])
+        if isinstance(row, dict) and row.get("id")
+    }
+    cited = {str(value) for value in review.cited_signal_ids if value}
+    if cited - valid_signal_ids:
+        return "invented_signal_citation"
+    return None
+
+
+def _advisory_json_from_provider(
+    user_msg: str,
+    *,
+    system_prompt: str,
+    model: str | None,
+    max_toks: int,
+    review_mode: str,
+) -> tuple[LlmFinalReviewV1, dict[str, Any]]:
+    """Run Gemini, Ollama, or local-first cascade under one output contract."""
+    provider = _review_provider()
+    if provider == "ollama":
+        return _advisory_json_from_ollama(
+            user_msg,
+            system_prompt=system_prompt,
+            max_toks=max_toks,
+        )
+
+    if provider == "cascade":
+        local_review: LlmFinalReviewV1 | None = None
+        reason: str | None = None
+        local_meta: dict[str, Any] = {}
+        try:
+            local_review, local_meta = _advisory_json_from_ollama(
+                user_msg,
+                system_prompt=system_prompt,
+                max_toks=max_toks,
+            )
+            reason = _review_rejection_reason(
+                local_review,
+                review_mode=review_mode,
+                user_msg=user_msg,
+            )
+            if reason is None:
+                local_meta["review_primary_provider"] = "ollama"
+                return local_review, local_meta
+        except BadLlmReviewOutput as exc:
+            reason = f"local_failure:{str(exc)[:240]}"
+
+        if not _gemini_key_present():
+            if local_review is not None:
+                local_meta["review_fallback_reason"] = reason
+                local_meta["review_fallback_unavailable"] = True
+                return local_review, local_meta
+            raise BadLlmReviewOutput(
+                f"Local review failed and Gemini fallback is unavailable: {reason}"
+            )
+
+        started = time.perf_counter()
+        review = _advisory_json_from_gemini(
+            user_msg,
+            system_prompt=system_prompt,
+            model=model,
+            max_toks=max_toks,
+        )
+        return review, {
+            "review_provider": "gemini",
+            "review_model": model or os.environ.get("GEMINI_MODEL") or "gemini-default",
+            "review_latency_ms": round((time.perf_counter() - started) * 1000, 3),
+            "review_schema_valid": True,
+            "review_primary_provider": "ollama",
+            "review_fallback_reason": reason,
+            "review_local_attempt": local_meta or None,
+        }
+
+    if not _gemini_key_present():
+        raise RuntimeError("Set GEMINI_API_KEY or GOOGLE_API_KEY")
+    started = time.perf_counter()
+    review = _advisory_json_from_gemini(
+        user_msg,
+        system_prompt=system_prompt,
+        model=model,
+        max_toks=max_toks,
+    )
+    return review, {
+        "review_provider": "gemini",
+        "review_model": model or os.environ.get("GEMINI_MODEL") or "gemini-default",
+        "review_latency_ms": round((time.perf_counter() - started) * 1000, 3),
+        "review_schema_valid": True,
+        "review_fallback_reason": None,
+    }
+
+
 def run_llm_final_review(
     session: Session,
     asset_id: UUID,
@@ -561,10 +748,7 @@ def run_llm_final_review(
     Returns (stored_review_dict, vlm_status_dict) — vlm_status is for clients/logs (not persisted in verdict).
     """
     if not _llm_enabled():
-        raise RuntimeError("LLM final review is disabled (ZATAONE_LLM_FINAL_REVIEW=0 or no GEMINI_API_KEY)")
-
-    if not (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
-        raise RuntimeError("Set GEMINI_API_KEY or GOOGLE_API_KEY")
+        raise RuntimeError("LLM final review is disabled")
 
     asset = session.query(AssetModel).filter(AssetModel.id == asset_id).first()
     if asset is None:
@@ -635,11 +819,12 @@ def run_llm_final_review(
     max_toks = _max_review_output_tokens()
     m = os.environ.get("GEMINI_REVIEW_MODEL") or None
     try:
-        review = _advisory_json_from_gemini(
+        review, execution = _advisory_json_from_provider(
             user_msg,
             system_prompt=_system_prompt_for_review_mode(review_mode),
             model=m,
             max_toks=max_toks,
+            review_mode=review_mode,
         )
     except BadLlmReviewOutput:
         raise
@@ -647,6 +832,7 @@ def run_llm_final_review(
         # Rare: both JSON-mime and plain calls failed in _advisory_json_from_gemini's first try only if both raise
         raise BadLlmReviewOutput(f"Advisory model request failed: {e!s}") from e
     stored = wrap_stored_review(review)
+    stored.update(execution)
     vlm_status: dict[str, Any] = {
         "vlm_eligible": vlm_eligible,
         "file_bytes_received": bool(image_bytes and len(image_bytes) > 0),

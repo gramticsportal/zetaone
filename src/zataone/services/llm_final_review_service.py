@@ -480,7 +480,7 @@ def _ollama_review_model() -> str:
     return (
         os.environ.get("OLLAMA_REVIEW_MODEL")
         or os.environ.get("OLLAMA_LLM_MODEL")
-        or "qwen3:8b"
+        or "qwen3:4b"
     ).strip()
 
 
@@ -704,11 +704,12 @@ def _review_rejection_reason(
     review_mode: str,
     user_msg: str,
 ) -> str | None:
-    """Objective cascade gates; never trust the model's numeric self-confidence."""
-    if review.agreement_with_deterministic == "unclear":
-        return "model_unclear"
-    if review.agreement_with_deterministic == "diverges":
-        return "model_diverges_from_deterministic"
+    """Objective cascade gates; never trust the model's self-assessment.
+
+    agreement_with_deterministic is not a gate: it is a self-report, and in the
+    114-case eval qwen3:4b reported "diverges" on 81% of assets, which sent 97% of
+    traffic to Gemini while its own verdicts matched Gemini's F1.
+    """
     if review_mode in {"fast_vlm_policy", "full_signals_vlm_policy"}:
         if not review.recommended_compliance_status or not review.recommended_verdict:
             return "missing_primary_verdict"

@@ -55,6 +55,6 @@ def test_ollama_health_and_ping():
     if not ollama_health():
         pytest.skip("Ollama not reachable at OLLAMA_BASE_URL (default http://127.0.0.1:11434)")
 
-    model = os.environ.get("OLLAMA_LLM_MODEL", "qwen3:8b")
+    model = os.environ.get("OLLAMA_LLM_MODEL", "qwen3:4b")
     out = ollama_generate("Reply with the single word: ok", model=model)
     assert isinstance(out, str) and len(out) > 0

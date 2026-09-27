@@ -94,21 +94,47 @@ def test_cascade_accepts_clear_local_review_without_gemini(monkeypatch):
     assert gemini_called == []
 
 
-def test_cascade_falls_back_when_local_diverges(monkeypatch):
+def test_cascade_keeps_a_local_flag_that_diverges_from_rules(monkeypatch):
     monkeypatch.setenv("ZATAONE_REVIEW_PROVIDER", "cascade")
     monkeypatch.setenv("GEMINI_API_KEY", "test-key")
     monkeypatch.setattr(
         review_mod,
         "_advisory_json_from_ollama",
         lambda *a, **k: (
-            _review(agreement="diverges"),
-            {"review_provider": "ollama", "review_model": "qwen3:8b"},
+            _review(agreement="diverges", status="LIKELY_REJECTED", verdict="likely_rejected"),
+            {"review_provider": "ollama", "review_model": "qwen3:4b"},
         ),
     )
+    gemini_called = []
     monkeypatch.setattr(
         review_mod,
         "_advisory_json_from_gemini",
-        lambda *a, **k: _review(agreement="aligns"),
+        lambda *a, **k: gemini_called.append(True) or _review(),
+    )
+
+    _, meta = review_mod._advisory_json_from_provider(
+        _context(),
+        system_prompt="review",
+        model="gemini-test",
+        max_toks=100,
+        review_mode="advisory_second_read",
+    )
+    assert meta["review_provider"] == "ollama"
+    assert gemini_called == []
+
+
+def test_cascade_falls_back_when_local_output_is_invalid(monkeypatch):
+    monkeypatch.setenv("ZATAONE_REVIEW_PROVIDER", "cascade")
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+
+    def bad_local(*a, **k):
+        raise review_mod.BadLlmReviewOutput("not json")
+
+    monkeypatch.setattr(review_mod, "_advisory_json_from_ollama", bad_local)
+    monkeypatch.setattr(
+        review_mod,
+        "_advisory_json_from_gemini",
+        lambda *a, **k: _review(status="LIKELY_REJECTED", verdict="likely_rejected"),
     )
 
     _, meta = review_mod._advisory_json_from_provider(
@@ -120,7 +146,7 @@ def test_cascade_falls_back_when_local_diverges(monkeypatch):
     )
     assert meta["review_provider"] == "gemini"
     assert meta["review_primary_provider"] == "ollama"
-    assert meta["review_fallback_reason"] == "model_diverges_from_deterministic"
+    assert meta["review_fallback_reason"].startswith("local_failure:")
 
 
 def test_cascade_rejects_invented_signal_id(monkeypatch):

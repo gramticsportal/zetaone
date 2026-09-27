@@ -18,6 +18,7 @@ Example:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import random
@@ -110,11 +111,6 @@ def _with_cascade(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def _review_fallback_reason(review: dict[str, Any], citation_valid: bool) -> str | None:
-    agreement = str(review.get("agreement_with_deterministic") or "").strip().lower()
-    if agreement == "unclear":
-        return "model_unclear"
-    if agreement == "diverges":
-        return "model_diverges_from_deterministic"
     if not review.get("recommended_compliance_status") or not review.get(
         "recommended_verdict"
     ):
@@ -131,6 +127,14 @@ def _review_fallback_reason(review: dict[str, Any], citation_valid: bool) -> str
 def _write_report(path: Path, report: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+
+def _in_split(row_id: Any, split: str) -> bool:
+    """Stable ~70/30 tune/test split by id, so gate choices can be checked on unseen rows."""
+    if split == "all":
+        return True
+    bucket = int(hashlib.sha1(str(row_id).encode("utf-8")).hexdigest(), 16) % 10
+    return (bucket < 7) == (split == "tune")
 
 
 def _select_rows(
@@ -168,10 +172,16 @@ def _select_rows(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline", type=Path, required=True)
-    parser.add_argument("--model", default="qwen3:8b")
+    parser.add_argument("--model", default="qwen3:4b")
     parser.add_argument("--provider", choices=("ollama", "cascade"), default="cascade")
     parser.add_argument("--limit", type=int, default=20)
     parser.add_argument("--seed", type=int, default=20260922)
+    parser.add_argument(
+        "--split",
+        choices=("all", "tune", "test"),
+        default="all",
+        help="Stable id-hashed subset: tune on 'tune', report on 'test'.",
+    )
     parser.add_argument("--output", type=Path)
     parser.add_argument(
         "--resume",
@@ -201,7 +211,7 @@ def main() -> int:
     eval_rows = load_eval_examples(str(ROOT / "ontology"))
     selected = _select_rows(
         eval_rows,
-        list(baseline.get("rows") or []),
+        [row for row in baseline.get("rows") or [] if _in_split(row.get("id"), args.split)],
         limit=max(1, args.limit),
         seed=args.seed,
     )
@@ -248,6 +258,7 @@ def main() -> int:
         return {
             "model": args.model,
             "provider": args.provider,
+            "split": args.split,
             "sample_size": len(results),
             "local": local_metrics,
             "cascade": {

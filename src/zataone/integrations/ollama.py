@@ -131,7 +131,7 @@ def ollama_chat_detailed(
     if stream:
         raise ValueError("stream=True not supported; set stream=False")
 
-    m = model or os.environ.get("OLLAMA_LLM_MODEL") or "qwen3:8b"
+    m = model or os.environ.get("OLLAMA_LLM_MODEL") or "qwen3:4b"
     body: dict[str, Any] = {
         "model": m,
         "messages": messages,

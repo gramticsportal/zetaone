@@ -807,12 +807,59 @@ def _advisory_json_from_provider(
         model=model,
         max_toks=max_toks,
     )
-    return review, {
+    meta = {
         "review_provider": "gemini",
         "review_model": model or os.environ.get("GEMINI_MODEL") or "gemini-default",
         "review_latency_ms": round((time.perf_counter() - started) * 1000, 3),
         "review_schema_valid": True,
         "review_fallback_reason": None,
+    }
+    if _shadow_enabled():
+        meta["review_shadow"] = _shadow_local_review(
+            user_msg,
+            system_prompt=system_prompt,
+            max_toks=max_toks,
+            review_mode=review_mode,
+        )
+    return review, meta
+
+
+def _shadow_enabled() -> bool:
+    v = (os.environ.get("ZATAONE_REVIEW_SHADOW") or "0").strip().lower()
+    return v in ("1", "true", "yes", "on")
+
+
+def _shadow_local_review(
+    user_msg: str,
+    *,
+    system_prompt: str,
+    max_toks: int,
+    review_mode: str,
+) -> dict[str, Any]:
+    """Local review stored beside the Gemini one; never affects the returned result.
+
+    With reviewer and platform outcomes recorded through the feedback API, these rows
+    are the real-traffic data for choosing gates and fine-tuning the local model.
+    """
+    try:
+        local, local_meta = _advisory_json_from_ollama(
+            user_msg,
+            system_prompt=system_prompt,
+            max_toks=max_toks,
+        )
+    except BadLlmReviewOutput as exc:
+        return {"error": str(exc)[:240], "would_escalate": True}
+    reason = _review_rejection_reason(local, review_mode=review_mode, user_msg=user_msg)
+    return {
+        "recommended_compliance_status": local.recommended_compliance_status,
+        "recommended_verdict": local.recommended_verdict,
+        "agreement_with_deterministic": local.agreement_with_deterministic,
+        "rationale": local.rationale,
+        "cited_signal_ids": local.cited_signal_ids,
+        "review_model": local_meta.get("review_model"),
+        "review_latency_ms": local_meta.get("review_latency_ms"),
+        "cascade_reason": reason,
+        "would_escalate": reason is not None,
     }
 
 

@@ -503,6 +503,7 @@ Manual re-run: **`POST /assets/{asset_id}/llm-final-review`** (PolicyLens button
 | `OLLAMA_REVIEW_MODEL` | Local review model (default `qwen3:4b`); `OLLAMA_BASE_URL` points at the server |
 | `OLLAMA_REVIEW_COMPACT` | Short local output contract with citations restricted to real signal ids (default `1`) |
 | `OLLAMA_REVIEW_THINK` | Let the local model think before answering (default `0`; several times slower) |
+| `ZATAONE_REVIEW_SHADOW` | With the Gemini provider, also run the local model and store its answer and would-escalate reason under `review_shadow` (default `0`; adds local latency) |
 | `OLLAMA_NUM_CTX` / `OLLAMA_KEEP_ALIVE` | Local context window (default `8192`) and how long the model stays loaded (default `15m`) |
 | `ZATAONE_ALLOWED_DOMAINS` | Comma-separated; requests send **`X-Domain`**; unknown domains return **403** |
 

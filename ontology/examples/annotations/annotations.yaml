@@ -1,0 +1,30 @@
+# Rich labels for eval rows, keyed by example id. Sidecar: the example schema in
+# ontology/schema.yaml is frozen, so fields that the binary label cannot carry live
+# here. Validate with: python3.11 ontology/tools/validate_annotations.py
+#
+# Fields (all optional except example_id and annotator):
+#   example_id        id of a row in examples/eval/*.yaml
+#   annotator         who made this annotation (initials or handle)
+#   annotated_on      YYYY-MM-DD
+#   policy_as_of      YYYY-MM-DD the label is judged against (policies change)
+#   platform          meta | google | tiktok | amazon | youtube | x | linkedin | snap | other
+#   platform_decision approved | rejected | restricted | not_submitted
+#   decision_source   human_review | appeal | platform_feedback  (same values as the API)
+#   severity          low | medium | high
+#   evidence_spans    exact substrings of the content that carry the violation
+#   note              free text
+#
+# Several annotations per example are allowed (different platforms, dates or people).
+schema_version: 1
+annotations:
+- example_id: prec_ev_covid_tea_fraud_2020
+  annotator: example
+  annotated_on: "2026-09-27"
+  policy_as_of: "2020-05-01"
+  platform: other
+  platform_decision: not_submitted
+  decision_source: human_review
+  severity: high
+  evidence_spans:
+  - can treat or prevent COVID-19
+  note: Worked example of the format; replace with real annotations.

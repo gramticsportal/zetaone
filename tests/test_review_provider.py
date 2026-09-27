@@ -290,3 +290,54 @@ def test_ollama_compact_request_uses_local_contract(monkeypatch):
 def test_local_schema_forbids_citations_when_there_are_no_signals():
     schema = review_mod._local_output_schema(json.dumps({"signals": []}))
     assert schema["properties"]["cited_signal_ids"] == {"type": "array", "maxItems": 0}
+
+
+def test_shadow_mode_stores_local_review_without_changing_result(monkeypatch):
+    monkeypatch.setenv("ZATAONE_REVIEW_PROVIDER", "gemini")
+    monkeypatch.setenv("ZATAONE_REVIEW_SHADOW", "1")
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setattr(
+        review_mod,
+        "_advisory_json_from_gemini",
+        lambda *a, **k: _review(status="LIKELY_REJECTED", verdict="likely_rejected"),
+    )
+    monkeypatch.setattr(
+        review_mod,
+        "_advisory_json_from_ollama",
+        lambda *a, **k: (_review(), {"review_model": "qwen3:4b", "review_latency_ms": 3.0}),
+    )
+
+    result, meta = review_mod._advisory_json_from_provider(
+        _context(),
+        system_prompt="review",
+        model="gemini-test",
+        max_toks=100,
+        review_mode="advisory_second_read",
+    )
+    assert result.recommended_compliance_status == "LIKELY_REJECTED"
+    assert meta["review_provider"] == "gemini"
+    shadow = meta["review_shadow"]
+    assert shadow["recommended_compliance_status"] == "COMPLIANT"
+    assert shadow["would_escalate"] is True
+    assert shadow["cascade_reason"] == "local_compliant_needs_second_read"
+
+
+def test_shadow_failure_is_recorded_not_raised(monkeypatch):
+    monkeypatch.setenv("ZATAONE_REVIEW_PROVIDER", "gemini")
+    monkeypatch.setenv("ZATAONE_REVIEW_SHADOW", "1")
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    monkeypatch.setattr(review_mod, "_advisory_json_from_gemini", lambda *a, **k: _review())
+
+    def down(*a, **k):
+        raise review_mod.BadLlmReviewOutput("connection refused")
+
+    monkeypatch.setattr(review_mod, "_advisory_json_from_ollama", down)
+    _, meta = review_mod._advisory_json_from_provider(
+        _context(),
+        system_prompt="review",
+        model=None,
+        max_toks=100,
+        review_mode="advisory_second_read",
+    )
+    assert meta["review_shadow"]["would_escalate"] is True
+    assert "connection refused" in meta["review_shadow"]["error"]

@@ -6,17 +6,30 @@ Harvest working files are in `../harvest/` and are not eval.
 
 ## Splits
 
-**Current policy:** every labeled row is in the **eval set** (`split: test`). There is no
-active train/dev partition — score the full corpus, then drop low-quality rows later.
+**Current policy (2026-09-27):** harvested rows and their compliant minimal pairs carry
+`train` / `dev` / `test` from `../../tools/build_eval_splits.py`, grouped by source
+enforcement case so a violation and its rewrite never straddle splits. Expert seed rows
+and the 44 precedents are all `test` (the north star), and cases shared with a
+precedent are locked to test.
+
+The loader still returns **every row** by default, so existing scores do not change.
+Filter with `ZATAONE_EVAL_SPLITS=test` (or `eval_local_review.py --split test`) to
+report on held-out rows; tune gates, prompts and thresholds on `train`/`dev` only.
+
+```bash
+python3.11 ontology/tools/build_eval_splits.py --check   # after adding rows
+```
 
 **Score it:** from repo root, `PYTHONPATH=src python3.11 scripts/eval_matcher.py` (full corpus + pairs, NLP off).
 
-`../load_eval.py` loads seed + precedents + harvested + compliant pairs by default.
-Set `ZATAONE_EVAL_INCLUDE_HARVESTED=0` to drop harvest/pairs. Optional
-`ZATAONE_EVAL_SPLITS=…` still filters if you need it.
+## Data quality and label audit tools
 
-`build_eval_splits.py` / `eval_splits.yaml` remain for if you reintroduce a holdout later.
-Do not treat them as the live reporting protocol right now.
+| Tool | What it does |
+| --- | --- |
+| `data_quality_report.py` | Coverage by category, labeller, modality and split, error bars, label hazards → `../DATA_QUALITY.md` |
+| `build_disagreement_queue.py RUN.json` | Queues rows where the matcher, local model (and Gemini) disagree with gold → `../harvest/eval_disagreement_review.csv`; apply with `apply_eval_gold_decisions.py --csv …` |
+| `agreement_study.py sample / score` | Blind double-labelling sample and Cohen's kappa: the ceiling for any model |
+| `validate_annotations.py` | Checks `../annotations/annotations.yaml` (platform, decision, severity, evidence spans, policy date) |
 
 ## Gold audit (make the labels perfect)
 

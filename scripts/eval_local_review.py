@@ -10,7 +10,7 @@ including policy retrieval and structured-output validation.
 Example:
 
     python scripts/eval_local_review.py \
-      --baseline docs/_e2e_llm_vs_matcher_sample.json \
+      --baseline docs/_local_review_qwen3_8b_full.json \
       --model qwen3:8b --limit 20 \
       --output docs/_local_review_qwen3_8b.json
 """
@@ -18,7 +18,6 @@ Example:
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import random
@@ -129,14 +128,6 @@ def _write_report(path: Path, report: dict[str, Any]) -> None:
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
 
 
-def _in_split(row_id: Any, split: str) -> bool:
-    """Stable ~70/30 tune/test split by id, so gate choices can be checked on unseen rows."""
-    if split == "all":
-        return True
-    bucket = int(hashlib.sha1(str(row_id).encode("utf-8")).hexdigest(), 16) % 10
-    return (bucket < 7) == (split == "tune")
-
-
 def _select_rows(
     eval_rows: list[dict[str, Any]],
     baseline_rows: list[dict[str, Any]],
@@ -171,16 +162,23 @@ def _select_rows(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--baseline", type=Path, required=True)
+    parser.add_argument(
+        "--baseline",
+        type=Path,
+        help="Saved run whose rows carry the Gemini answer (display/gemini_display). "
+        "Without it every labeled corpus row is eligible and Gemini columns stay empty.",
+    )
     parser.add_argument("--model", default="qwen3:4b")
     parser.add_argument("--provider", choices=("ollama", "cascade"), default="cascade")
     parser.add_argument("--limit", type=int, default=20)
     parser.add_argument("--seed", type=int, default=20260922)
     parser.add_argument(
         "--split",
-        choices=("all", "tune", "test"),
+        choices=("all", "train", "dev", "test", "tune"),
         default="all",
-        help="Stable id-hashed subset: tune on 'tune', report on 'test'.",
+        help="Corpus split from ontology/tools/build_eval_splits.py (grouped by source "
+        "case, so a violation and its compliant twin never straddle splits). "
+        "'tune' = train+dev; report on 'test'.",
     )
     parser.add_argument("--output", type=Path)
     parser.add_argument(
@@ -204,14 +202,25 @@ def main() -> int:
     os.environ["ZATAONE_ENABLE_OCR"] = "0"
     os.environ["ZATAONE_ENABLE_VISION"] = "0"
 
-    from examples.load_eval import load_eval_examples
+    from examples.load_eval import load_eval_with_sources
     from zataone.core.pipeline import CompliancePipeline
 
-    baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
-    eval_rows = load_eval_examples(str(ROOT / "ontology"))
+    eval_rows, sources = load_eval_with_sources(str(ROOT / "ontology"))
+    wanted = {"tune": {"train", "dev"}, "all": None}.get(args.split, {args.split})
+    eval_rows = [
+        row
+        for row in eval_rows
+        if wanted is None or str(row.get("split") or "test").lower() in wanted
+    ]
+    if args.baseline:
+        baseline_rows = list(
+            json.loads(args.baseline.read_text(encoding="utf-8")).get("rows") or []
+        )
+    else:
+        baseline_rows = [{"id": row["id"], "source": sources.get(row["id"])} for row in eval_rows]
     selected = _select_rows(
         eval_rows,
-        [row for row in baseline.get("rows") or [] if _in_split(row.get("id"), args.split)],
+        baseline_rows,
         limit=max(1, args.limit),
         seed=args.seed,
     )
@@ -261,6 +270,7 @@ def main() -> int:
             "split": args.split,
             "sample_size": len(results),
             "local": local_metrics,
+            "matcher": _metrics(results, "matcher_display"),
             "cascade": {
                 **_metrics(cascade_rows, "cascade_display"),
                 "gemini_call_rate": round(escalated / len(results), 4) if results else 0.0,
@@ -323,7 +333,11 @@ def main() -> int:
         result_row: dict[str, Any] = {
             "id": row["id"],
             "label": row["label"],
-            "source": base.get("source"),
+            "source": base.get("source") or sources.get(row["id"]),
+            "split": str(row.get("split") or "test").lower(),
+            "labeled_by": row.get("labeled_by"),
+            "category_ids": row.get("category_ids") or [],
+            "violated_clause_ids": row.get("violated_clause_ids") or [],
             # A previous run of this script also works as the baseline file.
             "gemini_display": base.get("display") or base.get("gemini_display"),
             "content_preview": str(row["content"])[:240],
@@ -364,6 +378,7 @@ def main() -> int:
             out_toks = inference.get("output_tokens")
             result_row.update(
                 {
+                    "matcher_display": verdict.get("status"),
                     "local_display": review.get("recommended_compliance_status"),
                     "local_verdict": review.get("recommended_verdict"),
                     "agreement": review.get("agreement_with_deterministic"),

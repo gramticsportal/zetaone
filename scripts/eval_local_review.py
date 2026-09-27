@@ -378,7 +378,12 @@ def main() -> int:
             out_toks = inference.get("output_tokens")
             result_row.update(
                 {
-                    "matcher_display": verdict.get("status"),
+                    # Top-level status is the advisory display verdict by default
+                    # (ZATAONE_VERDICT_AUTHORITY=advisory); the rule engine's own outcome
+                    # is kept in metadata.
+                    "matcher_display": (verdict.get("metadata") or {}).get(
+                        "deterministic_compliance_status"
+                    ),
                     "local_display": review.get("recommended_compliance_status"),
                     "local_verdict": review.get("recommended_verdict"),
                     "agreement": review.get("agreement_with_deterministic"),

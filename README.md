@@ -498,6 +498,12 @@ Manual re-run: **`POST /assets/{asset_id}/llm-final-review`** (PolicyLens button
 | `GEMINI_FAST_MODEL` / `GEMINI_MODEL` | Model for Quick combined pass and text review |
 | `GEMINI_REVIEW_MODEL` / `GEMINI_VLM_MODEL` | Optional overrides for Full text and vision steps |
 | `GEMINI_REVIEW_MAX_TOKENS` / `GEMINI_VLM_MAX_TOKENS` | Cap advisory JSON / VLM inspection length |
+| `ZATAONE_REVIEW_PROVIDER` | Text review backend: `gemini` (default), `ollama` (local only), or `cascade` (local first, Gemini second read) |
+| `ZATAONE_CASCADE_ESCALATE_COMPLIANT` | Cascade sends local `COMPLIANT` results to Gemini (default `1`); set `0` to accept them locally |
+| `OLLAMA_REVIEW_MODEL` | Local review model (default `qwen3:8b`); `OLLAMA_BASE_URL` points at the server |
+| `OLLAMA_REVIEW_COMPACT` | Short local output contract with citations restricted to real signal ids (default `1`) |
+| `OLLAMA_REVIEW_THINK` | Let the local model think before answering (default `0`; several times slower) |
+| `OLLAMA_NUM_CTX` / `OLLAMA_KEEP_ALIVE` | Local context window (default `8192`) and how long the model stays loaded (default `15m`) |
 | `ZATAONE_ALLOWED_DOMAINS` | Comma-separated; requests send **`X-Domain`**; unknown domains return **403** |
 
 ### Compliance graph (`GET /assets/{asset_id}/graph`)

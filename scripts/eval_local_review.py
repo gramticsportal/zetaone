@@ -87,6 +87,28 @@ def _high_severity_metrics(rows: list[dict[str, Any]], field: str) -> dict[str, 
     }
 
 
+def _status_counts(rows: list[dict[str, Any]], field: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        key = str(row.get(field) or "missing").upper()
+        counts[key] = counts.get(key, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _with_cascade(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Final cascade answer: the local status unless it escalated, then saved Gemini.
+
+    Replaying the saved Gemini baseline for escalated rows measures exactly what the
+    cascade would ship without spending Gemini calls on the evaluation.
+    """
+    out = []
+    for row in rows:
+        escalated = bool(row.get("fallback_reason") or row.get("error"))
+        display = row.get("gemini_display") if escalated else row.get("local_display")
+        out.append({**row, "cascade_display": display, "error": None})
+    return out
+
+
 def _review_fallback_reason(review: dict[str, Any], citation_valid: bool) -> str | None:
     agreement = str(review.get("agreement_with_deterministic") or "").strip().lower()
     if agreement == "unclear":
@@ -99,6 +121,10 @@ def _review_fallback_reason(review: dict[str, Any], citation_valid: bool) -> str
         return "missing_primary_verdict"
     if not citation_valid:
         return "invented_signal_citation"
+    if str(review.get("recommended_compliance_status") or "").upper() == "COMPLIANT" and (
+        os.environ.get("ZATAONE_CASCADE_ESCALATE_COMPLIANT") or "1"
+    ).strip().lower() not in ("0", "false", "no", "off"):
+        return "local_compliant_needs_second_read"
     return None
 
 
@@ -205,6 +231,16 @@ def main() -> int:
             for r in results
             if isinstance(r.get("model_latency_ms"), (int, float))
         ]
+        output_tokens = [
+            int(r["output_tokens"]) for r in results if isinstance(r.get("output_tokens"), int)
+        ]
+        decode_rates = [
+            float(r["decode_tokens_per_s"])
+            for r in results
+            if isinstance(r.get("decode_tokens_per_s"), (int, float))
+        ]
+        cascade_rows = _with_cascade(results)
+        escalated = sum(bool(r.get("fallback_reason") or r.get("error")) for r in results)
         fallback_rows = [r for r in results if r.get("fallback_reason")]
         citation_rows = [
             r for r in results if r.get("schema_valid") and "citation_valid" in r
@@ -214,7 +250,19 @@ def main() -> int:
             "provider": args.provider,
             "sample_size": len(results),
             "local": local_metrics,
+            "cascade": {
+                **_metrics(cascade_rows, "cascade_display"),
+                "gemini_call_rate": round(escalated / len(results), 4) if results else 0.0,
+            },
             "gemini_baseline": gemini_metrics,
+            # Scoring REVIEW_REQUIRED as a catch rewards hedging; a reviewer has to beat
+            # the trivial policy of flagging everything to be adding anything.
+            "always_flag_baseline": _metrics(
+                [{**r, "always": "REVIEW_REQUIRED"} for r in results], "always"
+            ),
+            "local_status_counts": _status_counts(results, "local_display"),
+            "gemini_status_counts": _status_counts(results, "gemini_display"),
+            "cascade_high_severity": _high_severity_metrics(cascade_rows, "cascade_display"),
             "local_high_severity": _high_severity_metrics(results, "local_display"),
             "gemini_high_severity": _high_severity_metrics(results, "gemini_display"),
             "schema_valid_rate": round(
@@ -239,6 +287,13 @@ def main() -> int:
                 "mean": round(statistics.fmean(latencies), 2) if latencies else None,
                 "max": round(max(latencies), 2) if latencies else None,
             },
+            "output_tokens": {
+                "median": statistics.median(output_tokens) if output_tokens else None,
+                "mean": round(statistics.fmean(output_tokens), 1) if output_tokens else None,
+            },
+            "decode_tokens_per_s_median": round(statistics.median(decode_rates), 1)
+            if decode_rates
+            else None,
             "rows": results,
         }
 
@@ -258,7 +313,8 @@ def main() -> int:
             "id": row["id"],
             "label": row["label"],
             "source": base.get("source"),
-            "gemini_display": base.get("display"),
+            # A previous run of this script also works as the baseline file.
+            "gemini_display": base.get("display") or base.get("gemini_display"),
             "content_preview": str(row["content"])[:240],
         }
         try:
@@ -290,6 +346,11 @@ def main() -> int:
                 if value is not None:
                     severities.append(value)
             fallback_reason = _review_fallback_reason(review, citation_valid)
+            inference = review.get("review_inference") or (
+                review.get("review_local_attempt") or {}
+            ).get("review_inference") or {}
+            eval_ms = inference.get("eval_duration_ms")
+            out_toks = inference.get("output_tokens")
             result_row.update(
                 {
                     "local_display": review.get("recommended_compliance_status"),
@@ -305,6 +366,11 @@ def main() -> int:
                     "schema_valid": bool(review.get("review_schema_valid")),
                     "citation_valid": citation_valid,
                     "cited_signal_ids": sorted(cited_ids),
+                    "output_tokens": out_toks,
+                    "prompt_tokens": inference.get("prompt_tokens"),
+                    "decode_tokens_per_s": round(out_toks / (eval_ms / 1000), 1)
+                    if out_toks and eval_ms
+                    else None,
                     "deterministic_high_severity": any(
                         (isinstance(value, (int, float)) and float(value) >= 0.7)
                         or str(value).upper() in {"HIGH", "CRITICAL"}

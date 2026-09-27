@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Literal
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
@@ -67,6 +67,41 @@ class LlmFinalReviewV1(BaseModel):
             return None
         s = str(v).strip().lower().replace(" ", "_")
         return s if s in {"likely_approved", "borderline", "likely_rejected"} else None
+
+
+class LocalReviewV1(BaseModel):
+    """Compact output contract for self-hosted reviewers.
+
+    Decode time dominates local latency, so the model writes one short rationale and
+    the enums; summary, schema_version and disclaimer are filled in by code. Field
+    order is the generation order: a brief reason first, then the decision.
+    """
+
+    rationale: str = Field(
+        ...,
+        max_length=400,
+        description="At most two sentences naming the clause, rule or signal that decides it",
+    )
+    agreement_with_deterministic: Literal["aligns", "mostly_aligns", "unclear", "diverges"]
+    recommended_compliance_status: Literal["COMPLIANT", "REVIEW_REQUIRED", "LIKELY_REJECTED"]
+    recommended_verdict: Literal["likely_approved", "borderline", "likely_rejected"]
+    cited_signal_ids: list[str] = Field(default_factory=list)
+
+    @field_validator("rationale", mode="before")
+    @classmethod
+    def _clip_rationale(cls, v: Any) -> str:
+        # The limit is there to bound decode time, not to reject an otherwise valid review.
+        return str(v or "").strip()[:400]
+
+    def to_final(self) -> LlmFinalReviewV1:
+        return LlmFinalReviewV1(
+            summary=self.rationale,
+            agreement_with_deterministic=self.agreement_with_deterministic,
+            rationale=self.rationale,
+            cited_signal_ids=self.cited_signal_ids,
+            recommended_compliance_status=self.recommended_compliance_status,
+            recommended_verdict=self.recommended_verdict,
+        )
 
 
 def build_review_context(

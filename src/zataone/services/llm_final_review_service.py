@@ -30,6 +30,7 @@ from pydantic import ValidationError
 from zataone.core.policy_context import build_policy_context_for_llm
 from zataone.schemas.llm_review import (
     LlmFinalReviewV1,
+    LocalReviewV1,
     build_review_context,
     context_json_for_prompt,
     wrap_stored_review,
@@ -87,6 +88,20 @@ Output JSON: schema_version ("1.0"), summary, agreement_with_deterministic (alig
 recommended_compliance_status (COMPLIANT | REVIEW_REQUIRED | LIKELY_REJECTED),
 recommended_verdict (likely_approved | borderline | likely_rejected),
 rationale, cited_signal_ids (only ids present in signals), disclaimer. No markdown fences."""
+
+
+# Appended for self-hosted reviewers, which otherwise hedge to REVIEW_REQUIRED and
+# echo the rule engine. Output shape is enforced by LocalReviewV1, so this only
+# covers judgement and length.
+_LOCAL_REVIEW_GUIDANCE = """Output only the fields in the JSON schema, in order. rationale: at most two short sentences naming the deciding clause_id, rule_id or signal.
+Judge the asset text yourself; the rule engine misses things. Check in particular for: impersonation of government bodies, officials or brands; fake or implied celebrity endorsements; targeting or calling out people by sensitive attributes (religion, health, sexuality, ethnicity, income, financial status); counterfeits or "inspired" replicas; misleading reviews, ratings or badges.
+Decide:
+- LIKELY_REJECTED / likely_rejected: the text clearly breaches a clause.
+- COMPLIANT / likely_approved: no clause is breached, including ads in regulated categories that carry the required disclosures.
+- REVIEW_REQUIRED / borderline: only when a specific clause might apply and the text alone cannot settle it; name that clause.
+Being in a sensitive category (finance, gambling, politics, health, housing, tobacco) is not by itself a reason for REVIEW_REQUIRED."""
+
+_LOCAL_COMPACT_MAX_TOKENS = 320
 
 
 def _system_prompt_for_review_mode(review_mode: str) -> str:
@@ -470,10 +485,52 @@ def _ollama_review_model() -> str:
 
 
 def _ollama_context_tokens() -> int:
+    # Review prompts measure ~5k tokens; a larger window only costs VRAM and load time.
     try:
-        return max(4096, int(os.environ.get("OLLAMA_NUM_CTX") or "32768"))
+        return max(4096, int(os.environ.get("OLLAMA_NUM_CTX") or "8192"))
     except ValueError:
-        return 32768
+        return 8192
+
+
+def _ollama_think() -> bool:
+    v = (os.environ.get("OLLAMA_REVIEW_THINK") or "0").strip().lower()
+    return v in ("1", "true", "yes", "on")
+
+
+def _local_output_schema(user_msg: str) -> dict[str, Any]:
+    """LocalReviewV1 schema with citations restricted to this request's signal ids.
+
+    Ollama compiles the schema into a decoding grammar, so an invented id cannot be
+    generated at all instead of being caught afterwards and forcing a fallback.
+    """
+    schema = LocalReviewV1.model_json_schema()
+    try:
+        context = json.loads(user_msg)
+    except json.JSONDecodeError:
+        return schema
+    ids = sorted(
+        {
+            str(row.get("id"))
+            for row in (context.get("signals") or [])
+            if isinstance(row, dict) and row.get("id")
+        }
+    )
+    cited: dict[str, Any] = {"type": "array", "maxItems": min(3, len(ids))}
+    if ids:
+        cited["items"] = {"type": "string", "enum": ids}
+    schema["properties"]["cited_signal_ids"] = cited
+    return schema
+
+
+def _ollama_compact_output() -> bool:
+    """Compact local output (short rationale + enums) unless explicitly disabled."""
+    v = (os.environ.get("OLLAMA_REVIEW_COMPACT") or "1").strip().lower()
+    return v not in ("0", "false", "no", "off")
+
+
+def _cascade_escalates_compliant() -> bool:
+    v = (os.environ.get("ZATAONE_CASCADE_ESCALATE_COMPLIANT") or "1").strip().lower()
+    return v not in ("0", "false", "no", "off")
 
 
 def _gemini_key_present() -> bool:
@@ -501,11 +558,14 @@ def _violation_row(v: ViolationModel) -> dict[str, Any]:
     }
 
 
-def _parse_json_lenient(raw: str) -> LlmFinalReviewV1:
+def _strip_fences(raw: str) -> str:
     t = raw.strip()
     t = re.sub(r"^```(?:json)?\s*", "", t)
-    t = re.sub(r"\s*```$", "", t)
-    data = json.loads(t)
+    return re.sub(r"\s*```$", "", t)
+
+
+def _parse_json_lenient(raw: str) -> LlmFinalReviewV1:
+    data = json.loads(_strip_fences(raw))
     return LlmFinalReviewV1.model_validate(data)
 
 
@@ -588,6 +648,16 @@ def _advisory_json_from_ollama(
 ) -> tuple[LlmFinalReviewV1, dict[str, Any]]:
     """Run the same validated review contract on a self-hosted Ollama model."""
     model = _ollama_review_model()
+    compact = _ollama_compact_output()
+    think = _ollama_think()
+    if compact:
+        system_prompt = f"{system_prompt}\n\n{_LOCAL_REVIEW_GUIDANCE}"
+        # num_predict also covers thinking tokens, so only cap it when thinking is off.
+        if not think:
+            max_toks = min(max_toks, _LOCAL_COMPACT_MAX_TOKENS)
+    response_format = (
+        _local_output_schema(user_msg) if compact else LlmFinalReviewV1.model_json_schema()
+    )
     try:
         generated = ollama_mod.ollama_chat_detailed(
             [
@@ -595,18 +665,21 @@ def _advisory_json_from_ollama(
                 {"role": "user", "content": user_msg},
             ],
             model=model,
-            response_format=LlmFinalReviewV1.model_json_schema(),
+            response_format=response_format,
             options={
                 "temperature": 0,
                 "num_ctx": _ollama_context_tokens(),
                 "num_predict": max_toks,
             },
             keep_alive=os.environ.get("OLLAMA_KEEP_ALIVE") or "15m",
-            # Thinking is useful for hard tasks but expensive and can leak prose around
-            # JSON. The structured compliance pass needs stable machine output.
-            think=False,
+            # Off by default: thinking multiplies decode tokens. Ollama returns it
+            # separately from the JSON content, so enabling it is safe to parse.
+            think=think,
         )
-        review = _parse_json_lenient(generated.text)
+        if compact:
+            review = LocalReviewV1.model_validate_json(_strip_fences(generated.text)).to_final()
+        else:
+            review = _parse_json_lenient(generated.text)
     except (json.JSONDecodeError, ValidationError) as exc:
         raise BadLlmReviewOutput(f"Ollama returned invalid review JSON: {exc}") from exc
     except Exception as exc:
@@ -617,6 +690,8 @@ def _advisory_json_from_ollama(
         "review_model": generated.model or model,
         "review_latency_ms": generated.latency_ms,
         "review_schema_valid": True,
+        "review_output_contract": "compact" if compact else "full",
+        "review_think": think,
         "review_fallback_reason": None,
         "review_inference": generated.metadata(),
     }
@@ -650,6 +725,11 @@ def _review_rejection_reason(
     cited = {str(value) for value in review.cited_signal_ids if value}
     if cited - valid_signal_ids:
         return "invented_signal_citation"
+    # The local model's misses are clearances that echo a rule engine which also
+    # missed the issue (impersonation, fake endorsements, sensitive targeting), so a
+    # local "compliant" is only a first read; flagged results are kept locally.
+    if review.recommended_compliance_status == "COMPLIANT" and _cascade_escalates_compliant():
+        return "local_compliant_needs_second_read"
     return None
 
 
